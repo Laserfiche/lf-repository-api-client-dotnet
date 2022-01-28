@@ -1,0 +1,7 @@
+
+*.cache
+*.manifest
+*/*/obj/*
+*/*/bin/*
+*/*/.vs/*
+/.vs/*
