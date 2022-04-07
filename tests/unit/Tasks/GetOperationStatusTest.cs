@@ -10,112 +10,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Laserfiche.Repository.Api.Client.Test.Operations
+namespace Laserfiche.Repository.Api.Client.Test.Tasks
 {
-    public class OperationsTest
+    public class GetOperationStatusTest
     {
-        [Fact]
-        public async Task CancelOperationAsync_204()
-        {
-            // ARRANGE
-            string baseAddress = "http://api.laserfiche.com/";
-            string repoId = "repoId";
-            string operationToken = "operationToken";
-
-            var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            handlerMock
-               .Protected()
-               // Setup the PROTECTED method to mock
-               .Setup<Task<HttpResponseMessage>>(
-                  "SendAsync",
-                  ItExpr.IsAny<HttpRequestMessage>(),
-                  ItExpr.IsAny<CancellationToken>()
-               )
-               // prepare the expected response of the mocked http call
-               .ReturnsAsync(new HttpResponseMessage()
-               {
-                   StatusCode = HttpStatusCode.NoContent
-               })
-               .Verifiable();
-
-
-            // use real http client with mocked handler here
-            var httpClient = new HttpClient(handlerMock.Object)
-            {
-                BaseAddress = new Uri(baseAddress),
-            };
-
-            var client = new LaserficheRepositoryApiClient(httpClient);
-
-            // ACT
-            var swaggerResponse = await client.CancelOperationAsync(repoId, operationToken);
-            Assert.Equal(204, swaggerResponse.StatusCode);
-
-            // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");
-
-            handlerMock.Protected().Verify(
-               "SendAsync",
-               Times.Exactly(1), // we expected a single external request
-               ItExpr.Is<HttpRequestMessage>(req =>
-                  req.Method == HttpMethod.Delete  // we expected a GET request
-                  && req.RequestUri == expectedUri // to this uri
-               ),
-               ItExpr.IsAny<CancellationToken>()
-            );
-        }
-
-        [Fact]
-        
-        public async Task CancelOperationAsync_AnyOther()
-        {
-            // ARRANGE
-            string baseAddress = "http://api.laserfiche.com/";
-            string repoId = "repoId";
-            string operationToken = "operationToken";
-
-            var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            handlerMock
-               .Protected()
-               // Setup the PROTECTED method to mock
-               .Setup<Task<HttpResponseMessage>>(
-                  "SendAsync",
-                  ItExpr.IsAny<HttpRequestMessage>(),
-                  ItExpr.IsAny<CancellationToken>()
-               )
-               // prepare the expected response of the mocked http call
-               .ReturnsAsync(new HttpResponseMessage()
-               {
-                   StatusCode = HttpStatusCode.NotFound
-               })
-               .Verifiable();
-
-
-            // use real http client with mocked handler here
-            var httpClient = new HttpClient(handlerMock.Object)
-            {
-                BaseAddress = new Uri(baseAddress),
-            };
-
-            var client = new LaserficheRepositoryApiClient(httpClient);
-
-            // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.CancelOperationAsync(repoId, operationToken));
-
-            // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");
-
-            handlerMock.Protected().Verify(
-               "SendAsync",
-               Times.Exactly(1), // we expected a single external request
-               ItExpr.Is<HttpRequestMessage>(req =>
-                  req.Method == HttpMethod.Delete  // we expected a GET request
-                  && req.RequestUri == expectedUri // to this uri
-               ),
-               ItExpr.IsAny<CancellationToken>()
-            );
-        }
-
         [Fact]
         public async Task GetOperationStatusAndProgressAsync_200()
         {
@@ -158,7 +56,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
 
             // ACT
             var swaggerResponse = await client.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
-           
+
             // ASSERT
             Assert.Equal(operationProgress.OperationToken, swaggerResponse.Result.OperationToken);
             Assert.Equal(operationProgress.OperationType, swaggerResponse.Result.OperationType);
@@ -244,8 +142,8 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
                ),
                ItExpr.IsAny<CancellationToken>()
             );
-        }          
-        
+        }
+
         [Fact]
         public async Task GetOperationStatusAndProgressAsync_AnyOther()
         {
