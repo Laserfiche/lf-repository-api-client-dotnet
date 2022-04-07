@@ -11,18 +11,18 @@
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 #pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
 
-namespace Laserfiche.SiteApiRepository.Client.V1
+namespace Laserfiche.Repository.Api.Client
 {
     using System = global::System;
 
     //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface ISiteApiRepositoryClient
+    public partial interface ILaserficheRepositoryApiClient
     {
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the access token successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> Invalidate_Access_TokenAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateAccessTokenAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -30,7 +30,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
         ///             session should be kept alive when idle. The maximum timeout value is 1 hour.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> Refresh_Access_TokenAsync(string repoId, string keep_Alive = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshAccessTokenAsync(string repoId, string keep_Alive = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -40,42 +40,18 @@ namespace Laserfiche.SiteApiRepository.Client.V1
         /// <param name="customerId">The Laserfiche Cloud account ID to use when using username and password to create a session connection.</param>
         /// <returns>Create an authorizationToken successfuly.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<SessionKeyInfo>> Create_Access_TokenAsync(string repoId, CreateConnectionRequest request = null, bool? createCookie = null, string customerId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<SessionKeyInfo>> CreateAccessTokenAsync(string repoId, CreateConnectionRequest request = null, bool? createCookie = null, string customerId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
     //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class SiteApiRepositoryClient : ISiteApiRepositoryClient
+    public partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
     {
-        //private System.Net.Http.HttpClient _httpClient;
-        //private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
-        //public SiteApiRepositoryClient(System.Net.Http.HttpClient httpClient)
-        //{
-        //    _httpClient = httpClient;
-        //    _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        //}
-
-        //private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
-        //{
-        //    var settings = new Newtonsoft.Json.JsonSerializerSettings();
-        //    UpdateJsonSerializerSettings(settings);
-        //    return settings;
-        //}
-
-        //protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
-        //partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
-
-        //partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        //partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        //partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the access token successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> Invalidate_Access_TokenAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateAccessTokenAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("v1-alpha/Repositories/{repoId}/AccessTokens/Invalidate");
@@ -177,7 +153,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
         ///             session should be kept alive when idle. The maximum timeout value is 1 hour.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> Refresh_Access_TokenAsync(string repoId, string keep_Alive = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshAccessTokenAsync(string repoId, string keep_Alive = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("v1-alpha/Repositories/{repoId}/AccessTokens/Refresh");
@@ -283,7 +259,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
         /// <param name="customerId">The Laserfiche Cloud account ID to use when using username and password to create a session connection.</param>
         /// <returns>Create an authorizationToken successfuly.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SwaggerResponse<SessionKeyInfo>> Create_Access_TokenAsync(string repoId, CreateConnectionRequest request = null, bool? createCookie = null, string customerId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SwaggerResponse<SessionKeyInfo>> CreateAccessTokenAsync(string repoId, CreateConnectionRequest request = null, bool? createCookie = null, string customerId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -402,155 +378,6 @@ namespace Laserfiche.SiteApiRepository.Client.V1
                     client_.Dispose();
             }
         }
-
-    //    protected struct ObjectResponseResult<T>
-    //    {
-    //        public ObjectResponseResult(T responseObject, string responseText)
-    //        {
-    //            this.Object = responseObject;
-    //            this.Text = responseText;
-    //        }
-
-    //        public T Object { get; }
-
-    //        public string Text { get; }
-    //    }
-
-    //    public bool ReadResponseAsString { get; set; }
-
-    //    protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
-    //    {
-    //        if (response == null || response.Content == null)
-    //        {
-    //            return new ObjectResponseResult<T>(default(T), string.Empty);
-    //        }
-
-    //        if (ReadResponseAsString)
-    //        {
-    //            var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-    //            try
-    //            {
-    //                var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
-    //                return new ObjectResponseResult<T>(typedBody, responseText);
-    //            }
-    //            catch (Newtonsoft.Json.JsonException exception)
-    //            {
-    //                var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-    //                throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            try
-    //            {
-    //                using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-    //                using (var streamReader = new System.IO.StreamReader(responseStream))
-    //                using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
-    //                {
-    //                    var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-    //                    var typedBody = serializer.Deserialize<T>(jsonTextReader);
-    //                    return new ObjectResponseResult<T>(typedBody, string.Empty);
-    //                }
-    //            }
-    //            catch (Newtonsoft.Json.JsonException exception)
-    //            {
-    //                var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-    //                throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
-    //            }
-    //        }
-    //    }
-
-    //    private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
-    //    {
-    //        if (value == null)
-    //        {
-    //            return "";
-    //        }
-
-    //        if (value is System.Enum)
-    //        {
-    //            var name = System.Enum.GetName(value.GetType(), value);
-    //            if (name != null)
-    //            {
-    //                var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-    //                if (field != null)
-    //                {
-    //                    var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
-    //                        as System.Runtime.Serialization.EnumMemberAttribute;
-    //                    if (attribute != null)
-    //                    {
-    //                        return attribute.Value != null ? attribute.Value : name;
-    //                    }
-    //                }
-
-    //                var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
-    //                return converted == null ? string.Empty : converted;
-    //            }
-    //        }
-    //        else if (value is bool)
-    //        {
-    //            return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
-    //        }
-    //        else if (value is byte[])
-    //        {
-    //            return System.Convert.ToBase64String((byte[])value);
-    //        }
-    //        else if (value.GetType().IsArray)
-    //        {
-    //            var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
-    //            return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
-    //        }
-
-    //        var result = System.Convert.ToString(value, cultureInfo);
-    //        return result == null ? "" : result;
-    //    }
-    //}
-
-    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.11.0 (Newtonsoft.Json v11.0.0.0)")]
-    //public partial class ODataValueOfBoolean
-    //{
-    //    [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public bool Value { get; set; }
-
-
-    //}
-
-    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.11.0 (Newtonsoft.Json v11.0.0.0)")]
-    //public partial class APIServerException
-    //{
-    //    /// <summary>The id of the operation that threw the exception.</summary>
-    //    [Newtonsoft.Json.JsonProperty("operationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public string OperationId { get; set; }
-
-    //    /// <summary>The explaination of the exception that occurred.</summary>
-    //    [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public string Message { get; set; }
-
-    //    /// <summary>The code associated with the exception.</summary>
-    //    [Newtonsoft.Json.JsonProperty("errorCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public int? ErrorCode { get; set; }
-
-    //    /// <summary>The class of exceptions this belongs to.</summary>
-    //    [Newtonsoft.Json.JsonProperty("errorClass", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public string ErrorClass { get; set; }
-
-    //    /// <summary>The HTTP status code returned.</summary>
-    //    [Newtonsoft.Json.JsonProperty("statusCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public int? StatusCode { get; set; }
-
-    //    /// <summary>The source of where the exception occurred.</summary>
-    //    [Newtonsoft.Json.JsonProperty("errorSource", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //    public string ErrorSource { get; set; }
-
-    //    private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
-
-    //    [Newtonsoft.Json.JsonExtensionData]
-    //    public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-    //    {
-    //        get { return _additionalProperties; }
-    //        set { _additionalProperties = value; }
-    //    }
-
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.11.0 (Newtonsoft.Json v11.0.0.0)")]
@@ -592,68 +419,6 @@ namespace Laserfiche.SiteApiRepository.Client.V1
 
 
     }
-
-    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    //public partial class SwaggerResponse
-    //{
-    //    public int StatusCode { get; private set; }
-
-    //    public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-
-    //    public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
-    //    {
-    //        StatusCode = statusCode;
-    //        Headers = headers;
-    //    }
-    //}
-
-    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    //public partial class SwaggerResponse<TResult> : SwaggerResponse
-    //{
-    //    public TResult Result { get; private set; }
-
-    //    public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
-    //        : base(statusCode, headers)
-    //    {
-    //        Result = result;
-    //    }
-    //}
-
-    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    //public partial class ApiException : System.Exception
-    //{
-    //    public int StatusCode { get; private set; }
-
-    //    public string Response { get; private set; }
-
-    //    public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-
-    //    public ApiException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
-    //        : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
-    //    {
-    //        StatusCode = statusCode;
-    //        Response = response;
-    //        Headers = headers;
-    //    }
-
-    //    public override string ToString()
-    //    {
-    //        return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
-    //    }
-    //}
-
-    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.8.0 (NJsonSchema v10.3.11.0 (Newtonsoft.Json v11.0.0.0))")]
-    //public partial class ApiException<TResult> : ApiException
-    //{
-    //    public TResult Result { get; private set; }
-
-    //    public ApiException(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
-    //        : base(message, statusCode, response, headers, innerException)
-    //    {
-    //        Result = result;
-    //    }
-    //}
-
 }
 
 #pragma warning restore 1591

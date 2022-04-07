@@ -4,36 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Threading;
 
-[assembly: InternalsVisibleTo("Laserfiche.SiteApiRepository.Client.Test")]
-namespace Laserfiche.SiteApiRepository.Client.V1
+[assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
+namespace Laserfiche.Repository.Api.Client
 {
-    partial interface ISiteApiRepositoryClient
+    partial interface ILaserficheRepositoryApiClient
     {
-        void SetAuthToken(string accessToken);
-        string GetAuthToken();
-        void RemoveAuthToken();
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> Get_entry_infoAsync(string uriString, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        string AccessToken { get; set; }
+        string RefreshToken { get; set; }
+
+        Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken));
     }
 
-    partial class SiteApiRepositoryClient : ISiteApiRepositoryClient
+    partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
     {
-        public void SetAuthToken(string accessToken)
-        {
-            var authentication = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-            _httpClient.DefaultRequestHeaders.Authorization = authentication;
-        }
-
-        public string GetAuthToken()
-        {
-            string authToken = _httpClient.DefaultRequestHeaders?.Authorization?.Parameter;
-            return authToken;
-        }
-
-        public void RemoveAuthToken()
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = null;
-        }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
 
         /// <summary>
         /// Get entry with redirect url. If url validation fail, it will throw exception.
@@ -41,7 +29,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
         /// <param name="uriString">Redirect url string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task<SwaggerResponse<Entry>> Get_entry_infoAsync(string uriString, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken))
         {
             string repoIdKey = "{repoId}";
             string entryIdKey = "{entryId}";
@@ -58,7 +46,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
                 throw new ArgumentException($"Invalid value {paramDict[entryIdKey]} for entryId.");
             }
             string select = paramDict[selectKey];
-            return await Get_EntryAsync(repoId, entryId, select, cancellationToken);
+            return await GetEntryAsync(repoId, entryId, select, cancellationToken);
         }
 
         /// <summary>
@@ -248,7 +236,7 @@ namespace Laserfiche.SiteApiRepository.Client.V1
                 {
                     jObject.AddFirst(new Newtonsoft.Json.Linq.JProperty(_discriminator, GetSubtypeDiscriminator(value.GetType())));
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
                 writer.WriteToken(jObject.CreateReader());
             }
             finally
