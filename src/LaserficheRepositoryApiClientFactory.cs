@@ -6,7 +6,7 @@ namespace Laserfiche.Repository.Api.Client
 {
     public static class LaserficheRepositoryApiClientFactory
     {
-        public static ILaserficheRepositoryApiClient CreateClientV1(ClientOptions options, HttpClientHandler httpClientHandler = null)
+        public static ILaserficheRepositoryApiClient CreateClient(ClientOptions options, HttpClientHandler httpClientHandler = null)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
