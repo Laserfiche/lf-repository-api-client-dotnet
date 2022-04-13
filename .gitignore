@@ -3,3 +3,5 @@
 [Bb]in/
 *.cache
 *.manifest
+ServiceAppConfig.json
+TestConfig.json

@@ -45,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute keys successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -80,7 +80,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -126,7 +126,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -154,7 +154,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -174,7 +174,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -202,7 +202,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -373,7 +373,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -387,7 +387,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -416,7 +416,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -441,7 +441,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -466,7 +466,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -481,7 +481,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -614,6 +614,16 @@ namespace Laserfiche.Repository.Api.Client
                             throw new ApiException<CreateEntryResult>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<CreateEntryResult>("Parent entry is not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
                         if (status_ == 403)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -697,7 +707,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute keys successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -766,12 +776,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfListOfAttribute>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfListOfAttribute>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 401)
@@ -1120,7 +1130,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1189,12 +1199,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfWFieldInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -1686,7 +1696,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1771,12 +1781,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -2012,7 +2022,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2089,12 +2099,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -2317,7 +2327,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2386,12 +2396,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -2755,7 +2765,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2824,12 +2834,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -5386,7 +5396,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5475,12 +5485,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -5564,7 +5574,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5637,12 +5647,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfContextHit>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfContextHit>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfContextHit>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfContextHit>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -5806,7 +5816,7 @@ namespace Laserfiche.Repository.Api.Client
                         else
                         if (status_ == 204)
                         {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("No search results found.", status_, responseText_, headers_, null);
                         }
                         else
@@ -5891,7 +5901,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5960,12 +5970,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -6179,7 +6189,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6252,12 +6262,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfWTemplateInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 401)
@@ -6481,7 +6491,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6554,12 +6564,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -6644,7 +6654,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6714,12 +6724,12 @@ namespace Laserfiche.Repository.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ODataValueOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -6863,7 +6873,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -6875,17 +6885,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -7272,6 +7282,26 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfListOfAttribute : ODataValueOfListOfAttribute
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfListOfAttribute
     {
@@ -7469,6 +7499,26 @@ namespace Laserfiche.Repository.Api.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Custom")]
         Custom = 11,
+
+    }
+
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfWFieldInfo : ODataValueOfIListOfWFieldInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
 
     }
 
@@ -7819,11 +7869,51 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfODataEntry : ODataValueOfIListOfODataEntry
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfODataEntry
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ODataEntry> Value { get; set; }
+
+    }
+
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfFieldValue : ODataValueOfIListOfFieldValue
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
 
     }
 
@@ -7843,6 +7933,26 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("groupId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? GroupId { get; set; }
+
+    }
+
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfWTagInfo : ODataValueOfIListOfWTagInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
 
     }
 
@@ -8088,6 +8198,26 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("customProperties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IDictionary<string, string> CustomProperties { get; set; }
+
+    }
+
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfWEntryLinkInfo : ODataValueOfIListOfWEntryLinkInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
 
     }
 
@@ -8350,6 +8480,26 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfContextHit : ODataValueOfIListOfContextHit
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfContextHit
     {
@@ -8457,6 +8607,26 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfWTemplateInfo : ODataValueOfIListOfWTemplateInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfWTemplateInfo
     {
@@ -8523,6 +8693,26 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfTemplateFieldInfo : ODataValueOfIListOfTemplateFieldInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfTemplateFieldInfo
     {
@@ -8570,12 +8760,12 @@ namespace Laserfiche.Repository.Api.Client
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this (data, null, null)
+            : this(data, null, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string fileName)
-            : this (data, fileName, null)
+            : this(data, fileName, null)
         {
         }
 
@@ -8695,8 +8885,8 @@ namespace Laserfiche.Repository.Api.Client
 
 #pragma warning restore 1591
 #pragma warning restore 1573
-#pragma warning restore  472
-#pragma warning restore  114
-#pragma warning restore  108
+#pragma warning restore 472
+#pragma warning restore 114
+#pragma warning restore 108
 #pragma warning restore 3016
 #pragma warning restore 8603
