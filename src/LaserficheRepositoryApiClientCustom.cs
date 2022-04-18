@@ -6,6 +6,7 @@ using System.Web;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Reflection;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -22,6 +23,52 @@ namespace Laserfiche.Repository.Api.Client
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingAsyncNextLink(string uri)
+        {
+            var results = await GetNextLinkData<ODataValueContextOfIListOfODataEntry>(uri, this.GetType().GetMethod("GetEntryListingAsync"));
+            return results;
+        }
+
+        private async Task<SwaggerResponse<T>> GetNextLinkData<T>(string uri, MethodInfo method)
+        {
+            if (uri == null)
+            {
+                throw new ArgumentNullException("Uri cannot be null.");
+            }
+
+            if (method == null)
+            {
+                throw new ArgumentNullException("Method cannot be null.");
+            }
+
+            // Parse parameters
+            var paramStr = uri.Split('?')[1];
+            var parsed = HttpUtility.ParseQueryString(paramStr);
+            var paramValues = new Dictionary<string, string[]>();
+            for (int i = 0; i < parsed.Count; i++)
+            {
+                paramValues.Add(parsed.GetKey(i), parsed.GetValues(i));
+            }
+
+            // Call API method to retrieve data using nextLink.
+            var parameterInfo = method.GetParameters();
+            var args = new List<object>();
+            foreach (var paramInfo in parameterInfo)
+            {
+                if (paramValues.ContainsKey(paramInfo.Name))
+                {
+                    args.Add(paramValues[paramInfo.Name][0]);
+                }
+                else
+                {
+                    args.Add(null);
+                }
+            }
+            Task<object> task = (Task<object>)method.Invoke(this, args.ToArray());
+            object result = await task;
+            return (SwaggerResponse<T>)result;
+        }
 
         /// <summary>
         /// Get entry with redirect url. If url validation fail, it will throw exception.
