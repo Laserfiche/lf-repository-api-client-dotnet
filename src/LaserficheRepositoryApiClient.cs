@@ -512,8 +512,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        partial void PrepareRequestImportDocument(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="parentEntryId">The entry ID of the folder that the document will be created in.</param>
@@ -581,8 +579,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestImportDocument(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -697,8 +693,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTrusteeAttributeKeyValuePairs(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get the attribute key value pairs associated with the authenticated user.
@@ -765,8 +759,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTrusteeAttributeKeyValuePairs(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -851,8 +843,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTrusteeAttributeValueByKey(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get an attribute object by key associated with the authenticated user.
@@ -895,8 +885,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTrusteeAttributeValueByKey(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -991,8 +979,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetFieldDefinitionById(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="fieldDefinitionId">The requested field definition ID.</param>
@@ -1038,8 +1024,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetFieldDefinitionById(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1134,8 +1118,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetFieldDefinitions(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
@@ -1200,8 +1182,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetFieldDefinitions(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1286,8 +1266,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetEntry(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -1327,8 +1305,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetEntry(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1423,8 +1399,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestDeleteEntryInfo(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -1462,8 +1436,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestDeleteEntryInfo(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1548,8 +1520,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestMoveOrRenameDocument(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -1595,8 +1565,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestMoveOrRenameDocument(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1711,8 +1679,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetEntryListing(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID.</param>
@@ -1798,8 +1764,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetEntryListing(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -1894,8 +1858,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCreateOrCopyEntry(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
@@ -1940,8 +1902,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCreateOrCopyEntry(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2046,8 +2006,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetFieldValues(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2124,8 +2082,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetFieldValues(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2220,8 +2176,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestAssignFieldValues(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
@@ -2258,8 +2212,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestAssignFieldValues(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2364,8 +2316,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTagsAssignedToEntry(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2429,8 +2379,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTagsAssignedToEntry(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2525,8 +2473,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestAssignTags(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2564,8 +2510,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestAssignTags(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2670,8 +2614,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestAssignEntryLinks(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The request repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2708,8 +2650,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestAssignEntryLinks(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2814,8 +2754,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetLinkValuesFromEntry(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2879,8 +2817,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetLinkValuesFromEntry(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -2975,8 +2911,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCopyEntry(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
@@ -3021,8 +2955,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCopyEntry(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3107,8 +3039,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestDeleteDocument(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3142,8 +3072,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestDeleteDocument(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3248,8 +3176,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetDocumentContentType(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3282,8 +3208,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetDocumentContentType(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3383,8 +3307,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestExportDocument(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3423,8 +3345,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestExportDocument(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3535,8 +3455,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestDeletePages(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3576,8 +3494,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestDeletePages(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3682,8 +3598,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestExportDocumentWithAuditReason(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3725,8 +3639,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestExportDocumentWithAuditReason(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3837,8 +3749,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetDynamicFieldValues(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -3875,8 +3785,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetDynamicFieldValues(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -3971,8 +3879,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestDeleteAssignedTemplate(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The ID of the entry that will have its template removed.</param>
@@ -4006,8 +3912,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestDeleteAssignedTemplate(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4111,8 +4015,6 @@ namespace Laserfiche.Repository.Api.Client
                     client_.Dispose();
             }
         }
-
-        partial void PrepareRequestWriteTemplateValueToEntry(System.Net.Http.HttpRequestMessage request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -4152,8 +4054,6 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    PrepareRequestWriteTemplateValueToEntry(request_);
-
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
@@ -4257,8 +4157,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetRepositoryList(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4282,8 +4180,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetRepositoryList(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4358,8 +4254,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestInvalidateServerSession(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
@@ -4389,8 +4283,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestInvalidateServerSession(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4475,8 +4367,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestRefreshServerSession(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
@@ -4506,8 +4396,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestRefreshServerSession(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4592,8 +4480,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCreateServerSession(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
@@ -4623,8 +4509,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCreateServerSession(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4709,8 +4593,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetOperationStatusAndProgress(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="operationToken">The operation token.</param>
@@ -4744,8 +4626,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetOperationStatusAndProgress(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4860,8 +4740,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCancelOperation(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="operationToken">The operation token</param>
@@ -4894,8 +4772,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCancelOperation(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -4985,8 +4861,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetAuditReasons(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get the audit reasons associated with the authenticated user.
@@ -5018,8 +4892,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetAuditReasons(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -5104,8 +4976,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCreateSearchOperation(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Run a search in the specified repository.
@@ -5141,8 +5011,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCreateSearchOperation(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -5227,8 +5095,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetSearchStatus(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get the status of a search using a token.
@@ -5265,8 +5131,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetSearchStatus(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -5381,8 +5245,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCancelOrCloseSearch(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Cancel or close an advanced search.
@@ -5419,8 +5281,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCancelOrCloseSearch(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -5514,8 +5374,6 @@ namespace Laserfiche.Repository.Api.Client
                     client_.Dispose();
             }
         }
-
-        partial void PrepareRequestGetSearchResults(System.Net.Http.HttpRequestMessage request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5611,8 +5469,6 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    PrepareRequestGetSearchResults(request_);
-
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
@@ -5706,8 +5562,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetSearchContextHits(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="searchToken">The requested searchToken.</param>
@@ -5776,8 +5630,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetSearchContextHits(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -5872,8 +5724,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestCreateSimpleSearchOperation(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
@@ -5939,8 +5789,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestCreateSimpleSearchOperation(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6041,8 +5889,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTagDefinitions(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
@@ -6107,8 +5953,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTagDefinitions(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6193,8 +6037,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTagDefinitionById(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="tagId">The requested tag definition ID.</param>
@@ -6240,8 +6082,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTagDefinitionById(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6336,8 +6176,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTemplateDefinitions(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
@@ -6407,8 +6245,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTemplateDefinitions(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6503,8 +6339,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTemplateDefinitionById(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
@@ -6550,8 +6384,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTemplateDefinitionById(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6646,8 +6478,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTemplateFieldDefinitions(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
@@ -6717,8 +6547,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTemplateFieldDefinitions(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -6813,8 +6641,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        partial void PrepareRequestGetTemplateFieldDefinitionsByTemplateName(System.Net.Http.HttpRequestMessage request);
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">A required query parameter for the requested template name.</param>
@@ -6881,8 +6707,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
-                    PrepareRequestGetTemplateFieldDefinitionsByTemplateName(request_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
