@@ -16,6 +16,8 @@ namespace Laserfiche.Repository.Api.Client
         string RefreshToken { get; set; }
 
         Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken));
+
+        Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
@@ -41,7 +43,7 @@ namespace Laserfiche.Repository.Api.Client
                 var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
                 var result = response.Result;
                 var empty = new ODataValueContextOfIListOfODataEntry();
-                var disposeClient = false;
+                var disposeClient = new bool[] { false };
                 while (callback(result))
                 {
                     var nextLink = result.OdataNextLink;
@@ -53,7 +55,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         using (var request_ = new System.Net.Http.HttpRequestMessage())
                         {
-                            response = await GetEntryListingSendAsync(request_, _httpClient, ref disposeClient);
+                            response = await GetEntryListingSendAsync(request_, _httpClient, disposeClient);
                             result = response.Result;
                         }
                     }

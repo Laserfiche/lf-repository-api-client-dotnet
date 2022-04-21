@@ -32,5 +32,26 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.AreEqual(entryId, entry.ParentId);
             }
         }
+
+        [TestMethod]
+        public async Task GetEntryListing_Paging()
+        {
+            int entryId = 1;
+            
+            bool PagingCallback(ODataValueContextOfIListOfODataEntry data)
+            {
+                if (data.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetEntryListingForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, null, null, null, "maxpagesize=1");
+        }
     }
 }
