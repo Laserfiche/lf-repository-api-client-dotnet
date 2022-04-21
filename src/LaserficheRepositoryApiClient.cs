@@ -543,7 +543,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -580,17 +580,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return ImportDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await ImportDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -747,7 +747,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -765,17 +765,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTrusteeAttributeKeyValuePairsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTrusteeAttributeKeyValuePairsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -881,7 +881,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -896,17 +896,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTrusteeAttributeValueByKeySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTrusteeAttributeValueByKeySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1025,7 +1025,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1040,17 +1040,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetFieldDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetFieldDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1185,7 +1185,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1203,17 +1203,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetFieldDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1316,7 +1316,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1331,17 +1331,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1449,7 +1449,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1467,17 +1467,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return DeleteEntryInfoSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await DeleteEntryInfoSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1583,7 +1583,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1601,17 +1601,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return MoveOrRenameDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await MoveOrRenameDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1787,7 +1787,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1805,17 +1805,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetEntryListingSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetEntryListingSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1930,7 +1930,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1948,17 +1948,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CreateOrCopyEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CreateOrCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2115,7 +2115,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2133,17 +2133,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2250,7 +2250,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2268,17 +2268,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return AssignFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2422,7 +2422,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2440,17 +2440,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTagsAssignedToEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTagsAssignedToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2558,7 +2558,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2576,17 +2576,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return AssignTagsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2703,7 +2703,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2721,17 +2721,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return AssignEntryLinksSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2875,7 +2875,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2893,17 +2893,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetLinkValuesFromEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetLinkValuesFromEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3018,7 +3018,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3036,17 +3036,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CopyEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3143,7 +3143,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3158,17 +3158,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return DeleteDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3285,7 +3285,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3299,17 +3299,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetDocumentContentTypeSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3423,7 +3423,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3441,17 +3441,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return ExportDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await ExportDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<FileResponse> ExportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3471,7 +3471,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
                 }
                 else
@@ -3479,7 +3479,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
                 }
                 else
@@ -3580,7 +3580,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3595,17 +3595,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return DeletePagesSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3724,7 +3724,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3745,17 +3745,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return ExportDocumentWithAuditReasonSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await ExportDocumentWithAuditReasonSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3775,7 +3775,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
                 }
                 else
@@ -3783,7 +3783,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
                 }
                 else
@@ -3878,7 +3878,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3896,17 +3896,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetDynamicFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4013,7 +4013,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4028,17 +4028,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return DeleteAssignedTemplateSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await DeleteAssignedTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4156,7 +4156,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4174,17 +4174,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return WriteTemplateValueToEntrySend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4291,7 +4291,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Append("v1/Repositories");
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4306,17 +4306,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetRepositoryListSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetRepositoryListSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4398,7 +4398,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4414,17 +4414,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return InvalidateServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await InvalidateServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4516,7 +4516,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4532,17 +4532,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return RefreshServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await RefreshServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4634,7 +4634,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4650,17 +4650,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CreateServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CreateServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4757,7 +4757,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4772,17 +4772,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetOperationStatusAndProgressSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetOperationStatusAndProgressSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4909,7 +4909,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4923,17 +4923,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CancelOperationSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CancelOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse> CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse> CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5033,7 +5033,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5048,17 +5048,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetAuditReasonsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5154,7 +5154,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5172,17 +5172,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CreateSearchOperationSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CreateSearchOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5282,7 +5282,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5297,17 +5297,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetSearchStatusSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetSearchStatusSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5437,7 +5437,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5452,17 +5452,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CancelOrCloseSearchSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CancelOrCloseSearchSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5626,7 +5626,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5644,17 +5644,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetSearchResultsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5793,7 +5793,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5811,17 +5811,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetSearchContextHitsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5957,7 +5957,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5975,17 +5975,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return CreateSimpleSearchOperationSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await CreateSimpleSearchOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6126,7 +6126,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6144,17 +6144,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTagDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6263,7 +6263,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6278,17 +6278,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTagDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTagDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6428,7 +6428,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6446,17 +6446,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTemplateDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6575,7 +6575,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6590,17 +6590,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTemplateDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTemplateDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6740,7 +6740,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6758,17 +6758,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTemplateFieldDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTemplateFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6905,7 +6905,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            var disposeClient_ = false;
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6923,17 +6923,17 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return GetTemplateFieldDefinitionsByTemplateNameSend(request_, client_, ref disposeClient_, cancellationToken);
+                    return await GetTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
             {
-                if (disposeClient_)
+                if (disposeClient_[0])
                     client_.Dispose();
             }
         }
 
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;

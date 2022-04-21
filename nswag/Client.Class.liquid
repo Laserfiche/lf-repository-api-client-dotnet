@@ -171,9 +171,9 @@
         var client_ = new {{ HttpClientType }}();
 {%     endif -%}
 {%     if InjectHttpClient == false and DisposeHttpClient -%}
-        var disposeClient_ = true;
+        bool[] disposeClient_ = new bool[]{ true };
 {%     else -%}
-        var disposeClient_ = false;
+        bool[] disposeClient_ = new bool[]{ false };
 {%     endif -%}
         try
         {
@@ -298,17 +298,17 @@
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
 
-                return {{ operation.ActualOperationName }}Send(request_, client_, ref disposeClient_, cancellationToken);
+                return await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
             }
         }
         finally
         {
-            if (disposeClient_)
+            if (disposeClient_[0])
                 client_.Dispose();
         }
     }
 
-    {{ operation.MethodAccessModifier }} virtual {{ operation.ResultType }} {{ operation.ActualOperationName }}SendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}SendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
         var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
         var disposeResponse_ = true;
