@@ -580,116 +580,121 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<CreateEntryResult>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<CreateEntryResult>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<CreateEntryResult>("Parent entry is not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 409)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<CreateEntryResult>("Document creation is partial success.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 500)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<CreateEntryResult>("Document creation is complete failure.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return ImportDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<CreateEntryResult>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<CreateEntryResult>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<CreateEntryResult>("Parent entry is not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<CreateEntryResult>("Document creation is partial success.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<CreateEntryResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<CreateEntryResult>("Document creation is complete failure.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -760,86 +765,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfListOfAttribute>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTrusteeAttributeKeyValuePairsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfListOfAttribute>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -886,96 +896,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Attribute>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Requested attribute key not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTrusteeAttributeValueByKeySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Attribute>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Requested attribute key not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1025,96 +1040,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<WFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<WFieldInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Requested field definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetFieldDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<WFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<WFieldInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Requested field definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1183,86 +1203,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetFieldDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1306,96 +1331,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1437,86 +1467,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return DeleteEntryInfoSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1566,116 +1601,121 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 409)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return MoveOrRenameDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1765,96 +1805,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetEntryListingSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -1903,106 +1948,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 409)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CreateOrCopyEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2083,96 +2133,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2213,106 +2268,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return AssignFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfFieldValue>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2380,96 +2440,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTagsAssignedToEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2511,106 +2576,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return AssignTagsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2651,106 +2721,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return AssignEntryLinksSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2818,96 +2893,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetLinkValuesFromEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWEntryLinkInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -2956,86 +3036,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CopyEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3073,106 +3158,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return DeleteDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3209,101 +3299,106 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            return new SwaggerResponse(status_, headers_);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetDocumentContentTypeSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    return new SwaggerResponse(status_, headers_);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3346,112 +3441,117 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200 || status_ == 206)
-                        {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
-                            return fileResponse_;
-                        }
-                        else
-                        if (status_ == 206)
-                        {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
-                            return fileResponse_;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return ExportDocumentSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<FileResponse> ExportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200 || status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3495,106 +3595,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return DeletePagesSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3640,112 +3745,117 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200 || status_ == 206)
-                        {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
-                            return fileResponse_;
-                        }
-                        else
-                        if (status_ == 206)
-                        {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
-                            return fileResponse_;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return ExportDocumentWithAuditReasonSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200 || status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3786,96 +3896,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetDynamicFieldValuesSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -3913,106 +4028,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return DeleteAssignedTemplateSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4054,106 +4174,111 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 423)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return WriteTemplateValueToEntrySend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4181,76 +4306,81 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<RepositoryInfo>>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetRepositoryListSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<RepositoryInfo>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4284,86 +4414,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return InvalidateServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4397,86 +4532,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfDateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfDateTime>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return RefreshServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfDateTime>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfDateTime>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4510,86 +4650,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CreateServerSessionSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4627,116 +4772,121 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 202)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetOperationStatusAndProgressSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 202)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4773,91 +4923,96 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 204)
-                        {
-                            return new SwaggerResponse(status_, headers_);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CancelOperationSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse> CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return new SwaggerResponse(status_, headers_);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -4893,86 +5048,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<AuditReasons>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<AuditReasons>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetAuditReasonsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AuditReasons>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<AuditReasons>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5012,86 +5172,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CreateSearchOperationSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5132,116 +5297,121 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 201)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 202)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetSearchStatusSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 202)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<OperationProgress>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5282,96 +5452,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CancelOrCloseSearchSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfBoolean>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5469,96 +5644,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetSearchResultsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5631,96 +5811,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfContextHit>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfContextHit>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetSearchContextHitsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfContextHit>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfContextHit>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5790,102 +5975,107 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 204)
-                        {
-                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("No search results found.", status_, responseText_, headers_, null);
-                        }
-                        else
-                        if (status_ == 206)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return CreateSimpleSearchOperationSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataEntry>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 204)
+                {
+                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("No search results found.", status_, responseText_, headers_, null);
+                }
+                else
+                if (status_ == 206)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueOfIListOfODataEntry>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -5954,86 +6144,91 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTagDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -6083,96 +6278,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<WTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<WTagInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request tag definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTagDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<WTagInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<WTagInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request tag definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -6246,96 +6446,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTemplateDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfWTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -6385,96 +6590,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<WTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<WTemplateInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTemplateDefinitionByIdSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<WTemplateInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<WTemplateInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -6548,96 +6758,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTemplateFieldDefinitionsSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 
@@ -6708,96 +6923,101 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
+                    return GetTemplateFieldDefinitionsByTemplateNameSend(request_, client_, ref disposeClient_, cancellationToken);
                 }
             }
             finally
             {
                 if (disposeClient_)
                     client_.Dispose();
+            }
+        }
+
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfTemplateFieldInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
             }
         }
 

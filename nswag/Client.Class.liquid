@@ -298,91 +298,96 @@
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
 
-                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                var disposeResponse_ = true;
-                try
-                {
-                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                    if (response_.Content != null && response_.Content.Headers != null)
-                    {
-                        foreach (var item_ in response_.Content.Headers)
-                            headers_[item_.Key] = item_.Value;
-                    }
-
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
-                    await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
-{% else %}
-                    ProcessResponse(client_, response_);
-{% endif %}
-
-                    var status_ = (int)response_.StatusCode;
-{%     for response in operation.Responses -%}
-                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
-                    {
-                        {% template Client.Class.ProcessResponse %}
-                    }
-                    else
-{%     endfor -%}
-{%     if operation.HasDefaultResponse -%}
-{%         if operation.DefaultResponse.HasType -%}
-                    {
-{%             assign response = operation.DefaultResponse -%}
-                        {% template Client.Class.ProcessResponse %}
-                    }
-{%         elsif operation.HasSuccessResponse -%}
-                    {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
-                    }
-{%        elsif operation.HasResultType -%}
-{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
-{%             else -%}
-                    return {{ operation.UnwrappedResultDefaultValue }};
-{%             endif -%}
-{%         elsif operation.WrapResponse -%}
-                    return new {{ ResponseClass }}(status_, headers_);
-{%         endif -%}
-{%     else -%}
-{%         if operation.HasSuccessResponse == false -%}
-{% comment -%}
-    If the success response has already been explicitely declared, there is no need for this default code (because handled above).
-    Otherwise, return default values on success because we don't want to throw on "unknown status code".
-    Success is always expected
-{%- endcomment %}
-                    if (status_ == 200 || status_ == 204)
-                    {
-{%             if operation.HasResultType -%}
-{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
-{%                 else -%}
-                        return {{ operation.UnwrappedResultDefaultValue }};
-{%                 endif -%}
-{%             elsif operation.WrapResponse -%}
-                        return new {{ ResponseClass }}(status_, headers_);
-{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
-                        return;
-{%             endif -%}
-                    }
-                    else
-{%         endif -%}
-                    {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                    }
-{%     endif -%}
-                }
-                finally
-                {
-                    if (disposeResponse_)
-                        response_.Dispose();
-                }
+                return {{ operation.ActualOperationName }}Send(request_, client_, ref disposeClient_, cancellationToken);
             }
         }
         finally
         {
             if (disposeClient_)
                 client_.Dispose();
+        }
+    }
+
+    {{ operation.MethodAccessModifier }} virtual {{ operation.ResultType }} {{ operation.ActualOperationName }}SendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, ref bool disposeClient_, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {
+        var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+        var disposeResponse_ = true;
+        try
+        {
+            var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+            if (response_.Content != null && response_.Content.Headers != null)
+            {
+                foreach (var item_ in response_.Content.Headers)
+                    headers_[item_.Key] = item_.Value;
+            }
+
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
+            await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
+{% else %}
+            ProcessResponse(client_, response_);
+{% endif %}
+
+            var status_ = (int)response_.StatusCode;
+{%     for response in operation.Responses -%}
+            if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+            {
+                {% template Client.Class.ProcessResponse %}
+            }
+            else
+{%     endfor -%}
+{%     if operation.HasDefaultResponse -%}
+{%         if operation.DefaultResponse.HasType -%}
+            {
+{%             assign response = operation.DefaultResponse -%}
+                {% template Client.Class.ProcessResponse %}
+            }
+{%         elsif operation.HasSuccessResponse -%}
+            {
+                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+            }
+{%        elsif operation.HasResultType -%}
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
+            return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%             else -%}
+            return {{ operation.UnwrappedResultDefaultValue }};
+{%             endif -%}
+{%         elsif operation.WrapResponse -%}
+            return new {{ ResponseClass }}(status_, headers_);
+{%         endif -%}
+{%     else -%}
+{%         if operation.HasSuccessResponse == false -%}
+{% comment -%}
+If the success response has already been explicitely declared, there is no need for this default code (because handled above).
+Otherwise, return default values on success because we don't want to throw on "unknown status code".
+Success is always expected
+{%- endcomment %}
+            if (status_ == 200 || status_ == 204)
+            {
+{%             if operation.HasResultType -%}
+{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
+                return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%                 else -%}
+                return {{ operation.UnwrappedResultDefaultValue }};
+{%                 endif -%}
+{%             elsif operation.WrapResponse -%}
+                return new {{ ResponseClass }}(status_, headers_);
+{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
+                return;
+{%             endif -%}
+            }
+            else
+{%         endif -%}
+            {
+                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+            }
+{%     endif -%}
+        }
+        finally
+        {
+            if (disposeResponse_)
+                response_.Dispose();
         }
     }
 
