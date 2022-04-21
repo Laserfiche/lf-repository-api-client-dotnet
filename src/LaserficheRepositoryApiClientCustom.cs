@@ -23,6 +23,44 @@ namespace Laserfiche.Repository.Api.Client
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
 
+        public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (prefer == null || IsValidPrefer(prefer)) // No paging
+            {
+                var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+                var shouldContinue = callback(response.Result);
+                if (shouldContinue)
+                {
+                    var empty = new ODataValueContextOfIListOfODataEntry();
+                    while (callback(empty)) ;
+                }
+            } 
+            else // Handle nextLink
+            {
+                // Initial request
+                var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+                var result = response.Result;
+                var empty = new ODataValueContextOfIListOfODataEntry();
+                var disposeClient = false;
+                while (callback(result))
+                {
+                    var nextLink = result.OdataNextLink;
+                    if (nextLink == null)
+                    {
+                        result = empty;
+                    }
+                    else
+                    {
+                        using (var request_ = new System.Net.Http.HttpRequestMessage())
+                        {
+                            response = await GetEntryListingSendAsync(request_, _httpClient, ref disposeClient);
+                            result = response.Result;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Get entry with redirect url. If url validation fail, it will throw exception.
         /// </summary>
@@ -159,6 +197,12 @@ namespace Laserfiche.Repository.Api.Client
             }
 
             return result;
+        }
+
+        private bool IsValidPrefer(string prefer)
+        {
+            var sanitized = prefer.Trim().ToLower();
+            return sanitized.IndexOf("maxpagesize=") != -1;
         }
     }
 
