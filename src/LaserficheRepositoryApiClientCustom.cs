@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -58,6 +58,196 @@ namespace Laserfiche.Repository.Api.Client
             while (callback(result))
             {
                 response = await ApiForEachAsync(result.OdataNextLink, GetEntryListingSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetFieldDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfWFieldInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetFieldDefinitionsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetFieldValuesAsync(repoId, entryId, prefer, formatValue, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfFieldValue();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetFieldValuesSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetLinkValuesFromEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfWEntryLinkInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetLinkValuesFromEntrySendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetSearchContextHitsForEachAsync(Func<ODataValueContextOfIListOfContextHit, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfContextHit();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetSearchContextHitsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTagDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfWTagInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTagDefinitionsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTagsAssignedToEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfWTagInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTagsAssignedToEntrySendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTemplateDefinitionsAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfWTemplateInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateDefinitionsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, prefer, culture, select, orderby, top, skip, count);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // Initial request
+            var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetTrusteeAttributeKeyValuePairs(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // Initial request
+            var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfListOfAttribute();
+            while (callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
