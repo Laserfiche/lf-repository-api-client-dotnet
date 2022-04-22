@@ -203,12 +203,6 @@ namespace Laserfiche.Repository.Api.Client
 
             return result;
         }
-
-        private bool IsValidPrefer(string prefer)
-        {
-            var sanitized = prefer.Trim().ToLower();
-            return sanitized.IndexOf("maxpagesize=") != -1;
-        }
     }
 
     partial class PostEntryWithEdocMetadataRequest : IFormattable
