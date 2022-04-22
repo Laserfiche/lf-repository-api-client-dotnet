@@ -6,6 +6,8 @@ using System.Web;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Reflection;
+using System.Net.Http;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -25,48 +27,42 @@ namespace Laserfiche.Repository.Api.Client
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
 
+        public async Task<SwaggerResponse<T>> ApiForEachAsync<T>(string nextLink, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
+        {
+            if (nextLink == null)
+            {
+                return null;
+            }
+            else
+            {
+                using (var request = new HttpRequestMessage())
+                {
+                    request.Method = new HttpMethod("GET");
+                    request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request.RequestUri = new Uri(nextLink, UriKind.Absolute);
+
+                    var response = await sendAndProcessResponseAsync(request, _httpClient, new bool[] { false }, default(CancellationToken));
+                    return response;
+                }
+            }
+        }
+
         public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (prefer == null || !IsValidPrefer(prefer)) // No paging
+            // Initial request
+            var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+            
+            // Further requests
+            var empty = new ODataValueContextOfIListOfODataEntry();
+            while (callback(result))
             {
-                var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
-                var shouldContinue = callback(response.Result);
-                if (shouldContinue)
+                response = await ApiForEachAsync(result.OdataNextLink, GetEntryListingSendAsync, cancellationToken);
+                if (response == null)
                 {
-                    var empty = new ODataValueContextOfIListOfODataEntry();
-                    while (callback(empty)) ;
+                    result = empty;
                 }
-            } 
-            else // Handle nextLink
-            {
-                // Initial request
-                var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
-                var result = response.Result;
-                var empty = new ODataValueContextOfIListOfODataEntry();
-                var disposeClient = new bool[] { false };
-                while (callback(result))
-                {
-                    var nextLink = result.OdataNextLink;
-                    if (nextLink == null)
-                    {
-                        result = empty;
-                    }
-                    else
-                    {
-                        using (var request_ = new System.Net.Http.HttpRequestMessage())
-                        {
-                            if (prefer != null)
-                                request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                            request_.Method = new System.Net.Http.HttpMethod("GET");
-                            request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                            request_.RequestUri = new Uri(nextLink, UriKind.Absolute);
-
-                            response = await GetEntryListingSendAsync(request_, _httpClient, disposeClient);
-                            result = response.Result;
-                        }
-                    }
-                }
+                result = response.Result;
             }
         }
 
