@@ -27,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (prefer == null || IsValidPrefer(prefer)) // No paging
+            if (prefer == null || !IsValidPrefer(prefer)) // No paging
             {
                 var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
                 var shouldContinue = callback(response.Result);
@@ -55,6 +55,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         using (var request_ = new System.Net.Http.HttpRequestMessage())
                         {
+                            if (prefer != null)
+                                request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
+                            request_.Method = new System.Net.Http.HttpMethod("GET");
+                            request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                            request_.RequestUri = new Uri(nextLink, UriKind.Absolute);
+
                             response = await GetEntryListingSendAsync(request_, _httpClient, disposeClient);
                             result = response.Result;
                         }
