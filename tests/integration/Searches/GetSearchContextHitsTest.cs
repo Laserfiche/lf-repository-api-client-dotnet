@@ -55,5 +55,45 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             var contextHits = contextHitsResponse.Result?.Value;
             Assert.IsNotNull(contextHits);
         }
+
+        [TestMethod]
+        public async Task GetSearchContextHits_Paging()
+        {
+            int maxMageSize = 10;
+
+            // Create search
+            var request = new AdvancedSearchRequest()
+            {
+                SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
+            };
+            var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            token = searchResponse.Result?.Token;
+            Assert.IsTrue(!string.IsNullOrEmpty(token));
+
+            Thread.Sleep(5000);
+
+            // Get search results
+            var searchResultsResponse = await client.GetSearchResultsAsync(TestConfig.RepositoryId, token);
+            var searchResults = searchResultsResponse.Result?.Value;
+            Assert.IsNotNull(searchResults);
+            Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
+            int rowNumber = searchResults.First().RowNumber;
+
+            bool PagingCallback(ODataValueContextOfIListOfContextHit data)
+            {
+                if (data.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    Assert.IsTrue(data.Value.Count <= maxMageSize);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetSearchContextHitsForEachAsync(PagingCallback, TestConfig.RepositoryId, token, rowNumber, string.Format("maxpagesize={0}", maxMageSize));
+        }
     }
 }
