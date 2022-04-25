@@ -19,29 +19,29 @@ namespace Laserfiche.Repository.Api.Client
 
         Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetSearchContextHitsForEachAsync(Func<ODataValueContextOfIListOfContextHit, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
     }
 
     partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
@@ -73,102 +73,72 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
-            var result = response.Result;
             
             // Further requests
             var empty = new ODataValueContextOfIListOfODataEntry();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetEntryListingSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetEntryListingSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetFieldDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
-            var result = response.Result;
 
             // Further requests
             var empty = new ODataValueContextOfIListOfWFieldInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetFieldDefinitionsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldDefinitionsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetFieldValuesAsync(repoId, entryId, prefer, formatValue, culture, select, orderby, top, skip, count, cancellationToken);
-            var result = response.Result;
 
             // Further requests
             var empty = new ODataValueContextOfIListOfFieldValue();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetFieldValuesSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldValuesSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetLinkValuesFromEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
-            var result = response.Result;
 
             // Further requests
             var empty = new ODataValueContextOfIListOfWEntryLinkInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetLinkValuesFromEntrySendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetLinkValuesFromEntrySendAsync, cancellationToken);
             }
         }
 
-        public async Task GetSearchContextHitsForEachAsync(Func<ODataValueContextOfIListOfContextHit, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, prefer, select, orderby, top, skip, count, cancellationToken);
-            var result = response.Result;
 
             // Further requests
             var empty = new ODataValueContextOfIListOfContextHit();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetSearchContextHitsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchContextHitsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -176,18 +146,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfWTagInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTagDefinitionsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagDefinitionsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagsAssignedToEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -195,18 +160,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfWTagInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTagsAssignedToEntrySendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagsAssignedToEntrySendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateDefinitionsAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -214,18 +174,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfWTemplateInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateDefinitionsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateDefinitionsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, prefer, culture, select, orderby, top, skip, count);
@@ -233,18 +188,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -252,18 +202,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -271,18 +216,13 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfListOfAttribute();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -290,14 +230,9 @@ namespace Laserfiche.Repository.Api.Client
 
             // Further requests
             var empty = new ODataValueContextOfIListOfODataEntry();
-            while (response != null && callback(result))
+            while (response != null && callback(response))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetSearchResultsSendAsync, cancellationToken);
-                if (response == null)
-                {
-                    result = empty;
-                }
-                result = response.Result;
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchResultsSendAsync, cancellationToken);
             }
         }
 

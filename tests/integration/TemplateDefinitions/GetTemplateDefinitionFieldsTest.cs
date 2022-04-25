@@ -44,12 +44,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             var firstTemplateDefinition = allTemplateDefinitionsResponse.Result?.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition);
 
-            bool PagingCallback(ODataValueContextOfIListOfTemplateFieldInfo data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo> data)
             {
-                if (data.OdataNextLink != null)
+                if (data.Result.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxPageSize);
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
                     return true; // If data aren't exhusted, keep asking.
                 }
                 else

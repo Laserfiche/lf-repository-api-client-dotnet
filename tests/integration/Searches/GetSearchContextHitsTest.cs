@@ -79,13 +79,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
             int rowNumber = searchResults.First().RowNumber;
 
-            bool PagingCallback(ODataValueContextOfIListOfContextHit data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfContextHit> data)
             {
-                if (data.OdataNextLink != null)
+                if (data.Result.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxPageSize);
-                    return true; // If data aren't exhusted, keep asking.
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true;
                 }
                 else
                 {

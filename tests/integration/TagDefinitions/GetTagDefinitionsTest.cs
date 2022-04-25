@@ -32,12 +32,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         {
             int maxPageSize = 10;
 
-            bool PagingCallback(ODataValueContextOfIListOfWTagInfo data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
             {
-                if (data.OdataNextLink != null)
+                if (data.Result.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxPageSize);
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
                     return true; // If data aren't exhusted, keep asking.
                 }
                 else

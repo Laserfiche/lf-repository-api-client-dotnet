@@ -32,13 +32,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         {
             int maxPageSize = 10;
 
-            bool PagingCallback(ODataValueContextOfIListOfWFieldInfo data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWFieldInfo> data)
             {
-                if (data.OdataNextLink != null)
+                if (data.Result.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxPageSize);
-                    return true; // If data aren't exhusted, keep asking.
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true;
                 }
                 else
                 {
