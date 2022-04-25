@@ -32,14 +32,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntryLinks_Paging()
         {
             int entryId = 1;
-            int maxMageSize = 10;
+            int maxPageSize = 10;
 
             bool PagingCallback(ODataValueContextOfIListOfWEntryLinkInfo data)
             {
                 if (data.OdataNextLink != null)
                 {
                     Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxMageSize);
+                    Assert.IsTrue(data.Value.Count <= maxPageSize);
                     return true; // If data aren't exhusted, keep asking.
                 }
                 else
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.GetLinkValuesFromEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, string.Format("maxpagesize={0}", maxMageSize));
+            await client.GetLinkValuesFromEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, string.Format("maxpagesize={0}", maxPageSize));
         }
     }
 }

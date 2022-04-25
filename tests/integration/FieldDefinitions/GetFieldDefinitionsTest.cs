@@ -30,14 +30,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         [TestMethod]
         public async Task GetFieldDefinitions_Paging()
         {
-            int maxMageSize = 10;
+            int maxPageSize = 10;
 
             bool PagingCallback(ODataValueContextOfIListOfWFieldInfo data)
             {
                 if (data.OdataNextLink != null)
                 {
                     Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxMageSize);
+                    Assert.IsTrue(data.Value.Count <= maxPageSize);
                     return true; // If data aren't exhusted, keep asking.
                 }
                 else
@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                 }
             }
 
-            await client.GetFieldDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, string.Format("maxpagesize={0}", maxMageSize));
+            await client.GetFieldDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, string.Format("maxpagesize={0}", maxPageSize));
         }
     }
 }
