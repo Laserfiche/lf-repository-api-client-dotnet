@@ -40,5 +40,27 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             Assert.AreEqual(1, response.Result?.Value.Count);
             Assert.AreEqual(firstTemplateDefinition.Id, response.Result?.Value.FirstOrDefault().Id);
         }
+
+        [TestMethod]
+        public async Task GetTemplateDefinition_Paging()
+        {
+            int maxPageSize = 10;
+
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo> data)
+            {
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetTemplateDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, prefer: string.Format("maxpagesize={0}", maxPageSize));
+        }
     }
 }

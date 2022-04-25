@@ -6,6 +6,8 @@ using System.Web;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net.Http;
+using System.Globalization;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -15,13 +17,377 @@ namespace Laserfiche.Repository.Api.Client
         string AccessToken { get; set; }
         string RefreshToken { get; set; }
 
-        Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="entryId">The folder ID.</param>
+        /// <param name="groupByEntryType">An optional query parameter used to indicate if the result should be grouped by entry type or not.</param>
+        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
+        /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise
+        /// <br/>            culture will not be used for formatting.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="entryId">The requested entry ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted.
+        /// <br/>            The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise
+        /// <br/>            culture will not be used for formatting.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="entryId">The requested entry ID.</param>
+        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="searchToken">The requested searchToken.</param>
+        /// <param name="rowNumber">The search result listing row number to get context hits for.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="entryId">The requested entry ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="templateId">The requested template definition ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="templateName">A required query parameter for the requested template name.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get the attribute key value pairs associated with the authenticated user.
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get the search results listing of a search.
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="searchToken">The requested searchToken.</param>
+        /// <param name="groupByEntryType">An optional query parameter used to indicate if the result should be grouped by entry type or not.</param>
+        /// <param name="refresh">If the search listing should be refreshed to show updated values.</param>
+        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
+        /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
+        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
+        /// <br/>            The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise
+        /// <br/>            culture will not be used for formatting.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
     }
 
     partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
+
+        public async Task<SwaggerResponse<T>> ApiForEachAsync<T>(string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
+        {
+            if (nextLink == null)
+            {
+                return null;
+            }
+            else
+            {
+                using (var request = new HttpRequestMessage())
+                {
+                    request.Method = new HttpMethod("GET");
+                    request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    if (prefer != null)
+                    {
+                        request.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    }
+                    request.RequestUri = new Uri(nextLink, UriKind.Absolute);
+
+                    var response = await sendAndProcessResponseAsync(request, _httpClient, new bool[] { false }, default(CancellationToken));
+                    return response;
+                }
+            }
+        }
+
+        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetEntryListingSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetFieldDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldDefinitionsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetFieldValuesAsync(repoId, entryId, prefer, formatValue, culture, select, orderby, top, skip, count, cancellationToken);
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldValuesSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetLinkValuesFromEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetLinkValuesFromEntrySendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, prefer, select, orderby, top, skip, count, cancellationToken);
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchContextHitsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTagDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagDefinitionsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTagsAssignedToEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagsAssignedToEntrySendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTemplateDefinitionsAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateDefinitionsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, prefer, culture, select, orderby, top, skip, count);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, prefer, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
+            }
+        }
+
+        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            while (response != null && callback(response))
+            {
+                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchResultsSendAsync, cancellationToken);
+            }
+        }
 
         /// <summary>
         /// Get entry with redirect url. If url validation fail, it will throw exception.

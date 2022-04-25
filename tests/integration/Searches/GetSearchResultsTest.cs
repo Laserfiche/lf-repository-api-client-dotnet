@@ -47,5 +47,38 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             var searchResults = searchResultsResponse.Result?.Value;
             Assert.IsNotNull(searchResults);
         }
+
+        [TestMethod]
+        public async Task GetSearchResults_Paging()
+        {
+            int maxPageSize = 10;
+
+            // Create search
+            var request = new AdvancedSearchRequest()
+            {
+                SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
+            };
+            var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            token = searchResponse.Result?.Token;
+            Assert.IsTrue(!string.IsNullOrEmpty(token));
+
+            Thread.Sleep(10000);
+
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataEntry> data)
+            {
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetSearchResultsForEachAsync(PagingCallback, TestConfig.RepositoryId, token, prefer: string.Format("maxpagesize={0}", maxPageSize));
+        }
     }
 }

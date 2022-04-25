@@ -26,5 +26,27 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
             var response = await client.GetTagDefinitionsAsync(TestConfig.RepositoryId);
             Assert.IsNotNull(response.Result?.Value);
         }
+
+        [TestMethod]
+        public async Task GetTagDefinitions_Paging()
+        {
+            int maxPageSize = 10;
+
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
+            {
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetTagDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, string.Format("maxpagesize={0}", maxPageSize));
+        }
     }
 }

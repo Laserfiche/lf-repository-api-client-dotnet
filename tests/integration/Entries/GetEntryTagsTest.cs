@@ -27,5 +27,28 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var response = await client.GetTagsAssignedToEntryAsync(TestConfig.RepositoryId, entryId);
             Assert.IsNotNull(response.Result?.Value);
         }
+
+        [TestMethod]
+        public async Task GetEntryTags_Paging()
+        {
+            int entryId = 1;
+            int maxPageSize = 10;
+
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
+            {
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetTagsAssignedToEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, string.Format("maxpagesize={0}", maxPageSize));
+        }
     }
 }

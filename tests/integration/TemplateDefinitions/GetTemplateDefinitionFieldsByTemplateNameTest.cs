@@ -34,5 +34,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             Assert.IsNotNull(templateFieldDefinitions);
             Assert.AreEqual(firstTemplateDefinition.FieldCount, templateFieldDefinitions.Count);
         }
+
+        [TestMethod]
+        public async Task GetTemplateDefinitionFieldsByTemplateName_Paging()
+        {
+            int maxPageSize = 10;
+
+            var allTemplateDefinitionsResponse = await client.GetTemplateDefinitionsAsync(TestConfig.RepositoryId);
+            var firstTemplateDefinition = allTemplateDefinitionsResponse.Result?.Value?.FirstOrDefault();
+            Assert.IsNotNull(firstTemplateDefinition);
+
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo> data)
+            {
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, TestConfig.RepositoryId, firstTemplateDefinition.Name, string.Format("maxpagesize={0}", maxPageSize));
+        }
     }
 }
