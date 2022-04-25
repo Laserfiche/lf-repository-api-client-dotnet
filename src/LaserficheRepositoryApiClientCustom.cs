@@ -37,9 +37,11 @@ namespace Laserfiche.Repository.Api.Client
 
         Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
 
-        Task GetTrusteeAttributeKeyValuePairs(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
+
+        Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default);
     }
 
     partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
@@ -242,7 +244,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -261,7 +263,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTrusteeAttributeKeyValuePairs(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -272,6 +274,25 @@ namespace Laserfiche.Repository.Api.Client
             while (response != null && callback(result))
             {
                 response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
+                if (response == null)
+                {
+                    result = empty;
+                }
+                result = response.Result;
+            }
+        }
+
+        public async Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfODataEntry, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        {
+            // Initial request
+            var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
+            var result = response.Result;
+
+            // Further requests
+            var empty = new ODataValueContextOfIListOfODataEntry();
+            while (response != null && callback(result))
+            {
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetSearchResultsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
