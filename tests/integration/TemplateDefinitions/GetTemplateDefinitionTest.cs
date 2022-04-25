@@ -46,10 +46,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         {
             int maxPageSize = 10;
 
-            var allTemplateDefinitionsResponse = await client.GetTemplateDefinitionsAsync(TestConfig.RepositoryId);
-            var firstTemplateDefinition = allTemplateDefinitionsResponse.Result?.Value?.FirstOrDefault();
-            Assert.IsNotNull(firstTemplateDefinition);
-
             bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo> data)
             {
                 if (data.Result.OdataNextLink != null)
@@ -64,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }
             }
 
-            await client.GetTemplateDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, firstTemplateDefinition.Name, string.Format("maxpagesize={0}", maxPageSize));
+            await client.GetTemplateDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, prefer: string.Format("maxpagesize={0}", maxPageSize));
         }
     }
 }
