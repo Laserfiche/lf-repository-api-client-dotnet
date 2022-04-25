@@ -6,8 +6,8 @@ using System.Web;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Reflection;
 using System.Net.Http;
+using System.Globalization;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -27,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
 
-        public async Task<SwaggerResponse<T>> ApiForEachAsync<T>(string nextLink, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
+        public async Task<SwaggerResponse<T>> ApiForEachAsync<T>(string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
         {
             if (nextLink == null)
             {
@@ -39,6 +39,10 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     request.Method = new HttpMethod("GET");
                     request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    if (prefer != null)
+                    {
+                        request.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    }
                     request.RequestUri = new Uri(nextLink, UriKind.Absolute);
 
                     var response = await sendAndProcessResponseAsync(request, _httpClient, new bool[] { false }, default(CancellationToken));
@@ -57,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfODataEntry();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetEntryListingSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetEntryListingSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -76,7 +80,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfWFieldInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetFieldDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetFieldDefinitionsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -95,7 +99,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfFieldValue();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetFieldValuesSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetFieldValuesSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -114,7 +118,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfWEntryLinkInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetLinkValuesFromEntrySendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetLinkValuesFromEntrySendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -133,7 +137,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfContextHit();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetSearchContextHitsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetSearchContextHitsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -152,7 +156,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfWTagInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTagDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTagDefinitionsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -171,7 +175,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfWTagInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTagsAssignedToEntrySendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTagsAssignedToEntrySendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -190,7 +194,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfWTemplateInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateDefinitionsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -209,7 +213,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -228,7 +232,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfIListOfTemplateFieldInfo();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
@@ -247,7 +251,7 @@ namespace Laserfiche.Repository.Api.Client
             var empty = new ODataValueContextOfListOfAttribute();
             while (callback(result))
             {
-                response = await ApiForEachAsync(result.OdataNextLink, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
                 if (response == null)
                 {
                     result = empty;
