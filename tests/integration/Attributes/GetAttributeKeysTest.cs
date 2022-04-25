@@ -26,5 +26,28 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             var response = await client.GetTrusteeAttributeKeyValuePairsAsync(TestConfig.RepositoryId);
             Assert.IsNotNull(response.Result?.Value);
         }
+
+        [TestMethod]
+        public async Task GetAttributes_Paging()
+        {
+            int maxMageSize = 10;
+
+            bool PagingCallback(ODataValueContextOfListOfAttribute data)
+            {
+                if (data.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    Assert.IsTrue(data.Value.Count <= maxMageSize);
+                    return true; // If data aren't exhusted, keep asking.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            await client.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, TestConfig.RepositoryId, prefer: string.Format("maxpagesize={0}", maxMageSize));
+        }
+
     }
 }
