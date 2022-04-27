@@ -232,7 +232,7 @@ namespace Laserfiche.Repository.Api.Client
                     }
                     request.RequestUri = new Uri(nextLink, UriKind.Absolute);
 
-                    var response = await sendAndProcessResponseAsync(request, _httpClient, new bool[] { false }, default(CancellationToken));
+                    var response = await sendAndProcessResponseAsync(request, _httpClient, new bool[] { false }, default);
                     return response;
                 }
             }
@@ -395,7 +395,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="uriString">Redirect url string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             string repoIdKey = "{repoId}";
             string entryIdKey = "{entryId}";
