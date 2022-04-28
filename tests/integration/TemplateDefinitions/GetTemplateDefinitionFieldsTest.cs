@@ -58,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }
             }
 
-            await client.GetTemplateFieldDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, firstTemplateDefinition.Id, string.Format("maxpagesize={0}", maxPageSize));
+            await client.GetTemplateFieldDefinitionsForEachAsync(PagingCallback, maxPageSize, TestConfig.RepositoryId, firstTemplateDefinition.Id);
         }
     }
 }
