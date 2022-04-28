@@ -424,7 +424,7 @@ namespace Laserfiche.Repository.Api.Client
             else // Prefer's format: https://tools.ietf.org/id/draft-snell-http-prefer-16.html#prefer
             {
                 // Based on prefer's format, we can just append maxpagesize
-                return prefer + string.Format("maxpagesize={0}", maxSize);
+                return prefer + string.Format("; maxpagesize={0}", maxSize);
             }
         }
 
