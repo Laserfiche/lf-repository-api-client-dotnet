@@ -246,7 +246,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetEntryListingSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetEntryListingSendAsync, cancellationToken);
             }
         }
 
@@ -258,7 +258,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldDefinitionsSendAsync, cancellationToken);
             }
         }
 
@@ -270,7 +270,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetFieldValuesSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldValuesSendAsync, cancellationToken);
             }
         }
 
@@ -282,7 +282,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetLinkValuesFromEntrySendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkValuesFromEntrySendAsync, cancellationToken);
             }
         }
 
@@ -294,7 +294,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchContextHitsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchContextHitsSendAsync, cancellationToken);
             }
         }
 
@@ -307,7 +307,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken);
             }
         }
 
@@ -320,7 +320,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTagsAssignedToEntrySendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagsAssignedToEntrySendAsync, cancellationToken);
             }
         }
 
@@ -333,7 +333,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateDefinitionsSendAsync, cancellationToken);
             }
         }
 
@@ -346,7 +346,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
             }
         }
 
@@ -359,7 +359,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
             }
         }
 
@@ -372,7 +372,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
             }
         }
 
@@ -385,7 +385,7 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
             {
-                response = await ApiForEachAsync(response.Result.OdataNextLink, prefer, GetSearchResultsSendAsync, cancellationToken);
+                response = await ApiForEachAsync(response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchResultsSendAsync, cancellationToken);
             }
         }
 
