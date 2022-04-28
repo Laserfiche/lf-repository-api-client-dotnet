@@ -22,15 +22,46 @@ namespace Laserfiche.Repository.Api.Client.Util
         }
 
         /// <summary>
-        /// Returns the Laserfiche repository api base uri using the given domain.
+        /// Returns the Laserfiche repository api base uri using the Laserfiche account id.
         /// </summary>
-        /// <param name="domain">The Laserfiche domain.</param>
+        /// <param name="accountId">The Laserfiche account id.</param>
         /// <returns>The Laserfiche repository api base uri.</returns>
-        public static string GetRepositoryBaseUri(string domain)
+        public static string GetRepositoryBaseUri(string accountId)
         {
-            if (string.IsNullOrWhiteSpace(domain))
-                domain = "laserfiche.com";
-            return $"https://api.{domain}/repository/";
+            string host = GetRepositoryBaseUriHost(accountId);
+            return $"https://{host}/repository/";
+        }
+
+        /// <summary>
+        /// Returns the Laserfiche repository api base uri host using the Laserfiche account id.
+        /// </summary>
+        /// <param name="accountId">The Laserfiche account id.</param>
+        /// <returns>The Laserfiche repository api base uri host.</returns>
+        public static string GetRepositoryBaseUriHost(string accountId)
+        {
+            string domain = GetDomainFromAccountId(accountId);
+            return $"api.{domain}";
+        }
+
+        /// <summary>
+        /// Returns the Laserfiche domain using the Laserfiche account id.
+        /// </summary>
+        /// <param name="accountId">The Laserfiche account id.</param>
+        /// <returns>The Laserfiche domain.</returns>
+        public static string GetDomainFromAccountId(string accountId)
+        {
+            if (accountId?.Length == 10)
+            {
+                if (accountId.StartsWith("1"))
+                {
+                    return "laserfiche.ca";
+                }
+                else if (accountId.StartsWith("2"))
+                {
+                    return "eu.laserfiche.com";
+                }
+            }
+            return "laserfiche.com";
         }
     }
 }

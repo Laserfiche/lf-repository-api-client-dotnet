@@ -18,17 +18,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Create client options with automatic access token refresh.
         /// </summary>
-        /// <param name="domain">The Laserfiche domain.</param>
         /// <param name="getAccessToken">Delegate function that will be invoked when getting an access token.</param>
         /// <param name="refreshAccessToken">Delegate function that will be invoked when refreshing an access token.</param>
         /// <returns>A ClientOptions for the Laserfiche repository client.</returns>
-        public static ClientOptions CreateClientOptions(string domain,
-            Func<CancellationToken, Task<(string accessToken, string refreshToken)>> getAccessToken,
+        public static ClientOptions CreateClientOptions(Func<CancellationToken, Task<(string accessToken, string refreshToken)>> getAccessToken,
             Func<string, CancellationToken, Task<(string accessToken, string refreshToken)>> refreshAccessToken)
         {
             return new ClientOptions()
             {
-                Domain = domain,
                 BeforeSendAsync = (request, repositoryClient, cancellationToken) => BeforeSendAsync(request, repositoryClient, getAccessToken, cancellationToken),
                 AfterSendAsync = (response, repositoryClient, cancellationToken) => AfterSendAsync(response, repositoryClient, getAccessToken, refreshAccessToken, cancellationToken)
             };
@@ -43,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="getAccessToken"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task BeforeSendAsync(HttpRequestMessage request, ILaserficheRepositoryApiClient repositoryClient,
+        public static async Task<string> BeforeSendAsync(HttpRequestMessage request, ILaserficheRepositoryApiClient repositoryClient,
             Func<CancellationToken, Task<(string accessToken, string refreshToken)>> getAccessToken,
             CancellationToken cancellationToken)
         {
@@ -61,6 +58,8 @@ namespace Laserfiche.Repository.Api.Client
             {
                 await repositoryClient.CreateServerSessionAsync(repoId, cancellationToken);
             }
+
+            return repositoryClient.AccessToken;
         }
 
         /// <summary>

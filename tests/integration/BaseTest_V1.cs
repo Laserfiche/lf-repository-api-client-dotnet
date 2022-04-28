@@ -8,8 +8,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         public async Task<ILaserficheRepositoryApiClient> CreateClientAndLogin()
         {
             var oauthClient = await GetOauthClient();
-            var repositoryApiClientOptions = ClientOptionsFactory.CreateClientOptions(oauthClient.Configuration.Domain, oauthClient.GetAccessTokenAsync, oauthClient.RefreshAccessTokenAsync);
-            return LaserficheRepositoryApiClientFactory.CreateClient(repositoryApiClientOptions);
+            var repositoryApiClientOptions = ClientOptionsFactory.CreateClientOptions(oauthClient.GetAccessTokenAsync, oauthClient.RefreshAccessTokenAsync);
+            string baseUrl = $"https://api.{oauthClient.Configuration.Domain}/repository/";
+            return LaserficheRepositoryApiClientFactory.CreateClient(repositoryApiClientOptions, serviceBaseUrlDebug: baseUrl);
         }
 
         public async Task Logout(ILaserficheRepositoryApiClient client)

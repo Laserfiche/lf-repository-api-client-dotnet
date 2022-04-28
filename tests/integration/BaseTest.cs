@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             }
         }
 
-        private IClientCredentialsHandler oauthClient;
+        protected IClientCredentialsHandler oauthClient;
 
         public BaseTest()
         { 
