@@ -238,7 +238,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, int maxPageSize, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -250,7 +250,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>, bool> callback, int maxPageSize, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetFieldDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -262,7 +262,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, int maxPageSize, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetFieldValuesAsync(repoId, entryId, prefer, formatValue, culture, select, orderby, top, skip, count, cancellationToken);
@@ -274,7 +274,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, int maxPageSize, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetLinkValuesFromEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -286,7 +286,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, int maxPageSize, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -298,7 +298,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, int maxPageSize, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagDefinitionsAsync(repoId, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -311,7 +311,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, int maxPageSize, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagsAssignedToEntryAsync(repoId, entryId, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -324,7 +324,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>, bool> callback, int maxPageSize, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateDefinitionsAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -337,7 +337,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateFieldDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, int maxPageSize, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, prefer, culture, select, orderby, top, skip, count);
@@ -350,7 +350,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>, bool> callback, int maxPageSize, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, prefer, culture, select, orderby, top, skip, count, cancellationToken);
@@ -363,7 +363,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, int maxPageSize, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, prefer, select, orderby, top, skip, count, cancellationToken);
@@ -376,7 +376,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, int maxPageSize, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, prefer, culture, select, orderby, top, skip, count, cancellationToken);
