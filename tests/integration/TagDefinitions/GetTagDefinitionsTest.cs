@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
                 }
             }
 
-            await client.GetTagDefinitionsForEachAsync(PagingCallback, maxPageSize, TestConfig.RepositoryId);
+            await client.GetTagDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
         }
     }
 }

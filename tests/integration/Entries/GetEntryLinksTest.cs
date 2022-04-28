@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.GetLinkValuesFromEntryForEachAsync(PagingCallback, maxPageSize, TestConfig.RepositoryId, entryId);
+            await client.GetLinkValuesFromEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
         }
     }
 }

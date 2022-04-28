@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
                 }
             }
 
-            await client.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, maxPageSize, TestConfig.RepositoryId);
+            await client.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
         }
 
     }
