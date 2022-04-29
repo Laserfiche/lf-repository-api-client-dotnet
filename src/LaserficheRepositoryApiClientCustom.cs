@@ -215,6 +215,28 @@ namespace Laserfiche.Repository.Api.Client
         Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
+
+        Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
     }
 
     partial class LaserficheRepositoryApiClient : ILaserficheRepositoryApiClient
@@ -254,6 +276,61 @@ namespace Laserfiche.Repository.Api.Client
         public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
             return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetEntryListingSendAsync, cancellationToken);
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
