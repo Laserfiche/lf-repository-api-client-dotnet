@@ -280,57 +280,57 @@ namespace Laserfiche.Repository.Api.Client
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldDefinitionsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldValuesSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetLinkValuesFromEntrySendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchContextHitsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchResultsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagDefinitionsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagsAssignedToEntrySendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateDefinitionsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
         }
 
         public async Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
         }
 
         public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
