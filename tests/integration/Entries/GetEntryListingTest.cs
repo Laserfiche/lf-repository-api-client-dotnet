@@ -65,7 +65,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Initial request
             var response = await client.GetEntryListingAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
-            
+
+            if (response.Result.Value.Count == 0)
+            {
+                return; // There's no point testing if we don't have any such item.
+            }
+
             var nextLink = response.Result.OdataNextLink;
             Assert.IsNotNull(nextLink);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);

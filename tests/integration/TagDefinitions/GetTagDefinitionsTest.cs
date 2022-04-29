@@ -48,5 +48,29 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
 
             await client.GetTagDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
         }
+
+        [TestMethod]
+        public async Task GetTagDefinitions_SimplePaging()
+        {
+            int maxPageSize = 1;
+
+            // Initial request
+            var response = await client.GetTagDefinitionsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            Assert.IsNotNull(response);
+
+            if (response.Result.Value.Count == 0)
+            {
+                return; // There's no point testing if we don't have any such item.
+            }
+
+            var nextLink = response.Result.OdataNextLink;
+            Assert.IsNotNull(nextLink);
+            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+
+            // Paging request
+            response = await client.GetTagDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            Assert.IsNotNull(response);
+            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+        }
     }
 }
