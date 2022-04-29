@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         }
 
         [TestMethod]
-        public async Task GetAttributes_Paging()
+        public async Task GetAttributes_ForEachPaging()
         {
             int maxPageSize = 10;
 

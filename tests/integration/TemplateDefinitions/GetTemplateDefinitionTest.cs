@@ -42,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_Paging()
+        public async Task GetTemplateDefinition_ForEachPaging()
         {
             int maxPageSize = 10;
 

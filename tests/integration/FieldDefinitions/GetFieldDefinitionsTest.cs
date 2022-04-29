@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task GetFieldDefinitions_Paging()
+        public async Task GetFieldDefinitions_ForEachPaging()
         {
             int maxPageSize = 10;
 

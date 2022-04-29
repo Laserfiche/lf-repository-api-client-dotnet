@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task GetTagDefinitions_Paging()
+        public async Task GetTagDefinitions_ForEachPaging()
         {
             int maxPageSize = 10;
 

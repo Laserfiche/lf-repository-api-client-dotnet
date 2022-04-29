@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryListing_Paging()
+        public async Task GetEntryListing_ForEachPaging()
         {
             int entryId = 1;
             int maxPageSize = 10;
