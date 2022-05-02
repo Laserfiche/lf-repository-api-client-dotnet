@@ -23,24 +23,26 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             client.AccessToken = sessionKeyInfo?.Result?.AuthToken;
         }
 
-        public async Task BeforeSendAsync(HttpRequestMessage request, ILaserficheRepositoryApiClient repositoryClient,
+        public async Task<string> BeforeSendAsync(HttpRequestMessage request, ILaserficheRepositoryApiClient repositoryClient,
             CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(repositoryClient.AccessToken) && !request.RequestUri.AbsolutePath.EndsWith("/AccessTokens/Create", StringComparison.OrdinalIgnoreCase))
             {
                 await Login(repositoryClient);
             }
+            return repositoryClient.AccessToken;
         }
 
-        public Task<ILaserficheRepositoryApiClient> CreateClientAndLogin()
+        public async Task<ILaserficheRepositoryApiClient> CreateClientAndLogin()
         {
+            var oauthClient = await GetOauthClient();
             var repositoryApiClientOptions = new ClientOptions()
             {
-                Domain = TestConfig.Domain,
                 BeforeSendAsync = BeforeSendAsync
             };
-            var repositoryClient = LaserficheRepositoryApiClientFactory.CreateClient(repositoryApiClientOptions);
-            return Task.FromResult(repositoryClient);
+            string baseUrl = $"https://api.{oauthClient.Configuration.Domain}/repository/";
+            var repositoryClient = LaserficheRepositoryApiClientFactory.CreateClient(repositoryApiClientOptions, serviceBaseUrlDebug: baseUrl);
+            return repositoryClient;
         }
 
         public async Task Logout(ILaserficheRepositoryApiClient client)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Laserfiche.Repository.Api.Client.Util;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,10 +13,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         public ILaserficheRepositoryApiClient Client { get; set; }
         public ClientOptions ClientOptions { get; set; }
+        private JsonWebToken _AccessToken { get; set; }
+        private string _BaseUriHost { get; set; }
+        private bool _UseServiceBaseUrlDebug { get; set; }
 
-        public LaserficheRepositoryApiClientHandler(HttpMessageHandler httpMessageHandler, ClientOptions options) : base(httpMessageHandler)
+        public LaserficheRepositoryApiClientHandler(HttpMessageHandler httpMessageHandler, ClientOptions options, string serviceBaseUrlDebug = "") : base(httpMessageHandler)
         {
             ClientOptions = options ?? throw new ArgumentNullException(nameof(options));
+            _UseServiceBaseUrlDebug = !string.IsNullOrEmpty(serviceBaseUrlDebug);
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -26,7 +32,23 @@ namespace Laserfiche.Repository.Api.Client
         private async Task<HttpResponseMessage> SendWithRetryAsync(HttpRequestMessage request, CancellationToken cancellationToken, bool willRetry)
         {
             HttpResponseMessage response;
-            await ClientOptions.BeforeSendAsync(request, Client, cancellationToken);
+            string accessToken = await ClientOptions.BeforeSendAsync(request, Client, cancellationToken);
+
+            if (!_UseServiceBaseUrlDebug)
+            {
+                if (_AccessToken == null || accessToken != _AccessToken.EncodedToken)
+                {
+                    _AccessToken = JwtUtil.ReadJWT(accessToken);
+                    string accountId = JwtUtil.GetAccountIdFromJwt(_AccessToken);
+                    _BaseUriHost = LaserficheRepositoryApiClientUtil.GetRepositoryBaseUriHost(accountId);
+                }
+
+                var requestUri = new UriBuilder(request.RequestUri)
+                {
+                    Host = _BaseUriHost
+                };
+                request.RequestUri = requestUri.Uri;
+            }
 
             try
             {

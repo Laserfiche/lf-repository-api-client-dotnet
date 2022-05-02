@@ -56,7 +56,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             // Create search
             var request = new AdvancedSearchRequest()
             {
-                SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
+                SearchCommand = "({LF:Basic ~= \"search text\", option=\"NLT\"})"
             };
             var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
             token = searchResponse.Result?.Token;
@@ -78,7 +78,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 }
             }
 
-            await client.GetSearchResultsForEachAsync(PagingCallback, TestConfig.RepositoryId, token, prefer: string.Format("maxpagesize={0}", maxPageSize));
+            await client.GetSearchResultsForEachAsync(PagingCallback, TestConfig.RepositoryId, token, maxPageSize: maxPageSize);
         }
     }
 }
