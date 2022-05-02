@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int entryId = 1;
             int maxPageSize = 10;
             
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataEntry> data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren> data)
             {
                 if (data.Result.OdataNextLink != null)
                 {

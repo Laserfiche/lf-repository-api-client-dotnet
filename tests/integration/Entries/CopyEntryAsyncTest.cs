@@ -43,7 +43,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
             var response = await client.CreateOrCopyEntryAsync(TestConfig.RepositoryId, parentEntryId, request, autoRename: true);

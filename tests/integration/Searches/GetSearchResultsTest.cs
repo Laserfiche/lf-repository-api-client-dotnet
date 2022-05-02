@@ -64,7 +64,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 
             Thread.Sleep(10000);
 
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataEntry> data)
+            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren> data)
             {
                 if (data.Result.OdataNextLink != null)
                 {
