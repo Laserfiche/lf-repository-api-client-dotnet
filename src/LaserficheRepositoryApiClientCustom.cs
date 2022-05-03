@@ -17,6 +17,11 @@ namespace Laserfiche.Repository.Api.Client
         string AccessToken { get; set; }
         string RefreshToken { get; set; }
 
+        /// <summary>
+        /// The headers which should be sent with each request.
+        /// </summary>
+        System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders { get; }
+
         Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
@@ -213,6 +218,11 @@ namespace Laserfiche.Repository.Api.Client
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
+
+        public System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders
+        {
+            get { return _httpClient.DefaultRequestHeaders; }
+        }
 
         public async Task<SwaggerResponse<T>> ApiForEachAsync<T>(string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
         {
