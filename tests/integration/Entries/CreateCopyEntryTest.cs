@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
 
@@ -62,7 +62,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
             var response = await client.CreateOrCopyEntryAsync(TestConfig.RepositoryId, parentEntryId, request, autoRename: true);
@@ -76,7 +76,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             newEntryName = "APIServerClientIntegrationTest CreateShortcut";
             request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Shortcut,
+                EntryType = PostEntryChildrenEntryType.Shortcut,
                 Name = newEntryName,
                 TargetId = targetEntry.Id
             };
@@ -100,7 +100,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
             var response = await client.CreateOrCopyEntryAsync(TestConfig.RepositoryId, parentEntryId, request, autoRename: true);
@@ -114,7 +114,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             newEntryName = "APIServerClientIntegrationTest CreateShortcut";
             request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Shortcut,
+                EntryType = PostEntryChildrenEntryType.Shortcut,
                 Name = newEntryName,
                 TargetId = targetEntry.Id
             };
@@ -154,7 +154,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
             var response = await client.CreateOrCopyEntryAsync(TestConfig.RepositoryId, parentEntryId, request, autoRename: true);
