@@ -213,7 +213,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of entries with odata.nextLink.
@@ -222,7 +222,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns></returns>
-        Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of field definitions. 
@@ -267,7 +267,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns></returns>
-        Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of tag definitions.
@@ -358,7 +358,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetEntryListingSendAsync, cancellationToken);
         }
@@ -383,7 +383,7 @@ namespace Laserfiche.Repository.Api.Client
             return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchContextHitsSendAsync, cancellationToken);
         }
 
-        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchResultsSendAsync, cancellationToken);
         }
@@ -418,7 +418,7 @@ namespace Laserfiche.Repository.Api.Client
             return await ApiForEachAsync(nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
         }
 
-        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
@@ -557,7 +557,7 @@ namespace Laserfiche.Repository.Api.Client
         }
 
 
-        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
 
         {
             // Initial request
@@ -588,8 +588,7 @@ namespace Laserfiche.Repository.Api.Client
 
             var paramDict = ValidateAndGetParamtersFromUri(templateUri, uri);
             string repoId = paramDict[repoIdKey];
-            int entryId = 0;
-            if (!Int32.TryParse(paramDict[entryIdKey], out entryId))
+            if (!int.TryParse(paramDict[entryIdKey], out int entryId))
             {
                 throw new ArgumentException($"Invalid value {paramDict[entryIdKey]} for entryId.");
             }
