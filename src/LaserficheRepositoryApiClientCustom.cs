@@ -329,7 +329,7 @@ namespace Laserfiche.Repository.Api.Client
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
 
-        public System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders
+        public HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
         }
