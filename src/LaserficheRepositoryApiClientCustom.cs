@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
 using System.Globalization;
+using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -20,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// The headers which should be sent with each request.
         /// </summary>
-        System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders { get; }
+        HttpRequestHeaders DefaultRequestHeaders { get; }
 
         Task<SwaggerResponse<Entry>> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
