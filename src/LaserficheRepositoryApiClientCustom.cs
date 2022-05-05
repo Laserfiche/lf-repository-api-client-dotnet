@@ -214,28 +214,112 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataEntry>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of entries with odata.nextLink.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of field definitions. 
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of field values.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of WEntryLinkInfo.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of search context hits.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of search results.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfODataEntry>> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of tag definitions.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of WTagInfo.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of template definitions.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of field TemplateFieldInfo.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of matching TemplateFieldInfo by template name.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get a collection of trustee attributes.
+        /// </summary>
+        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns></returns>
         Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize, CancellationToken cancellationToken = default);
     }
 
