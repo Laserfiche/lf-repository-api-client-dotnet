@@ -57,7 +57,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task GetSearchContextHits_Paging()
+        public async Task GetSearchContextHits_ForEachPaging()
         {
             int maxPageSize = 10;
 

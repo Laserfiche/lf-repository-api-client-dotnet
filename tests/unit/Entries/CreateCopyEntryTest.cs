@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             string repoId = "repoId";
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = "entry1"
             };
             var entry = new Entry()
@@ -114,7 +114,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var statusCode = HttpStatusCode.Unauthorized;
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = "entry1"
             };
 
@@ -174,7 +174,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             string repoId = "repoId";
             var request = new PostEntryChildrenRequest()
             {
-                EntryType = EntryType.Folder,
+                EntryType = PostEntryChildrenEntryType.Folder,
                 Name = "entry1"
             };
             var entry = new Entry()

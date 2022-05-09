@@ -21,11 +21,11 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             int entryId = 1;
-            ODataValueOfIListOfODataEntry entries = new ODataValueOfIListOfODataEntry()
+            ODataValueContextOfIListOfODataGetEntryChildren entries = new ODataValueContextOfIListOfODataGetEntryChildren()
             {
-                Value = new List<ODataEntry>()
+                Value = new List<ODataGetEntryChildren>()
                 {
-                    new ODataEntry()
+                    new ODataGetEntryChildren()
                     {
                         Id = 100,
                         Name = "entry1",
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                         VolumeName = "default",
                         RowNumber = 1
                     },
-                    new ODataEntry()
+                    new ODataGetEntryChildren()
                     {
                         Id = 101,
                         Name = "entry2",
@@ -195,11 +195,11 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             bool countQueryParameter = true;
             bool formatFields = true;
             string culture = "fr";
-            ODataValueOfIListOfODataEntry entries = new ODataValueOfIListOfODataEntry()
+            ODataValueOfIListOfODataGetEntryChildren entries = new ODataValueOfIListOfODataGetEntryChildren()
             {
-                Value = new List<ODataEntry>()
+                Value = new List<ODataGetEntryChildren>()
                 {
-                    new ODataEntry()
+                    new ODataGetEntryChildren()
                     {
                         Id = 100,
                         Name = "entry1",
