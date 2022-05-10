@@ -79,10 +79,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()
+            var swaggerResponse = await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()
             {
                 new PutLinksRequest()
                 {
@@ -181,10 +181,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()));
 
             // ASSERT
             // also check the 'http' call was like we expected it

@@ -79,10 +79,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetLinkValuesFromEntryAsync(repoId, entryId);
+            var swaggerResponse = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId);
 
             var result = swaggerResponse.Result.Value;
 
@@ -152,10 +152,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetLinkValuesFromEntryAsync(repoId, entryId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId));
 
 
             // ASSERT
@@ -241,10 +241,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.GetLinkValuesFromEntryAsync(repoId, entryId, prefer: "Prefer", select: "select", orderby: "orderBy", top: 1, skip: 1, count: true);
+            var result = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId, prefer: "Prefer", select: "select", orderby: "orderBy", top: 1, skip: 1, count: true);
 
             // ASSERT
             // also check the 'http' call was like we expected it

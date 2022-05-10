@@ -56,10 +56,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchStatusAsync(repoId, searchToken);
+            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
             var result = response.Result;
 
             // ASSERT
@@ -124,10 +124,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchStatusAsync(repoId, searchToken);
+            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
             var result = response.Result;
 
             // ASSERT
@@ -191,10 +191,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchStatusAsync(repoId, searchToken);
+            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
             var result = response.Result;
 
             // ASSERT
@@ -250,10 +250,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetSearchStatusAsync(repoId, searchToken));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

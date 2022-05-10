@@ -45,10 +45,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.CancelOperationAsync(repoId, operationToken);
+            var swaggerResponse = await client.TasksClient.CancelOperationAsync(repoId, operationToken);
             Assert.Equal(204, swaggerResponse.StatusCode);
 
             // also check the 'http' call was like we expected it
@@ -97,10 +97,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.CancelOperationAsync(repoId, operationToken));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.CancelOperationAsync(repoId, operationToken));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");

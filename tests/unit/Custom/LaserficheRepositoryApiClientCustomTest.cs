@@ -16,144 +16,15 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
 {
     public class LaserficheRepositoryApiClientCustomTest
     {
-        #region ValidateAndGetParamtersFromUri
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_TemplateUriNull()
-        {
-            Uri templateUri = null;
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/repo123/Entries/456");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() =>client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_RedirectUriNull()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = null;
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_HostNotMatch()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host1.laserfiche.com/repository/v1/Repositories/repo123/Entries/456");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SegmentMissed()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/Repositories/repo123/Entries/456");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SegmentMatchButShorter()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/repo123");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SegmentMatchButLonger()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/repo123/Entries/{entryId}/children");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SegmentNotMatch()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v2/Repositories/repo123/Entries/456");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SegmentWithODatatParameterUrl()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories('repo123')/Entries(456)");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            var result = client.ValidateAndGetParamtersFromUri(templateUri, redirectUri);
-
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count);
-            Assert.Equal("repo123", result["{repoId}"]);
-            Assert.Equal("456", result["{entryId}"]);
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SuccessNoQuery()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/repo123/Entries/456");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            var result = client.ValidateAndGetParamtersFromUri(templateUri, redirectUri);
-
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count);
-            Assert.Equal("repo123", result["{repoId}"]);
-            Assert.Equal("456", result["{entryId}"]);
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_RedirectUriHasExtraQuery()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}?$select={select}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v2/Repositories/repo123/Entries/456?$select=1&autorename=true");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            Assert.Throws<ArgumentException>(() => client.ValidateAndGetParamtersFromUri(templateUri, redirectUri));
-        }
-
-        [Fact]
-        public void ValidateAndGetParamtersFromUri_SuccessWithQuery()
-        {
-            Uri templateUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/{repoId}/Entries/{entryId}?$select={select}&autorename={autorename}");
-            Uri redirectUri = new Uri("http://host.laserfiche.com/repository/v1/Repositories/repo123/Entries/456?$select=1");
-
-            var client = new LaserficheRepositoryApiClient(null);
-            var result = client.ValidateAndGetParamtersFromUri(templateUri, redirectUri);
-
-            Assert.NotNull(result);
-            Assert.Equal(4, result.Count);
-            Assert.Equal("repo123", result["{repoId}"]);
-            Assert.Equal("456", result["{entryId}"]);
-            Assert.Equal("1", result["{select}"]);
-            Assert.Null(result["{autorename}"]);
-        }
-        #endregion
-
         #region GetEntryAsync with url
         [Fact]
         public void GetEntryAsync_InvalidEntryId()
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/abc?$select=1";
 
-            var client = new LaserficheRepositoryApiClient(null);
+            var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.GetEntryAsync(uriString));
+            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
@@ -161,9 +32,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/456?$select=1";
 
-            var client = new LaserficheRepositoryApiClient(null);
+            var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.GetEntryAsync(uriString));
+            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
@@ -213,10 +84,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetEntryAsync(uriString);
+            var swaggerResponse = await client.EntriesClient.GetEntryAsync(uriString);
             var result = swaggerResponse.Result;
 
             // ASSERT
@@ -296,11 +167,11 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
             client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(acceptLanguageHeaderValue));
 
             // ACT
-            var swaggerResponse = await client.GetEntryAsync(repoId, entry.Id);
+            var swaggerResponse = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
             var result = swaggerResponse.Result;
 
             // ASSERT

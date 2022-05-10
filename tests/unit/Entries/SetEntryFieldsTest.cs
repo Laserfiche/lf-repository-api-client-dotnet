@@ -97,10 +97,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request);
+            var response = await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request);
             var result = response.Result;
 
             // ASSERT
@@ -187,10 +187,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

@@ -45,10 +45,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey);
+            var response = await client.AttributesClient.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey);
             var result = response.Result;
 
             // ASSERT
@@ -101,10 +101,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AttributesClient.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -155,10 +155,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey, everyone: true);
+            var response = await client.AttributesClient.GetTrusteeAttributeValueByKeyAsync(repoId, attributeKey, everyone: true);
             var result = response.Result;
 
             // ASSERT

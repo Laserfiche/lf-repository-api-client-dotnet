@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Util
         public void ExtractRepositoryIdFromUri_Success(string uriString)
         {
             var uri = new Uri(uriString);
-            var repositoryId = LaserficheRepositoryApiClientUtil.ExtractRepositoryIdFromUri(uri);
+            var repositoryId = RepositoryApiClientUtil.ExtractRepositoryIdFromUri(uri);
             Assert.Equal("r-123abc456", repositoryId);
         }
 
@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Util
         public void ExtractRepositoryIdFromUri_Fail()
         {
             var uri = new Uri("https://api.laserfiche.com/repository/v1/Repositories/");
-            var repositoryId = LaserficheRepositoryApiClientUtil.ExtractRepositoryIdFromUri(uri);
+            var repositoryId = RepositoryApiClientUtil.ExtractRepositoryIdFromUri(uri);
             Assert.Equal(string.Empty, repositoryId);
         }
 
@@ -29,7 +29,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Util
         public void GetRepositoryBaseUri_Success()
         {
             string domain = "laserfiche.com";
-            var uri = LaserficheRepositoryApiClientUtil.GetRepositoryBaseUri(domain);
+            var uri = RepositoryApiClientUtil.GetRepositoryBaseUri(domain);
             Assert.Equal($"https://api.{domain}/repository/", uri);
         }
 
@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Util
         [InlineData("   ")]
         public void GetRepositoryBaseUri_DefaultUri(string domain)
         {
-            var uri = LaserficheRepositoryApiClientUtil.GetRepositoryBaseUri(domain);
+            var uri = RepositoryApiClientUtil.GetRepositoryBaseUri(domain);
             Assert.Equal($"https://api.laserfiche.com/repository/", uri);
         }
     }

@@ -52,10 +52,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.CreateSearchOperationAsync(repoId, searchRequest);
+            var response = await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest);
             var result = response.Result;
 
             // ASSERT
@@ -116,10 +116,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.CreateSearchOperationAsync(repoId, searchRequest));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

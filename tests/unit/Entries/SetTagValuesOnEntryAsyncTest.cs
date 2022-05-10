@@ -79,10 +79,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.AssignTagsAsync(repoId, entryId, new PutTagRequest()
+            var swaggerResponse = await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
             {
                 Tags = new List<string>() { tagInfo.Name, tagInfo2.Name }
             });
@@ -187,10 +187,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.AssignTagsAsync(repoId, entryId, new PutTagRequest()
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
             {
                 Tags = new List<string>() { tagInfo.Name, tagInfo2.Name }
             }));

@@ -84,10 +84,10 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetFieldDefinitionsAsync(repoId);
+            var swaggerResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId);
             var result = swaggerResponse.Result.Value;
             Assert.Equal(2, result.Count);
             for (int i = 0; i < 2; i++)
@@ -192,10 +192,10 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            _ = await client.GetFieldDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderby", top:1, skip:2, count:true);
+            _ = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderby", top:1, skip:2, count:true);
 
             // ASSERT
             // also check the 'http' call was like we expected it
@@ -242,10 +242,10 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetFieldDefinitionsAsync(repoId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId));
 
             // ASSERT
             // also check the 'http' call was like we expected it

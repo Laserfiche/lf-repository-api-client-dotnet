@@ -47,10 +47,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.InvalidateServerSessionAsync(repoId);
+            var swaggerResponse = await client.ServerSessionClient.InvalidateServerSessionAsync(repoId);
             Assert.True(swaggerResponse.Result.Value);
 
             // also check the 'http' call was like we expected it
@@ -97,10 +97,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.InvalidateServerSessionAsync(repoId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.InvalidateServerSessionAsync(repoId));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/ServerSession/Invalidate");
@@ -151,10 +151,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.RefreshServerSessionAsync(repoId);
+            var swaggerResponse = await client.ServerSessionClient.RefreshServerSessionAsync(repoId);
             Assert.Equal(ret.Value, swaggerResponse.Result.Value);
 
             // also check the 'http' call was like we expected it
@@ -201,10 +201,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.RefreshServerSessionAsync(repoId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.RefreshServerSessionAsync(repoId));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/ServerSession/Refresh");

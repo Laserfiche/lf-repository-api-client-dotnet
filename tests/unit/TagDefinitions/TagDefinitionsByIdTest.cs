@@ -60,10 +60,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetTagDefinitionByIdAsync(repoId, tagInfo.Id);
+            var swaggerResponse = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(repoId, tagInfo.Id);
             var result = swaggerResponse.Result;
 
             // ASSERT
@@ -124,10 +124,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetTagDefinitionByIdAsync(repoId, tagDefinition));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(repoId, tagDefinition));
 
             // ASSERT
             // also check the 'http' call was like we expected it

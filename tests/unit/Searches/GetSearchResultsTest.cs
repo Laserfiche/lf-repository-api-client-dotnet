@@ -83,10 +83,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchResultsAsync(repoId, searchToken);
+            var response = await client.SearchesClient.GetSearchResultsAsync(repoId, searchToken);
             var result = response.Result;
 
             // ASSERT
@@ -157,10 +157,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetSearchResultsAsync(repoId, searchToken));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.GetSearchResultsAsync(repoId, searchToken));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -242,10 +242,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchResultsAsync(repoId, searchToken, groupByEntryType: groupByEntryType,
+            var response = await client.SearchesClient.GetSearchResultsAsync(repoId, searchToken, groupByEntryType: groupByEntryType,
                 refresh: refresh, fields: new List<string>() { "field1", "field2" }, formatFields: formatFields, prefer: preferHeaderValue, culture: culture,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter, skip: skipQueryParameter, count: countQueryParameter);
             var result = response.Result;

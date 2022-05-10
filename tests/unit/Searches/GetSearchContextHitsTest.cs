@@ -88,10 +88,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchContextHitsAsync(repoId, searchToken, rowNumber);
+            var response = await client.SearchesClient.GetSearchContextHitsAsync(repoId, searchToken, rowNumber);
             var result = response.Result;
 
             // ASSERT
@@ -164,10 +164,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetSearchContextHitsAsync(repoId, searchToken, rowNumber));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.GetSearchContextHitsAsync(repoId, searchToken, rowNumber));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -266,10 +266,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetSearchContextHitsAsync(repoId, searchToken, rowNumber,
+            var response = await client.SearchesClient.GetSearchContextHitsAsync(repoId, searchToken, rowNumber,
                 prefer: preferHeaderValue, select: selectQueryParameter, orderby: orderbyQueryParameter,
                 top: topQueryParameter, skip: skipQueryParameter, count: countQueryParameter);
             var result = response.Result;
