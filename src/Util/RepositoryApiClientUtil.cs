@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Laserfiche.Repository.Api.Client.Util
 {
-    public static class LaserficheRepositoryApiClientUtil
+    public static class RepositoryApiClientUtil
     {
         /// <summary>
         /// Returns the repository id from a Laserfiche repository api uri.

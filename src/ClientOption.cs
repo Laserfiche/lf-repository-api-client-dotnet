@@ -11,11 +11,11 @@ namespace Laserfiche.Repository.Api.Client
     public class ClientOptions : IClientOptions
     {
         /// <inheritdoc/>
-        public Func<HttpRequestMessage, ILaserficheRepositoryApiClient, CancellationToken, Task<string>> BeforeSendAsync { get; set; }
+        public Func<HttpRequestMessage, IRepositoryApiClient, CancellationToken, Task<string>> BeforeSendAsync { get; set; }
             = (request, repositoryClient, cancellationToken) => Task.FromResult((string)null);
 
         /// <inheritdoc/>
-        public Func<HttpResponseMessage, ILaserficheRepositoryApiClient, CancellationToken, Task<bool>> AfterSendAsync { get; set; }
+        public Func<HttpResponseMessage, IRepositoryApiClient, CancellationToken, Task<bool>> AfterSendAsync { get; set; }
             = (response, repositoryClient, cancellationToken) => Task.FromResult(false);
     }
 }

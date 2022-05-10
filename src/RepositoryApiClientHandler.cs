@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
-    public class LaserficheRepositoryApiClientHandler : DelegatingHandler
+    public class RepositoryApiClientHandler : DelegatingHandler
     {
-        public ILaserficheRepositoryApiClient Client { get; set; }
-        public ClientOptions ClientOptions { get; set; }
+        public IRepositoryApiClient Client { get; set; }
+        public IClientOptions ClientOptions { get; set; }
         private JsonWebToken _AccessToken { get; set; }
         private string _BaseUriHost { get; set; }
         private bool _UseServiceBaseUrlDebug { get; set; }
 
-        public LaserficheRepositoryApiClientHandler(HttpMessageHandler httpMessageHandler, ClientOptions options, string serviceBaseUrlDebug = "") : base(httpMessageHandler)
+        public RepositoryApiClientHandler(HttpMessageHandler httpMessageHandler, IClientOptions options, string serviceBaseUrlDebug = "") : base(httpMessageHandler)
         {
             ClientOptions = options ?? throw new ArgumentNullException(nameof(options));
             _UseServiceBaseUrlDebug = !string.IsNullOrEmpty(serviceBaseUrlDebug);
@@ -40,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     _AccessToken = JwtUtil.ReadJWT(accessToken);
                     string accountId = JwtUtil.GetAccountIdFromJwt(_AccessToken);
-                    _BaseUriHost = LaserficheRepositoryApiClientUtil.GetRepositoryBaseUriHost(accountId);
+                    _BaseUriHost = RepositoryApiClientUtil.GetRepositoryBaseUriHost(accountId);
                 }
 
                 var requestUri = new UriBuilder(request.RequestUri)

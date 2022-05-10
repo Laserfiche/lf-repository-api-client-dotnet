@@ -1,6 +1,4 @@
-﻿using Laserfiche.Repository.Api.Client.Util;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -13,8 +11,6 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public static class ClientOptionsFactory
     {
-        private static readonly ISet<string> ServerSessionCreated = new HashSet<string>();
-
         /// <summary>
         /// Create client options with automatic access token refresh.
         /// </summary>
@@ -40,7 +36,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="getAccessToken"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<string> BeforeSendAsync(HttpRequestMessage request, ILaserficheRepositoryApiClient repositoryClient,
+        public static async Task<string> BeforeSendAsync(HttpRequestMessage request, IRepositoryApiClient repositoryClient,
             Func<CancellationToken, Task<(string accessToken, string refreshToken)>> getAccessToken,
             CancellationToken cancellationToken)
         {
@@ -50,13 +46,6 @@ namespace Laserfiche.Repository.Api.Client
                 (string accessToken, string refreshToken) = await getAccessToken(cancellationToken);
                 repositoryClient.AccessToken = accessToken;
                 repositoryClient.RefreshToken = refreshToken;
-            }
-
-            string repoId = LaserficheRepositoryApiClientUtil.ExtractRepositoryIdFromUri(request.RequestUri);
-            if (!string.IsNullOrEmpty(repoId) && !ServerSessionCreated.Contains(repoId) && !string.IsNullOrEmpty(repositoryClient.AccessToken)
-                && !request.RequestUri.AbsolutePath.EndsWith("/ServerSession/Create", StringComparison.OrdinalIgnoreCase))
-            {
-                await repositoryClient.CreateServerSessionAsync(repoId, cancellationToken);
             }
 
             return repositoryClient.AccessToken;
@@ -72,26 +61,13 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="refreshAccessToken"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<bool> AfterSendAsync(HttpResponseMessage response, ILaserficheRepositoryApiClient repositoryClient,
+        public static async Task<bool> AfterSendAsync(HttpResponseMessage response, IRepositoryApiClient repositoryClient,
             Func<CancellationToken, Task<(string accessToken, string refreshToken)>> getAccessToken,
             Func<string, CancellationToken, Task<(string accessToken, string refreshToken)>> refreshAccessToken,
             CancellationToken cancellationToken)
         {
-            string repoId = LaserficheRepositoryApiClientUtil.ExtractRepositoryIdFromUri(response.RequestMessage.RequestUri);
-            if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(repoId))
-            {
-                if (!ServerSessionCreated.Contains(repoId) && response.RequestMessage.RequestUri.AbsolutePath.EndsWith("/ServerSession/Create", StringComparison.OrdinalIgnoreCase))
-                {
-                    ServerSessionCreated.Add(repoId);
-                }
-                else if (response.RequestMessage.RequestUri.AbsolutePath.EndsWith("/ServerSession/Invalidate", StringComparison.OrdinalIgnoreCase))
-                {
-                    ServerSessionCreated.Remove(repoId);
-                }
-            }
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                ServerSessionCreated.Remove(repoId);
                 if (string.IsNullOrEmpty(repositoryClient.AccessToken))
                 {
                     repositoryClient.RefreshToken = null;
