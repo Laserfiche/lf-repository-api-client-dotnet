@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
 {
     [TestClass]
-    public class GetFieldDefinitionByIdTest : BaseTest_V1
+    public class GetFieldDefinitionByIdTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -24,11 +24,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         [TestMethod]
         public async Task GetFieldDefinitionById_ReturnField()
         {
-            var allFieldDefinitionsResponse = await client.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
+            var allFieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
             var firstFieldDefinition = allFieldDefinitionsResponse.Result?.Value?.FirstOrDefault();
             Assert.IsNotNull(firstFieldDefinition, "No field definitions exist in the repository.");
 
-            var response = await client.GetFieldDefinitionByIdAsync(TestConfig.RepositoryId, firstFieldDefinition.Id);
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(TestConfig.RepositoryId, firstFieldDefinition.Id);
             var fieldDefinition = response.Result;
 
             Assert.IsNotNull(fieldDefinition);

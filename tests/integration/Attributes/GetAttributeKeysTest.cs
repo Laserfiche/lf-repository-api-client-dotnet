@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
 {
     [TestClass]
-    public class GetAttributesTest : BaseTest_V1
+    public class GetAttributesTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         [TestMethod]
         public async Task GetAttributes_ReturnAttributes()
         {
-            var response = await client.GetTrusteeAttributeKeyValuePairsAsync(TestConfig.RepositoryId);
+            var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(TestConfig.RepositoryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
                 }
             }
 
-            await client.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
+            await client.AttributesClient.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.GetTrusteeAttributeKeyValuePairsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -68,7 +68,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetTrusteeAttributeKeyValuePairsNextLinkAsync(nextLink, maxPageSize);
+            response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }

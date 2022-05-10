@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
 {
     [TestClass]
-    public class GetFieldDefinitionsTest : BaseTest_V1
+    public class GetFieldDefinitionsTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         [TestMethod]
         public async Task GetFieldDefinitions_ReturnAllFields()
         {
-            var response = await client.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                 }
             }
 
-            await client.GetFieldDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
+            await client.FieldDefinitionsClient.GetFieldDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.GetFieldDefinitionsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -68,7 +68,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetFieldDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            response = await client.FieldDefinitionsClient.GetFieldDefinitionsNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }

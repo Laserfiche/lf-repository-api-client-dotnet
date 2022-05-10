@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 {
     [TestClass]
-    public class CreateSearchOperationTest : BaseTest_V1
+    public class CreateSearchOperationTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]
@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
+                await client.SearchesClient.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
                 Thread.Sleep(5000);
             }
             await Logout(client);
@@ -36,7 +36,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var response = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var response = await client.SearchesClient.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
             token = response.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
             var redirectUrl = response.Headers["Location"].ToList()[0];

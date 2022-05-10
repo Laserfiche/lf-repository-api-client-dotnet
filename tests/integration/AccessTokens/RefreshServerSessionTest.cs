@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
 {
     [TestClass]
-    public class RefreshServerSessionTest : BaseTest_V1
+    public class RefreshServerSessionTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
         public async Task RefreshServerSession_RefreshSuccessful()
         {
             var currentTime = DateTime.UtcNow;
-            var refreshResponse = await client.RefreshServerSessionAsync(TestConfig.RepositoryId);
+            var refreshResponse = await client.ServerSessionClient.RefreshServerSessionAsync(TestConfig.RepositoryId);
             var expireTime = refreshResponse.Result?.Value;
             Assert.IsNotNull(expireTime);
             Assert.IsTrue(currentTime < expireTime.Value.UtcDateTime);

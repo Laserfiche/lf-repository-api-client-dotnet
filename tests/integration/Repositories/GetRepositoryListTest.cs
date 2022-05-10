@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
 {
     [TestClass]
-    public class GetRepositoryListTest : BaseTest_V1
+    public class GetRepositoryListTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         [TestMethod]
         public async Task GetRepositoryList_ReturnSuccessful()
         {
-            var response = await client.GetRepositoryListAsync();
+            var response = await client.RepositoriesClient.GetRepositoryListAsync();
             Assert.IsTrue(response.Result.Count > 0, "No repositories found.");
 
             bool foundRepo = false;

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
 {
     [TestClass]
-    public class SimpleSearchTest : BaseTest_V1
+    public class SimpleSearchTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
         public async Task SimpleSearch_ReturnSearchResults()
         {
             var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            var response = await client.CreateSimpleSearchOperationAsync(TestConfig.RepositoryId, request: request);
+            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(TestConfig.RepositoryId, request: request);
             Assert.IsNotNull(response.Result?.Value);
         }
     }

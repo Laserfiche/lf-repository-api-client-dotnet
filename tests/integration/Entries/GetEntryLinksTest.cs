@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEntryLinksTest : BaseTest_V1
+    public class GetEntryLinksTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntryLinks_ReturnLinks()
         {
             int entryId = 1;
-            var response = await client.GetLinkValuesFromEntryAsync(TestConfig.RepositoryId, entryId);
+            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(TestConfig.RepositoryId, entryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.GetLinkValuesFromEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
+            await client.EntriesClient.GetLinkValuesFromEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.GetLinkValuesFromEntryAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -71,7 +71,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetLinkValuesFromEntryNextLinkAsync(nextLink, maxPageSize);
+            response = await client.EntriesClient.GetLinkValuesFromEntryNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }

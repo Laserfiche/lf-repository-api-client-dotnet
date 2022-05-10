@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class DeleteEntryTest : BaseTest_V1
+    public class DeleteEntryTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest DeleteFolder");
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var response = await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
+            var response = await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
             var token = response.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
             var redirectUrl = response.Headers["Location"].ToList()[0];

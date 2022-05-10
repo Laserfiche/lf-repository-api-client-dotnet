@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
 {
     [TestClass]
-    public class GetOperationStatusTest : BaseTest_V1
+    public class GetOperationStatusTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -27,13 +27,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
             var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest GetOperationStatus");
 
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var response = await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
+            var response = await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
             var token = response.Result?.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
             Thread.Sleep(5000);
 
-            var operationProgressResponse = await client.GetOperationStatusAndProgressAsync(TestConfig.RepositoryId, token);
+            var operationProgressResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(TestConfig.RepositoryId, token);
             var operationProgress = operationProgressResponse.Result;
             Assert.IsNotNull(operationProgress);
             Assert.AreEqual(OperationStatus.Completed, operationProgress.Status);

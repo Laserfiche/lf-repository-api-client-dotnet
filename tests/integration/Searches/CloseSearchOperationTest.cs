@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 {
     [TestClass]
-    public class CloseSearchOperationTest : BaseTest_V1
+    public class CloseSearchOperationTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]
@@ -32,12 +32,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
             token = searchResponse.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
             // Close search
-            var response = await client.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
+            var response = await client.SearchesClient.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
             Assert.AreEqual(true, response.Result?.Value);
         }
     }

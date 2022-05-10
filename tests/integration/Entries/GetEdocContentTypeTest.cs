@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEDocContentTypeTest : BaseTest_V1
+    public class GetEDocContentTypeTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         int createdEntryId;
         readonly string contentType = "application/pdf";
 
@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, createdEntryId, body);
                 Thread.Sleep(10000);
             }
             await Logout(client);
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", contentType);
-                var response = await client.ImportDocumentAsync(TestConfig.RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument, request);
+                var response = await client.EntriesClient.ImportDocumentAsync(TestConfig.RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
                 var operations = response.Result?.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);
@@ -58,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             createdEntryId = await CreateDocument();
 
-            var response = await client.GetDocumentContentTypeAsync(TestConfig.RepositoryId, createdEntryId);
+            var response = await client.EntriesClient.GetDocumentContentTypeAsync(TestConfig.RepositoryId, createdEntryId);
 
             Assert.AreEqual(contentType, response.Headers["Content-Type"].FirstOrDefault());
             Assert.IsTrue(response.Headers.ContainsKey("Content-Length"));

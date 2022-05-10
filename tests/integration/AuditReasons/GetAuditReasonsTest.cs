@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
 {
     [TestClass]
-    public class GetAuditReasonsTest : BaseTest_V1
+    public class GetAuditReasonsTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         [TestMethod]
         public async Task GetAuditReasons_ReturnAuditReasons()
         {
-            var auditReasonsResponse = await client.GetAuditReasonsAsync(TestConfig.RepositoryId);
+            var auditReasonsResponse = await client.AuditReasonsClient.GetAuditReasonsAsync(TestConfig.RepositoryId);
             var auditReasons = auditReasonsResponse.Result;
 
             Assert.IsNotNull(auditReasons);

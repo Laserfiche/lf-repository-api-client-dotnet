@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
 {
     [TestClass]
-    public class CancelOpeartionTest : BaseTest_V1
+    public class CancelOpeartionTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -26,14 +26,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         {
             var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest CancelOperation");
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var response = await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
+            var response = await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
             var token = response.Result?.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
             try
             {
                 Thread.Sleep(5000);
-                await client.CancelOperationAsync(TestConfig.RepositoryId, token);
+                await client.TasksClient.CancelOperationAsync(TestConfig.RepositoryId, token);
                 Assert.Fail("Long operation should have ended before cancel.");
             }
             catch (ApiException<ProblemDetails> e)

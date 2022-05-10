@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEntryListingTest : BaseTest_V1
+    public class GetEntryListingTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
         public async Task Initialize()
@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntryListing_ReturnEntries()
         {
             int entryId = 1;
-            var response = await client.GetEntryListingAsync(TestConfig.RepositoryId, entryId);
+            var response = await client.EntriesClient.GetEntryListingAsync(TestConfig.RepositoryId, entryId);
             var entries = response.Result?.Value;
             Assert.IsNotNull(entries);
             foreach (var entry in entries)
@@ -53,7 +53,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.GetEntryListingForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
+            await client.EntriesClient.GetEntryListingForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
             
             // Initial request
-            var response = await client.GetEntryListingAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.EntriesClient.GetEntryListingAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -76,7 +76,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetEntryListingNextLinkAsync(nextLink, maxPageSize);
+            response = await client.EntriesClient.GetEntryListingNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }
