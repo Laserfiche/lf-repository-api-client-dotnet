@@ -1,14 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Net.Http;
-using System.Globalization;
-using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("Laserfiche.Repository.Api.Client.Test")]
 namespace Laserfiche.Repository.Api.Client
@@ -24,8 +16,6 @@ namespace Laserfiche.Repository.Api.Client
             return JsonConvert.SerializeObject(this);
         }
     }
-
-    // TODO clean up this file
 
     #region inheritance
     [JsonConverter(typeof(JsonInheritanceConverter), "entryType")]

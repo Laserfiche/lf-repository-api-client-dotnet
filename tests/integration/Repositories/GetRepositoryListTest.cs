@@ -9,15 +9,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
@@ -33,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
                 Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
 
-                if (repoInfo.RepoId == TestConfig.RepositoryId)
+                if (repoInfo.RepoId == RepositoryId)
                     foundRepo = true;
             }
             Assert.IsTrue(foundRepo);

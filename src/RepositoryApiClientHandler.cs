@@ -1,67 +1,55 @@
-﻿using Laserfiche.Repository.Api.Client.Util;
-using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Laserfiche.Api.Client.HttpHandlers;
+using Laserfiche.Api.Client.Utils;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
-    public class RepositoryApiClientHandler : DelegatingHandler
+    internal class RepositoryApiClientHandler : DelegatingHandler
     {
-        public IRepositoryApiClient Client { get; set; }
-        public IClientOptions ClientOptions { get; set; }
-        private JsonWebToken _AccessToken { get; set; }
-        private string _BaseUriHost { get; set; }
-        private bool _UseServiceBaseUrlDebug { get; set; }
+        private readonly IHttpRequestHandler _httpRequestHandler;
+        private readonly string _baseUrlDebug;
+        private Uri _baseAddress;
 
-        public RepositoryApiClientHandler(HttpMessageHandler httpMessageHandler, IClientOptions options, string serviceBaseUrlDebug = "") : base(httpMessageHandler)
+        public RepositoryApiClientHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug) : base(new HttpClientHandler())
         {
-            ClientOptions = options ?? throw new ArgumentNullException(nameof(options));
-            _UseServiceBaseUrlDebug = !string.IsNullOrEmpty(serviceBaseUrlDebug);
+            _httpRequestHandler = httpRequestHandler ?? throw new ArgumentNullException(nameof(httpRequestHandler));
+            _baseUrlDebug = baseUrlDebug;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return await SendWithRetryAsync(request, cancellationToken, true)
-                ?? await SendWithRetryAsync(request, cancellationToken, false);
+            return await SendExAsync(request, cancellationToken, true)
+                ?? await SendExAsync(request, cancellationToken, false);
         }
 
-        private async Task<HttpResponseMessage> SendWithRetryAsync(HttpRequestMessage request, CancellationToken cancellationToken, bool willRetry)
+        private async Task<HttpResponseMessage> SendExAsync(HttpRequestMessage request, CancellationToken cancellationToken, bool returnNullIfRetriable)
         {
             HttpResponseMessage response;
-            string accessToken = await ClientOptions.BeforeSendAsync(request, Client, cancellationToken);
 
-            if (!_UseServiceBaseUrlDebug)
+            // Sets the authorization header
+            var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
+
+            if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
             {
-                if (_AccessToken == null || accessToken != _AccessToken.EncodedToken)
-                {
-                    _AccessToken = JwtUtil.ReadJWT(accessToken);
-                    string accountId = JwtUtil.GetAccountIdFromJwt(_AccessToken);
-                    _BaseUriHost = RepositoryApiClientUtil.GetRepositoryBaseUriHost(accountId);
-                }
-
-                var requestUri = new UriBuilder(request.RequestUri)
-                {
-                    Host = _BaseUriHost
-                };
-                request.RequestUri = requestUri.Uri;
+                _baseAddress = GetBaseAddress(beforeSendResult.RegionalDomain);
             }
+            request.RequestUri = new Uri(_baseAddress, request.RequestUri.PathAndQuery);
 
             try
             {
-                SetRequestAuthorizationHeader(request);
                 response = await base.SendAsync(request, cancellationToken);
-                if (willRetry && IsTransientHttpStatusCode(response.StatusCode) && IsIdempotentHttpMethod(request.Method))
+                if (returnNullIfRetriable && IsTransientHttpStatusCode(response.StatusCode) && IsIdempotentHttpMethod(request.Method))
                 {
                     return null;
                 }
             }
             catch
             {
-                if (willRetry)
+                if (returnNullIfRetriable)
                 {
                     return null;
                 }
@@ -71,17 +59,18 @@ namespace Laserfiche.Repository.Api.Client
                 }
             }
 
-            bool shouldRetry = await ClientOptions.AfterSendAsync(response, Client, cancellationToken);
-            if (willRetry && shouldRetry)
+            bool shouldRetry = await _httpRequestHandler.AfterSendAsync(response, cancellationToken);
+            if (returnNullIfRetriable && shouldRetry)
             {
                 return null;
             }
             return response;
         }
 
-        private void SetRequestAuthorizationHeader(HttpRequestMessage request)
+        private Uri GetBaseAddress(string domain)
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Client.AccessToken);
+            string baseAddress = _baseUrlDebug == null ? DomainUtils.GetRepositoryApiBaseUri(domain) : _baseUrlDebug;
+            return new Uri(baseAddress);
         }
 
         private static bool IsTransientHttpStatusCode(HttpStatusCode statusCode)

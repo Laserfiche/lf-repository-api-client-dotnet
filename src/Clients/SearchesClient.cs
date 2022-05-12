@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -42,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, Task<bool>> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of search results.
@@ -65,26 +65,26 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class SearchesClient
     {
-        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>, bool> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchResultsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
 
         {
             // Initial request
             var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchResultsSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, bool> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetSearchContextHitsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfContextHit>, Task<bool>> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchContextHitsSendAsync, cancellationToken);
             }

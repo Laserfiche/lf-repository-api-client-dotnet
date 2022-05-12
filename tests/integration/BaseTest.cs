@@ -1,49 +1,69 @@
-﻿using Laserfiche.Oauth.Api.Client;
+﻿using Laserfiche.Api.Client.OAuth;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
+// TODO create a wiki for this
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
     public class BaseTest
     {
+        private const string TestConfigFile = "TestConfig.env";
         protected static readonly string TempPath = @"TestFiles\";
-        private static TestConfig _testConfig;
-        public static TestConfig TestConfig {
-            get {
-                if (_testConfig == null)
-                    _testConfig = CreateTestConfig();
-                return _testConfig;
-            }
-        }
-
-        protected IClientCredentialsHandler oauthClient;
+        protected AccessKey AccessKey;
+        protected string ServicePrincipalKey;
+        protected string RepositoryId;
 
         public BaseTest()
-        { 
+        {
+            TryLoadFromDotEnv(TestConfigFile);
+            PopulateFromEnv();
         }
 
-        public static TestConfig CreateTestConfig()
+        private void TryLoadFromDotEnv(string fileName)
         {
-            string testingConfig = "";
-            testingConfig = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, @"TestConfig.json"));
-            if (string.IsNullOrEmpty(testingConfig))
+            try
             {
-                throw new Exception("Cannot load TestConfig.json");
+                var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
+                DotNetEnv.Env.Load(path, new DotNetEnv.LoadOptions(
+                    setEnvVars: true,
+                    clobberExistingVars: true,
+                    onlyExactPath: true
+                ));
+                System.Diagnostics.Trace.TraceWarning($"{fileName} found. {fileName} file should only be used in local developer computers.");
             }
-            var config = JsonConvert.DeserializeObject<TestConfig>(testingConfig);
-            return config;
+            catch
+            {
+                System.Diagnostics.Trace.WriteLine($"{fileName} not found.");
+            }
         }
 
-        public async Task<IClientCredentialsHandler> GetOauthClient()
+        private void PopulateFromEnv()
         {
-            if (oauthClient == null)
+            ServicePrincipalKey = Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY");
+            AccessKey = JsonConvert.DeserializeObject<AccessKey>(Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY"));
+            RepositoryId = Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_REPOSITORY_ID_1");
+        }
+
+        public IRepositoryApiClient CreateClient()
+        {
+            return RepositoryApiClient.Create(ServicePrincipalKey, AccessKey);
+        }
+
+        public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
+        {
+            var request = new PostEntryChildrenRequest()
             {
-                var configPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, "ServiceAppConfig.json");
-                oauthClient = await ClientCredentialsHandler.CreateFromAccessKeyAsync(configPath);
-            }
-            return oauthClient;
+                EntryType = PostEntryChildrenEntryType.Folder,
+                Name = entryName
+            };
+            var newEntry = await client?.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename);
+            Assert.IsNotNull(newEntry.Result);
+            Assert.AreEqual(parentEntryId, newEntry.Result.ParentId);
+            Assert.AreEqual(EntryType.Folder, newEntry.Result.EntryType);
+            return newEntry.Result;
         }
     }
 }

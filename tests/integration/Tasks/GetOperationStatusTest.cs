@@ -10,15 +10,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
@@ -27,13 +21,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
             var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest GetOperationStatus");
 
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var response = await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, deleteEntry.Id, body);
+            var response = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);
             var token = response.Result?.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
             Thread.Sleep(5000);
 
-            var operationProgressResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(TestConfig.RepositoryId, token);
+            var operationProgressResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, token);
             var operationProgress = operationProgressResponse.Result;
             Assert.IsNotNull(operationProgress);
             Assert.AreEqual(OperationStatus.Completed, operationProgress.Status);

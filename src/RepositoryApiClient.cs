@@ -1,41 +1,15 @@
-﻿using Laserfiche.Repository.Api.Client.Util;
+﻿using Laserfiche.Api.Client.HttpHandlers;
+using Laserfiche.Api.Client.OAuth;
 using System;
-using System.Globalization;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
-    public interface IRepositoryApiClient
-    {
-        string AccessToken { get; set; }
-        string RefreshToken { get; set; }
-
-        /// <summary>
-        /// The headers which should be sent with each request.
-        /// </summary>
-        System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders { get; }
-
-        IAttributesClient AttributesClient { get; }
-        IAuditReasonsClient AuditReasonsClient { get; }
-        IEntriesClient EntriesClient { get; }
-        IFieldDefinitionsClient FieldDefinitionsClient { get; }
-        IRepositoriesClient RepositoriesClient { get; }
-        ISearchesClient SearchesClient { get; }
-        IServerSessionClient ServerSessionClient { get; }
-        ISimpleSearchesClient SimpleSearchesClient { get; }
-        ITagDefinitionsClient TagDefinitionsClient { get; }
-        ITasksClient TasksClient { get; }
-        ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
-    }
-
     public class RepositoryApiClient : IRepositoryApiClient
     {
+        private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
-        public string AccessToken { get; set; }
-        public string RefreshToken { get; set; }
         public System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
@@ -53,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client
         public ITasksClient TasksClient { get; }
         public ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
 
-        public RepositoryApiClient(HttpClient httpClient)
+        internal RepositoryApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             AttributesClient = new AttributesClient(_httpClient);
@@ -72,29 +46,34 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Create a Laserfiche repository client.
         /// </summary>
-        /// <param name="options">The client options for the Laserfiche repository client.</param>
-        /// <param name="serviceBaseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
-        /// <param name="httpClientHandler">Optional HttpClientHandler.</param>
+        /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
+        /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
-        public static IRepositoryApiClient Create(IClientOptions options, string serviceBaseUrlDebug = "", HttpClientHandler httpClientHandler = null)
+        public static IRepositoryApiClient Create(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-            if (options.BeforeSendAsync == null)
-                throw new ArgumentNullException(nameof(options.BeforeSendAsync));
-            if (options.AfterSendAsync == null)
-                throw new ArgumentNullException(nameof(options.AfterSendAsync));
+            if (httpRequestHandler == null)
+                throw new ArgumentNullException(nameof(httpRequestHandler));
 
-            httpClientHandler = httpClientHandler ?? new HttpClientHandler();
-            var repositoryClientHandler = new RepositoryApiClientHandler(httpClientHandler, options, serviceBaseUrlDebug);
+            var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler)
             {
-                BaseAddress = string.IsNullOrEmpty(serviceBaseUrlDebug) ? new Uri(RepositoryApiClientUtil.GetRepositoryBaseUri("")) : new Uri(serviceBaseUrlDebug)
+                BaseAddress = new Uri(_defaultBaseAddress)
             };
             var repositoryClient = new RepositoryApiClient(httpClient);
-            repositoryClientHandler.Client = repositoryClient;
             return repositoryClient;
         }
 
+        /// <summary>
+        /// Create a Laserfiche repository client that will use OAuth client credentials to get access tokens.
+        /// </summary>
+        /// <param name="servicePrincipalKey"></param>
+        /// <param name="accessKey"></param>
+        /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
+        /// <returns></returns>
+        public static IRepositoryApiClient Create(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
+        {
+            var httpRequestHandler = new OauthClientCredentialsHandler(servicePrincipalKey, accessKey);
+            return Create(httpRequestHandler, baseUrlDebug);
+        }
     }
 }

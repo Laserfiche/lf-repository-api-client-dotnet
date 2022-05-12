@@ -9,22 +9,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task GetEntryFields_ReturnFields()
         {
             int entryId = 1;
-            var response = await client.EntriesClient.GetFieldValuesAsync(TestConfig.RepositoryId, entryId);
+            var response = await client.EntriesClient.GetFieldValuesAsync(RepositoryId, entryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -34,21 +28,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int entryId = 1;
             int maxPageSize = 10;
 
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfFieldValue> data)
+            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfFieldValue> data)
             {
-                if (data.Result.OdataNextLink != null)
-                {
-                    Assert.AreNotEqual(0, data.Result.Value.Count);
-                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                Assert.AreNotEqual(0, data.Result.Value.Count);
+                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                return Task.FromResult(true);
             }
 
-            await client.EntriesClient.GetFieldValuesForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
+            await client.EntriesClient.GetFieldValuesForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -58,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.EntriesClient.GetFieldValuesAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.EntriesClient.GetFieldValuesAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)

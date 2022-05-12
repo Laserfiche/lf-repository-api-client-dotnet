@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of tag definitions.
@@ -32,13 +32,13 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class TagDefinitionsClient
     {
-        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken);
             }

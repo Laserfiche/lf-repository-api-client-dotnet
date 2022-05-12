@@ -12,9 +12,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         string token;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             token = "";
         }
 
@@ -23,10 +23,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.SearchesClient.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
-                Thread.Sleep(5000);
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -37,21 +35,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
             token = searchResponse.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
             Thread.Sleep(5000);
 
             // Get search results
-            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(TestConfig.RepositoryId, token);
+            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
             var searchResults = searchResultsResponse.Result?.Value;
             Assert.IsNotNull(searchResults);
             Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
             int rowNumber = searchResults.First().RowNumber;
 
             // Get context hits
-            var contextHitsResponse = await client.SearchesClient.GetSearchContextHitsAsync(TestConfig.RepositoryId, token, rowNumber);
+            var contextHitsResponse = await client.SearchesClient.GetSearchContextHitsAsync(RepositoryId, token, rowNumber);
             var contextHits = contextHitsResponse.Result?.Value;
             Assert.IsNotNull(contextHits);
         }
@@ -66,34 +64,27 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
             token = searchResponse.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
             Thread.Sleep(5000);
 
             // Get search results
-            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(TestConfig.RepositoryId, token);
+            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
             var searchResults = searchResultsResponse.Result?.Value;
             Assert.IsNotNull(searchResults);
             Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
             int rowNumber = searchResults.First().RowNumber;
 
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfContextHit> data)
+            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfContextHit> data)
             {
-                if (data.Result.OdataNextLink != null)
-                {
-                    Assert.AreNotEqual(0, data.Result.Value.Count);
-                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                Assert.AreNotEqual(0, data.Result.Value.Count);
+                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                return Task.FromResult(true);
             }
 
-            await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, TestConfig.RepositoryId, token, rowNumber, maxPageSize: maxPageSize);
+            await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, RepositoryId, token, rowNumber, maxPageSize: maxPageSize);
         }
     }
 }

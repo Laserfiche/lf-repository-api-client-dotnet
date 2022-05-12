@@ -33,7 +33,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, Task<bool>> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -51,7 +51,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -64,7 +64,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -77,7 +77,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of entries with odata.nextLink.
@@ -129,49 +129,49 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, bool> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetEntryListingForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>, Task<bool>> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetEntryListingSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, bool> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetFieldValuesForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfFieldValue>, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetFieldValuesAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), formatValue, culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldValuesSendAsync, cancellationToken);
             }
         }
 
-        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetLinkValuesFromEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetLinkValuesFromEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkValuesFromEntrySendAsync, cancellationToken);
             }
         }
 
-        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, bool> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetTagsAssignedToEntryForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagsAssignedToEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagsAssignedToEntrySendAsync, cancellationToken);
             }

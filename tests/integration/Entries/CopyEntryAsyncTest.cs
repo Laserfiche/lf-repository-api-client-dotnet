@@ -14,9 +14,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         IList<Entry> createdEntries;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             createdEntries = new List<Entry>();
         }
 
@@ -28,11 +28,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, entry.Id, body);
+                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
                     Thread.Sleep(5000);
                 }
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -46,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var response = await client.EntriesClient.CreateOrCopyEntryAsync(TestConfig.RepositoryId, parentEntryId, request, autoRename: true);
+            var response = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
             var targetEntry = response.Result;
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
@@ -60,12 +59,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 SourceId = targetEntry.Id
             };
             string opToken = "";
-            var copyresponse = await client.EntriesClient.CopyEntryAsync(TestConfig.RepositoryId, parentEntryId, copyrequest, autoRename: true);
+            var copyresponse = await client.EntriesClient.CopyEntryAsync(RepositoryId, parentEntryId, copyrequest, autoRename: true);
             opToken = copyresponse.Result.Token;
 
             await Task.Delay(5000);
             string redirectUrl = "";
-            var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(TestConfig.RepositoryId, opToken);
+            var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, opToken);
             redirectUrl = opResponse.Headers["Location"].ToList()[0];
 
             response = await client.EntriesClient.GetEntryAsync(redirectUrl);

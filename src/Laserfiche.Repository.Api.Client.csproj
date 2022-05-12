@@ -8,5 +8,9 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.13.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\lf-oauth-api-client-dotnet\src\Laserfiche.Api.Client.Core.csproj" />
+  </ItemGroup>
 
 </Project>

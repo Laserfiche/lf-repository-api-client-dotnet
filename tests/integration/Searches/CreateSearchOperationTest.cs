@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
@@ -12,9 +11,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         string token;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             token = "";
         }
 
@@ -23,10 +22,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.SearchesClient.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
-                Thread.Sleep(5000);
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -36,7 +33,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var response = await client.SearchesClient.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var response = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
             token = response.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
             var redirectUrl = response.Headers["Location"].ToList()[0];

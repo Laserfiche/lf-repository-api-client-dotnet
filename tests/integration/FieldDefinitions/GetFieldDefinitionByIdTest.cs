@@ -10,25 +10,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task GetFieldDefinitionById_ReturnField()
         {
-            var allFieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
+            var allFieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId);
             var firstFieldDefinition = allFieldDefinitionsResponse.Result?.Value?.FirstOrDefault();
             Assert.IsNotNull(firstFieldDefinition, "No field definitions exist in the repository.");
 
-            var response = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(TestConfig.RepositoryId, firstFieldDefinition.Id);
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(RepositoryId, firstFieldDefinition.Id);
             var fieldDefinition = response.Result;
 
             Assert.IsNotNull(fieldDefinition);

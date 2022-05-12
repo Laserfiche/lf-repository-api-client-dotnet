@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, Task<bool>> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of trustee attributes.
@@ -34,13 +34,13 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class AttributesClient
     {
-        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, bool> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<SwaggerResponse<ODataValueContextOfListOfAttribute>, Task<bool>> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
                 response = await ApiForEachAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTrusteeAttributeKeyValuePairsSendAsync, cancellationToken);
             }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -13,9 +12,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         Entry entry;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             entry = null;
         }
 
@@ -25,10 +24,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (entry != null)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, entry.Id, body);
-                Thread.Sleep(5000);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -37,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Find a string field
             WFieldInfo field = null;
             string fieldValue = "a";
-            var fieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(TestConfig.RepositoryId);
+            var fieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId);
             var fieldDefinitions = fieldDefinitionsResponse.Result?.Value;
             Assert.IsNotNull(fieldDefinitions);
             foreach(var fieldDefinition in fieldDefinitions)
@@ -62,7 +59,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             entry = await CreateEntry(client, "APIServerClientIntegrationTest SetFields");
 
-            var response = await client.EntriesClient.AssignFieldValuesAsync(TestConfig.RepositoryId, entry.Id, requestBody);
+            var response = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody);
             var fields = response.Result?.Value;
             Assert.IsNotNull(fields);
             Assert.AreEqual(1, fields.Count);

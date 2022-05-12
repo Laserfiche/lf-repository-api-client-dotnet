@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -12,9 +11,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         Entry entry;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             entry = null;
         }
 
@@ -24,10 +23,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (entry != null)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(TestConfig.RepositoryId, entry.Id, body);
-                Thread.Sleep(5000);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -35,13 +32,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Find a template definition with no required fields
             WTemplateInfo template = null;
-            var templateDefinitionResponse = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(TestConfig.RepositoryId);
+            var templateDefinitionResponse = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
             var templateDefinitions = templateDefinitionResponse.Result?.Value;
             Assert.IsNotNull(templateDefinitions);
             Assert.IsTrue(templateDefinitions.Count > 0, "No template definitions exist in the repository.");
             foreach (var templateDefinition in templateDefinitions)
             {
-                var templateDefinitionFieldsResponse = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(TestConfig.RepositoryId, templateDefinition.Id);
+                var templateDefinitionFieldsResponse = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(RepositoryId, templateDefinition.Id);
                 if (templateDefinitionFieldsResponse.Result?.Value != null && templateDefinitionFieldsResponse.Result.Value.All(f => !f.IsRequired))
                 {
                     template = templateDefinition;
@@ -56,12 +53,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 TemplateName = template.Name
             };
             entry = await CreateEntry(client, "APIServerClientIntegrationTest RemoveTemplateFromEntry");
-            var setTemplateEntryResponse = await client.EntriesClient.WriteTemplateValueToEntryAsync(TestConfig.RepositoryId, entry.Id, request);
+            var setTemplateEntryResponse = await client.EntriesClient.WriteTemplateValueToEntryAsync(RepositoryId, entry.Id, request);
             Assert.IsNotNull(setTemplateEntryResponse.Result);
             Assert.AreEqual(template.Name, setTemplateEntryResponse.Result.TemplateName);
 
             // Delete the template on the entry
-            var deleteTemplateResponse = await client.EntriesClient.DeleteAssignedTemplateAsync(TestConfig.RepositoryId, entry.Id);
+            var deleteTemplateResponse = await client.EntriesClient.DeleteAssignedTemplateAsync(RepositoryId, entry.Id);
             var returnedEntry = deleteTemplateResponse.Result;
             Assert.IsNotNull(returnedEntry);
             Assert.AreEqual(entry.Id, returnedEntry.Id);

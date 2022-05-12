@@ -9,22 +9,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
         IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task SimpleSearch_ReturnSearchResults()
         {
             var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(TestConfig.RepositoryId, request: request);
+            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(RepositoryId, request: request);
             Assert.IsNotNull(response.Result?.Value);
         }
     }
