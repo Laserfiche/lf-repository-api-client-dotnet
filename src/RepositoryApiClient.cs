@@ -72,7 +72,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns></returns>
         public static IRepositoryApiClient Create(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
         {
-            var httpRequestHandler = new OauthClientCredentialsHandler(servicePrincipalKey, accessKey);
+            var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
             return Create(httpRequestHandler, baseUrlDebug);
         }
     }

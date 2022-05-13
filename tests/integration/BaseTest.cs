@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-// TODO create a wiki for this
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
     public class BaseTest
