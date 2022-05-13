@@ -40,9 +40,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
 
             Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo> data)
             {
-                Assert.AreNotEqual(0, data.Result.Value.Count);
-                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                return Task.FromResult(true);
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
 
             await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, RepositoryId, firstTemplateDefinition.Name, maxPageSize: maxPageSize);

@@ -27,21 +27,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             int entryId = 1;
             int maxPageSize = 10;
-            bool firstPage = true;
 
             Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo> data)
             {
-                if (firstPage && data.Result.Value.Count == 0)
-                {
-                    Assert.IsNull(data.Result.OdataNextLink);
-                    firstPage = false;
-                }
-                else
+                if (data.Result.OdataNextLink != null)
                 {
                     Assert.AreNotEqual(0, data.Result.Value.Count);
                     Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return Task.FromResult(true);
                 }
-                return Task.FromResult(true);
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
 
             await client.EntriesClient.GetLinkValuesFromEntryForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize);

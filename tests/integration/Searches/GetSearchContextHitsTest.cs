@@ -79,9 +79,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 
             Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfContextHit> data)
             {
-                Assert.AreNotEqual(0, data.Result.Value.Count);
-                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                return Task.FromResult(true);
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
 
             await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, RepositoryId, token, rowNumber, maxPageSize: maxPageSize);

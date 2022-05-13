@@ -30,9 +30,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfFieldValue> data)
             {
-                Assert.AreNotEqual(0, data.Result.Value.Count);
-                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                return Task.FromResult(true);
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
 
             await client.EntriesClient.GetFieldValuesForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize);

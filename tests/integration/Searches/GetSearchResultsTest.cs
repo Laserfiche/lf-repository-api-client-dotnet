@@ -49,7 +49,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         [TestMethod]
         public async Task GetSearchResults_ForEachPaging()
         {
-            int maxPageSize = 10;
+            int maxPageSize = 90;
 
             // Create search
             var request = new AdvancedSearchRequest()
@@ -64,9 +64,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 
             Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults> data)
             {
-                Assert.AreNotEqual(0, data.Result.Value.Count);
-                Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                return Task.FromResult(true);
+                if (data.Result.OdataNextLink != null)
+                {
+                    Assert.AreNotEqual(0, data.Result.Value.Count);
+                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
 
             await client.SearchesClient.GetSearchResultsForEachAsync(PagingCallback, RepositoryId, token, maxPageSize: maxPageSize);
