@@ -67,10 +67,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AuditReasons
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetAuditReasonsAsync(repoId);
+            var response = await client.AuditReasonsClient.GetAuditReasonsAsync(repoId);
             var result = response.Result;
 
             // ASSERT
@@ -137,10 +137,10 @@ namespace Laserfiche.Repository.Api.Client.Test.AuditReasons
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetAuditReasonsAsync(repoId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AuditReasonsClient.GetAuditReasonsAsync(repoId));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

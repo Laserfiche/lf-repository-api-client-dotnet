@@ -57,10 +57,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetEntryAsync(repoId, entry.Id);
+            var swaggerResponse = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
             var result = swaggerResponse.Result;
 
             // ASSERT
@@ -124,10 +124,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetEntryAsync(repoId, entryId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryAsync(repoId, entryId));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -192,10 +192,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetEntryAsync(repoId, entry.Id, select: selectQueryParameter);
+            var swaggerResponse = await client.EntriesClient.GetEntryAsync(repoId, entry.Id, select: selectQueryParameter);
             var result = swaggerResponse.Result;
 
             // ASSERT

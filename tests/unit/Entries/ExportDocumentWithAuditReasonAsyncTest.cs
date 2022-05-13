@@ -73,10 +73,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                         BaseAddress = new Uri(baseAddress),
                     };
 
-                    var client = new LaserficheRepositoryApiClient(httpClient);
+                    var client = new RepositoryApiClient(httpClient);
 
                     // ACT
-                    var swaggerResponse = await client.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
+                    var swaggerResponse = await client.EntriesClient.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
                     {
                         AuditReasonId = 1,
                         Comment = "asdf"
@@ -157,10 +157,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                         BaseAddress = new Uri(baseAddress),
                     };
 
-                    var client = new LaserficheRepositoryApiClient(httpClient);
+                    var client = new RepositoryApiClient(httpClient);
 
                     // ACT
-                    var swaggerResponse = await client.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
+                    var swaggerResponse = await client.EntriesClient.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
                     {
                         AuditReasonId = 1,
                         Comment = "asdf"
@@ -227,10 +227,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.ExportDocumentWithAuditReasonAsync(repoId, entryId, new GetEdocWithAuditReasonRequest()
             {
                 AuditReasonId = 1,
                 Comment = "asdf"

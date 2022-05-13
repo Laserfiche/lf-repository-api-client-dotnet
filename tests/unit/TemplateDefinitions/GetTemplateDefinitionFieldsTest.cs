@@ -91,10 +91,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId);
+            var response = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId);
             var result = response.Result;
 
             // ASSERT
@@ -168,10 +168,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -253,10 +253,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId, prefer: preferHeaderValue,
+            var response = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
                 skip: skipQueryParameter, count: countQueryParameter);
             var result = response.Result;

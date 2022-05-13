@@ -4,26 +4,20 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
 {
     [TestClass]
-    public class GetTagDefinitionsTest : BaseTest_V1
+    public class GetTagDefinitionsTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task GetTagDefinitions_ReturnAllTags()
         {
-            var response = await client.GetTagDefinitionsAsync(TestConfig.RepositoryId);
+            var response = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -32,21 +26,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         {
             int maxPageSize = 10;
 
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
+            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
             {
                 if (data.Result.OdataNextLink != null)
                 {
                     Assert.AreNotEqual(0, data.Result.Value.Count);
                     Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                    return true; // If data aren't exhusted, keep asking.
+                    return Task.FromResult(true);
                 }
                 else
                 {
-                    return false;
+                    return Task.FromResult(false);
                 }
             }
 
-            await client.GetTagDefinitionsForEachAsync(PagingCallback, TestConfig.RepositoryId, maxPageSize: maxPageSize);
+            await client.TagDefinitionsClient.GetTagDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -55,7 +49,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.GetTagDefinitionsAsync(TestConfig.RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -68,7 +62,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetTagDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            response = await client.TagDefinitionsClient.GetTagDefinitionsNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }

@@ -55,10 +55,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.CopyEntryAsync(repoId, entryId, request);
+            var response = await client.EntriesClient.CopyEntryAsync(repoId, entryId, request);
             var result = response.Result;
 
             // ASSERT
@@ -124,10 +124,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException<ProblemDetails>>(async () => await client.CopyEntryAsync(repoId, entryId, request));
+            var response = await Assert.ThrowsAsync<ApiException<ProblemDetails>>(async () => await client.EntriesClient.CopyEntryAsync(repoId, entryId, request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -192,10 +192,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.CopyEntryAsync(repoId, entryId, request, autoRename);
+            var response = await client.EntriesClient.CopyEntryAsync(repoId, entryId, request, autoRename);
             var result = response.Result;
 
             // ASSERT

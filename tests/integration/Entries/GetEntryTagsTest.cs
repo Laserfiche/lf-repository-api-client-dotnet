@@ -4,27 +4,21 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEntryTagsTest : BaseTest_V1
+    public class GetEntryTagsTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task GetEntryTags_ReturnTags()
         {
             int entryId = 1;
-            var response = await client.GetTagsAssignedToEntryAsync(TestConfig.RepositoryId, entryId);
+            var response = await client.EntriesClient.GetTagsAssignedToEntryAsync(RepositoryId, entryId);
             Assert.IsNotNull(response.Result?.Value);
         }
 
@@ -34,21 +28,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int entryId = 1;
             int maxPageSize = 10;
 
-            bool PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
+            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTagInfo> data)
             {
                 if (data.Result.OdataNextLink != null)
                 {
                     Assert.AreNotEqual(0, data.Result.Value.Count);
                     Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
-                    return true;
+                    return Task.FromResult(true);
                 }
                 else
                 {
-                    return false;
+                    return Task.FromResult(false);
                 }
             }
 
-            await client.GetTagsAssignedToEntryForEachAsync(PagingCallback, TestConfig.RepositoryId, entryId, maxPageSize: maxPageSize);
+            await client.EntriesClient.GetTagsAssignedToEntryForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize);
         }
 
         [TestMethod]
@@ -58,7 +52,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.GetTagsAssignedToEntryAsync(TestConfig.RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
+            var response = await client.EntriesClient.GetTagsAssignedToEntryAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
             if (response.Result.Value.Count == 0)
@@ -71,7 +65,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.GetTagsAssignedToEntryNextLinkAsync(nextLink, maxPageSize);
+            response = await client.EntriesClient.GetTagsAssignedToEntryNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
         }

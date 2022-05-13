@@ -55,10 +55,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.DeleteEntryInfoAsync(repoId, entryId, request);
+            var response = await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request);
             var result = response.Result;
 
             // ASSERT
@@ -119,10 +119,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.DeleteEntryInfoAsync(repoId, entryId, request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

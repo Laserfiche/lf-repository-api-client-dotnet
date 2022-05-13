@@ -83,10 +83,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetEntryListingAsync(repoId, entryId);
+            var response = await client.EntriesClient.GetEntryListingAsync(repoId, entryId);
             var result = response.Result;
 
             // ASSERT
@@ -157,10 +157,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetEntryListingAsync(repoId, entryId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryListingAsync(repoId, entryId));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -241,10 +241,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetEntryListingAsync(repoId, entryId, groupByEntryType: groupByEntryType,
+            var response = await client.EntriesClient.GetEntryListingAsync(repoId, entryId, groupByEntryType: groupByEntryType,
                 fields: new List<string>() { "field1", "field2" }, formatFields: formatFields, prefer: preferHeaderValue, culture: culture, select: selectQueryParameter,
                 orderby: orderbyQueryParameter,top: topQueryParameter, skip: skipQueryParameter, count: countQueryParameter);
             var result = response.Result;

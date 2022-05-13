@@ -51,10 +51,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
+            var swaggerResponse = await client.EntriesClient.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
                 {
                     TemplateId = 1,
                     FieldValues = fieldValsDict
@@ -118,10 +118,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
             {
                 TemplateId = 1,
                 FieldValues = new Dictionary<string, string>() { ["1"] = "2" }

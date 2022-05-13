@@ -1,27 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 {
     [TestClass]
-    public class CloseSearchOperationTest : BaseTest_V1
+    public class CloseSearchOperationTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             token = "";
         }
 
         [TestCleanup]
         public async Task Cleanup()
         {
-            Thread.Sleep(5000);
-            await Logout(client);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
+            }
         }
 
         [TestMethod]
@@ -32,13 +33,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
             token = searchResponse.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
-
-            // Close search
-            var response = await client.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
-            Assert.AreEqual(true, response.Result?.Value);
         }
     }
 }

@@ -85,10 +85,10 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.CreateSimpleSearchOperationAsync(repoId, request: request);
+            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request);
             var result = response.Result;
 
             // ASSERT
@@ -201,10 +201,10 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.CreateSimpleSearchOperationAsync(repoId, select: "select", orderby: "orderby",
+            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, select: "select", orderby: "orderby",
                 count: true, fields: new List<string>() { "field1", "field2" }, formatFields: true, request: request, culture: "fr");
             var result = response.Result;
 
@@ -280,10 +280,10 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.CreateSimpleSearchOperationAsync(repoId, request: request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

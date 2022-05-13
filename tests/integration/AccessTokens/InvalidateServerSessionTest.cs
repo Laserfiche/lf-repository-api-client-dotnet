@@ -4,30 +4,21 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
 {
     [TestClass]
-    public class InvalidateServerSessionTest : BaseTest_V1
+    public class InvalidateServerSessionTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
-        bool needLogout = true;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            if(needLogout)
-                await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task InvalidateServerSession_LogoutSuccessful()
         {
-            var response = await client.InvalidateServerSessionAsync(TestConfig.RepositoryId);
+            var response = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId);
             Assert.AreEqual(true, response.Result?.Value);
-            needLogout = false;
         }
     }
 }

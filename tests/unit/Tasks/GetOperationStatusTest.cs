@@ -52,10 +52,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
+            var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
             Assert.Equal(operationProgress.OperationToken, swaggerResponse.Result.OperationToken);
@@ -117,10 +117,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
+            var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
             Assert.Equal(202, swaggerResponse.StatusCode);
@@ -175,10 +175,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetOperationStatusAndProgressAsync(repoId, operationToken));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationToken));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");

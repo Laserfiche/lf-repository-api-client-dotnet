@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 {
     [TestClass]
-    public class GetSearchStatusTest : BaseTest_V1
+    public class GetSearchStatusTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             token = "";
         }
 
@@ -22,10 +22,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.CancelOrCloseSearchAsync(TestConfig.RepositoryId, token);
-                Thread.Sleep(5000);
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
             }
-            await Logout(client);
         }
 
         [TestMethod]
@@ -36,14 +34,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.CreateSearchOperationAsync(TestConfig.RepositoryId, request);
+            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
             token = searchResponse.Result?.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
             Thread.Sleep(5000);
 
             // Get search status
-            var searchStatusResponse = await client.GetSearchStatusAsync(TestConfig.RepositoryId, token);
+            var searchStatusResponse = await client.SearchesClient.GetSearchStatusAsync(RepositoryId, token);
             var searchStatus = searchStatusResponse.Result;
             Assert.IsNotNull(searchStatus);
             Assert.AreEqual(token, searchStatus.OperationToken);

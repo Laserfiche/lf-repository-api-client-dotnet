@@ -5,30 +5,24 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
 {
     [TestClass]
-    public class GetTemplateDefinitionByIdTest : BaseTest_V1
+    public class GetTemplateDefinitionByIdTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await Logout(client);
+            client = CreateClient();
         }
 
         [TestMethod]
         public async Task GetTemplateDefinitionById_ReturnTemplate()
         {
-            var allTemplateDefinitionsResponse = await client.GetTemplateDefinitionsAsync(TestConfig.RepositoryId);
+            var allTemplateDefinitionsResponse = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
             var firstTemplateDefinition = allTemplateDefinitionsResponse.Result?.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition, "No template definitions exist in the repository.");
 
-            var response = await client.GetTemplateDefinitionByIdAsync(TestConfig.RepositoryId, firstTemplateDefinition.Id);
+            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(RepositoryId, firstTemplateDefinition.Id);
 
             Assert.IsNotNull(response.Result);
             Assert.AreEqual(firstTemplateDefinition.Id, response.Result.Id);

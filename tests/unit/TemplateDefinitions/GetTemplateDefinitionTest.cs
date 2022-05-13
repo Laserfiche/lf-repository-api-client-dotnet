@@ -78,10 +78,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTemplateDefinitionsAsync(repoId);
+            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(repoId);
             var result = response.Result;
 
             // ASSERT
@@ -145,10 +145,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.GetTemplateDefinitionsAsync(repoId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(repoId));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -223,10 +223,10 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetTemplateDefinitionsAsync(repoId, prefer: preferHeaderValue,
+            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(repoId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
                 skip: skipQueryParameter, count: countQueryParameter);
             var result = response.Result;

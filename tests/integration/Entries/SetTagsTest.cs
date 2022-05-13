@@ -1,21 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class SetTagsTest : BaseTest_V1
+    public class SetTagsTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         Entry entry;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             entry = null;
         }
 
@@ -25,16 +24,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (entry != null)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, entry.Id, body);
-                Thread.Sleep(5000);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
             }
-            await Logout(client);
         }
 
         [TestMethod]
         public async Task SetTags_ReturnTags()
         {
-            var tagDefinitionsResponse = await client.GetTagDefinitionsAsync(TestConfig.RepositoryId);
+            var tagDefinitionsResponse = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
             var tagDefinitions = tagDefinitionsResponse.Result?.Value;
             Assert.IsNotNull(tagDefinitions);
             Assert.IsTrue(tagDefinitions.Count > 0, "No tag definitions exist in the repository.");
@@ -45,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             entry = await CreateEntry(client, "APIServerClientIntegrationTest SetTags");
 
-            var response = await client.AssignTagsAsync(TestConfig.RepositoryId, entry.Id, request);
+            var response = await client.EntriesClient.AssignTagsAsync(RepositoryId, entry.Id, request);
             var tags = response.Result?.Value;
             Assert.IsNotNull(tags);
             Assert.AreEqual(request.Tags.Count, tags.Count);

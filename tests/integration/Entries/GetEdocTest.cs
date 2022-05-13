@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEdocTest : BaseTest_V1
+    public class GetEdocTest : BaseTest
     {
-        ILaserficheRepositoryApiClient client = null;
+        IRepositoryApiClient client = null;
         int createdEntryId;
         string fileToWriteTo;
 
         [TestInitialize]
-        public async Task Initialize()
+        public void Initialize()
         {
-            client = await CreateClientAndLogin();
+            client = CreateClient();
             createdEntryId = 0;
             fileToWriteTo = "";
         }
@@ -30,10 +30,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.DeleteEntryInfoAsync(TestConfig.RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body);
                 Thread.Sleep(10000);
             }
-            await Logout(client);
         }
 
         private async Task<int> CreateDocument()
@@ -45,7 +44,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var response = await client.ImportDocumentAsync(TestConfig.RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument, request);
+                var response = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
                 var operations = response.Result?.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);
@@ -62,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             createdEntryId = await CreateDocument();
 
-            using (var response = await client.ExportDocumentAsync(TestConfig.RepositoryId, createdEntryId))
+            using (var response = await client.EntriesClient.ExportDocumentAsync(RepositoryId, createdEntryId))
             {
                 Assert.AreEqual(200, response.StatusCode);
                 Assert.IsTrue(response.Headers.ContainsKey("Content-Type"));

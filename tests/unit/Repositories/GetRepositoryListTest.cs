@@ -55,10 +55,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.GetRepositoryListAsync();
+            var response = await client.RepositoriesClient.GetRepositoryListAsync();
             var result = response.Result;
 
             // ASSERT
@@ -114,10 +114,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var client = new LaserficheRepositoryApiClient(httpClient);
+            var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.GetRepositoryListAsync());
+            await Assert.ThrowsAsync<ApiException>(async () => await client.RepositoriesClient.GetRepositoryListAsync());
 
             // ASSERT
             // also check the 'http' call was like we expected it
