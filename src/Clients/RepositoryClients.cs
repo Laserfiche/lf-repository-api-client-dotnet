@@ -79,7 +79,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -909,7 +909,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -988,7 +988,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1006,12 +1006,12 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataGetEntryChildren>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfODataGetEntryChildren>(status_, headers_, objectResponse_.Object);
+                    return new SwaggerResponse<ODataValueContextOfIListOfEntry>(status_, headers_, objectResponse_.Object);
                 }
                 else
                 if (status_ == 400)
@@ -6005,7 +6005,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -6485,7 +6485,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6568,7 +6568,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6586,12 +6586,12 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfODataGetSearchResults>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfODataGetSearchResults>(status_, headers_, objectResponse_.Object);
+                    return new SwaggerResponse<ODataValueContextOfIListOfEntry>(status_, headers_, objectResponse_.Object);
                 }
                 else
                 if (status_ == 400)
@@ -6943,7 +6943,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataGetEntryChildren>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -6987,7 +6987,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataGetEntryChildren>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7050,7 +7050,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfODataGetEntryChildren>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -7068,12 +7068,12 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataGetEntryChildren>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfODataGetEntryChildren>(status_, headers_, objectResponse_.Object);
+                    return new SwaggerResponse<ODataValueOfIListOfEntry>(status_, headers_, objectResponse_.Object);
                 }
                 else
                 if (status_ == 204)
@@ -7084,12 +7084,12 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 206)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfODataGetEntryChildren>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfODataGetEntryChildren>(status_, headers_, objectResponse_.Object);
+                    return new SwaggerResponse<ODataValueOfIListOfEntry>(status_, headers_, objectResponse_.Object);
                 }
                 else
                 if (status_ == 400)
@@ -8744,24 +8744,53 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A machine-readable format for specifying errors in HTTP API responses based on https://tools.ietf.org/html/rfc7807.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ProblemDetails
     {
+        /// <summary>
+        /// A URI reference [RFC3986] that identifies the problem type. This specification encourages that, when
+        /// <br/>dereferenced, it provide human-readable documentation for the problem type
+        /// <br/>(e.g., using HTML [W3C.REC-html5-20141028]).  When this member is not present, its value is assumed to be
+        /// <br/>"about:blank".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 
+        /// <summary>
+        /// A short, human-readable summary of the problem type.It SHOULD NOT change from occurrence to occurrence
+        /// <br/>of the problem, except for purposes of localization(e.g., using proactive content negotiation;
+        /// <br/>see[RFC7231], Section 3.4).
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Title { get; set; }
 
+        /// <summary>
+        /// The HTTP status code([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? Status { get; set; }
 
+        /// <summary>
+        /// A human-readable explanation specific to this occurrence of the problem.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("detail", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Detail { get; set; }
 
+        /// <summary>
+        /// A URI reference that identifies the specific occurrence of the problem.It may or may not yield further information if dereferenced.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("instance", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Instance { get; set; }
 
+        /// <summary>
+        /// Gets the IDictionary`2 for extension members.
+        /// <br/>
+        /// <br/>Problem type definitions MAY extend the problem details object with additional members. Extension members appear in the same namespace as
+        /// <br/>other members of a problem type.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("extensions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IDictionary<string, object> Extensions { get; set; }
 
@@ -8776,12 +8805,18 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// Represents HttpRequest and HttpResponse headers
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public abstract partial class IHeaderDictionary
     {
         [Newtonsoft.Json.JsonProperty("Item", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<object> Item { get; set; }
 
+        /// <summary>
+        /// Strongly typed access to the Content-Length header. Implementations must keep this in sync with the string representation.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("ContentLength", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long? ContentLength { get; set; }
 
@@ -9231,6 +9266,12 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("rowNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int RowNumber { get; set; }
 
+        /// <summary>
+        /// The fields assigned to this entry.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<EntryFieldValue> Fields { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
@@ -9252,7 +9293,55 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class Document : ODataEntry
+    public partial class EntryFieldValue
+    {
+        /// <summary>
+        /// The name of the field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FieldName { get; set; }
+
+        /// <summary>
+        /// The values assigned to the field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<System.Collections.Generic.IDictionary<string, object>> Values { get; set; }
+
+        /// <summary>
+        /// The type of the field. The possible field types are listed below.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public WFieldType FieldType { get; set; }
+
+        /// <summary>
+        /// The ID of the field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if the represented field supports multiple values.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isMultiValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsMultiValue { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if the represented field must have a value set on entries assigned to a template that the field is a member of.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsRequired { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if there are more field values.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("hasMoreValues", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasMoreValues { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class Document : Entry
     {
         /// <summary>
         /// The size of the electronic document attached to the represented document,
@@ -9318,66 +9407,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataEntry : Entry
-    {
-        /// <summary>
-        /// The fields assigned to this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EntryFieldValue> Fields { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class EntryFieldValue
-    {
-        /// <summary>
-        /// The name of the field.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fieldName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FieldName { get; set; }
-
-        /// <summary>
-        /// The values assigned to the field.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<System.Collections.Generic.IDictionary<string, object>> Values { get; set; }
-
-        /// <summary>
-        /// The type of the field. The possible field types are listed below.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fieldType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public WFieldType FieldType { get; set; }
-
-        /// <summary>
-        /// The ID of the field.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fieldId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int FieldId { get; set; }
-
-        /// <summary>
-        /// A boolean indicating if the represented field supports multiple values.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isMultiValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsMultiValue { get; set; }
-
-        /// <summary>
-        /// A boolean indicating if the represented field must have a value set on entries assigned to a template that the field is a member of.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsRequired { get; set; }
-
-        /// <summary>
-        /// A boolean indicating if there are more field values.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("hasMoreValues", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool HasMoreValues { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class Shortcut : ODataEntry
+    public partial class Shortcut : Entry
     {
         /// <summary>
         /// The entry ID of the shortcut target.
@@ -9401,7 +9431,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class Folder : ODataEntry
+    public partial class Folder : Entry
     {
         /// <summary>
         /// A boolean indicating if the folder that this instance represents is known
@@ -9474,7 +9504,7 @@ namespace Laserfiche.Repository.Api.Client
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataValueContextOfIListOfODataGetEntryChildren : ODataValueOfIListOfODataGetEntryChildren
+    public partial class ODataValueContextOfIListOfEntry : ODataValueOfIListOfEntry
     {
         /// <summary>
         /// It contains a URL that allows retrieving the next subset of the requested collection.
@@ -9491,117 +9521,10 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataValueOfIListOfODataGetEntryChildren
+    public partial class ODataValueOfIListOfEntry
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ODataGetEntryChildren> Value { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataGetEntryChildren : GetEntryChildren
-    {
-        /// <summary>
-        /// The fields assigned to this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EntryFieldValue> Fields { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class GetEntryChildren
-    {
-        /// <summary>
-        /// The ID of the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// The name of the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The ID of the parent entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("parentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? ParentId { get; set; }
-
-        /// <summary>
-        /// The full path in the Laserfiche repository to the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fullPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FullPath { get; set; }
-
-        /// <summary>
-        /// The path in the Laserfiche repository to the parent folder.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FolderPath { get; set; }
-
-        /// <summary>
-        /// The name of the user that created this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("creator", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Creator { get; set; }
-
-        /// <summary>
-        /// The creation time of the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("creationTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset CreationTime { get; set; }
-
-        /// <summary>
-        /// The last modification time of the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("lastModifiedTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset LastModifiedTime { get; set; }
-
-        /// <summary>
-        /// The type of the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("entryType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public EntryType EntryType { get; set; }
-
-        /// <summary>
-        /// A boolean indicating if this entry is a container object; it can have other entries as children.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isContainer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsContainer { get; set; }
-
-        /// <summary>
-        /// A boolean indicating if this entry is a leaf object; it cannot have other entries as children.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isLeaf", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsLeaf { get; set; }
-
-        /// <summary>
-        /// The name of the template assigned to this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("templateName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TemplateName { get; set; }
-
-        /// <summary>
-        /// The id of the template assigned to this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("templateId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int TemplateId { get; set; }
-
-        /// <summary>
-        /// The name of the volume that this entry is associated with.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string VolumeName { get; set; }
-
-        /// <summary>
-        /// Row number assigned to this entry in the listing.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("rowNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int RowNumber { get; set; }
+        public System.Collections.Generic.ICollection<Entry> Value { get; set; }
 
     }
 
@@ -10197,45 +10120,6 @@ namespace Laserfiche.Repository.Api.Client
         Percentage = 1,
 
         NumberOfLetters = 2,
-
-    }
-
-    /// <summary>
-    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataValueContextOfIListOfODataGetSearchResults : ODataValueOfIListOfODataGetSearchResults
-    {
-        /// <summary>
-        /// It contains a URL that allows retrieving the next subset of the requested collection.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OdataNextLink { get; set; }
-
-        /// <summary>
-        /// It contains the count of a collection of entities or a collection of entity references.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int OdataCount { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataValueOfIListOfODataGetSearchResults
-    {
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ODataGetSearchResults> Value { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class ODataGetSearchResults : GetEntryChildren
-    {
-        /// <summary>
-        /// The fields assigned to this entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EntryFieldValue> Fields { get; set; }
 
     }
 

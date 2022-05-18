@@ -20,11 +20,11 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            ODataValueOfIListOfODataGetEntryChildren entries = new ODataValueOfIListOfODataGetEntryChildren()
+            ODataValueOfIListOfEntry entries = new ODataValueOfIListOfEntry()
             {
-                Value = new List<ODataGetEntryChildren>()
+                Value = new List<Entry>()
                 {
-                    new ODataGetEntryChildren()
+                    new Entry()
                     {
                         Id = 100,
                         Name = "entry1",
@@ -40,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
                         VolumeName = "default",
                         RowNumber = 1
                     },
-                    new ODataGetEntryChildren()
+                    new Entry()
                     {
                         Id = 101,
                         Name = "entry2",
@@ -136,11 +136,11 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            ODataValueOfIListOfODataGetEntryChildren entries = new ODataValueOfIListOfODataGetEntryChildren()
+            ODataValueOfIListOfEntry entries = new ODataValueOfIListOfEntry()
             {
-                Value = new List<ODataGetEntryChildren>()
+                Value = new List<Entry>()
                 {
-                    new ODataGetEntryChildren()
+                    new Entry()
                     {
                         Id = 100,
                         Name = "entry1",
@@ -156,7 +156,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
                         VolumeName = "default",
                         RowNumber = 1
                     },
-                    new ODataGetEntryChildren()
+                    new Entry()
                     {
                         Id = 101,
                         Name = "entry2",
