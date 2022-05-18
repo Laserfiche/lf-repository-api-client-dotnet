@@ -8,7 +8,7 @@ namespace Laserfiche.Repository.Api.Client
 {
     internal class BaseClient
     {
-        protected async Task<SwaggerResponse<T>> ApiForEachAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
+        protected async Task<SwaggerResponse<T>> GetNextLinkAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
         {
             if (nextLink == null)
             {
