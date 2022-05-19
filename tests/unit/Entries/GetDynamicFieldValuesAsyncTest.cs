@@ -54,7 +54,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
+            var response = await client.EntriesClient.GetDynamicFieldValuesAsync(repoId, entryId, new GetDynamicFieldLogicValueRequest()
                 {
                     TemplateId = 1,
                     FieldValues = fieldValsDict
@@ -62,11 +62,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             );
 
             // ASSERT
-            Assert.NotNull(swaggerResponse);
-            Assert.Equal(200, swaggerResponse.StatusCode);
-            Assert.Equal(1, swaggerResponse.Result.Count);
-            Assert.True(swaggerResponse.Result.ElementAt(0).Value.Contains("additionalValue1"));
-            Assert.Equal(1, swaggerResponse.Result.ElementAt(0).Value.Count);
+            Assert.NotNull(response);
+            Assert.Equal(1, response.Count);
+            Assert.True(response.ElementAt(0).Value.Contains("additionalValue1"));
+            Assert.Equal(1, response.ElementAt(0).Value.Count);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue");

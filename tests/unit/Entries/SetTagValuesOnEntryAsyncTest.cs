@@ -82,11 +82,11 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
+            var response = await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
             {
                 Tags = new List<string>() { tagInfo.Name, tagInfo2.Name }
             });
-            var result = swaggerResponse.Result.Value;
+            var result = response.Value;
 
             // ASSERT
             Assert.NotNull(result);

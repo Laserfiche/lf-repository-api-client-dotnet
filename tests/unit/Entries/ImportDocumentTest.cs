@@ -150,8 +150,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 var client = new RepositoryApiClient(httpClient);
 
                 // ACT
-                var response = await client.EntriesClient.ImportDocumentAsync(repoId, parentEntryId, fileName, electronicDocument: electronicDocument, request: request);
-                var result = response.Result;
+                var result = await client.EntriesClient.ImportDocumentAsync(repoId, parentEntryId, fileName, electronicDocument: electronicDocument, request: request);
 
                 // ASSERT
                 Assert.NotNull(result);
@@ -410,8 +409,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 var client = new RepositoryApiClient(httpClient);
 
                 // ACT
-                var response = await client.EntriesClient.ImportDocumentAsync(repoId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
-                var result = response.Result;
+                var result = await client.EntriesClient.ImportDocumentAsync(repoId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
                 // ASSERT
                 Assert.NotNull(result);

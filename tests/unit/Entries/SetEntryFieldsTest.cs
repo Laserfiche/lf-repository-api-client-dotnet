@@ -100,8 +100,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request);
-            var result = response.Result;
+            var result = await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request);
 
             // ASSERT
             Assert.NotNull(result);
