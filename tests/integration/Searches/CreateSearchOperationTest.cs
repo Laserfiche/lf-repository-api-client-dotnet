@@ -33,12 +33,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var response = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
-            token = response.Result?.Token;
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
-            var redirectUrl = response.Headers["Location"].ToList()[0];
-            Assert.IsNotNull(redirectUrl);
-            Assert.IsTrue(redirectUrl.Contains(token));
         }
     }
 }

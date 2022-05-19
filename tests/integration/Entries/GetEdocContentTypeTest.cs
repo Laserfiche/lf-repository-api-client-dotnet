@@ -40,27 +40,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", contentType);
-                var response = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
-                var operations = response.Result?.Operations;
+                var operations = result.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);
                 Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
                 Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
                 Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
-                Assert.IsFalse(string.IsNullOrEmpty(response.Result.DocumentLink));
+                Assert.IsFalse(string.IsNullOrEmpty(result.DocumentLink));
                 return operations.EntryCreate.EntryId;
             }
-        }
-
-        [TestMethod]
-        public async Task GetEDocContentType_ReturnDocumentContentType()
-        {
-            createdEntryId = await CreateDocument();
-
-            var response = await client.EntriesClient.GetDocumentContentTypeAsync(RepositoryId, createdEntryId);
-
-            Assert.AreEqual(contentType, response.Headers["Content-Type"].FirstOrDefault());
-            Assert.IsTrue(response.Headers.ContainsKey("Content-Length"));
         }
     }
 }

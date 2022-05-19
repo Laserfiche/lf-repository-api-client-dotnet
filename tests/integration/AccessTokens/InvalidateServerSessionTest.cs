@@ -17,8 +17,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
         [TestMethod]
         public async Task InvalidateServerSession_LogoutSuccessful()
         {
-            var response = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId);
-            Assert.AreEqual(true, response.Result?.Value);
+            var result = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId);
+            Assert.AreEqual(true, result.Value);
         }
     }
 }

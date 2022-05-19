@@ -33,8 +33,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntry_ReturnRootFolder()
         {
             int entryId = 1;
-            var response = await client.EntriesClient.GetEntryAsync(RepositoryId, entryId);
-            var entry = response.Result;
+            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, entryId);
             Assert.IsNotNull(entry);
             Assert.AreEqual(typeof(Folder), entry.GetType());
             Assert.AreEqual(entryId, entry.Id);
@@ -50,14 +49,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var response = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
-                var operations = response.Result?.Operations;
+                var operations = result.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);
                 Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
                 Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
                 Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
-                Assert.IsFalse(string.IsNullOrEmpty(response.Result.DocumentLink));
+                Assert.IsFalse(string.IsNullOrEmpty(result.DocumentLink));
                 return operations.EntryCreate.EntryId;
             }
         }
@@ -66,8 +65,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntry_ReturnDocument()
         {
             createdEntryId = await CreateDocument();
-            var response = await client.EntriesClient.GetEntryAsync(RepositoryId, createdEntryId);
-            var entry = response.Result;
+            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, createdEntryId);
             Assert.IsNotNull(entry);
             Assert.AreEqual(typeof(Document), entry.GetType());
             Assert.AreEqual(createdEntryId, entry.Id);

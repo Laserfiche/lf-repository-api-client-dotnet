@@ -17,11 +17,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         [TestMethod]
         public async Task GetRepositoryList_ReturnSuccessful()
         {
-            var response = await client.RepositoriesClient.GetRepositoryListAsync();
-            Assert.IsTrue(response.Result.Count > 0, "No repositories found.");
+            var result = await client.RepositoriesClient.GetRepositoryListAsync();
+            Assert.IsTrue(result.Count > 0, "No repositories found.");
 
             bool foundRepo = false;
-            foreach (var repoInfo in response.Result)
+            foreach (var repoInfo in result)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.RepoId));
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));

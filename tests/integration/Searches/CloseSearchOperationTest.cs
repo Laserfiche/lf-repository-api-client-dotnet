@@ -33,8 +33,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var searchResponse = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
-            token = searchResponse.Result?.Token;
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
         }
     }

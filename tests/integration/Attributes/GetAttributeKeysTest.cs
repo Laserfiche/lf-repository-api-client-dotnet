@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         public async Task GetAttributes_ReturnAttributes()
         {
             var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(RepositoryId);
-            Assert.IsNotNull(response.Result?.Value);
+            Assert.IsNotNull(response.Value);
         }
 
         [TestMethod]
@@ -26,12 +26,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         {
             int maxPageSize = 10;
 
-            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfListOfAttribute> data)
+            Task<bool> PagingCallback(ODataValueContextOfListOfAttribute data)
             {
-                if (data.Result.OdataNextLink != null)
+                if (data.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Result.Value.Count);
-                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    Assert.IsTrue(data.Value.Count <= maxPageSize);
                     return Task.FromResult(true);
                 }
                 else
@@ -49,22 +49,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
-            Assert.IsNotNull(response);
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            Assert.IsNotNull(result);
 
-            if (response.Result.Value.Count == 0)
+            if (result.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = response.Result.OdataNextLink;
+            var nextLink = result.OdataNextLink;
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsNextLinkAsync(nextLink, maxPageSize);
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsNextLinkAsync(nextLink, maxPageSize);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Value.Count <= maxPageSize);
         }
     }
 }
