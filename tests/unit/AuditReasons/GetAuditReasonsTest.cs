@@ -70,8 +70,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AuditReasons
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.AuditReasonsClient.GetAuditReasonsAsync(repoId);
-            var result = response.Result;
+            var result = await client.AuditReasonsClient.GetAuditReasonsAsync(repoId);
 
             // ASSERT
             Assert.NotNull(result);
