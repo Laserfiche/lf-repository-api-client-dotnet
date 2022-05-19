@@ -1,9 +1,6 @@
 ﻿using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -48,8 +45,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.TasksClient.CancelOperationAsync(repoId, operationToken);
-            Assert.Equal(204, swaggerResponse.StatusCode);
+            await client.TasksClient.CancelOperationAsync(repoId, operationToken);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");
