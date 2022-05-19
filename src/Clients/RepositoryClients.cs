@@ -2491,7 +2491,8 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
                 }
             }
             finally
@@ -5102,6 +5103,46 @@ namespace Laserfiche.Repository.Api.Client
                     return objectResponse_.Object;
                 }
                 else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -5218,7 +5259,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface I
+    public partial interface ITasksClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5449,7 +5490,8 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return await CancelOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    await CancelOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
                 }
             }
             finally
@@ -5911,7 +5953,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface I
+    public partial interface ISearchesClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6887,7 +6929,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface I
+    public partial interface ISimpleSearchesClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7208,7 +7250,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface I
+    public partial interface ITagDefinitionsClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7665,7 +7707,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface I
+    public partial interface ITemplateDefinitionsClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -8704,24 +8746,53 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// A machine-readable format for specifying errors in HTTP API responses based on https://tools.ietf.org/html/rfc7807.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ProblemDetails
     {
+        /// <summary>
+        /// A URI reference [RFC3986] that identifies the problem type. This specification encourages that, when
+        /// <br/>dereferenced, it provide human-readable documentation for the problem type
+        /// <br/>(e.g., using HTML [W3C.REC-html5-20141028]).  When this member is not present, its value is assumed to be
+        /// <br/>"about:blank".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 
+        /// <summary>
+        /// A short, human-readable summary of the problem type.It SHOULD NOT change from occurrence to occurrence
+        /// <br/>of the problem, except for purposes of localization(e.g., using proactive content negotiation;
+        /// <br/>see[RFC7231], Section 3.4).
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Title { get; set; }
 
+        /// <summary>
+        /// The HTTP status code([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? Status { get; set; }
 
+        /// <summary>
+        /// A human-readable explanation specific to this occurrence of the problem.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("detail", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Detail { get; set; }
 
+        /// <summary>
+        /// A URI reference that identifies the specific occurrence of the problem.It may or may not yield further information if dereferenced.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("instance", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Instance { get; set; }
 
+        /// <summary>
+        /// Gets the IDictionary`2 for extension members.
+        /// <br/>
+        /// <br/>Problem type definitions MAY extend the problem details object with additional members. Extension members appear in the same namespace as
+        /// <br/>other members of a problem type.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("extensions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IDictionary<string, object> Extensions { get; set; }
 
@@ -8736,12 +8807,18 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// Represents HttpRequest and HttpResponse headers
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public abstract partial class IHeaderDictionary
     {
         [Newtonsoft.Json.JsonProperty("Item", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<object> Item { get; set; }
 
+        /// <summary>
+        /// Strongly typed access to the Content-Length header. Implementations must keep this in sync with the string representation.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("ContentLength", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long? ContentLength { get; set; }
 
