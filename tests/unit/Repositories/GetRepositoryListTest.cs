@@ -58,8 +58,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Repositories
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.RepositoriesClient.GetRepositoryListAsync();
-            var result = response.Result;
+            var result = await client.RepositoriesClient.GetRepositoryListAsync();
 
             // ASSERT
             Assert.NotNull(result);
