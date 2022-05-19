@@ -1,4 +1,6 @@
-﻿namespace Laserfiche.Repository.Api.Client
+﻿using System.Net.Http.Headers;
+
+namespace Laserfiche.Repository.Api.Client
 {
     /// <summary>
     /// The Laserfiche Repository API client.
@@ -8,7 +10,7 @@
         /// <summary>
         /// The headers which will be sent with each request.
         /// </summary>
-        System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders { get; }
+        HttpRequestHeaders DefaultRequestHeaders { get; }
 
         IAttributesClient AttributesClient { get; }
         IAuditReasonsClient AuditReasonsClient { get; }
