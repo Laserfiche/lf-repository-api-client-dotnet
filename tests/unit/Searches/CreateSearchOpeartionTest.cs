@@ -55,8 +55,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest);
-            var result = response.Result;
+            var result = await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest);
 
             // ASSERT
             Assert.NotNull(result);
