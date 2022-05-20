@@ -86,8 +86,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId);
-            var result = response.Result;
+            var result = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId);
 
             // ASSERT
             Assert.NotNull(result);
@@ -237,10 +236,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId, prefer: preferHeaderValue,
+            var result = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
                 skip: skipQueryParameter, count: countQueryParameter);
-            var result = response.Result;
 
             // ASSERT
             Assert.NotNull(result);

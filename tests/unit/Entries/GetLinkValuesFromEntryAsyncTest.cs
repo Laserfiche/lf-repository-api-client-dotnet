@@ -82,9 +82,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId);
+            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId);
 
-            var result = swaggerResponse.Result.Value;
+            var result = response.Value;
 
             // ASSERT
             Assert.NotNull(result);

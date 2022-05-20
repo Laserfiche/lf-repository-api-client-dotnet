@@ -18,21 +18,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task GetTemplateDefinition_ReturnAllTemplates()
         {
-            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
-            Assert.IsNotNull(response.Result?.Value);
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            Assert.IsNotNull(result.Value);
         }
 
         [TestMethod]
         public async Task GetTemplateDefinition_TemplateNameQueryParameter_ReturnSingleTemplate()
         {
-            var allTemplateDefinitionsResponse = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
-            var firstTemplateDefinition = allTemplateDefinitionsResponse.Result?.Value?.FirstOrDefault();
+            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition);
 
-            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, templateName: firstTemplateDefinition.Name);
-            Assert.IsNotNull(response.Result?.Value);
-            Assert.AreEqual(1, response.Result?.Value.Count);
-            Assert.AreEqual(firstTemplateDefinition.Id, response.Result?.Value.FirstOrDefault().Id);
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, templateName: firstTemplateDefinition.Name);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual(1, result.Value.Count);
+            Assert.AreEqual(firstTemplateDefinition.Id, result.Value.FirstOrDefault().Id);
         }
 
         [TestMethod]
@@ -40,12 +40,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         {
             int maxPageSize = 10;
 
-            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo> data)
+            Task<bool> PagingCallback(ODataValueContextOfIListOfWTemplateInfo data)
             {
-                if (data.Result.OdataNextLink != null)
+                if (data.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Result.Value.Count);
-                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    Assert.IsTrue(data.Value.Count <= maxPageSize);
                     return Task.FromResult(true);
                 }
                 else
@@ -63,22 +63,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
-            Assert.IsNotNull(response);
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            Assert.IsNotNull(result);
 
-            if (response.Result.Value.Count == 0)
+            if (result.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = response.Result.OdataNextLink;
+            var nextLink = result.OdataNextLink;
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            response = await client.TemplateDefinitionsClient.GetTemplateDefinitionsNextLinkAsync(nextLink, maxPageSize);
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Value.Count <= maxPageSize);
         }
     }
 }

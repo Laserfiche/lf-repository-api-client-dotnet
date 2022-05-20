@@ -63,8 +63,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(repoId, tagInfo.Id);
-            var result = swaggerResponse.Result;
+            var result = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(repoId, tagInfo.Id);
 
             // ASSERT
             Assert.NotNull(result);

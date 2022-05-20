@@ -60,8 +60,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
-            var result = swaggerResponse.Result;
+            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
 
             // ASSERT
             Assert.NotNull(result);
@@ -195,8 +194,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.GetEntryAsync(repoId, entry.Id, select: selectQueryParameter);
-            var result = swaggerResponse.Result;
+            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id, select: selectQueryParameter);
 
             // ASSERT
             Assert.NotNull(result);

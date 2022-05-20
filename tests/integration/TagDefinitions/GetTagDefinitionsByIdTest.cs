@@ -18,12 +18,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         [TestMethod]
         public async Task GetTagDefinitionsById_ReturnTag()
         {
-            var allTagDefinitionsResponse = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
-            var firstTagDefinition = allTagDefinitionsResponse.Result?.Value?.FirstOrDefault();
+            var allTagDefinitionsResult = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
+            var firstTagDefinition = allTagDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTagDefinition, "No tag definitions exist in the repository.");
 
-            var response = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(RepositoryId, firstTagDefinition.Id);
-            var tagDefinition = response.Result;
+            var tagDefinition = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(RepositoryId, firstTagDefinition.Id);
 
             Assert.IsNotNull(tagDefinition);
             Assert.AreEqual(firstTagDefinition.Id, tagDefinition.Id);

@@ -54,8 +54,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId);
-            var result = response.Result;
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId);
 
             // ASSERT
             Assert.NotNull(result);
@@ -176,8 +175,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone: true);
-            var result = response.Result;
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone: true);
 
             // ASSERT
             Assert.NotNull(result);

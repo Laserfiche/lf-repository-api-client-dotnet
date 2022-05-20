@@ -37,41 +37,40 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task CreateCopyEntry_CopyEntry()
         {
+            // Create a new folder that contains the created entry
+            var testFolderName = "CreateCopyEntry_CopyEntry_test_folder";
+            var testFolder = CreateEntry(client, testFolderName);
+
             // Create new entry
             string newEntryName = "APIServerClientIntegrationTest CreateFolder";
-            int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var response = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
-            var targetEntry = response.Result;
+            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, testFolder.Id, request, autoRename: true);
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
-            Assert.AreEqual(parentEntryId, targetEntry.ParentId);
+            Assert.AreEqual(testFolder.Id, targetEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
 
             // Copy entry
-            var copyrequest = new CopyAsyncRequest()
+            var copyRequest = new CopyAsyncRequest()
             {
                 Name = "CopiedEntry",
                 SourceId = targetEntry.Id
             };
-            string opToken = "";
-            var copyresponse = await client.EntriesClient.CopyEntryAsync(RepositoryId, parentEntryId, copyrequest, autoRename: true);
-            opToken = copyresponse.Result.Token;
+            var copyResult = await client.EntriesClient.CopyEntryAsync(RepositoryId, testFolder.Id, copyRequest, autoRename: true);
+            var opToken = copyResult.Token;
 
+            // Wait for the copy operation to finish
             await Task.Delay(5000);
-            string redirectUrl = "";
             var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, opToken);
-            redirectUrl = opResponse.Headers["Location"].ToList()[0];
+            Assert.AreEqual(OperationStatus.Completed, opResponse.Status);
 
-            response = await client.EntriesClient.GetEntryAsync(redirectUrl);
-            createdEntries.Add(response.Result);
-            Assert.IsTrue(response.Result.Name.StartsWith(copyrequest.Name));
-            Assert.AreEqual(parentEntryId, response.Result.ParentId);
-            Assert.AreEqual(targetEntry.EntryType, response.Result.EntryType);
+            // Remove the folder that contains the created entry
+            var deletionResult = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, testFolder.Id, new DeleteEntryWithAuditReason());
+            Assert.IsTrue(!string.IsNullOrEmpty(deletionResult.Token));
         }
     }
 }

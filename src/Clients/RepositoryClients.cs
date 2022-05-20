@@ -31,7 +31,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The submitted audit reason.</param>
         /// <returns>Delete entry operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -60,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -79,7 +79,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -91,7 +91,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -109,7 +109,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -118,7 +118,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -131,7 +131,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -139,14 +139,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="tagsToAdd">The tags to add.</param>
         /// <returns>Assign tags to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The request repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Assign links to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -159,7 +159,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -171,21 +171,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Deleted edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Get edoc info successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -202,7 +202,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="pageRange">The pages to be deleted.</param>
         /// <returns>Deleted pages successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -218,14 +218,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Get dynamic field logic values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The ID of the entry that will have its template removed.</param>
         /// <returns>Remove the currently assigned template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -235,7 +235,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -276,7 +276,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -303,7 +303,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -350,7 +350,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<CreateEntryResult>> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -373,7 +373,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<CreateEntryResult>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -464,7 +464,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -483,7 +483,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -508,7 +508,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -531,7 +531,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -602,7 +602,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The submitted audit reason.</param>
         /// <returns>Delete entry operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -616,7 +616,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -644,7 +644,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -667,7 +667,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -733,7 +733,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -756,7 +756,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -784,7 +784,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -807,7 +807,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -909,7 +909,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -960,7 +960,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -988,7 +988,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1011,7 +1011,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfEntry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1086,7 +1086,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1109,7 +1109,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1137,7 +1137,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1160,7 +1160,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1251,7 +1251,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1294,7 +1294,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1322,7 +1322,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfFieldValue>> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1345,7 +1345,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1417,7 +1417,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1436,7 +1436,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1464,7 +1464,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfFieldValue>> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1487,7 +1487,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfFieldValue>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1573,7 +1573,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1608,7 +1608,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1636,7 +1636,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1659,7 +1659,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1730,7 +1730,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="tagsToAdd">The tags to add.</param>
         /// <returns>Assign tags to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1744,7 +1744,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1772,7 +1772,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWTagInfo>> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1795,7 +1795,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -1875,7 +1875,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Assign links to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -1889,7 +1889,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1917,7 +1917,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -1940,7 +1940,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -2026,7 +2026,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2061,7 +2061,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2089,7 +2089,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2112,7 +2112,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -2187,7 +2187,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2210,7 +2210,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2238,7 +2238,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2261,7 +2261,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -2321,7 +2321,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Deleted edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2335,7 +2335,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2360,7 +2360,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2383,7 +2383,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -2463,7 +2463,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Get edoc info successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2477,7 +2477,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2491,7 +2491,8 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
                 }
             }
             finally
@@ -2501,7 +2502,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse> GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2519,7 +2520,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    return new SwaggerResponse(status_, headers_);
+                    return;
                 }
                 else
                 if (status_ == 400)
@@ -2615,7 +2616,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2753,7 +2754,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="pageRange">The pages to be deleted.</param>
         /// <returns>Deleted pages successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -2772,7 +2773,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2797,7 +2798,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -2820,7 +2821,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -2916,7 +2917,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3056,7 +3057,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Get dynamic field logic values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -3070,7 +3071,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3098,7 +3099,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3121,7 +3122,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -3191,7 +3192,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The ID of the entry that will have its template removed.</param>
         /// <returns>Remove the currently assigned template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -3205,7 +3206,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3230,7 +3231,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3253,7 +3254,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -3336,7 +3337,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -3355,7 +3356,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3383,7 +3384,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Entry>> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3406,7 +3407,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Entry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -3553,7 +3554,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -3565,17 +3566,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -3602,7 +3603,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute keys successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -3613,7 +3614,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
         /// <returns>Get trustee attribute value successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -3658,7 +3659,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute keys successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -3693,7 +3694,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3721,7 +3722,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfListOfAttribute>> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3744,7 +3745,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfListOfAttribute>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 401)
@@ -3808,7 +3809,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
         /// <returns>Get trustee attribute value successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -3827,7 +3828,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3852,7 +3853,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<Attribute>> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -3875,7 +3876,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<Attribute>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -4012,7 +4013,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -4024,17 +4025,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -4055,7 +4056,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get field definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -4069,7 +4070,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -4108,7 +4109,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get field definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -4131,7 +4132,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4156,7 +4157,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WFieldInfo>> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4179,7 +4180,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<WFieldInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -4256,7 +4257,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -4291,7 +4292,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4319,7 +4320,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4342,7 +4343,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfWFieldInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -4469,7 +4470,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -4481,17 +4482,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -4507,7 +4508,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -4541,13 +4542,13 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("v1/Repositories");
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4572,7 +4573,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4595,12 +4596,12 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<System.Collections.Generic.ICollection<RepositoryInfo>>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 204)
                 {
-                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw new ApiException("Account does not have access to any repository", status_, responseText_, headers_, null);
                 }
                 else
@@ -4718,7 +4719,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -4730,17 +4731,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -4757,19 +4758,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -4804,7 +4805,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -4814,7 +4815,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4840,7 +4841,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4863,7 +4864,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -4922,7 +4923,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -4932,7 +4933,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4958,7 +4959,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfDateTime>> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -4981,7 +4982,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfDateTime>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -5040,7 +5041,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5050,7 +5051,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5076,7 +5077,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5099,7 +5100,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -5226,7 +5227,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5238,17 +5239,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5266,14 +5267,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token.</param>
         /// <returns>Get completed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -5309,7 +5310,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token.</param>
         /// <returns>Get completed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5323,7 +5324,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5348,7 +5349,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5371,7 +5372,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 201)
@@ -5381,7 +5382,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 202)
@@ -5391,7 +5392,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 404)
@@ -5461,7 +5462,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse> CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5475,7 +5476,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5489,7 +5490,8 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return await CancelOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    await CancelOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
                 }
             }
             finally
@@ -5499,7 +5501,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse> CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5517,7 +5519,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 204)
                 {
-                    return new SwaggerResponse(status_, headers_);
+                    return;
                 }
                 else
                 if (status_ == 400)
@@ -5654,7 +5656,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5666,17 +5668,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5696,7 +5698,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Get audit reasons successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -5734,7 +5736,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Get audit reasons successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -5744,7 +5746,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5769,7 +5771,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AuditReasons>> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -5792,7 +5794,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<AuditReasons>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -5919,7 +5921,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5931,17 +5933,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5962,7 +5964,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
         /// <returns>Search operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5972,7 +5974,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Search has failed. Check the errors property to find out why.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5982,7 +5984,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Cancel or closed search successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -6005,7 +6007,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -6019,7 +6021,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -6058,7 +6060,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
         /// <returns>Search operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6068,7 +6070,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6096,7 +6098,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<AcceptedOperation>> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6119,7 +6121,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<AcceptedOperation>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -6182,7 +6184,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Search has failed. Check the errors property to find out why.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6196,7 +6198,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6221,7 +6223,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationProgress>> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<OperationProgress> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6244,7 +6246,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 201)
@@ -6254,7 +6256,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 202)
@@ -6264,7 +6266,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<OperationProgress>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -6337,7 +6339,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Cancel or closed search successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6351,7 +6353,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6376,7 +6378,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfBoolean>> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6399,7 +6401,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfBoolean>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -6485,7 +6487,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6540,7 +6542,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6568,7 +6570,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfEntry>> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6591,7 +6593,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfEntry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -6668,7 +6670,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6707,7 +6709,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6735,7 +6737,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfContextHit>> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6758,7 +6760,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfContextHit>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -6895,7 +6897,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -6907,17 +6909,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -6943,7 +6945,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -6987,7 +6989,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7022,7 +7024,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7050,7 +7052,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueOfIListOfEntry>> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -7073,12 +7075,12 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfEntry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 204)
                 {
-                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw new ApiException("No search results found.", status_, responseText_, headers_, null);
                 }
                 else
@@ -7089,7 +7091,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueOfIListOfEntry>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -7216,7 +7218,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -7228,17 +7230,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -7263,7 +7265,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -7273,7 +7275,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get tag definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -7316,7 +7318,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7351,7 +7353,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7379,7 +7381,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -7402,7 +7404,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfWTagInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -7465,7 +7467,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get tag definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7488,7 +7490,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7513,7 +7515,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTagInfo>> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -7536,7 +7538,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<WTagInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -7673,7 +7675,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -7685,17 +7687,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -7721,7 +7723,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -7731,7 +7733,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get template definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -7746,7 +7748,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -7761,7 +7763,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -7805,7 +7807,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7844,7 +7846,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7872,7 +7874,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -7895,7 +7897,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfWTemplateInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 401)
@@ -7968,7 +7970,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get template definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -7991,7 +7993,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8016,7 +8018,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<WTemplateInfo>> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -8039,7 +8041,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<WTemplateInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -8117,7 +8119,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -8156,7 +8158,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8184,7 +8186,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -8207,7 +8209,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -8285,7 +8287,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -8321,7 +8323,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
+            bool[] disposeClient_ = new bool[] { false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8349,7 +8351,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -8372,7 +8374,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    return new SwaggerResponse<ODataValueContextOfIListOfTemplateFieldInfo>(status_, headers_, objectResponse_.Object);
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)
@@ -8509,7 +8511,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -8521,17 +8523,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -10403,12 +10405,12 @@ namespace Laserfiche.Repository.Api.Client
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this (data, null, null)
+            : this(data, null, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string fileName)
-            : this (data, fileName, null)
+            : this(data, fileName, null)
         {
         }
 
@@ -10462,32 +10464,6 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class SwaggerResponse
-    {
-        public int StatusCode { get; private set; }
-
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-
-        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
-        {
-            StatusCode = statusCode;
-            Headers = headers;
-        }
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class SwaggerResponse<TResult> : SwaggerResponse
-    {
-        public TResult Result { get; private set; }
-
-        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
-            : base(statusCode, headers)
-        {
-            Result = result;
-        }
-    }
-
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ApiException : System.Exception
@@ -10528,8 +10504,8 @@ namespace Laserfiche.Repository.Api.Client
 
 #pragma warning restore 1591
 #pragma warning restore 1573
-#pragma warning restore  472
-#pragma warning restore  114
-#pragma warning restore  108
+#pragma warning restore 472
+#pragma warning restore 114
+#pragma warning restore 108
 #pragma warning restore 3016
 #pragma warning restore 8603

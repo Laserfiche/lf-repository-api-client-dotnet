@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Laserfiche.Repository.Api.Client;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
@@ -81,8 +80,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.GetFieldValuesAsync(repoId, entryId);
-            var result = response.Result;
+            var result = await client.EntriesClient.GetFieldValuesAsync(repoId, entryId);
 
             // ASSERT
             Assert.NotNull(result);
@@ -230,10 +228,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.GetFieldValuesAsync(repoId, entryId, prefer: preferHeaderValue,
+            var result = await client.EntriesClient.GetFieldValuesAsync(repoId, entryId, prefer: preferHeaderValue,
                 formatValue: formatValue, culture: culture, select: selectQueryParameter, orderby: orderbyQueryParameter,
                 top: topQueryParameter, skip: skipQueryParameter, count: countQueryParameter);
-            var result = response.Result;
 
             // ASSERT
             Assert.NotNull(result);

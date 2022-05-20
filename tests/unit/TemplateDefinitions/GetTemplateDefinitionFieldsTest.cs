@@ -94,8 +94,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId);
-            var result = response.Result;
+            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId);
 
             // ASSERT
             Assert.NotNull(result);
@@ -256,10 +255,9 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId, prefer: preferHeaderValue,
+            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
                 skip: skipQueryParameter, count: countQueryParameter);
-            var result = response.Result;
 
             // ASSERT
             Assert.NotNull(result);

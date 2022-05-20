@@ -88,8 +88,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request);
-            var result = response.Result;
+            var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -204,9 +203,8 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, select: "select", orderby: "orderby",
+            var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, select: "select", orderby: "orderby",
                 count: true, fields: new List<string>() { "field1", "field2" }, formatFields: true, request: request, culture: "fr");
-            var result = response.Result;
 
             // ASSERT
             Assert.NotNull(result);

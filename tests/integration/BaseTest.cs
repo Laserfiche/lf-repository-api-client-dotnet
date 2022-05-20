@@ -59,10 +59,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 Name = entryName
             };
             var newEntry = await client?.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename);
-            Assert.IsNotNull(newEntry.Result);
-            Assert.AreEqual(parentEntryId, newEntry.Result.ParentId);
-            Assert.AreEqual(EntryType.Folder, newEntry.Result.EntryType);
-            return newEntry.Result;
+            Assert.IsNotNull(newEntry);
+            Assert.AreEqual(parentEntryId, newEntry.ParentId);
+            Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
+            return newEntry;
         }
     }
 }

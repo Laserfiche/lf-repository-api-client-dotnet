@@ -59,8 +59,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
-            var result = response.Result;
+            var result = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
 
             // ASSERT
             Assert.NotNull(result);
@@ -127,8 +126,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
-            var result = response.Result;
+            var result = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
 
             // ASSERT
             Assert.NotNull(result);
@@ -194,8 +192,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
-            var result = response.Result;
+            var result = await client.SearchesClient.GetSearchStatusAsync(repoId, searchToken);
 
             // ASSERT
             Assert.NotNull(result);

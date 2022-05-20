@@ -52,15 +52,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.GetDocumentContentTypeAsync(repoId, entryId);
+            await client.EntriesClient.GetDocumentContentTypeAsync(repoId, entryId);
 
-            // ASSERT
-            Assert.NotNull(swaggerResponse);
-            Assert.Equal(200, swaggerResponse.StatusCode);
-            Assert.Equal(httpResponse.Content.Headers.ContentType.ToString(), swaggerResponse.Headers["Content-Type"].ElementAt(0).ToString());
-            Assert.Equal(httpResponse.Content.Headers.ContentLength.ToString(), swaggerResponse.Headers["Content-Length"].ElementAt(0).ToString());
-
-            // also check the 'http' call was like we expected it
+            // Also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc");
 
             handlerMock.Protected().Verify(

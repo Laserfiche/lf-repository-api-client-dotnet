@@ -1,18 +1,20 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Linq;
 using System.Net.Http;
-using System.Threading;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace Laserfiche.Repository.Api.Client
 {
     internal class BaseClient
     {
-        protected async Task<SwaggerResponse<T>> GetNextLinkAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<SwaggerResponse<T>>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
+        protected async Task<T> GetNextLinkAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<T>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
         {
             if (nextLink == null)
             {
-                return null;
+                return default;
             }
             else
             {
@@ -57,42 +59,38 @@ namespace Laserfiche.Repository.Api.Client
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-                    if (field != null)
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null && 
+                        CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
-                            as System.Runtime.Serialization.EnumMemberAttribute;
-                        if (attribute != null)
-                        {
-                            return attribute.Value != null ? attribute.Value : name;
-                        }
+                        return attribute.Value ?? name;
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
-                    return converted == null ? string.Empty : converted;
+                    var converted = Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    return converted ?? string.Empty;
                 }
             }
-            else if (value is bool)
+            else if (value is bool boolean)
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
-            else if (value is byte[])
+            else if (value is byte[] v)
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return Convert.ToBase64String(v);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
-            return result == null ? "" : result;
+            var result = Convert.ToString(value, cultureInfo);
+            return result ?? "";
         }
     }
 }

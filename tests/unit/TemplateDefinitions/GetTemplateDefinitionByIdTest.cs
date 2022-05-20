@@ -59,8 +59,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinition.Id);
-            var result = response.Result;
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinition.Id);
 
             // ASSERT
             Assert.NotNull(result);

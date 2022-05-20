@@ -2,6 +2,7 @@
 using Laserfiche.Api.Client.OAuth;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Laserfiche.Repository.Api.Client
 {
@@ -10,7 +11,7 @@ namespace Laserfiche.Repository.Api.Client
         private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
-        public System.Net.Http.Headers.HttpRequestHeaders DefaultRequestHeaders
+        public HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
         }

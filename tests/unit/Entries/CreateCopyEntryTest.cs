@@ -69,8 +69,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request);
-            var result = response.Result;
+            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -223,8 +222,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request, autoRename: true);
-            var result = response.Result;
+            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request, autoRename: true);
 
             // ASSERT
             Assert.NotNull(result);
