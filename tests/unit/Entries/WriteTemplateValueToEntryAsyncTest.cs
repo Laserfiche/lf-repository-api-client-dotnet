@@ -83,14 +83,13 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request);
+            var result = await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request);
 
             // ASSERT
-            Assert.NotNull(swaggerResponse);
-            Assert.Equal(200, swaggerResponse.StatusCode);
-            Assert.NotNull(swaggerResponse.Result.TemplateFieldNames);
-            Assert.Equal(1, swaggerResponse.Result.TemplateFieldNames.Count);
-            Assert.Equal("templateField", swaggerResponse.Result.TemplateFieldNames.ElementAt(0));
+            Assert.NotNull(result);
+            Assert.NotNull(result.TemplateFieldNames);
+            Assert.Equal(1, result.TemplateFieldNames.Count);
+            Assert.Equal("templateField", result.TemplateFieldNames.ElementAt(0));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/template");
