@@ -82,7 +82,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()
+            var response = await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()
             {
                 new PutLinksRequest()
                 {
@@ -98,7 +98,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 }
             });
         
-            var result = swaggerResponse.Result.Value;
+            var result = response.Value;
 
             // ASSERT
             Assert.NotNull(result);

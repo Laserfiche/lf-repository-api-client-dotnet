@@ -19,8 +19,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
         public async Task RefreshServerSession_RefreshSuccessful()
         {
             var currentTime = DateTime.UtcNow;
-            var refreshResponse = await client.ServerSessionClient.RefreshServerSessionAsync(RepositoryId);
-            var expireTime = refreshResponse.Result?.Value;
+            var refreshResult = await client.ServerSessionClient.RefreshServerSessionAsync(RepositoryId);
+            var expireTime = refreshResult?.Value;
             Assert.IsNotNull(expireTime);
             Assert.IsTrue(currentTime < expireTime.Value.UtcDateTime);
         }

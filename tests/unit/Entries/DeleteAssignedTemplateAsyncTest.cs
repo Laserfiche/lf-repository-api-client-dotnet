@@ -1,5 +1,4 @@
-﻿using Laserfiche.Repository.Api.Client;
-using Moq;
+﻿using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using System;
@@ -63,13 +62,12 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId);
+            var result = await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId);
 
             // ASSERT
-            Assert.NotNull(swaggerResponse);
-            Assert.Equal(200, swaggerResponse.StatusCode);
-            Assert.True(String.IsNullOrEmpty(swaggerResponse.Result.TemplateName));
-            Assert.Equal(0, (swaggerResponse.Result.TemplateId));
+            Assert.NotNull(result);
+            Assert.True(string.IsNullOrEmpty(result.TemplateName));
+            Assert.Equal(0, (result.TemplateId));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/template");

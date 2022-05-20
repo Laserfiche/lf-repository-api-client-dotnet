@@ -58,10 +58,10 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
             var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
-            Assert.Equal(operationProgress.OperationToken, swaggerResponse.Result.OperationToken);
-            Assert.Equal(operationProgress.OperationType, swaggerResponse.Result.OperationType);
-            Assert.Equal(operationProgress.Status, swaggerResponse.Result.Status);
-            Assert.Equal(operationProgress.PercentComplete, swaggerResponse.Result.PercentComplete);
+            Assert.Equal(operationProgress.OperationToken, swaggerResponse.OperationToken);
+            Assert.Equal(operationProgress.OperationType, swaggerResponse.OperationType);
+            Assert.Equal(operationProgress.Status, swaggerResponse.Status);
+            Assert.Equal(operationProgress.PercentComplete, swaggerResponse.PercentComplete);
 
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationProgress.OperationToken}");
 
@@ -120,16 +120,15 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
-            Assert.Equal(202, swaggerResponse.StatusCode);
-            Assert.Equal(operationProgress.OperationToken, swaggerResponse.Result.OperationToken);
-            Assert.Equal(operationProgress.OperationType, swaggerResponse.Result.OperationType);
-            Assert.Equal(operationProgress.Status, swaggerResponse.Result.Status);
-            Assert.Equal(operationProgress.PercentComplete, swaggerResponse.Result.PercentComplete);
-            Assert.Equal(error.ObjectId, swaggerResponse.Result.Errors.First().ObjectId);
-            Assert.Equal(error.ErrorMessage, swaggerResponse.Result.Errors.First().ErrorMessage);
+            Assert.Equal(operationProgress.OperationToken, progress.OperationToken);
+            Assert.Equal(operationProgress.OperationType, progress.OperationType);
+            Assert.Equal(operationProgress.Status, progress.Status);
+            Assert.Equal(operationProgress.PercentComplete, progress.PercentComplete);
+            Assert.Equal(error.ObjectId, progress.Errors.First().ObjectId);
+            Assert.Equal(error.ErrorMessage, progress.Errors.First().ErrorMessage);
 
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationProgress.OperationToken}");
 

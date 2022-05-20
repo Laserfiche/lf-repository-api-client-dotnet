@@ -20,8 +20,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         {
             var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest CancelOperation");
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var response = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);
-            var token = response.Result?.Token;
+            var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);
+            var token = result.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
             try

@@ -17,8 +17,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         [TestMethod]
         public async Task GetAuditReasons_ReturnAuditReasons()
         {
-            var auditReasonsResponse = await client.AuditReasonsClient.GetAuditReasonsAsync(RepositoryId);
-            var auditReasons = auditReasonsResponse.Result;
+            var auditReasons = await client.AuditReasonsClient.GetAuditReasonsAsync(RepositoryId);
 
             Assert.IsNotNull(auditReasons);
             Assert.IsNotNull(auditReasons.DeleteEntry);

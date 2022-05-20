@@ -34,8 +34,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Find a string field
             WFieldInfo field = null;
             string fieldValue = "a";
-            var fieldDefinitionsResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId);
-            var fieldDefinitions = fieldDefinitionsResponse.Result?.Value;
+            var fieldDefinitionsResult = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId);
+            var fieldDefinitions = fieldDefinitionsResult.Value;
             Assert.IsNotNull(fieldDefinitions);
             foreach(var fieldDefinition in fieldDefinitions)
             {
@@ -59,8 +59,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             entry = await CreateEntry(client, "APIServerClientIntegrationTest SetFields");
 
-            var response = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody);
-            var fields = response.Result?.Value;
+            var result = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody);
+            var fields = result.Value;
             Assert.IsNotNull(fields);
             Assert.AreEqual(1, fields.Count);
             Assert.AreEqual(field.Name, fields.FirstOrDefault()?.FieldName);

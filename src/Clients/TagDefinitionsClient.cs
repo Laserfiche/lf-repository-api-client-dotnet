@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get a collection of tag definitions.
@@ -27,12 +27,12 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns></returns>
-        Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
     partial class TagDefinitionsClient
     {
-        public async Task GetTagDefinitionsForEachAsync(Func<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
             var response = await GetTagDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
@@ -40,11 +40,11 @@ namespace Laserfiche.Repository.Api.Client
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.Result.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken);
             }
         }
 
-        public async Task<SwaggerResponse<ODataValueContextOfIListOfWTagInfo>> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagDefinitionsSendAsync, cancellationToken);
         }

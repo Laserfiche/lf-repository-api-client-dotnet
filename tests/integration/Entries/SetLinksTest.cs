@@ -47,9 +47,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             };
 
-            var response = await client.EntriesClient.AssignEntryLinksAsync(RepositoryId, sourceEntry.Id, request);
+            var result = await client.EntriesClient.AssignEntryLinksAsync(RepositoryId, sourceEntry.Id, request);
 
-            var links = response.Result?.Value;
+            var links = result.Value;
             Assert.IsNotNull(links);
             Assert.AreEqual(request.Count, links.Count);
             Assert.AreEqual(sourceEntry.Id, links.FirstOrDefault()?.SourceId);

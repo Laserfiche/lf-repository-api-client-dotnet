@@ -82,27 +82,27 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
 
             // ACT
             var result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId);
-            Assert.Equal(2, result.Result.Value.Count);
-            Assert.Equal(tagInfo.Id, result.Result.Value.ElementAt(0).Id);
-            Assert.Equal(tagInfo.Description, result.Result.Value.ElementAt(0).Description);
-            Assert.Equal(tagInfo.Name, result.Result.Value.ElementAt(0).Name);
-            Assert.Equal(tagInfo.IsSecure, result.Result.Value.ElementAt(0).IsSecure);
-            Assert.Equal(tagInfo.Watermark.WatermarkTextSize, result.Result.Value.ElementAt(0).Watermark.WatermarkTextSize);
-            Assert.Equal(tagInfo.Watermark.IsWatermarkMandatory, result.Result.Value.ElementAt(0).Watermark.IsWatermarkMandatory);
-            Assert.Equal(tagInfo.Watermark.WatermarkIntensity, result.Result.Value.ElementAt(0).Watermark.WatermarkIntensity);
-            Assert.Equal(tagInfo.Watermark.WatermarkPosition, result.Result.Value.ElementAt(0).Watermark.WatermarkPosition);
-            Assert.Equal(tagInfo.Watermark.WatermarkRotationAngle, result.Result.Value.ElementAt(0).Watermark.WatermarkRotationAngle);
-            Assert.Equal(tagInfo.Watermark.WatermarkText, result.Result.Value.ElementAt(0).Watermark.WatermarkText);
-            Assert.Equal(tagInfo2.Id, result.Result.Value.ElementAt(1).Id);
-            Assert.Equal(tagInfo2.Description, result.Result.Value.ElementAt(1).Description);
-            Assert.Equal(tagInfo2.Name, result.Result.Value.ElementAt(1).Name);
-            Assert.Equal(tagInfo2.IsSecure, result.Result.Value.ElementAt(1).IsSecure);
-            Assert.Equal(tagInfo2.Watermark.WatermarkTextSize, result.Result.Value.ElementAt(1).Watermark.WatermarkTextSize);
-            Assert.Equal(tagInfo2.Watermark.IsWatermarkMandatory, result.Result.Value.ElementAt(1).Watermark.IsWatermarkMandatory);
-            Assert.Equal(tagInfo2.Watermark.WatermarkIntensity, result.Result.Value.ElementAt(1).Watermark.WatermarkIntensity);
-            Assert.Equal(tagInfo2.Watermark.WatermarkPosition, result.Result.Value.ElementAt(1).Watermark.WatermarkPosition);
-            Assert.Equal(tagInfo2.Watermark.WatermarkRotationAngle, result.Result.Value.ElementAt(1).Watermark.WatermarkRotationAngle);
-            Assert.Equal(tagInfo2.Watermark.WatermarkText, result.Result.Value.ElementAt(1).Watermark.WatermarkText);
+            Assert.Equal(2, result.Value.Count);
+            Assert.Equal(tagInfo.Id, result.Value.ElementAt(0).Id);
+            Assert.Equal(tagInfo.Description, result.Value.ElementAt(0).Description);
+            Assert.Equal(tagInfo.Name, result.Value.ElementAt(0).Name);
+            Assert.Equal(tagInfo.IsSecure, result.Value.ElementAt(0).IsSecure);
+            Assert.Equal(tagInfo.Watermark.WatermarkTextSize, result.Value.ElementAt(0).Watermark.WatermarkTextSize);
+            Assert.Equal(tagInfo.Watermark.IsWatermarkMandatory, result.Value.ElementAt(0).Watermark.IsWatermarkMandatory);
+            Assert.Equal(tagInfo.Watermark.WatermarkIntensity, result.Value.ElementAt(0).Watermark.WatermarkIntensity);
+            Assert.Equal(tagInfo.Watermark.WatermarkPosition, result.Value.ElementAt(0).Watermark.WatermarkPosition);
+            Assert.Equal(tagInfo.Watermark.WatermarkRotationAngle, result.Value.ElementAt(0).Watermark.WatermarkRotationAngle);
+            Assert.Equal(tagInfo.Watermark.WatermarkText, result.Value.ElementAt(0).Watermark.WatermarkText);
+            Assert.Equal(tagInfo2.Id, result.Value.ElementAt(1).Id);
+            Assert.Equal(tagInfo2.Description, result.Value.ElementAt(1).Description);
+            Assert.Equal(tagInfo2.Name, result.Value.ElementAt(1).Name);
+            Assert.Equal(tagInfo2.IsSecure, result.Value.ElementAt(1).IsSecure);
+            Assert.Equal(tagInfo2.Watermark.WatermarkTextSize, result.Value.ElementAt(1).Watermark.WatermarkTextSize);
+            Assert.Equal(tagInfo2.Watermark.IsWatermarkMandatory, result.Value.ElementAt(1).Watermark.IsWatermarkMandatory);
+            Assert.Equal(tagInfo2.Watermark.WatermarkIntensity, result.Value.ElementAt(1).Watermark.WatermarkIntensity);
+            Assert.Equal(tagInfo2.Watermark.WatermarkPosition, result.Value.ElementAt(1).Watermark.WatermarkPosition);
+            Assert.Equal(tagInfo2.Watermark.WatermarkRotationAngle, result.Value.ElementAt(1).Watermark.WatermarkRotationAngle);
+            Assert.Equal(tagInfo2.Watermark.WatermarkText, result.Value.ElementAt(1).Watermark.WatermarkText);
 
             // ASSERT
             // also check the 'http' call was like we expected it

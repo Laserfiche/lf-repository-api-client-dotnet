@@ -87,8 +87,8 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId);
-            var result = swaggerResponse.Result.Value;
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId);
+            var result = response.Value;
             Assert.Equal(2, result.Count);
             for (int i = 0; i < 2; i++)
             {

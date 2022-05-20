@@ -17,14 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lf-oauth-api-client-dotnet\src\Laserfiche.Api.Client.Core.csproj" />
+    <ProjectReference Include="..\..\..\lf-api-client-core-dotnet\src\Laserfiche.Api.Client.Core.csproj" />
     <ProjectReference Include="..\..\src\Laserfiche.Repository.Api.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TestConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="TestFiles\test.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

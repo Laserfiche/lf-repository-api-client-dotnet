@@ -18,8 +18,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntryLinks_ReturnLinks()
         {
             int entryId = 1;
-            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(RepositoryId, entryId);
-            Assert.IsNotNull(response.Result?.Value);
+            var result = await client.EntriesClient.GetLinkValuesFromEntryAsync(RepositoryId, entryId);
+            Assert.IsNotNull(result.Value);
         }
 
         [TestMethod]
@@ -28,12 +28,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int entryId = 1;
             int maxPageSize = 10;
 
-            Task<bool> PagingCallback(SwaggerResponse<ODataValueContextOfIListOfWEntryLinkInfo> data)
+            Task<bool> PagingCallback(ODataValueContextOfIListOfWEntryLinkInfo data)
             {
-                if (data.Result.OdataNextLink != null)
+                if (data.OdataNextLink != null)
                 {
-                    Assert.AreNotEqual(0, data.Result.Value.Count);
-                    Assert.IsTrue(data.Result.Value.Count <= maxPageSize);
+                    Assert.AreNotEqual(0, data.Value.Count);
+                    Assert.IsTrue(data.Value.Count <= maxPageSize);
                     return Task.FromResult(true);
                 }
                 else
@@ -55,19 +55,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(response);
 
-            if (response.Result.Value.Count == 0)
+            if (response.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = response.Result.OdataNextLink;
+            var nextLink = response.OdataNextLink;
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            Assert.IsTrue(response.Value.Count <= maxPageSize);
 
             // Paging request
             response = await client.EntriesClient.GetLinkValuesFromEntryNextLinkAsync(nextLink, maxPageSize);
             Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Value.Count <= maxPageSize);
+            Assert.IsTrue(response.Value.Count <= maxPageSize);
         }
     }
 }

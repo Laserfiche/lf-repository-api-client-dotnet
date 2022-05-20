@@ -43,9 +43,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "APIServerClientIntegrationTest MovedFolder"
             };
 
-            var response = await client.EntriesClient.MoveOrRenameDocumentAsync(RepositoryId, childFolder.Id, request, autoRename: true);
+            var movedEntry = await client.EntriesClient.MoveOrRenameDocumentAsync(RepositoryId, childFolder.Id, request, autoRename: true);
 
-            var movedEntry = response.Result;
             Assert.IsNotNull(movedEntry);
             Assert.AreEqual(childFolder.Id, movedEntry.Id);
             Assert.AreEqual(parentFolder.Id, movedEntry.ParentId);
