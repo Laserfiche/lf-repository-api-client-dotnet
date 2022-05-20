@@ -1,0 +1,25 @@
+{
+  "runtime": "Default",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "swagger.json",
+      "output": null,
+      "newLineBehavior": "Auto"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "classname": "{controller}Client",
+      "clientBaseClass": "BaseClient",
+      "namespace": "Laserfiche.Repository.Api.Client",
+      "output": "src/Clients/RepositoryClients.cs",
+      "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
+      "generateClientInterfaces": true,
+      "generateOptionalParameters": true,
+      "useBaseUrl": false,
+      "clientClassAccessModifier": "internal",
+      "templateDirectory": "nswag"
+    }
+  }
+}
