@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -16,12 +16,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.0.1-beta.1" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.13.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\lf-api-client-core-dotnet\src\Laserfiche.Api.Client.Core.csproj" />
   </ItemGroup>
   
   <ItemGroup>
