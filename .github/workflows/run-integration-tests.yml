@@ -25,7 +25,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.Test
     - name: Run integration tests
       env:
-        SERVICE_APP_CONFIG: ${{ secrets.SERVICE_APP_CONFIG }}
-        TEST_CONFIG: ${{ secrets.TEST_CONFIG }}
+        DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+        DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
+        DEV_CA_PUBLIC_USE_REPOSITORY_ID_1:  ${{ secrets.DEV_CA_PUBLIC_USE_REPOSITORY_ID_1 }}
       run:
         dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.IntegrationTest
