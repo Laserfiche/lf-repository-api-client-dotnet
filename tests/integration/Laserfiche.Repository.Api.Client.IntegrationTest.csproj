@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lf-api-client-core-dotnet\src\Laserfiche.Api.Client.Core.csproj" />
     <ProjectReference Include="..\..\src\Laserfiche.Repository.Api.Client.csproj" />
   </ItemGroup>
 
