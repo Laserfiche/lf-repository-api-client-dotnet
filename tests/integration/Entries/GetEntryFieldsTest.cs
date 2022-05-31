@@ -43,7 +43,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             }
 
             await client.EntriesClient.GetFieldValuesForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
         }
 
         [TestMethod]

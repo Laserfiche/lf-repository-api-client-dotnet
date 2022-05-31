@@ -92,7 +92,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             }
 
             await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, RepositoryId, token, rowNumber, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
         }
     }
 }

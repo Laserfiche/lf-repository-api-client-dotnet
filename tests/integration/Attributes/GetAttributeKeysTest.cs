@@ -41,7 +41,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             }
 
             await client.AttributesClient.GetTrusteeAttributeKeyValuePairsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
         }
 
         [TestMethod]
