@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(5000);
+            await Task.Delay(5000);
 
             // Get search results
             var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
@@ -68,7 +68,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(5000);
+            await Task.Delay(5000);
 
             // Get search results
             var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);

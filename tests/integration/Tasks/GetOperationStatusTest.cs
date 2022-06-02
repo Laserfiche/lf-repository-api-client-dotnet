@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
             var token = result.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
-            Thread.Sleep(5000);
+            await Task.Delay(5000);
 
             var operationProgress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, token);
             Assert.IsNotNull(operationProgress);
