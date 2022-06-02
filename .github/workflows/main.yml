@@ -30,16 +30,16 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    # - name: Run unit tests
-    #   run: dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.Test
+    - name: Run unit tests
+      run: dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.Test
 
-    # - name: Run integration tests
-    #   env:
-    #     DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
-    #     DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-    #     DEV_CA_PUBLIC_USE_REPOSITORY_ID_1:  ${{ secrets.DEV_CA_PUBLIC_USE_REPOSITORY_ID_2 }}
-    #   run:
-    #     dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.IntegrationTest
+    - name: Run integration tests
+      env:
+        DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+        DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
+        DEV_CA_PUBLIC_USE_REPOSITORY_ID_1:  ${{ secrets.DEV_CA_PUBLIC_USE_REPOSITORY_ID_2 }}
+      run:
+        dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.IntegrationTest
 
 
   build-documentation:
@@ -142,14 +142,8 @@ jobs:
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: package-preview-artifact
-        path: ${{ github.workspace }}/src/bin/Release/*.nupkg
-
-    # - name: Publish to Nuget.org
-    #   run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+    - name: Publish to Nuget.org
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
@@ -184,14 +178,8 @@ jobs:
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: package-production-artifact
-        path: ${{ github.workspace }}/src/bin/Release/*.nupkg
-
-    # - name: Publish to Nuget.org
-    #   run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+    - name: Publish to Nuget.org
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
