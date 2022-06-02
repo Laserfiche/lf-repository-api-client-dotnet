@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
 
             try
             {
-                Thread.Sleep(5000);
+                await Task.Delay(5000);
                 await client.TasksClient.CancelOperationAsync(RepositoryId, token);
                 Assert.Fail("Long operation should have ended before cancel.");
             }

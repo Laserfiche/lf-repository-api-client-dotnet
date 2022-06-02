@@ -38,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(5000);
+            await Task.Delay(5000);
 
             // Get search status
             var searchStatus = await client.SearchesClient.GetSearchStatusAsync(RepositoryId, token);

@@ -38,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = searchResult.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(10000);
+            await Task.Delay(10000);
 
             // Get search results
             var searchResultsResult = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
@@ -60,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(10000);
+            await Task.Delay(10000);
 
             Task<bool> PagingCallback(ODataValueContextOfIListOfEntry data)
             {
@@ -77,6 +77,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             }
 
             await client.SearchesClient.GetSearchResultsForEachAsync(PagingCallback, RepositoryId, token, maxPageSize: maxPageSize);
+            await Task.Delay(5000);
         }
 
         [TestMethod]
@@ -93,7 +94,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            Thread.Sleep(10000);
+            await Task.Delay(10000);
 
             // Initial request
             var result = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token, prefer: $"maxpagesize={maxPageSize}");

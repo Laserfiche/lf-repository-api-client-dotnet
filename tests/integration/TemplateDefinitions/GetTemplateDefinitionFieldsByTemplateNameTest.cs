@@ -53,6 +53,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             }
 
             await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, RepositoryId, firstTemplateDefinition.Name, maxPageSize: maxPageSize);
+            await Task.Delay(5000);
         }
 
         [TestMethod]

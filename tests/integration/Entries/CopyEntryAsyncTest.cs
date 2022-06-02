@@ -29,7 +29,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
                     await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
-                    Thread.Sleep(5000);
                 }
             }
         }
@@ -39,7 +38,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Create a new folder that contains the created entry
             var testFolderName = "CreateCopyEntry_CopyEntry_test_folder";
-            var testFolder = CreateEntry(client, testFolderName);
+            var testFolder = await CreateEntry(client, testFolderName);
+            createdEntries.Add(testFolder);
 
             // Create new entry
             string newEntryName = "APIServerClientIntegrationTest CreateFolder";
@@ -50,7 +50,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, testFolder.Id, request, autoRename: true);
             Assert.IsNotNull(targetEntry);
-            createdEntries.Add(targetEntry);
             Assert.AreEqual(testFolder.Id, targetEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
 
@@ -67,10 +66,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             await Task.Delay(5000);
             var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, opToken);
             Assert.AreEqual(OperationStatus.Completed, opResponse.Status);
-
-            // Remove the folder that contains the created entry
-            var deletionResult = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, testFolder.Id, new DeleteEntryWithAuditReason());
-            Assert.IsTrue(!string.IsNullOrEmpty(deletionResult.Token));
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         private void TryLoadFromDotEnv(string fileName)
         {
-            try
+            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
+            if (File.Exists(path))
             {
-                var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
                 DotNetEnv.Env.Load(path, new DotNetEnv.LoadOptions(
                     setEnvVars: true,
                     clobberExistingVars: true,
@@ -33,7 +33,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 ));
                 System.Diagnostics.Trace.TraceWarning($"{fileName} found. {fileName} file should only be used in local developer computers.");
             }
-            catch
+            else
             {
                 System.Diagnostics.Trace.WriteLine($"{fileName} not found.");
             }
