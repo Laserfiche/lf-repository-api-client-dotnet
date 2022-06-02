@@ -27,6 +27,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -41,6 +42,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetSearchContextHitsForEachAsync(Func<ODataValueContextOfIListOfContextHit, Task<bool>> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 

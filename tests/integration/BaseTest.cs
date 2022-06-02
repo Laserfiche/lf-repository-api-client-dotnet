@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             PopulateFromEnv();
         }
 
-        private void TryLoadFromDotEnv(string fileName)
+        private static void TryLoadFromDotEnv(string fileName)
         {
             var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
             if (File.Exists(path))

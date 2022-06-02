@@ -69,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client
 
         private Uri GetBaseAddress(string domain)
         {
-            string baseAddress = _baseUrlDebug == null ? DomainUtils.GetRepositoryApiBaseUri(domain) : _baseUrlDebug;
+            string baseAddress = _baseUrlDebug ?? DomainUtils.GetRepositoryApiBaseUri(domain);
             return new Uri(baseAddress);
         }
 

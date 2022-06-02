@@ -11,6 +11,7 @@ namespace Laserfiche.Repository.Api.Client
         private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
+        /// <inheritdoc/>
         public HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
