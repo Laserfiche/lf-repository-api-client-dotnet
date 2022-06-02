@@ -44,7 +44,6 @@ jobs:
 
   build-documentation:
     runs-on: ubuntu-latest
-    needs: [ build-n-test ] # wait for build to finish
     steps:
     - uses: actions/checkout@v3
 

@@ -6,6 +6,9 @@ using System.Net.Http.Headers;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository API client.
+    /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
         private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
