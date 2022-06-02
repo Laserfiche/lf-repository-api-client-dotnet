@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client
                     }
                     request.RequestUri = new Uri(nextLink, UriKind.Absolute);
 
-                    var response = await sendAndProcessResponseAsync(request, httpClient, new bool[] { false }, default);
+                    var response = await sendAndProcessResponseAsync(request, httpClient, new bool[] { false }, cancellationToken);
                     return response;
                 }
             }
