@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
 {
     [TestClass]
-    public class CancelOpeartionTest : BaseTest
+    public class CancelOperationTest : BaseTest
     {
         IRepositoryApiClient client = null;
 
