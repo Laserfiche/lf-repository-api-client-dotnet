@@ -25,6 +25,7 @@ jobs:
       run: |
         sed -i 's|"My Project"|lf-repository-api-client-dotnet|i' doxygen.conf
         sed -i 's|PROJECT_LOGO           =|PROJECT_LOGO           = logo.png|i' doxygen.conf
+        sed -i 's|EXCLUDE                =|EXCLUDE                = ./tests|i' doxygen.conf
         sed -i "s|OUTPUT_DIRECTORY       =|OUTPUT_DIRECTORY       = ./docs_temp/${GITHUB_REF##*/}/|i" doxygen.conf
         sed -i 's|RECURSIVE              = NO|RECURSIVE              = YES|i' doxygen.conf
         sed -i 's|GENERATE_LATEX         = YES|GENERATE_LATEX         = NO|i' doxygen.conf
