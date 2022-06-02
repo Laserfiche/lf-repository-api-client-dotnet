@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         public IRepositoryApiClient CreateClient()
         {
-            return RepositoryApiClient.Create(ServicePrincipalKey, AccessKey);
+            return RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
         }
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
