@@ -28,6 +28,8 @@ jobs:
         sed -i "s|OUTPUT_DIRECTORY       =|OUTPUT_DIRECTORY       = ./docs_temp/${GITHUB_REF##*/}/|i" doxygen.conf
         sed -i 's|RECURSIVE              = NO|RECURSIVE              = YES|i' doxygen.conf
         sed -i 's|GENERATE_LATEX         = YES|GENERATE_LATEX         = NO|i' doxygen.conf
+    - name: Where are we
+      run: ls
     - name: Dump doxygen.conf to check rewrite
       run: head -n 200 doxygen.conf
     - name: Generate doxygen docs
