@@ -32,6 +32,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -50,6 +51,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -63,6 +65,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -76,6 +79,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 

@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             PopulateFromEnv();
         }
 
-        private void TryLoadFromDotEnv(string fileName)
+        private static void TryLoadFromDotEnv(string fileName)
         {
             var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
             if (File.Exists(path))
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         public IRepositoryApiClient CreateClient()
         {
-            return RepositoryApiClient.Create(ServicePrincipalKey, AccessKey);
+            return RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
         }
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
