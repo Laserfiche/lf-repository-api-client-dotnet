@@ -6,11 +6,15 @@ using System.Net.Http.Headers;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository API client.
+    /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
         private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
+        /// <inheritdoc/>
         public HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
@@ -50,7 +54,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
         /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
-        public static IRepositoryApiClient Create(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
+        public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
             if (httpRequestHandler == null)
                 throw new ArgumentNullException(nameof(httpRequestHandler));
@@ -71,10 +75,10 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="accessKey"></param>
         /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
-        public static IRepositoryApiClient Create(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
+        public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
         {
             var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
-            return Create(httpRequestHandler, baseUrlDebug);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlDebug);
         }
     }
 }
