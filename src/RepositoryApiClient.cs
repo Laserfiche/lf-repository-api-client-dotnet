@@ -8,7 +8,9 @@ namespace Laserfiche.Repository.Api.Client
 {
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
+        // Base address for on-prem API differs from the cloud one.
+        private const string _defaultCloudBaseAddress = "https://dummy.example.com/repository/";
+        private const string _defaultOnPremBaseAddress = "https://dummy.example.com/";
         private readonly HttpClient _httpClient;
 
         public HttpRequestHeaders DefaultRequestHeaders
@@ -50,7 +52,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
         /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
-        public static IRepositoryApiClient Create(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
+        public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
             if (httpRequestHandler == null)
                 throw new ArgumentNullException(nameof(httpRequestHandler));
@@ -58,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler)
             {
-                BaseAddress = new Uri(_defaultBaseAddress)
+                BaseAddress = (httpRequestHandler is LfdsUsernamePasswordHandler) ? new Uri(_defaultOnPremBaseAddress) : new Uri(_defaultCloudBaseAddress)
             };
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
@@ -69,12 +71,27 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="servicePrincipalKey"></param>
         /// <param name="accessKey"></param>
-        /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
+        /// <param name="baseUrlDebug"> Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
-        public static IRepositoryApiClient Create(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
+        public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
         {
             var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
-            return Create(httpRequestHandler, baseUrlDebug);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlDebug);
+        }
+
+        /// <summary>
+        /// Create a Laserfiche repository client that will use LFDS username and password to get access tokens.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="organization"></param>
+        /// <param name="repoID"></param>
+        /// <param name="baseUrl"></param>
+        /// <returns></returns>
+        public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
+        {
+            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrl);
+            return CreateFromHttpRequestHandler(httpRequestHandler);
         }
     }
 }
