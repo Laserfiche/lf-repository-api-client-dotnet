@@ -16,9 +16,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         protected string ServicePrincipalKey;
         protected string RepositoryId;
 
-        private const string AccessKeyVar = "DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY";
-        private const string SpKeyVar = "DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY";
-        private const string RepoKeyVar = "DEV_CA_PUBLIC_USE_REPOSITORY_ID_1";
+        private const string AccessKeyVar = "ACCESS_KEY";
+        private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
+        private const string RepoKeyVar = "REPOSITORY_ID";
 
         public BaseTest()
         {
