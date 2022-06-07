@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
@@ -15,13 +16,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         protected string ServicePrincipalKey;
         protected string RepositoryId;
 
+        private const string AccessKeyVar = "ACCESS_KEY";
+        private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
+        private const string RepoKeyVar = "REPOSITORY_ID";
+
         public BaseTest()
         {
             TryLoadFromDotEnv(TestConfigFile);
             PopulateFromEnv();
         }
 
-        private void TryLoadFromDotEnv(string fileName)
+        private static void TryLoadFromDotEnv(string fileName)
         {
             var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, fileName);
             if (File.Exists(path))
@@ -31,24 +36,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                     clobberExistingVars: true,
                     onlyExactPath: true
                 ));
+
                 System.Diagnostics.Trace.TraceWarning($"{fileName} found. {fileName} file should only be used in local developer computers.");
             }
             else
-            {
                 System.Diagnostics.Trace.WriteLine($"{fileName} not found.");
-            }
+        }
+
+        private static string DecodeBase64(string encoded)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
         }
 
         private void PopulateFromEnv()
         {
-            ServicePrincipalKey = Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY");
-            AccessKey = JsonConvert.DeserializeObject<AccessKey>(Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY"));
-            RepositoryId = Environment.GetEnvironmentVariable("DEV_CA_PUBLIC_USE_REPOSITORY_ID_1");
+            ServicePrincipalKey = Environment.GetEnvironmentVariable(SpKeyVar);
+
+            var accessKeyStr = DecodeBase64(Environment.GetEnvironmentVariable(AccessKeyVar));
+            AccessKey = JsonConvert.DeserializeObject<AccessKey>(accessKeyStr);
+
+            RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
         }
 
         public IRepositoryApiClient CreateClient()
         {
-            return RepositoryApiClient.Create(ServicePrincipalKey, AccessKey);
+            return RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
         }
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)

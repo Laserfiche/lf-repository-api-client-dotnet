@@ -6,6 +6,9 @@ using System.Net.Http.Headers;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository API client.
+    /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
         // Base address for on-prem API differs from the cloud one.
@@ -13,6 +16,7 @@ namespace Laserfiche.Repository.Api.Client
         private const string _defaultOnPremBaseAddress = "https://dummy.example.com/";
         private readonly HttpClient _httpClient;
 
+        /// <inheritdoc/>
         public HttpRequestHeaders DefaultRequestHeaders
         {
             get { return _httpClient.DefaultRequestHeaders; }
