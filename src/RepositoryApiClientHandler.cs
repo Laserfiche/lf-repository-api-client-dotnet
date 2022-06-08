@@ -33,11 +33,7 @@ namespace Laserfiche.Repository.Api.Client
             // Sets the authorization header
             var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
 
-            if (!string.IsNullOrEmpty(beforeSendResult.SelfHostDomain))
-            {
-                _baseAddress = new Uri(beforeSendResult.SelfHostDomain);
-            }
-            else if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
+            if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
             {
                 _baseAddress = GetBaseAddress(beforeSendResult.RegionalDomain);
             }

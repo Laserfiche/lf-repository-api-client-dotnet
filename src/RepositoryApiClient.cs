@@ -11,9 +11,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        // Base address for on-prem API differs from the cloud one.
-        private const string _defaultCloudBaseAddress = "https://dummy.example.com/repository/";
-        private const string _defaultOnPremBaseAddress = "https://dummy.example.com/";
+        private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
@@ -64,7 +62,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler)
             {
-                BaseAddress = (httpRequestHandler is LfdsUsernamePasswordHandler) ? new Uri(_defaultOnPremBaseAddress) : new Uri(_defaultCloudBaseAddress)
+                BaseAddress = new Uri(_defaultBaseAddress)
             };
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
@@ -95,7 +93,7 @@ namespace Laserfiche.Repository.Api.Client
         public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
         {
             var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrl);
-            return CreateFromHttpRequestHandler(httpRequestHandler);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
         }
     }
 }
