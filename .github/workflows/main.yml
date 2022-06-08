@@ -68,6 +68,8 @@ jobs:
         sed -i "s|OUTPUT_DIRECTORY       =|OUTPUT_DIRECTORY       = ./docs_temp/${{ github.ref_name }}/|i" doxygen.conf
         sed -i 's|RECURSIVE              = NO|RECURSIVE              = YES|i' doxygen.conf
         sed -i 's|GENERATE_LATEX         = YES|GENERATE_LATEX         = NO|i' doxygen.conf
+        sed -i 's|FULL_PATH_NAMES        = YES|FULL_PATH_NAMES        = NO|i' doxygen.conf
+        sed -i 's|SHORT_NAMES            = NO|SHORT_NAMES            = YES|i' doxygen.conf
 
     - name: Dump doxygen.conf to check rewrite
       run: head -n 200 doxygen.conf
