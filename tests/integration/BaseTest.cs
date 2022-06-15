@@ -24,10 +24,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
-        private const string UsernameVar = "LFDS_TEST_USERNAME";
-        private const string PasswordVar = "LFDS_TEST_PASSWORD";
+        private const string UsernameVar = "LFDS_USERNAME";
+        private const string PasswordVar = "LFDS_PASSWORD";
         private const string BaseUrlVar = "SELFHOSTED_REPOSITORY_API_BASE_URI";
-        private const string OrganizationVar = "LFDS_TEST_ORGANIZATION";
+        private const string OrganizationVar = "LFDS_ORGANIZATION";
         private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
         public BaseTest()
