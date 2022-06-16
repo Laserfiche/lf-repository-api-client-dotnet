@@ -73,12 +73,27 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="servicePrincipalKey"></param>
         /// <param name="accessKey"></param>
-        /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
+        /// <param name="baseUrlDebug"> Optional override for the Laserfiche repository API base url.</param>
         /// <returns></returns>
         public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
         {
             var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlDebug);
+        }
+
+        /// <summary>
+        /// Create a Laserfiche repository client that will use LFDS username and password to get access tokens.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="organization"></param>
+        /// <param name="repoID"></param>
+        /// <param name="baseUrl">API server base URL e.g., https://example.com//lf-api-server/ </param>
+        /// <returns></returns>
+        public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
+        {
+            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrl);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
         }
     }
 }

@@ -12,13 +12,23 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
     {
         private const string TestConfigFile = "TestConfig.env";
         protected static readonly string TempPath = @"TestFiles/";
+        protected string AuthorizationType;
         protected AccessKey AccessKey;
         protected string ServicePrincipalKey;
         protected string RepositoryId;
+        protected string Username;
+        protected string Password;
+        protected string Organization;
+        protected string BaseUri;
 
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
+        private const string UsernameVar = "LFDS_USERNAME";
+        private const string PasswordVar = "LFDS_PASSWORD";
+        private const string BaseUrlVar = "SELFHOSTED_REPOSITORY_API_BASE_URI";
+        private const string OrganizationVar = "LFDS_ORGANIZATION";
+        private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
         public BaseTest()
         {
@@ -56,11 +66,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             AccessKey = JsonConvert.DeserializeObject<AccessKey>(accessKeyStr);
 
             RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
+            AuthorizationType = Environment.GetEnvironmentVariable(AuthTypeVar);
+            Username = Environment.GetEnvironmentVariable(UsernameVar);
+            Password = Environment.GetEnvironmentVariable(PasswordVar);
+            Organization = Environment.GetEnvironmentVariable(OrganizationVar);
+            BaseUri = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
         public IRepositoryApiClient CreateClient()
         {
-            return RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
+            if (AuthorizationType.Equals("AccessKey", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null) ? null : RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
+            }
+            else if (AuthorizationType.Equals("LfdsUsernamePassword", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Organization) || string.IsNullOrEmpty(BaseUri)) ? null : RepositoryApiClient.CreateFromLfdsUsernamePassword(Username, Password, Organization, RepositoryId, BaseUri);
+            }
+            return null;
         }
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
