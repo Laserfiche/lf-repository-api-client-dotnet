@@ -7,7 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class GetEntryTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         int createdEntryId;
 
         [TestInitialize]

@@ -8,7 +8,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class SetFieldsTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         Entry entry;
 
         [TestInitialize]

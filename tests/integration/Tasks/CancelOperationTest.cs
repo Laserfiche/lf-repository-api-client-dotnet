@@ -6,8 +6,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
     [TestClass]
     public class CancelOperationTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {

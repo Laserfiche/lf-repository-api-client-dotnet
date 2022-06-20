@@ -6,8 +6,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
     [TestClass]
     public class InvalidateServerSessionTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {

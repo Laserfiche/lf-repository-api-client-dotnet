@@ -6,8 +6,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class DeleteEntryTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {

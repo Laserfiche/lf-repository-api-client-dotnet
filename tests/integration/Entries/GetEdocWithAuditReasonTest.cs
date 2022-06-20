@@ -7,7 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class GetEdocWithAuditReasonTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         int createdEntryId;
         string fileToWriteTo;
 

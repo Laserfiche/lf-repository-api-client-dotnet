@@ -6,8 +6,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
     [TestClass]
     public class GetTagDefinitionsTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {

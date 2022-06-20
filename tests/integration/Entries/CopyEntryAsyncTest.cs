@@ -7,7 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class CopyEntryAsyncTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         IList<Entry> createdEntries;
 
         [TestInitialize]
