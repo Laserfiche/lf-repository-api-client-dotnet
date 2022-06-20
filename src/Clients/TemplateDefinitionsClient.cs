@@ -4,8 +4,14 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository Template Definitions API client.
+    /// </summary>
     partial interface ITemplateDefinitionsClient
     {
+        /// <summary>
+        /// Get a collection of template definitions using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -22,6 +28,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, Task<bool>> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the field definitions assigned to a template definition by template id using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -38,6 +47,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, Task<bool>> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the field definitions assigned to a template definition by template name using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -55,30 +67,33 @@ namespace Laserfiche.Repository.Api.Client
         Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, Task<bool>> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of template definitions.
+        /// Get a collection of template definitions using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get template definitions successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of field TemplateFieldInfo.
+        /// Returns the field definitions assigned to a template definition by template id using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get template field definitions successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of matching TemplateFieldInfo by template name.
+        /// Returns the field definitions assigned to a template definition by template name using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get template field definitions successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 

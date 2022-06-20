@@ -14,6 +14,7 @@ env:
 jobs:
   build-n-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
     - uses: actions/checkout@v3
 
@@ -45,6 +46,7 @@ jobs:
 
   build-documentation:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [ build-n-test ] # wait for build to finish
     steps:
     - uses: actions/checkout@v3
