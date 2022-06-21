@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository Entries API client.
+    /// </summary>
     partial interface IEntriesClient
     {
         /// <summary>
@@ -16,6 +19,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns></returns>
         Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the children entries of a folder in the repository using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -36,6 +42,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the fields assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -55,6 +64,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the links assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -69,6 +81,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Returns the tags assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="repoId">The requested repository ID.</param>
@@ -84,39 +99,43 @@ namespace Laserfiche.Repository.Api.Client
         Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of entries with odata.nextLink.
+        /// Returns the children entries of a folder in the repository using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get the children entries of a Folder successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfEntry> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of field values.
+        /// Returns the fields assigned to an entry using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get field values successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of WEntryLinkInfo.
+        /// Returns the links assigned to an entry using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get links successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of WTagInfo.
+        /// Returns the tags assigned to an entry using a nextlink
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get entry tags successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 

@@ -4,13 +4,16 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository Attributes API client.
+    /// </summary>
     partial interface IAttributesClient
     {
+        /// <summary>
+        /// Returns the attribute key value pairs associated with the authenticated user using paging. Page results are returned to the <paramref name="callback"/>.
+        /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Get the attribute key value pairs associated with the authenticated user.
-        /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
@@ -24,12 +27,13 @@ namespace Laserfiche.Repository.Api.Client
         Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, Task<bool>> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of trustee attributes.
+        /// Returns the attribute key value pairs associated with the authenticated user using a nextlink.
         /// </summary>
-        /// <param name="nextLink">Use nextlink returned from the backend to get the rest of the data.</param>
+        /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get trustee attribute key value pairs successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 

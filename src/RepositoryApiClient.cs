@@ -20,16 +20,27 @@ namespace Laserfiche.Repository.Api.Client
             get { return _httpClient.DefaultRequestHeaders; }
         }
 
+        /// <inheritdoc/>
         public IAttributesClient AttributesClient { get; }
+        /// <inheritdoc/>
         public IAuditReasonsClient AuditReasonsClient { get; }
+        /// <inheritdoc/>
         public IEntriesClient EntriesClient { get; }
+        /// <inheritdoc/>
         public IFieldDefinitionsClient FieldDefinitionsClient { get; }
+        /// <inheritdoc/>
         public IRepositoriesClient RepositoriesClient { get; }
+        /// <inheritdoc/>
         public ISearchesClient SearchesClient { get; }
+        /// <inheritdoc/>
         public IServerSessionClient ServerSessionClient { get; }
+        /// <inheritdoc/>
         public ISimpleSearchesClient SimpleSearchesClient { get; }
+        /// <inheritdoc/>
         public ITagDefinitionsClient TagDefinitionsClient { get; }
+        /// <inheritdoc/>
         public ITasksClient TasksClient { get; }
+        /// <inheritdoc/>
         public ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
 
         internal RepositoryApiClient(HttpClient httpClient)
