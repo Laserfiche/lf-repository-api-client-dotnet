@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task DeleteEntry_ReturnOperationToken()
         {
-            var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest DeleteFolder");
+            var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net DeleteFolder");
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
             var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);
             var token = result.Token;

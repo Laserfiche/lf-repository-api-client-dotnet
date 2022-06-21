@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         [TestMethod]
         public async Task GetOperationStatus_ReturnStatus()
         {
-            var deleteEntry = await CreateEntry(client, "APIServerClientIntegrationTest GetOperationStatus");
+            var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net GetOperationStatus");
 
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
             var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);

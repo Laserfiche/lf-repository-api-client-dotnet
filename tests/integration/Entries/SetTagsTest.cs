@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 Tags = new List<string>() { tag }
             };
-            entry = await CreateEntry(client, "APIServerClientIntegrationTest SetTags");
+            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetTags");
 
             var result = await client.EntriesClient.AssignTagsAsync(RepositoryId, entry.Id, request);
             var tags = result.Value;

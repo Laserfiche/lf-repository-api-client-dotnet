@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ImportDocument_DocumentCreated()
         {
             int parentEntryId = 1;
-            string fileName = "APIServerClientIntegrationTest ImportDocument";
+            string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
             var electronicDocument = GetFileParameter();
             var request = new PostEntryWithEdocMetadataRequest();
 
@@ -77,7 +77,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(template, "Could not find a good template definition to assign to the entry");
 
             int parentEntryId = 1;
-            string fileName = "APIServerClientIntegrationTest ImportDocument";
+            string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
             var electronicDocument = GetFileParameter();
             var request = new PostEntryWithEdocMetadataRequest()
             {

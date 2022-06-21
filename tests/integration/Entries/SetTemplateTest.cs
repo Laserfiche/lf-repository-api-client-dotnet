@@ -51,7 +51,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 TemplateName = template.Name
             };
-            entry = await CreateEntry(client, "APIServerClientIntegrationTest DeleteTemplate");
+            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net DeleteTemplate");
             var setTemplateResult = await client.EntriesClient.WriteTemplateValueToEntryAsync(RepositoryId, entry.Id, request);
             Assert.IsNotNull(setTemplateResult);
             Assert.AreEqual(template.Name, setTemplateResult.TemplateName);

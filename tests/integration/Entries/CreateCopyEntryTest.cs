@@ -32,7 +32,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task CreateCopyEntry_CreateFolder()
         {
-            string newEntryName = "APIServerClientIntegrationTest CreateFolder";
+            string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
@@ -52,7 +52,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task CreateCopyEntry_CreateShortcut()
         {
             // Create new entry
-            string newEntryName = "APIServerClientIntegrationTest CreateFolder";
+            string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
@@ -66,7 +66,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
 
             // Create shortcut to the new entry
-            newEntryName = "APIServerClientIntegrationTest CreateShortcut";
+            newEntryName = "RepositoryApiClientIntegrationTest .Net CreateShortcut";
             request = new PostEntryChildrenRequest()
             {
                 EntryType = PostEntryChildrenEntryType.Shortcut,
@@ -88,7 +88,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task CreateCopyEntry_CopyShortcut()
         {
             // Create new entry
-            string newEntryName = "APIServerClientIntegrationTest CreateFolder";
+            string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
@@ -102,7 +102,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
             
             // Create shortcut to the new entry
-            newEntryName = "APIServerClientIntegrationTest CreateShortcut";
+            newEntryName = "RepositoryApiClientIntegrationTest .Net CreateShortcut";
             request = new PostEntryChildrenRequest()
             {
                 EntryType = PostEntryChildrenEntryType.Shortcut,
@@ -119,7 +119,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Copy entry
             request = new PostEntryChildrenRequest()
             {
-                Name = "CopiedEntry",
+                Name = "RepositoryApiClientIntegrationTest .Net CopiedEntry",
                 SourceId = shortcut.Id
             };
             var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
@@ -136,7 +136,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task CreateCopyEntry_CopyFolder()
         {
             // Create new entry
-            string newEntryName = "APIServerClientIntegrationTest CreateFolder";
+            string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
             int parentEntryId = 1;
             var request = new PostEntryChildrenRequest()
             {
@@ -152,7 +152,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Copy entry
             request = new PostEntryChildrenRequest()
             {
-                Name = "CopiedEntry",
+                Name = "RepositoryApiClientIntegrationTest .Net CopiedEntry",
                 SourceId = targetEntry.Id
             };
             _ = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
