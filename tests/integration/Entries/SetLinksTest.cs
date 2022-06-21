@@ -34,9 +34,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task SetLinks_ReturnLinks()
         {
-            var sourceEntry = await CreateEntry(client, "APIServerClientIntegrationTest SetLinks Source");
+            var sourceEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Source");
             createdEntries.Add(sourceEntry);
-            var targetEntry = await CreateEntry(client, "APIServerClientIntegrationTest SetLinks Target");
+            var targetEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Target");
             createdEntries.Add(targetEntry);
             var request = new List<PutLinksRequest>()
             {
