@@ -36,7 +36,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         private async Task<int> CreateDocument()
         {
             int parentEntryId = 1;
-            string fileName = "APIServerClientIntegrationTest GetDocumentContent AuditReason";
+            string fileName = "RepositoryApiClientIntegrationTest .Net GetDocumentContent AuditReason";
             string fileLocation = TempPath + "test.pdf";
             var request = new PostEntryWithEdocMetadataRequest();
             using (var fileStream = File.OpenRead(fileLocation))

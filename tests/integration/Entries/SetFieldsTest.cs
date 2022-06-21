@@ -57,7 +57,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                     }
                 }
             };
-            entry = await CreateEntry(client, "APIServerClientIntegrationTest SetFields");
+            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetFields");
 
             var result = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody);
             var fields = result.Value;

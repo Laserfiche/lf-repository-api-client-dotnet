@@ -33,14 +33,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task MoveAndRenameEntry_ReturnEntry()
         {
-            var parentFolder = await CreateEntry(client, "APIServerClientIntegrationTest ParentFolder");
+            var parentFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ParentFolder");
             createdEntries.Add(parentFolder);
-            var childFolder = await CreateEntry(client, "APIServerClientIntegrationTest ChildFolder");
+            var childFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ChildFolder");
             createdEntries.Add(childFolder);
             var request = new PatchEntryRequest()
             {
                 ParentId = parentFolder.Id,
-                Name = "APIServerClientIntegrationTest MovedFolder"
+                Name = "RepositoryApiClientIntegrationTest .Net MovedFolder"
             };
 
             var movedEntry = await client.EntriesClient.MoveOrRenameDocumentAsync(RepositoryId, childFolder.Id, request, autoRename: true);
