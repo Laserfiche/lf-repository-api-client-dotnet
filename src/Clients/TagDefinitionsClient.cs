@@ -10,7 +10,7 @@ namespace Laserfiche.Repository.Api.Client
     partial interface ITagDefinitionsClient
     {
         /// <summary>
-        /// Get a collection of tag definitions using paging. Page results are returned to the <paramref name="callback"/>.
+        /// Returns a collection of tag definitions using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client
         Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get a collection of tag definitions using a nextlink.
+        /// Returns a collection of tag definitions using a nextlink.
         /// </summary>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>

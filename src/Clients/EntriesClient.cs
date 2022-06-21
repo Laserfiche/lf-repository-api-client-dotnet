@@ -65,7 +65,7 @@ namespace Laserfiche.Repository.Api.Client
         Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get the links assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
+        /// Returns the links assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -82,7 +82,7 @@ namespace Laserfiche.Repository.Api.Client
         Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get the tags assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
+        /// Returns the tags assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -119,7 +119,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get the links assigned to an entry using a nextlink.
+        /// Returns the links assigned to an entry using a nextlink.
         /// </summary>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -129,7 +129,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get the tags assigned to an entry using a nextlink
+        /// Returns the tags assigned to an entry using a nextlink
         /// </summary>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
