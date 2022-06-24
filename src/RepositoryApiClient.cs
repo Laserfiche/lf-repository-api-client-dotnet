@@ -11,7 +11,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
+        private const string _defaultBaseAddress = "https://dummy.example.com/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
@@ -103,8 +103,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns></returns>
         public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
         {
-            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrl);
-            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
+            string baseUrlEndWithSlash = baseUrl.TrimEnd('/') + "/";
+            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrlEndWithSlash);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlEndWithSlash);
         }
     }
 }
