@@ -7,7 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class RemoveTemplateFromEntryTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         Entry entry;
 
         [TestInitialize]

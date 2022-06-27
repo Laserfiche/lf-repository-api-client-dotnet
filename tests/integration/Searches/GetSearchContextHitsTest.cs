@@ -7,7 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
     [TestClass]
     public class GetSearchContextHitsTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]

@@ -7,8 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
     [TestClass]
     public class GetAttributeValueByKeyTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {

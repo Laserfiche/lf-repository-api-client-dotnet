@@ -6,7 +6,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
     [TestClass]
     public class GetSearchResultsTest : BaseTest
     {
-        IRepositoryApiClient client = null;
         string token;
 
         [TestInitialize]
