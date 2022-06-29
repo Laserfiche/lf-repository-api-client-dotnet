@@ -71,10 +71,17 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException(nameof(httpRequestHandler));
 
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
-            var httpClient = new HttpClient(repositoryClientHandler)
+            var httpClient = new HttpClient(repositoryClientHandler);
+
+            if (httpRequestHandler is LfdsUsernamePasswordHandler)
             {
-                BaseAddress = new Uri(_defaultBaseAddress)
-            };
+                httpClient.BaseAddress = new Uri(baseUrlDebug);
+            }
+            else
+            {
+                httpClient.BaseAddress = new Uri(_defaultBaseAddress);
+            }
+
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
         }
@@ -103,8 +110,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns></returns>
         public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
         {
-            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrl);
-            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
+            string baseUrlWithSlash = baseUrl.TrimEnd('/') + "/";
+            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrlWithSlash);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlWithSlash);
         }
     }
 }
