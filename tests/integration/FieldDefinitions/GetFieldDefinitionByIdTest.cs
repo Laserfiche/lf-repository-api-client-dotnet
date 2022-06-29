@@ -7,8 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
     [TestClass]
     public class GetFieldDefinitionByIdTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {
