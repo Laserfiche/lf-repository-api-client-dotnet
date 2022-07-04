@@ -10,7 +10,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
     public class BaseTest
     {
-        private const string TestConfigFile = "TestConfig.env";
+        private const string TestConfigFile = ".env";
         protected static readonly string TempPath = @"TestFiles/";
         protected string AuthorizationType;
         protected AccessKey AccessKey;
