@@ -40,6 +40,7 @@ jobs:
         SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
         REPOSITORY_ID:  ${{ secrets.DEV_CA_PUBLIC_USE_REPOSITORY_ID_3 }}
         AUTHORIZATION_TYPE: ${{ secrets.AUTHORIZATION_TYPE }}
+        TEST_HEADER: ${{ secrets.TEST_HEADER }}
       run:
         dotnet test --no-build --verbosity normal --filter Laserfiche.Repository.Api.Client.IntegrationTest
 

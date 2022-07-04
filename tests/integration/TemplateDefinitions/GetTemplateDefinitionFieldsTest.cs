@@ -7,8 +7,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
     [TestClass]
     public class GetTemplateDefinitionFieldsTest : BaseTest
     {
-        IRepositoryApiClient client = null;
-
         [TestInitialize]
         public void Initialize()
         {
