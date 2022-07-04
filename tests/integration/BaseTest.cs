@@ -19,6 +19,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         private const string TestConfigFile = "TestConfig.env";
         protected static readonly string TempPath = @"TestFiles/";
         protected AuthorizationType AuthorizationType;
+        protected string TestHeader;
         protected AccessKey AccessKey;
         protected string ServicePrincipalKey;
         protected string RepositoryId;
@@ -27,6 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         protected string Organization;
         protected string BaseUri;
 
+        private const string TestHeaderVar = "TEST_HEADER";
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
@@ -36,6 +38,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         private const string OrganizationVar = "LFDS_ORGANIZATION";
         private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
+        private const string ApplicationNameHeaderKey = "X-LF-AppID";
+        private const string ApplicationNameHeaderValue = "RepositoryApiClientIntegrationTest .Net";
         public static IRepositoryApiClient client = null;
 
         public BaseTest()
@@ -68,6 +72,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         private void PopulateFromEnv()
         {
+            TestHeader = Environment.GetEnvironmentVariable(TestHeaderVar);
             ServicePrincipalKey = Environment.GetEnvironmentVariable(SpKeyVar);
 
             var accessKeyStr = DecodeBase64(Environment.GetEnvironmentVariable(AccessKeyVar));
@@ -87,11 +92,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             {
                 if (AuthorizationType == AuthorizationType.AccessKey)
                 {
-                    return (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null) ? null : RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
+                    if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
+                        return null;
+                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
                 else if (AuthorizationType == AuthorizationType.LfdsUsernamePassword)
                 {
-                    return (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Organization) || string.IsNullOrEmpty(BaseUri)) ? null : RepositoryApiClient.CreateFromLfdsUsernamePassword(Username, Password, Organization, RepositoryId, BaseUri);
+                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Organization) || string.IsNullOrEmpty(BaseUri))
+                        return null;
+                    client = RepositoryApiClient.CreateFromLfdsUsernamePassword(Username, Password, Organization, RepositoryId, BaseUri);
+                }
+
+                client.DefaultRequestHeaders.Add(ApplicationNameHeaderKey, ApplicationNameHeaderValue);
+                if (!string.IsNullOrEmpty(TestHeader))
+                {
+                    client.DefaultRequestHeaders.Add(TestHeader, "true");
                 }
             }
             return client;
