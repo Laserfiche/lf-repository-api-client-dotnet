@@ -29,6 +29,10 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         IFieldDefinitionsClient FieldDefinitionsClient { get; }
         /// <summary>
+        /// The Laserfiche Repository Link Definitions API client.
+        /// </summary>
+        ILinkDefinitionsClient LinkDefinitionsClient { get; }
+        /// <summary>
         /// The Laserfiche Repository Repositories API client.
         /// </summary>
         IRepositoriesClient RepositoriesClient { get; }

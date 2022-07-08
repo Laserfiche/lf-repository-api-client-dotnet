@@ -32,6 +32,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 TargetFullPath = "targetFullPath",
                 TargetLabel = "targetLabel",
                 Description = "description",
+                LinkTypeId = 123,
                 LinkTypeDescription = "linkTypeDescription",
                 LinkProperties = new Dictionary<string, string>() { ["1"] = "2" },
                 SourceLink = "sourceLink",
@@ -48,6 +49,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 TargetFullPath = "targetFullPath2",
                 TargetLabel = "targetLabel2",
                 Description = "description2",
+                LinkTypeId = 456,
                 LinkTypeDescription = "linkTypeDescription2",
                 LinkProperties = new Dictionary<string, string>() { ["3"] = "4" },
                 SourceLink = "sourceLink2",
@@ -114,6 +116,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 Assert.Equal(links.ElementAt(i).TargetLabel, result.ElementAt(i).TargetLabel);
                 Assert.Equal(links.ElementAt(i).TargetLink, result.ElementAt(i).TargetLink);
                 Assert.Equal(links.ElementAt(i).Description, result.ElementAt(i).Description);
+                Assert.Equal(links.ElementAt(i).LinkTypeId, result.ElementAt(i).LinkTypeId);
                 Assert.Equal(links.ElementAt(i).LinkTypeDescription, result.ElementAt(i).LinkTypeDescription);
                 Assert.Equal(links.ElementAt(i).SourceLink, result.ElementAt(i).SourceLink);
                 foreach (var x in links.ElementAt(i).LinkProperties)
