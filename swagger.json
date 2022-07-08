@@ -821,8 +821,8 @@
         "tags": [
           "LinkDefinitions"
         ],
-        "summary": "Returns a single field definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select",
-        "description": "- Returns a single field definition associated with the specified ID.\n- Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed.\n- Allowed OData query options: Select",
+        "summary": "Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select",
+        "description": "- Returns a single link definition associated with the specified ID.\n- Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed.\n- Allowed OData query options: Select",
         "operationId": "GetLinkDefinitionById",
         "parameters": [
           {

@@ -4660,7 +4660,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Returns a single field definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
+        /// Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="linkTypeId">The requested link type ID.</param>
@@ -4850,7 +4850,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Returns a single field definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
+        /// Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="linkTypeId">The requested link type ID.</param>
