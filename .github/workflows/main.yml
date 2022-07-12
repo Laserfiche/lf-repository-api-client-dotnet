@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: "1.0.1"
+  VERSION_PREFIX: "1.0.2"
 
 jobs:
   build-n-test:
@@ -94,6 +94,7 @@ jobs:
 
   publish-documentation:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: documentation
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
@@ -123,6 +124,7 @@ jobs:
 
   publish-preview-package:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
@@ -159,6 +161,7 @@ jobs:
 
   publish-production-package:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: production
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish

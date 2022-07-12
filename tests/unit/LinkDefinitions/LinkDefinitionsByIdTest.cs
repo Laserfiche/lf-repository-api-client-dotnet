@@ -2,42 +2,30 @@
 using Moq.Protected;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
+namespace Laserfiche.Repository.Api.Client.Test.LinkDefinitions
 {
-    public class FieldDefinitionsByIdTest
+    public class LinkDefinitionsByIdTest
     {
         [Fact]
-        public async Task GetFieldDefinitionByIdAsync_200()
+        public async Task GetLinkDefinitionByIdAsync_200()
         {
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             int id = 1;
 
-            WFieldInfo fieldInfo1 = new WFieldInfo()
+            EntryLinkTypeInfo linkType1 = new EntryLinkTypeInfo()
             {
-                Name = "name1",
-                Id = id,
-                Description = "description1",
-                FieldType = WFieldType.Blob,
-                Length = 100,
-                DefaultValue = "default1",
-                IsMultiValue = false,
-                IsRequired = false,
-                Constraint = "constraint1",
-                ConstraintError = "error1",
-                ListValues = new List<string>() { "value1" },
-                Format = WFieldFormat.Custom,
-                Currency = "currency1",
-                FormatPattern = "format1"
+                LinkTypeId = 1,
+                SourceLabel = "linktype sourcelabel",
+                TargetLabel = "linktype targetlabel",
+                LinkTypeDescription = "linktype description"
             };
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
@@ -53,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
                 .ReturnsAsync(new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(fieldInfo1))
+                    Content = new StringContent(JsonConvert.SerializeObject(linkType1))
                 })
                 .Verifiable();
 
@@ -67,24 +55,15 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id);
-            Assert.Equal(fieldInfo1.Name, result.Name);
-            Assert.Equal(fieldInfo1.Id, result.Id);
-            Assert.Equal(fieldInfo1.Description, result.Description);
-            Assert.Equal(fieldInfo1.FieldType, result.FieldType);
-            Assert.Equal(fieldInfo1.DefaultValue, result.DefaultValue);
-            Assert.Equal(fieldInfo1.IsMultiValue, result.IsMultiValue);
-            Assert.Equal(fieldInfo1.IsRequired, result.IsRequired);
-            Assert.Equal(fieldInfo1.Constraint, result.Constraint);
-            Assert.Equal(fieldInfo1.ConstraintError, result.ConstraintError);
-            Assert.Equal(fieldInfo1.Format, result.Format);
-            Assert.Equal(fieldInfo1.Currency, result.Currency);
-            Assert.Equal(fieldInfo1.FormatPattern, result.FormatPattern);
-            Assert.Equal(fieldInfo1.ListValues.ElementAt(0), result.ListValues.ElementAt(0));
+            var result = await client.LinkDefinitionsClient.GetLinkDefinitionByIdAsync(repoId, linkTypeId: id);
+            Assert.Equal(linkType1.LinkTypeId, result.LinkTypeId);
+            Assert.Equal(linkType1.SourceLabel, result.SourceLabel);
+            Assert.Equal(linkType1.TargetLabel, result.TargetLabel);
+            Assert.Equal(linkType1.LinkTypeDescription, result.LinkTypeDescription);
 
             // ASSERT
             // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/FieldDefinitions/{id}");
+            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/LinkDefinitions/{id}");
 
             handlerMock.Protected().Verify(
                "SendAsync",
@@ -98,7 +77,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
         }
 
         [Fact]
-        public async Task GetFieldDefinitionByIdAsync_AnyOther()
+        public async Task GetLinkDefinitionByIdAsync_AnyOther()
         {
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
@@ -131,11 +110,11 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.LinkDefinitionsClient.GetLinkDefinitionByIdAsync(repoId, linkTypeId: id));
 
             // ASSERT
             // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/FieldDefinitions/{id}");
+            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/LinkDefinitions/{id}");
 
             handlerMock.Protected().Verify(
                "SendAsync",

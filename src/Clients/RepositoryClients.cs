@@ -134,7 +134,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Update field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
+        /// Update the field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
@@ -146,7 +146,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -183,7 +183,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -224,7 +224,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.
+        /// Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -234,7 +234,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.
+        /// Returns an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -257,7 +257,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
+        /// Returns an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -269,7 +269,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
+        /// Returns dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -1496,7 +1496,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Update field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
+        /// Update the field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
@@ -1651,7 +1651,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2113,7 +2113,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -2565,7 +2565,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.
+        /// Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -2705,7 +2705,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.
+        /// Returns an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3012,7 +3012,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
+        /// Returns an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
@@ -3171,7 +3171,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
+        /// Returns dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -3727,7 +3727,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get trustee attribute keys successfully.</returns>
+        /// <returns>Get trustee attribute key value pairs successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -3783,7 +3783,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get trustee attribute keys successfully.</returns>
+        /// <returns>Get trustee attribute key value pairs successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -4640,12 +4640,465 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial interface ILinkDefinitionsClient
+    {
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the link definitions in the repository. Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <returns>Get link definitions successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="linkTypeId">The requested link type ID.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <returns>Get link definition successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    internal partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
+    {
+        private System.Net.Http.HttpClient _httpClient;
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+
+        public LinkDefinitionsClient(System.Net.Http.HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
+
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        {
+            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        }
+
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+
+        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
+        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the link definitions in the repository. Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <returns>Get link definitions successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (repoId == null)
+                throw new System.ArgumentNullException("repoId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("v1/Repositories/{repoId}/LinkDefinitions?");
+            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            if (select != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (orderby != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (top != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (skip != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (count != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[] { false };
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+
+                    if (prefer != null)
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    return await GetLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfEntryLinkTypeInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select
+        /// </summary>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="linkTypeId">The requested link type ID.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <returns>Get link definition successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (repoId == null)
+                throw new System.ArgumentNullException("repoId");
+
+            if (linkTypeId == null)
+                throw new System.ArgumentNullException("linkTypeId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("v1/Repositories/{repoId}/LinkDefinitions/{linkTypeId}?");
+            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{linkTypeId}", System.Uri.EscapeDataString(ConvertToString(linkTypeId, System.Globalization.CultureInfo.InvariantCulture)));
+            if (select != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[] { false };
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    return await GetLinkDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        public virtual async System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<EntryLinkTypeInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Requested link type definition ID not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+
+            public T Object { get; }
+
+            public string Text { get; }
+        }
+
+        public bool ReadResponseAsString { get; set; }
+
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        {
+            if (response == null || response.Content == null)
+            {
+                return new ObjectResponseResult<T>(default(T), string.Empty);
+            }
+
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                }
+            }
+        }
+
+        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            if (value is System.Enum)
+            {
+                var name = System.Enum.GetName(value.GetType(), value);
+                if (name != null)
+                {
+                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null)
+                    {
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        if (attribute != null)
+                        {
+                            return attribute.Value != null ? attribute.Value : name;
+                        }
+                    }
+
+                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    return converted == null ? string.Empty : converted;
+                }
+            }
+            else if (value is bool)
+            {
+                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+            }
+            else if (value is byte[])
+            {
+                return System.Convert.ToBase64String((byte[])value);
+            }
+            else if (value.GetType().IsArray)
+            {
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+            }
+
+            var result = System.Convert.ToString(value, cultureInfo);
+            return result == null ? "" : result;
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IRepositoriesClient
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the repository resource list that current user has access to.
+        /// Returns the repository resource list that current user has access to.
         /// </summary>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4682,7 +5135,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get the repository resource list that current user has access to.
+        /// Returns the repository resource list that current user has access to.
         /// </summary>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4741,12 +5194,6 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     return objectResponse_.Object;
-                }
-                else
-                if (status_ == 204)
-                {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Account does not have access to any repository", status_, responseText_, headers_, null);
                 }
                 else
                 if (status_ == 400)
@@ -5265,6 +5712,16 @@ namespace Laserfiche.Repository.Api.Client
                     return objectResponse_.Object;
                 }
                 else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -5388,8 +5845,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.
         /// </summary>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="operationToken">The operation token.</param>
+        /// <param name="repoId">The requested repository ID</param>
+        /// <param name="operationToken">The operation token</param>
         /// <returns>Get completed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -5398,7 +5855,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.
         /// </summary>
-        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="repoId">The requested repository ID</param>
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5437,8 +5894,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.
         /// </summary>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="operationToken">The operation token.</param>
+        /// <param name="repoId">The requested repository ID</param>
+        /// <param name="operationToken">The operation token</param>
         /// <returns>Get completed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -5563,7 +6020,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<ProblemDetails>("Request operationToken not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5592,7 +6049,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.
         /// </summary>
-        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="repoId">The requested repository ID</param>
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5693,7 +6150,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request operation token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<ProblemDetails>("Request operationToken not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6145,7 +6602,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="searchToken">The requested searchToken.</param>
@@ -6797,7 +7254,7 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
+        /// Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="searchToken">The requested searchToken.</param>
@@ -7913,7 +8370,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get field definitions successfully.</returns>
+        /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -7931,7 +8388,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get field definitions successfully.</returns>
+        /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -8296,7 +8753,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get field definitions successfully.</returns>
+        /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -8467,7 +8924,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="top">Limits the number of items returned from a collection.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <returns>Get field definitions successfully.</returns>
+        /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -8971,29 +9428,9 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class LinkToUpdate
-    {
-        /// <summary>
-        /// The id of the link assigned to the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("linkTypeId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int LinkTypeId { get; set; }
-
-        /// <summary>
-        /// The id of the other source linked to the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("otherSourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int OtherSourceId { get; set; }
-
-        /// <summary>
-        /// Whether the entry is the source for the link.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isSource", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsSource { get; set; }
-
-    }
-
+    /// <summary>
+    /// The request body containing fields that will be assigned to the entry.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FieldToUpdate
     {
@@ -9019,6 +9456,29 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Position { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class LinkToUpdate
+    {
+        /// <summary>
+        /// The id of the link assigned to the entry.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("linkTypeId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int LinkTypeId { get; set; }
+
+        /// <summary>
+        /// The id of the other source linked to the entry.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("otherSourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OtherSourceId { get; set; }
+
+        /// <summary>
+        /// Whether the entry is the source for the link.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isSource", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsSource { get; set; }
 
     }
 
@@ -9312,6 +9772,63 @@ namespace Laserfiche.Repository.Api.Client
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<WFieldInfo> Value { get; set; }
+
+    }
+
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueContextOfIListOfEntryLinkTypeInfo : ODataValueOfIListOfEntryLinkTypeInfo
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class ODataValueOfIListOfEntryLinkTypeInfo
+    {
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<EntryLinkTypeInfo> Value { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class EntryLinkTypeInfo
+    {
+        /// <summary>
+        /// The ID of the entry link type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("linkTypeId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int LinkTypeId { get; set; }
+
+        /// <summary>
+        /// The label for the source entry in the link type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("sourceLabel", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceLabel { get; set; }
+
+        /// <summary>
+        /// The label for the target entry in the link type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("targetLabel", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string TargetLabel { get; set; }
+
+        /// <summary>
+        /// The description of the link type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("linkTypeDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LinkTypeDescription { get; set; }
 
     }
 
@@ -9939,6 +10456,12 @@ namespace Laserfiche.Repository.Api.Client
         public string LinkTypeDescription { get; set; }
 
         /// <summary>
+        /// The ID of the entry link type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("linkTypeId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int LinkTypeId { get; set; }
+
+        /// <summary>
         /// The properties for the entry link.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("linkProperties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10153,21 +10676,54 @@ namespace Laserfiche.Repository.Api.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class OperationProgress
     {
+        /// <summary>
+        /// The operation token of the operation associated with this OperationProgress.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("operationToken", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OperationToken { get; set; }
 
+        /// <summary>
+        /// The type of the operation associated with this OperationProgress.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("operationType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OperationType { get; set; }
 
+        /// <summary>
+        /// Determines what percentage of the execution of the associated operation is completed.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("percentComplete", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int PercentComplete { get; set; }
 
+        /// <summary>
+        /// The status of the operation associated with this OperationProgress.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OperationStatus Status { get; set; }
 
+        /// <summary>
+        /// The list of errors occurred during the execution of the associated operation.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("errors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<OperationErrorItem> Errors { get; set; }
+
+        /// <summary>
+        /// The URI which can be used (via api call) to access the result(s) of the associated operation.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("redirectUri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string RedirectUri { get; set; }
+
+        /// <summary>
+        /// The timestamp representing when the associated operation's execution is started.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("startTimestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset StartTimestamp { get; set; }
+
+        /// <summary>
+        /// The timestamp representing the last time when the associated task's status has changed.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("statusTimestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset StatusTimestamp { get; set; }
 
     }
 
@@ -10195,9 +10751,15 @@ namespace Laserfiche.Repository.Api.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class OperationErrorItem
     {
+        /// <summary>
+        /// The ID of the entry to which the error is related. 
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("objectId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int ObjectId { get; set; }
 
+        /// <summary>
+        /// The short description of the error.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("errorMessage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ErrorMessage { get; set; }
 

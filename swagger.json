@@ -17,6 +17,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Creates a new document in the specified folder. Optionally sets metadata and electronic document component. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
         "description": "- Creates a new document in the specified folder.\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
         "operationId": "ImportDocument",
         "parameters": [
@@ -171,8 +172,7 @@
               }
             }
           }
-        },
-        "summary": "Creates a new document in the specified folder. Optionally sets metadata and electronic document component. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Attributes": {
@@ -266,7 +266,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get trustee attribute keys successfully.",
+            "description": "Get trustee attribute key value pairs  successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -426,6 +426,7 @@
         "tags": [
           "FieldDefinitions"
         ],
+        "summary": "Returns a single field definition associated with the specified ID.  Useful when a route provides a minimal amount of details and more information about the specific field definition is needed. Allowed OData query options: Select",
         "description": "- Returns a single field definition associated with the specified ID. \n- Useful when a route provides a minimal amount of details and more information about the specific field definition is needed.\n- Allowed OData query options: Select",
         "operationId": "GetFieldDefinitionById",
         "parameters": [
@@ -533,8 +534,7 @@
               }
             }
           }
-        },
-        "summary": "Returns a single field definition associated with the specified ID.  Useful when a route provides a minimal amount of details and more information about the specific field definition is needed. Allowed OData query options: Select"
+        }
       }
     },
     "/v1/Repositories/{repoId}/FieldDefinitions": {
@@ -542,6 +542,7 @@
         "tags": [
           "FieldDefinitions"
         ],
+        "summary": "Returns a paged listing of field definitions available in the specified repository. Useful when trying to find a list of all field definitions available, rather than only those assigned to a specific entry/template. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns a paged listing of field definitions available in the specified repository.\n- Useful when trying to find a list of all field definitions available, rather than only those assigned to a specific entry/template.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetFieldDefinitions",
         "parameters": [
@@ -678,8 +679,246 @@
               }
             }
           }
-        },
-        "summary": "Returns a paged listing of field definitions available in the specified repository. Useful when trying to find a list of all field definitions available, rather than only those assigned to a specific entry/template. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
+      }
+    },
+    "/v1/Repositories/{repoId}/LinkDefinitions": {
+      "get": {
+        "tags": [
+          "LinkDefinitions"
+        ],
+        "summary": "Returns the link definitions in the repository. Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "description": "- Returns the link definitions in the repository.\n- Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "operationId": "GetLinkDefinitions",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Prefer",
+            "x-originalName": "prefer",
+            "in": "header",
+            "description": "An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "Limits the number of items returned from a collection.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 6
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "Excludes the specified number of items of the queried collection from the result.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 7
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get link definitions successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataValueContextOfIListOfEntryLinkTypeInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Repositories/{repoId}/LinkDefinitions/{linkTypeId}": {
+      "get": {
+        "tags": [
+          "LinkDefinitions"
+        ],
+        "summary": "Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select",
+        "description": "- Returns a single link definition associated with the specified ID.\n- Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed.\n- Allowed OData query options: Select",
+        "operationId": "GetLinkDefinitionById",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "linkTypeId",
+            "in": "path",
+            "required": true,
+            "description": "The requested link type ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get link definition successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntryLinkTypeInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested link type definition ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}": {
@@ -687,6 +926,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Returns a single entry object. Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc. Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.",
         "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.",
         "operationId": "GetEntry",
         "parameters": [
@@ -783,13 +1023,13 @@
               }
             }
           }
-        },
-        "summary": "Returns a single entry object. Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc. Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties."
+        }
       },
       "delete": {
         "tags": [
           "Entries"
         ],
+        "summary": "Begins a task to delete an entry, and returns an operationToken. Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately. Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.",
         "description": "- Begins a task to delete an entry, and returns an operationToken.\n- Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.\n- Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.",
         "operationId": "DeleteEntryInfo",
         "parameters": [
@@ -878,13 +1118,13 @@
               }
             }
           }
-        },
-        "summary": "Begins a task to delete an entry, and returns an operationToken. Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately. Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route."
+        }
       },
       "patch": {
         "tags": [
           "Entries"
         ],
+        "summary": "Moves and/or renames an entry. Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "description": "- Moves and/or renames an entry.\n- Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "operationId": "MoveOrRenameDocument",
         "parameters": [
@@ -1047,8 +1287,7 @@
               }
             }
           }
-        },
-        "summary": "Moves and/or renames an entry. Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children": {
@@ -1056,6 +1295,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Returns the children entries of a folder in the repository. Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route. Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "GetEntryListing",
         "parameters": [
@@ -1246,13 +1486,13 @@
               }
             }
           }
-        },
-        "summary": "Returns the children entries of a folder in the repository. Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route. Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry."
+        }
       },
       "post": {
         "tags": [
           "Entries"
         ],
+        "summary": "Create/copy a new child entry in the designated folder. Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "description": "- Create/copy a new child entry in the designated folder.\n- Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "operationId": "CreateOrCopyEntry",
         "parameters": [
@@ -1408,8 +1648,7 @@
               }
             }
           }
-        },
-        "summary": "Create/copy a new child entry in the designated folder. Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/fields": {
@@ -1417,6 +1656,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Returns the fields assigned to an entry. Provide an entry ID, and get a paged listing of all fields assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns the fields assigned to an entry.\n- Provide an entry ID, and get a paged listing of all fields assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetFieldValues",
         "parameters": [
@@ -1584,15 +1824,14 @@
               }
             }
           }
-        },
-        "summary": "Returns the fields assigned to an entry. Provide an entry ID, and get a paged listing of all fields assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       },
       "put": {
         "tags": [
           "Entries"
         ],
-        "summary": "Update field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
-        "description": "- Update field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. \n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
+        "summary": "Update the field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
+        "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. \n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
         "operationId": "AssignFieldValues",
         "parameters": [
           {
@@ -1722,7 +1961,8 @@
         "tags": [
           "Entries"
         ],
-        "description": "- Get the tags assigned to an entry.\n- Provide an entry ID, and get a paged listing of tags assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "description": "- Returns the tags assigned to an entry.\n- Provide an entry ID, and get a paged listing of tags assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTagsAssignedToEntry",
         "parameters": [
           {
@@ -1868,13 +2108,13 @@
               }
             }
           }
-        },
-        "summary": "Get the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       },
       "put": {
         "tags": [
           "Entries"
         ],
+        "summary": "Assign tags to an entry. Provide an entry ID and a list of tags to assign to that entry. This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.",
         "description": "- Assign tags to an entry.\n- Provide an entry ID and a list of tags to assign to that entry.\n- This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.",
         "operationId": "AssignTags",
         "parameters": [
@@ -1983,8 +2223,7 @@
               }
             }
           }
-        },
-        "summary": "Assign tags to an entry. Provide an entry ID and a list of tags to assign to that entry. This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/links": {
@@ -1992,6 +2231,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Assign links to an entry. Provide an entry ID and a list of links to assign to that entry. This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.",
         "description": "- Assign links to an entry.\n- Provide an entry ID and a list of links to assign to that entry.\n- This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.",
         "operationId": "AssignEntryLinks",
         "parameters": [
@@ -2102,14 +2342,14 @@
               }
             }
           }
-        },
-        "summary": "Assign links to an entry. Provide an entry ID and a list of links to assign to that entry. This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry."
+        }
       },
       "get": {
         "tags": [
           "Entries"
         ],
-        "description": "- Get the links assigned to an entry.\n- Provide an entry ID, and get a paged listing of links assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "description": "- Returns the links assigned to an entry.\n- Provide an entry ID, and get a paged listing of links assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetLinkValuesFromEntry",
         "parameters": [
           {
@@ -2255,8 +2495,7 @@
               }
             }
           }
-        },
-        "summary": "Get the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/CopyAsync": {
@@ -2264,6 +2503,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Copy a new child entry in the designated folder async, and potentially return an operationToken. Provide the parent folder ID, and copy an entry as a child of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.  The status of the operation can be checked via the Tasks/{operationToken} route.",
         "description": "- Copy a new child entry in the designated folder async, and potentially return an operationToken.\n- Provide the parent folder ID, and copy an entry as a child of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. \n- The status of the operation can be checked via the Tasks/{operationToken} route.",
         "operationId": "CopyEntryAsync",
         "parameters": [
@@ -2382,8 +2622,7 @@
               }
             }
           }
-        },
-        "summary": "Copy a new child entry in the designated folder async, and potentially return an operationToken. Provide the parent folder ID, and copy an entry as a child of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.  The status of the operation can be checked via the Tasks/{operationToken} route."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc": {
@@ -2391,6 +2630,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Delete the edoc associated with the provided entry ID.",
         "description": "- Delete the edoc associated with the provided entry ID.",
         "operationId": "DeleteDocument",
         "parameters": [
@@ -2487,14 +2727,14 @@
               }
             }
           }
-        },
-        "summary": "Delete the edoc associated with the provided entry ID."
+        }
       },
       "head": {
         "tags": [
           "Entries"
         ],
-        "description": "- Get information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
+        "summary": "Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
+        "description": "- Returns information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
         "operationId": "GetDocumentContentType",
         "parameters": [
           {
@@ -2583,14 +2823,14 @@
               }
             }
           }
-        },
-        "summary": "Get information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry."
+        }
       },
       "get": {
         "tags": [
           "Entries"
         ],
-        "description": "- Get an entry's edoc resource in a stream format.\n- Provide an entry ID, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.",
+        "summary": "Returns an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.",
+        "description": "- Returns an entry's edoc resource in a stream format.\n- Provide an entry ID, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.",
         "operationId": "ExportDocument",
         "parameters": [
           {
@@ -2709,8 +2949,7 @@
               }
             }
           }
-        },
-        "summary": "Get an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/pages": {
@@ -2718,6 +2957,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Delete the pages associated with the provided entry ID. If no pageRange is specified, all pages will be deleted. Optional parameter: pageRange (default empty). The value should be a comma-seperated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"",
         "description": "- Delete the pages associated with the provided entry ID. If no pageRange is specified, all pages will be deleted.\n- Optional parameter: pageRange (default empty). The value should be a comma-seperated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"",
         "operationId": "DeletePages",
         "parameters": [
@@ -2824,8 +3064,7 @@
               }
             }
           }
-        },
-        "summary": "Delete the pages associated with the provided entry ID. If no pageRange is specified, all pages will be deleted. Optional parameter: pageRange (default empty). The value should be a comma-seperated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\""
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/GetEdocWithAuditReason": {
@@ -2833,7 +3072,8 @@
         "tags": [
           "Entries"
         ],
-        "description": "- Get an entry's edoc resource in a stream format while including an audit reason.\n- Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
+        "summary": "Returns an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
+        "description": "- Returns an entry's edoc resource in a stream format while including an audit reason.\n- Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
         "operationId": "ExportDocumentWithAuditReason",
         "parameters": [
           {
@@ -2963,8 +3203,7 @@
               }
             }
           }
-        },
-        "summary": "Get an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue": {
@@ -2972,7 +3211,8 @@
         "tags": [
           "Entries"
         ],
-        "description": "- Get dynamic field logic values with the current values of the fields in the template.\n- Provide an entry ID and field values in the JSON body to get dynamic field logic values.\n Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
+        "summary": "Returns dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
+        "description": "- Returns dynamic field logic values with the current values of the fields in the template.\n- Provide an entry ID and field values in the JSON body to get dynamic field logic values.\n Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
         "operationId": "GetDynamicFieldValues",
         "parameters": [
           {
@@ -3075,8 +3315,7 @@
               }
             }
           }
-        },
-        "summary": "Get dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Entries/{entryId}/template": {
@@ -3084,6 +3323,7 @@
         "tags": [
           "Entries"
         ],
+        "summary": "Remove the currently assigned template from the specified entry. Provide an entry ID to clear template value on. If the entry does not have a template assigned, no change will be made.",
         "description": "- Remove the currently assigned template from the specified entry.\n- Provide an entry ID to clear template value on.\n- If the entry does not have a template assigned, no change will be made.",
         "operationId": "DeleteAssignedTemplate",
         "parameters": [
@@ -3180,13 +3420,13 @@
               }
             }
           }
-        },
-        "summary": "Remove the currently assigned template from the specified entry. Provide an entry ID to clear template value on. If the entry does not have a template assigned, no change will be made."
+        }
       },
       "put": {
         "tags": [
           "Entries"
         ],
+        "summary": "Assign a template to an entry. Provide an entry ID, template name, and a list of template fields to assign to that entry. Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.",
         "description": "- Assign a template to an entry.\n- Provide an entry ID, template name, and a list of template fields to assign to that entry.\n- Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.",
         "operationId": "WriteTemplateValueToEntry",
         "parameters": [
@@ -3348,8 +3588,7 @@
               }
             }
           }
-        },
-        "summary": "Assign a template to an entry. Provide an entry ID, template name, and a list of template fields to assign to that entry. Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified."
+        }
       }
     },
     "/v1/Repositories": {
@@ -3357,7 +3596,8 @@
         "tags": [
           "Repositories"
         ],
-        "description": "- Get the repository resource list that current user has access to.",
+        "summary": "Returns the repository resource list that current user has access to.",
+        "description": "- Returns the repository resource list that current user has access to.",
         "operationId": "GetRepositoryList",
         "responses": {
           "200": {
@@ -3372,9 +3612,6 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "Account does not have access to any repository"
           },
           "400": {
             "description": "Invalid or bad request.",
@@ -3406,8 +3643,7 @@
               }
             }
           }
-        },
-        "summary": "Get the repository resource list that current user has access to."
+        }
       }
     },
     "/v1/Repositories/{repoId}/ServerSession/Invalidate": {
@@ -3415,6 +3651,7 @@
         "tags": [
           "ServerSession"
         ],
+        "summary": "Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.",
         "description": "- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.",
         "operationId": "InvalidateServerSession",
         "parameters": [
@@ -3480,8 +3717,7 @@
               }
             }
           }
-        },
-        "summary": "Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session."
+        }
       }
     },
     "/v1/Repositories/{repoId}/ServerSession/Refresh": {
@@ -3489,6 +3725,7 @@
         "tags": [
           "ServerSession"
         ],
+        "summary": "Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.",
         "description": "- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.",
         "operationId": "RefreshServerSession",
         "parameters": [
@@ -3554,8 +3791,7 @@
               }
             }
           }
-        },
-        "summary": "Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token."
+        }
       }
     },
     "/v1/Repositories/{repoId}/ServerSession/Create": {
@@ -3563,6 +3799,7 @@
         "tags": [
           "ServerSession"
         ],
+        "summary": "Deprecated. This function is a no-op, always returns 200.",
         "description": "- Deprecated. This function is a no-op, always returns 200.",
         "operationId": "CreateServerSession",
         "parameters": [
@@ -3587,9 +3824,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        },
-        "summary": "Deprecated. This function is a no-op, always returns 200."
+        }
       }
     },
     "/v1/Repositories/{repoId}/Tasks/{operationToken}": {
@@ -3597,6 +3843,7 @@
         "tags": [
           "Tasks"
         ],
+        "summary": "Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
         "description": "- Returns the status of an operation.\n- Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant).\n- OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
         "operationId": "GetOperationStatusAndProgress",
         "parameters": [
@@ -3604,7 +3851,7 @@
             "name": "repoId",
             "in": "path",
             "required": true,
-            "description": "The requested repository ID.",
+            "description": "The requested repository ID",
             "schema": {
               "type": "string"
             },
@@ -3614,7 +3861,7 @@
             "name": "operationToken",
             "in": "path",
             "required": true,
-            "description": "The operation token.",
+            "description": "The operation token",
             "schema": {
               "type": "string"
             },
@@ -3683,7 +3930,7 @@
             }
           },
           "404": {
-            "description": "Request operation token not found.",
+            "description": "Request operationToken not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3702,13 +3949,13 @@
               }
             }
           }
-        },
-        "summary": "Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed."
+        }
       },
       "delete": {
         "tags": [
           "Tasks"
         ],
+        "summary": "Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
         "description": "- Cancels an operation.\n- Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary.\n- Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
         "operationId": "CancelOperation",
         "parameters": [
@@ -3716,7 +3963,7 @@
             "name": "repoId",
             "in": "path",
             "required": true,
-            "description": "The requested repository ID.",
+            "description": "The requested repository ID",
             "schema": {
               "type": "string"
             },
@@ -3726,7 +3973,7 @@
             "name": "operationToken",
             "in": "path",
             "required": true,
-            "description": "The operation token ",
+            "description": "The operation token",
             "schema": {
               "type": "string"
             },
@@ -3768,7 +4015,7 @@
             }
           },
           "404": {
-            "description": "Request operation token not found.",
+            "description": "Request operationToken not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3787,8 +4034,7 @@
               }
             }
           }
-        },
-        "summary": "Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled."
+        }
       }
     },
     "/v1/Repositories/{repoId}/AuditReasons": {
@@ -4389,7 +4635,8 @@
         "tags": [
           "Searches"
         ],
-        "description": "- Returns the context hits associated with a search result entry.\n- Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "description": "- Returns the context hits associated with a search result entry.\n- Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetSearchContextHits",
         "parameters": [
           {
@@ -4545,8 +4792,7 @@
               }
             }
           }
-        },
-        "summary": "Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     },
     "/v1/Repositories/{repoId}/SimpleSearches": {
@@ -4554,6 +4800,7 @@
         "tags": [
           "SimpleSearches"
         ],
+        "summary": "Runs a \"simple\" search operation on the repository. Returns a truncated search result listing. Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches. Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "CreateSimpleSearchOperation",
         "parameters": [
@@ -4712,8 +4959,7 @@
               }
             }
           }
-        },
-        "summary": "Runs a \"simple\" search operation on the repository. Returns a truncated search result listing. Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches. Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry."
+        }
       }
     },
     "/v1/Repositories/{repoId}/TagDefinitions": {
@@ -4721,6 +4967,7 @@
         "tags": [
           "TagDefinitions"
         ],
+        "summary": "Returns all tag definitions in the repository. Provide a repository ID and get a paged listing of tag definitions available in the repository. Useful when trying to display all tag definitions available, not only tags assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns all tag definitions in the repository.\n- Provide a repository ID and get a paged listing of tag definitions available in the repository. Useful when trying to display all tag definitions available, not only tags assigned to a specific entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTagDefinitions",
         "parameters": [
@@ -4857,8 +5104,7 @@
               }
             }
           }
-        },
-        "summary": "Returns all tag definitions in the repository. Provide a repository ID and get a paged listing of tag definitions available in the repository. Useful when trying to display all tag definitions available, not only tags assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     },
     "/v1/Repositories/{repoId}/TagDefinitions/{tagId}": {
@@ -4866,6 +5112,7 @@
         "tags": [
           "TagDefinitions"
         ],
+        "summary": "Returns a single tag definition. Provide a tag definition ID, and get the single tag definition associated with that ID. Useful when another route provides a minimal amount of details, and more information about the specific tag is needed. Allowed OData query options: Select",
         "description": "- Returns a single tag definition.\n- Provide a tag definition ID, and get the single tag definition associated with that ID. Useful when another route provides a minimal amount of details, and more information about the specific tag is needed.\n- Allowed OData query options: Select",
         "operationId": "GetTagDefinitionById",
         "parameters": [
@@ -4973,8 +5220,7 @@
               }
             }
           }
-        },
-        "summary": "Returns a single tag definition. Provide a tag definition ID, and get the single tag definition associated with that ID. Useful when another route provides a minimal amount of details, and more information about the specific tag is needed. Allowed OData query options: Select"
+        }
       }
     },
     "/v1/Repositories/{repoId}/TemplateDefinitions": {
@@ -4982,6 +5228,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
+        "summary": "Returns all template definitions (including field definitions) in the repository. If a template name query parameter is given, then a single template definition is returned. Provide a repository ID, and get a paged listing of template definitions available in the repository. Useful when trying to find a list of all template definitions available, rather than a specific one. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns all template definitions (including field definitions) in the repository. If a template name query parameter is given, then a single template definition is returned.\n- Provide a repository ID, and get a paged listing of template definitions available in the repository. Useful when trying to find a list of all template definitions available, rather than a specific one.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateDefinitions",
         "parameters": [
@@ -5138,8 +5385,7 @@
               }
             }
           }
-        },
-        "summary": "Returns all template definitions (including field definitions) in the repository. If a template name query parameter is given, then a single template definition is returned. Provide a repository ID, and get a paged listing of template definitions available in the repository. Useful when trying to find a list of all template definitions available, rather than a specific one. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     },
     "/v1/Repositories/{repoId}/TemplateDefinitions/{templateId}": {
@@ -5147,6 +5393,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
+        "summary": "Returns a single template definition (including field definitions, if relevant). Provide a template definition ID, and get the single template definition associated with that ID. Useful when a route provides a minimal amount of details, and more information about the specific template is needed. Allowed OData query options: Select",
         "description": "- Returns a single template definition (including field definitions, if relevant).\n- Provide a template definition ID, and get the single template definition associated with that ID. Useful when a route provides a minimal amount of details, and more information about the specific template is needed.\n- Allowed OData query options: Select",
         "operationId": "GetTemplateDefinitionById",
         "parameters": [
@@ -5254,8 +5501,7 @@
               }
             }
           }
-        },
-        "summary": "Returns a single template definition (including field definitions, if relevant). Provide a template definition ID, and get the single template definition associated with that ID. Useful when a route provides a minimal amount of details, and more information about the specific template is needed. Allowed OData query options: Select"
+        }
       }
     },
     "/v1/Repositories/{repoId}/TemplateDefinitions/{templateId}/fields": {
@@ -5263,6 +5509,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
+        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition ID, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns the field definitions assigned to a template definition.\n- Provide a template definition ID, and get a paged listing of the field definitions assigned to that template. \n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateFieldDefinitions",
         "parameters": [
@@ -5361,7 +5608,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get field definitions successfully.",
+            "description": "Get template field definitions successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5420,8 +5667,7 @@
               }
             }
           }
-        },
-        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition ID, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     },
     "/v1/Repositories/{repoId}/TemplateDefinitions/Fields": {
@@ -5429,6 +5675,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
+        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition name, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "description": "- Returns the field definitions assigned to a template definition.\n- Provide a template definition name, and get a paged listing of the field definitions assigned to that template. \n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateFieldDefinitionsByTemplateName",
         "parameters": [
@@ -5527,7 +5774,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get field definitions successfully.",
+            "description": "Get template field definitions successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5586,8 +5833,7 @@
               }
             }
           }
-        },
-        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition name, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer."
+        }
       }
     }
   },
@@ -5841,28 +6087,9 @@
           }
         }
       },
-      "LinkToUpdate": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "linkTypeId": {
-            "type": "integer",
-            "description": "The id of the link assigned to the entry.",
-            "format": "int32"
-          },
-          "otherSourceId": {
-            "type": "integer",
-            "description": "The id of the other source linked to the entry.",
-            "format": "int32"
-          },
-          "isSource": {
-            "type": "boolean",
-            "description": "Whether the entry is the source for the link."
-          }
-        }
-      },
       "FieldToUpdate": {
         "type": "object",
+        "description": "The request body containing fields that will be assigned to the entry.",
         "additionalProperties": false,
         "properties": {
           "values": {
@@ -5888,6 +6115,26 @@
             "type": "integer",
             "description": "The position of the value in the field. This is 1-indexed for multi value field. It will be ignored for single value field.",
             "format": "int32"
+          }
+        }
+      },
+      "LinkToUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "linkTypeId": {
+            "type": "integer",
+            "description": "The id of the link assigned to the entry.",
+            "format": "int32"
+          },
+          "otherSourceId": {
+            "type": "integer",
+            "description": "The id of the other source linked to the entry.",
+            "format": "int32"
+          },
+          "isSource": {
+            "type": "boolean",
+            "description": "Whether the entry is the source for the link."
           }
         }
       },
@@ -6178,6 +6425,68 @@
             "items": {
               "$ref": "#/components/schemas/WFieldInfo"
             }
+          }
+        }
+      },
+      "ODataValueContextOfIListOfEntryLinkTypeInfo": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ODataValueOfIListOfEntryLinkTypeInfo"
+          },
+          {
+            "type": "object",
+            "description": "A wrapper around the ODataValue with extra odata.nextLink and odata.count.",
+            "additionalProperties": false,
+            "properties": {
+              "@odata.nextLink": {
+                "type": "string",
+                "description": "It contains a URL that allows retrieving the next subset of the requested collection.",
+                "nullable": true
+              },
+              "@odata.count": {
+                "type": "integer",
+                "description": "It contains the count of a collection of entities or a collection of entity references.",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "ODataValueOfIListOfEntryLinkTypeInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryLinkTypeInfo"
+            }
+          }
+        }
+      },
+      "EntryLinkTypeInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "linkTypeId": {
+            "type": "integer",
+            "description": "The ID of the entry link type.",
+            "format": "int32"
+          },
+          "sourceLabel": {
+            "type": "string",
+            "description": "The label for the source entry in the link type.",
+            "nullable": true
+          },
+          "targetLabel": {
+            "type": "string",
+            "description": "The label for the target entry in the link type.",
+            "nullable": true
+          },
+          "linkTypeDescription": {
+            "type": "string",
+            "description": "The description of the link type.",
+            "nullable": true
           }
         }
       },
@@ -6815,6 +7124,11 @@
             "description": "The description of the link type.",
             "nullable": true
           },
+          "linkTypeId": {
+            "type": "integer",
+            "description": "The ID of the entry link type.",
+            "format": "int32"
+          },
           "linkProperties": {
             "type": "object",
             "description": "The properties for the entry link.",
@@ -7041,25 +7355,49 @@
         "properties": {
           "operationToken": {
             "type": "string",
+            "description": "The operation token of the operation associated with this OperationProgress.",
             "nullable": true
           },
           "operationType": {
             "type": "string",
+            "description": "The type of the operation associated with this OperationProgress.",
             "nullable": true
           },
           "percentComplete": {
             "type": "integer",
+            "description": "Determines what percentage of the execution of the associated operation is completed.",
             "format": "int32"
           },
           "status": {
-            "$ref": "#/components/schemas/OperationStatus"
+            "description": "The status of the operation associated with this OperationProgress.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OperationStatus"
+              }
+            ]
           },
           "errors": {
             "type": "array",
+            "description": "The list of errors occurred during the execution of the associated operation.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/OperationErrorItem"
             }
+          },
+          "redirectUri": {
+            "type": "string",
+            "description": "The URI which can be used (via api call) to access the result(s) of the associated operation.",
+            "nullable": true
+          },
+          "startTimestamp": {
+            "type": "string",
+            "description": "The timestamp representing when the associated operation's execution is started.",
+            "format": "date-time"
+          },
+          "statusTimestamp": {
+            "type": "string",
+            "description": "The timestamp representing the last time when the associated task's status has changed.",
+            "format": "date-time"
           }
         }
       },
@@ -7087,10 +7425,12 @@
         "properties": {
           "objectId": {
             "type": "integer",
+            "description": "The ID of the entry to which the error is related. ",
             "format": "int32"
           },
           "errorMessage": {
             "type": "string",
+            "description": "The short description of the error.",
             "nullable": true
           }
         }
