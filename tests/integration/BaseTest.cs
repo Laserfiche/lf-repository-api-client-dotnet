@@ -65,11 +65,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 System.Diagnostics.Trace.WriteLine($"{fileName} not found.");
         }
 
-        private static string DecodeBase64(string encoded)
-        {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
-        }
-
         private void PopulateFromEnv()
         {
             TestHeader = Environment.GetEnvironmentVariable(TestHeaderVar);
