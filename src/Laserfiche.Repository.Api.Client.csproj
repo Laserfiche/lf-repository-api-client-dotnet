@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Laserfiche.Api.Client.Core" Version="1.2.0-beta-2790594917" />
+    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.2.0-beta-2790594917" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.13.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
