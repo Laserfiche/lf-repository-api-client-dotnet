@@ -65,19 +65,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 System.Diagnostics.Trace.WriteLine($"{fileName} not found.");
         }
 
-        private static string DecodeBase64(string encoded)
-        {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
-        }
-
         private void PopulateFromEnv()
         {
             TestHeader = Environment.GetEnvironmentVariable(TestHeaderVar);
             ServicePrincipalKey = Environment.GetEnvironmentVariable(SpKeyVar);
-
-            var accessKeyStr = DecodeBase64(Environment.GetEnvironmentVariable(AccessKeyVar));
-            AccessKey = JsonConvert.DeserializeObject<AccessKey>(accessKeyStr);
-
+            AccessKey = AccessKey.CreateFromBase64EncodedAccessKey(Environment.GetEnvironmentVariable(AccessKeyVar));
             RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
             AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
             Username = Environment.GetEnvironmentVariable(UsernameVar);
