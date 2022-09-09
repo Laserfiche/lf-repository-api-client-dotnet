@@ -123,7 +123,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             }
 
             // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/fields");
+            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/Fields");
 
             handlerMock.Protected().Verify(
                "SendAsync",
@@ -176,7 +176,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             Assert.Equal((int)statusCode, response.StatusCode);
 
             // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/fields");
+            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/Fields");
 
             handlerMock.Protected().Verify(
                "SendAsync",
@@ -286,7 +286,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             }
 
             // also check the 'http' call was like we expected it
-            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/fields?" +
+            var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/TemplateDefinitions/{templateDefinitionId}/Fields?" +
                 $"%24select={selectQueryParameter}&%24orderby={orderbyQueryParameter}&%24top={topQueryParameter}&" +
                 $"%24skip={skipQueryParameter}&%24count={countQueryParameter.ToString().ToLower()}");
 

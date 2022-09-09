@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p><strong>Build# : </strong></p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/v1/changelog\">/v1/changelog</a></p><p><strong>Build# : </strong></p>",
     "version": "1"
   },
   "servers": [
@@ -17,8 +17,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Creates a new document in the specified folder. Optionally sets metadata and electronic document component. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
-        "description": "- Creates a new document in the specified folder.\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
+        "summary": "Creates a new document in the specified folder with file (no more than 100 MB). Optionally sets metadata and electronic document component. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
+        "description": "- Creates a new document in the specified folder with file (no more than 100 MB).\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
         "operationId": "ImportDocument",
         "parameters": [
           {
@@ -266,7 +266,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get trustee attribute key value pairs  successfully.",
+            "description": "Get trustee attribute key value pairs successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1269,6 +1269,111 @@
           },
           "423": {
             "description": "Entry is locked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Repositories/{repoId}/Entries/ByPath": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns a single entry object using the entry path. Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.",
+        "description": "- Returns a single entry object using the entry path.\n- Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.",
+        "operationId": "GetEntryByPath",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fullPath",
+            "in": "query",
+            "required": true,
+            "description": "The requested entry path.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "fallbackToClosestAncestor",
+            "in": "query",
+            "description": "An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get entry successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindEntryResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested entry path not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -3646,397 +3751,6 @@
         }
       }
     },
-    "/v1/Repositories/{repoId}/ServerSession/Invalidate": {
-      "post": {
-        "tags": [
-          "ServerSession"
-        ],
-        "summary": "Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.",
-        "description": "- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.",
-        "operationId": "InvalidateServerSession",
-        "parameters": [
-          {
-            "name": "repoId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Invalidate the server session successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ODataValueOfBoolean"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid or bad request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit is reached.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Repositories/{repoId}/ServerSession/Refresh": {
-      "post": {
-        "tags": [
-          "ServerSession"
-        ],
-        "summary": "Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.",
-        "description": "- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.",
-        "operationId": "RefreshServerSession",
-        "parameters": [
-          {
-            "name": "repoId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Refresh the session successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ODataValueOfDateTime"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid or bad request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit is reached.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Repositories/{repoId}/ServerSession/Create": {
-      "post": {
-        "tags": [
-          "ServerSession"
-        ],
-        "summary": "Deprecated. This function is a no-op, always returns 200.",
-        "description": "- Deprecated. This function is a no-op, always returns 200.",
-        "operationId": "CreateServerSession",
-        "parameters": [
-          {
-            "name": "repoId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Create the session successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ODataValueOfBoolean"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Repositories/{repoId}/Tasks/{operationToken}": {
-      "get": {
-        "tags": [
-          "Tasks"
-        ],
-        "summary": "Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
-        "description": "- Returns the status of an operation.\n- Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant).\n- OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
-        "operationId": "GetOperationStatusAndProgress",
-        "parameters": [
-          {
-            "name": "repoId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "operationToken",
-            "in": "path",
-            "required": true,
-            "description": "The operation token",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get completed operation status with no result successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationProgress"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "Get completed operation status with operation result url in Location header.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationProgress"
-                }
-              }
-            }
-          },
-          "202": {
-            "description": "Get in progress operation status successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationProgress"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid or bad request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Request operationToken not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit is reached.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Tasks"
-        ],
-        "summary": "Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
-        "description": "- Cancels an operation.\n- Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary.\n- Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
-        "operationId": "CancelOperation",
-        "parameters": [
-          {
-            "name": "repoId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "operationToken",
-            "in": "path",
-            "required": true,
-            "description": "The operation token",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Cancel operation successfully."
-          },
-          "400": {
-            "description": "Invalid or bad request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Request operationToken not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit is reached.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/Repositories/{repoId}/AuditReasons": {
       "get": {
         "tags": [
@@ -5223,6 +4937,205 @@
         }
       }
     },
+    "/v1/Repositories/{repoId}/Tasks/{operationToken}": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
+        "description": "- Returns the status of an operation.\n- Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant).\n- OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
+        "operationId": "GetOperationStatusAndProgress",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "operationToken",
+            "in": "path",
+            "required": true,
+            "description": "The operation token",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get completed operation status with no result successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationProgress"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Get completed operation status with operation result url in Location header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationProgress"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Get in progress operation status successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationProgress"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request operationToken not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
+        "description": "- Cancels an operation.\n- Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary.\n- Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
+        "operationId": "CancelOperation",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "operationToken",
+            "in": "path",
+            "required": true,
+            "description": "The operation token",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cancel operation successfully."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request operationToken not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Repositories/{repoId}/TemplateDefinitions": {
       "get": {
         "tags": [
@@ -5504,7 +5417,7 @@
         }
       }
     },
-    "/v1/Repositories/{repoId}/TemplateDefinitions/{templateId}/fields": {
+    "/v1/Repositories/{repoId}/TemplateDefinitions/{templateId}/Fields": {
       "get": {
         "tags": [
           "TemplateDefinitions"
@@ -5835,6 +5748,198 @@
           }
         }
       }
+    },
+    "/v1/Repositories/{repoId}/ServerSession/Invalidate": {
+      "post": {
+        "tags": [
+          "ServerSession"
+        ],
+        "summary": "Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.",
+        "description": "- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.\n- Only available in Laserfiche Cloud.",
+        "operationId": "InvalidateServerSession",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invalidate the server session successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataValueOfBoolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Repositories/{repoId}/ServerSession/Refresh": {
+      "post": {
+        "tags": [
+          "ServerSession"
+        ],
+        "summary": "Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.",
+        "description": "- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.\n- Only available in Laserfiche Cloud.",
+        "operationId": "RefreshServerSession",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refresh the session successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataValueOfDateTime"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Repositories/{repoId}/ServerSession/Create": {
+      "post": {
+        "tags": [
+          "ServerSession"
+        ],
+        "summary": "Deprecated. This function is a no-op, always returns 200. Only available in Laserfiche Cloud.",
+        "description": "- Deprecated. This function is a no-op, always returns 200.\n- Only available in Laserfiche Cloud.",
+        "operationId": "CreateServerSession",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Create the session successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataValueOfBoolean"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -6066,7 +6171,6 @@
           },
           "extensions": {
             "type": "object",
-            "nullable": true,
             "additionalProperties": {}
           }
         }
@@ -6084,6 +6188,362 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "Accept": {
+            "type": "array",
+            "items": {}
+          },
+          "AcceptCharset": {
+            "type": "array",
+            "items": {}
+          },
+          "AcceptEncoding": {
+            "type": "array",
+            "items": {}
+          },
+          "AcceptLanguage": {
+            "type": "array",
+            "items": {}
+          },
+          "AcceptRanges": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlAllowCredentials": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlAllowHeaders": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlAllowMethods": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlAllowOrigin": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlExposeHeaders": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlMaxAge": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlRequestHeaders": {
+            "type": "array",
+            "items": {}
+          },
+          "AccessControlRequestMethod": {
+            "type": "array",
+            "items": {}
+          },
+          "Age": {
+            "type": "array",
+            "items": {}
+          },
+          "Allow": {
+            "type": "array",
+            "items": {}
+          },
+          "AltSvc": {
+            "type": "array",
+            "items": {}
+          },
+          "Authorization": {
+            "type": "array",
+            "items": {}
+          },
+          "Baggage": {
+            "type": "array",
+            "items": {}
+          },
+          "CacheControl": {
+            "type": "array",
+            "items": {}
+          },
+          "Connection": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentDisposition": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentEncoding": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentLanguage": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentLocation": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentMD5": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentRange": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentSecurityPolicy": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentSecurityPolicyReportOnly": {
+            "type": "array",
+            "items": {}
+          },
+          "ContentType": {
+            "type": "array",
+            "items": {}
+          },
+          "CorrelationContext": {
+            "type": "array",
+            "items": {}
+          },
+          "Cookie": {
+            "type": "array",
+            "items": {}
+          },
+          "Date": {
+            "type": "array",
+            "items": {}
+          },
+          "ETag": {
+            "type": "array",
+            "items": {}
+          },
+          "Expires": {
+            "type": "array",
+            "items": {}
+          },
+          "Expect": {
+            "type": "array",
+            "items": {}
+          },
+          "From": {
+            "type": "array",
+            "items": {}
+          },
+          "GrpcAcceptEncoding": {
+            "type": "array",
+            "items": {}
+          },
+          "GrpcEncoding": {
+            "type": "array",
+            "items": {}
+          },
+          "GrpcMessage": {
+            "type": "array",
+            "items": {}
+          },
+          "GrpcStatus": {
+            "type": "array",
+            "items": {}
+          },
+          "GrpcTimeout": {
+            "type": "array",
+            "items": {}
+          },
+          "Host": {
+            "type": "array",
+            "items": {}
+          },
+          "KeepAlive": {
+            "type": "array",
+            "items": {}
+          },
+          "IfMatch": {
+            "type": "array",
+            "items": {}
+          },
+          "IfModifiedSince": {
+            "type": "array",
+            "items": {}
+          },
+          "IfNoneMatch": {
+            "type": "array",
+            "items": {}
+          },
+          "IfRange": {
+            "type": "array",
+            "items": {}
+          },
+          "IfUnmodifiedSince": {
+            "type": "array",
+            "items": {}
+          },
+          "LastModified": {
+            "type": "array",
+            "items": {}
+          },
+          "Link": {
+            "type": "array",
+            "items": {}
+          },
+          "Location": {
+            "type": "array",
+            "items": {}
+          },
+          "MaxForwards": {
+            "type": "array",
+            "items": {}
+          },
+          "Origin": {
+            "type": "array",
+            "items": {}
+          },
+          "Pragma": {
+            "type": "array",
+            "items": {}
+          },
+          "ProxyAuthenticate": {
+            "type": "array",
+            "items": {}
+          },
+          "ProxyAuthorization": {
+            "type": "array",
+            "items": {}
+          },
+          "ProxyConnection": {
+            "type": "array",
+            "items": {}
+          },
+          "Range": {
+            "type": "array",
+            "items": {}
+          },
+          "Referer": {
+            "type": "array",
+            "items": {}
+          },
+          "RetryAfter": {
+            "type": "array",
+            "items": {}
+          },
+          "RequestId": {
+            "type": "array",
+            "items": {}
+          },
+          "SecWebSocketAccept": {
+            "type": "array",
+            "items": {}
+          },
+          "SecWebSocketKey": {
+            "type": "array",
+            "items": {}
+          },
+          "SecWebSocketProtocol": {
+            "type": "array",
+            "items": {}
+          },
+          "SecWebSocketVersion": {
+            "type": "array",
+            "items": {}
+          },
+          "SecWebSocketExtensions": {
+            "type": "array",
+            "items": {}
+          },
+          "Server": {
+            "type": "array",
+            "items": {}
+          },
+          "SetCookie": {
+            "type": "array",
+            "items": {}
+          },
+          "StrictTransportSecurity": {
+            "type": "array",
+            "items": {}
+          },
+          "TE": {
+            "type": "array",
+            "items": {}
+          },
+          "Trailer": {
+            "type": "array",
+            "items": {}
+          },
+          "TransferEncoding": {
+            "type": "array",
+            "items": {}
+          },
+          "Translate": {
+            "type": "array",
+            "items": {}
+          },
+          "TraceParent": {
+            "type": "array",
+            "items": {}
+          },
+          "TraceState": {
+            "type": "array",
+            "items": {}
+          },
+          "Upgrade": {
+            "type": "array",
+            "items": {}
+          },
+          "UpgradeInsecureRequests": {
+            "type": "array",
+            "items": {}
+          },
+          "UserAgent": {
+            "type": "array",
+            "items": {}
+          },
+          "Vary": {
+            "type": "array",
+            "items": {}
+          },
+          "Via": {
+            "type": "array",
+            "items": {}
+          },
+          "Warning": {
+            "type": "array",
+            "items": {}
+          },
+          "WebSocketSubProtocols": {
+            "type": "array",
+            "items": {}
+          },
+          "WWWAuthenticate": {
+            "type": "array",
+            "items": {}
+          },
+          "XContentTypeOptions": {
+            "type": "array",
+            "items": {}
+          },
+          "XFrameOptions": {
+            "type": "array",
+            "items": {}
+          },
+          "XPoweredBy": {
+            "type": "array",
+            "items": {}
+          },
+          "XRequestedWith": {
+            "type": "array",
+            "items": {}
+          },
+          "XUACompatible": {
+            "type": "array",
+            "items": {}
+          },
+          "XXSSProtection": {
+            "type": "array",
+            "items": {}
           }
         }
       },
@@ -6336,7 +6796,7 @@
       },
       "WFieldType": {
         "type": "string",
-        "description": "",
+        "description": "Enumeration of Laserfiche template field types.",
         "x-enumNames": [
           "DateTime",
           "Blob",
@@ -6545,12 +7005,10 @@
           },
           "isContainer": {
             "type": "boolean",
-            "readOnly": true,
             "description": "A boolean indicating if this entry is a container object; it can have other entries as children."
           },
           "isLeaf": {
             "type": "boolean",
-            "readOnly": true,
             "description": "A boolean indicating if this entry is a leaf object; it cannot have other entries as children."
           },
           "templateName": {
@@ -6773,6 +7231,30 @@
             }
           }
         ]
+      },
+      "FindEntryResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "entry": {
+            "description": "The entry found by path. This property is set if entry is found.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Entry"
+              }
+            ]
+          },
+          "ancestorEntry": {
+            "description": "The closest entry ancestor. This property is set if entry is not found and fallbackToClosestAncestor is set to true.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Entry"
+              }
+            ]
+          }
+        }
       },
       "AcceptedOperation": {
         "type": "object",
@@ -7339,15 +7821,81 @@
           }
         }
       },
-      "ODataValueOfDateTime": {
+      "AuditReasons": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "value": {
-            "type": "string",
-            "format": "date-time"
+          "deleteEntry": {
+            "type": "array",
+            "description": "The audit reasons associated with delete entry.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/WAuditReason"
+            }
+          },
+          "exportDocument": {
+            "type": "array",
+            "description": "The audit reasons associated with export document.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/WAuditReason"
+            }
           }
         }
+      },
+      "WAuditReason": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The audit reason id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "The audit reason text.",
+            "nullable": true
+          }
+        }
+      },
+      "AdvancedSearchRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "searchCommand": {
+            "type": "string",
+            "description": "Search command for advanced search",
+            "nullable": true
+          },
+          "fuzzyType": {
+            "description": "Fuzzy type (None, Percentage, or NumberOfLetters)",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FuzzyType"
+              }
+            ]
+          },
+          "fuzzyFactor": {
+            "type": "integer",
+            "description": "Fuzzy factor (percentage as int or int value)",
+            "format": "int32"
+          }
+        }
+      },
+      "FuzzyType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Percentage",
+          "NumberOfLetters"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       },
       "OperationProgress": {
         "type": "object",
@@ -7435,82 +7983,6 @@
           }
         }
       },
-      "AuditReasons": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "deleteEntry": {
-            "type": "array",
-            "description": "The audit reasons associated with delete entry.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/WAuditReason"
-            }
-          },
-          "exportDocument": {
-            "type": "array",
-            "description": "The audit reasons associated with export document.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/WAuditReason"
-            }
-          }
-        }
-      },
-      "WAuditReason": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The audit reason id.",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "The audit reason text.",
-            "nullable": true
-          }
-        }
-      },
-      "AdvancedSearchRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "searchCommand": {
-            "type": "string",
-            "description": "Search command for advanced search",
-            "nullable": true
-          },
-          "fuzzyType": {
-            "description": "Fuzzy type (None, Percentage, or NumberOfLetters)",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/FuzzyType"
-              }
-            ]
-          },
-          "fuzzyFactor": {
-            "type": "integer",
-            "description": "Fuzzy factor (percentage as int or int value)",
-            "format": "int32"
-          }
-        }
-      },
-      "FuzzyType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "None",
-          "Percentage",
-          "NumberOfLetters"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
-      },
       "ODataValueContextOfIListOfContextHit": {
         "allOf": [
           {
@@ -7555,65 +8027,79 @@
             "$ref": "#/components/schemas/HitType"
           },
           "isAnnotationHit": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "A boolean indicating if this context hit occurs on an annotation."
           },
           "annotationId": {
             "type": "integer",
+            "description": "The ID of the annotation that the context hit is in.",
             "format": "int32"
           },
           "pageNumber": {
             "type": "integer",
+            "description": "The page number in the document of the search hit's context.",
             "format": "int32"
           },
           "pageOffset": {
             "type": "integer",
+            "description": "The offset from the beginning of the page of the starting character of the search hit's context line.",
             "format": "int32"
           },
           "context": {
             "type": "string",
+            "description": "The line of context for the search hit.",
             "nullable": true
           },
           "highlight1Offset": {
             "type": "integer",
+            "description": "The character offset from the beginning of the context line of the start of the first highlight.",
             "format": "int32"
           },
           "highlight1Length": {
             "type": "integer",
+            "description": "The length of the first highlight in characters.",
             "format": "int32"
           },
           "highlight2Offset": {
             "type": "integer",
+            "description": "The character offset from the beginning of the context line of the start of the second highlight.",
             "format": "int32"
           },
           "highlight2Length": {
             "type": "integer",
+            "description": "The length of the second highlight in characters.",
             "format": "int32"
           },
           "hitWidth": {
             "type": "integer",
+            "description": "The number of words in the context hit.",
             "format": "int32"
           },
           "edocHitCount": {
             "type": "integer",
+            "description": "The number of hits in the electronic document.",
             "format": "int32"
           },
           "fieldHitCount": {
             "type": "integer",
+            "description": "The number of hits in the template.",
             "format": "int32"
           },
           "fieldName": {
             "type": "string",
+            "description": "The name of a template field containing the hit.",
             "nullable": true
           },
           "hitNumber": {
             "type": "integer",
+            "description": "The hit number.",
             "format": "int32"
           }
         }
       },
       "HitType": {
-        "type": "integer",
-        "description": "",
+        "type": "string",
+        "description": "The type of context hit.",
         "x-enumNames": [
           "PageContent",
           "Note",
@@ -7633,22 +8119,22 @@
           "Attachment"
         ],
         "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          15
+          "PageContent",
+          "Note",
+          "Callout",
+          "TextBox",
+          "Edoc",
+          "Prop",
+          "Name",
+          "Extension",
+          "VersionGroupNote",
+          "VersionComment",
+          "Field",
+          "SignatureComment",
+          "CertificateSubject",
+          "TagComment",
+          "AnnotationComment",
+          "Attachment"
         ]
       },
       "SimpleSearchRequest": {
@@ -7840,6 +8326,16 @@
               "type": "integer",
               "format": "int32"
             }
+          }
+        }
+      },
+      "ODataValueOfDateTime": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }
