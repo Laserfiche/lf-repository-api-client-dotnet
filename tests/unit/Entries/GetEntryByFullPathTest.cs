@@ -107,7 +107,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            string nonExistingPath = "\\NonExistingPath";
+            string nonExistingPath = @"\NonExistingPath";
             bool fallBackToClosestAncestor = true;
             FindEntryResult getEntryByPath = new FindEntryResult()
             {
@@ -196,7 +196,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            string rootPath = "\\";
+            string rootPath = @"\";
             bool fallBackToClosestAncestor = true;
             var statusCode = HttpStatusCode.Unauthorized;
 
@@ -251,7 +251,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            string nonExistingPath = "\\NonExistingPath";
+            string nonExistingPath = @"\NonExistingPath";
             bool fallBackToClosestAncestor = false;
             var statusCode = HttpStatusCode.NotFound;
 
