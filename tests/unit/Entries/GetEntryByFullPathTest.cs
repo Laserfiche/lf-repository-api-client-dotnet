@@ -111,7 +111,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             bool fallBackToClosestAncestor = true;
             FindEntryResult getAncestorEntryByPath = new FindEntryResult()
             {
-                Entry = new Entry()
+                AncestorEntry = new Entry()
                 {
                     Id = 1,
                     Name = "EntryName",
@@ -158,21 +158,21 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
 
             // ASSERT   
             Assert.NotNull(result);
-            Assert.Null(result.AncestorEntry);
-            Assert.Equal(getAncestorEntryByPath.AncestorEntry, result.AncestorEntry);
-            Assert.Equal(getAncestorEntryByPath.Entry.Id, result.Entry.Id);
-            Assert.Equal(getAncestorEntryByPath.Entry.Name, result.Entry.Name);
-            Assert.Equal(getAncestorEntryByPath.Entry.ParentId, result.Entry.ParentId);
-            Assert.Equal(getAncestorEntryByPath.Entry.FullPath, result.Entry.FullPath);
-            Assert.Equal(getAncestorEntryByPath.Entry.FolderPath, result.Entry.FolderPath);
-            Assert.Equal(getAncestorEntryByPath.Entry.Creator, result.Entry.Creator);
-            Assert.Equal(getAncestorEntryByPath.Entry.CreationTime, result.Entry.CreationTime);
-            Assert.Equal(getAncestorEntryByPath.Entry.LastModifiedTime, result.Entry.LastModifiedTime);
-            Assert.Equal(getAncestorEntryByPath.Entry.EntryType, result.Entry.EntryType);
-            Assert.Equal(getAncestorEntryByPath.Entry.TemplateName, result.Entry.TemplateName);
-            Assert.Equal(getAncestorEntryByPath.Entry.TemplateId, result.Entry.TemplateId);
-            Assert.Equal(getAncestorEntryByPath.Entry.VolumeName, result.Entry.VolumeName);
-            Assert.Equal(typeof(Folder), result.Entry.GetType());
+            Assert.Null(result.Entry);
+            Assert.Equal(getAncestorEntryByPath.Entry, result.Entry);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.Id, result.AncestorEntry.Id);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.Name, result.AncestorEntry.Name);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.ParentId, result.AncestorEntry.ParentId);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.FullPath, result.AncestorEntry.FullPath);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.FolderPath, result.AncestorEntry.FolderPath);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.Creator, result.AncestorEntry.Creator);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.CreationTime, result.AncestorEntry.CreationTime);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.LastModifiedTime, result.AncestorEntry.LastModifiedTime);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.EntryType, result.AncestorEntry.EntryType);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.TemplateName, result.AncestorEntry.TemplateName);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.TemplateId, result.AncestorEntry.TemplateId);
+            Assert.Equal(getAncestorEntryByPath.AncestorEntry.VolumeName, result.AncestorEntry.VolumeName);
+            Assert.Equal(typeof(Folder), result.AncestorEntry.GetType());
 
             // also check the 'http' call was like we expected it
             string urlEncodedRootPath = HttpUtility.UrlEncode(nonExistingPath);
