@@ -117,5 +117,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
             return newEntry;
         }
+
+        public async Task DeleteEntry(IRepositoryApiClient client, int entryId, DeleteEntryWithAuditReason auditReason = null)
+        {
+            var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason);
+            Assert.IsNotNull(operation.Token);
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token);
+            Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
+        }
     }
 }
