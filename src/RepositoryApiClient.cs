@@ -76,7 +76,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler);
 
-            if (httpRequestHandler is LfdsUsernamePasswordHandler)
+            if (httpRequestHandler is SelfHostedUsernamePasswordHandler)
             {
                 httpClient.BaseAddress = new Uri(baseUrlDebug);
             }
@@ -103,18 +103,18 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Create a Laserfiche repository client that will use LFDS username and password to get access tokens.
+        /// Create a Laserfiche repository client that will use username and password to get access tokens for self-host Laserfiche API.
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <param name="organization"></param>
+        /// <param name="grantType"></param>
         /// <param name="repoID"></param>
         /// <param name="baseUrl">API server base URL e.g., https://example.com//lf-api-server/ </param>
         /// <returns></returns>
-        public static IRepositoryApiClient CreateFromLfdsUsernamePassword(string username, string password, string organization, string repoID, string baseUrl)
+        public static IRepositoryApiClient CreateFromSelfHostedUsernamePassword(string username, string password, string grantType, string repoID, string baseUrl)
         {
             string baseUrlWithSlash = baseUrl.TrimEnd('/') + "/";
-            var httpRequestHandler = new LfdsUsernamePasswordHandler(username, password, organization, repoID, baseUrlWithSlash);
+            var httpRequestHandler = new SelfHostedUsernamePasswordHandler(username, password, grantType, repoID, baseUrlWithSlash);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlWithSlash);
         }
     }

@@ -11,7 +11,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
     public enum AuthorizationType
     {
         AccessKey,
-        LfdsUsernamePassword
+        SelfHostedUsernamePassword
     }
 
     public class BaseTest
@@ -25,17 +25,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         protected string RepositoryId;
         protected string Username;
         protected string Password;
-        protected string Organization;
+        protected string GrantType;
         protected string BaseUri;
 
         private const string TestHeaderVar = "TEST_HEADER";
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
-        private const string UsernameVar = "LFDS_USERNAME";
-        private const string PasswordVar = "LFDS_PASSWORD";
+        private const string UsernameVar = "SELFHOSTED_USERNAME";
+        private const string PasswordVar = "SELFHOSTED_PASSWORD";
         private const string BaseUrlVar = "SELFHOSTED_REPOSITORY_API_BASE_URI";
-        private const string OrganizationVar = "LFDS_ORGANIZATION";
+        private const string GrantTypeVar = "GRANT_TYPE";
         private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
         private const string ApplicationNameHeaderKey = "X-LF-AppID";
@@ -74,7 +74,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
             Username = Environment.GetEnvironmentVariable(UsernameVar);
             Password = Environment.GetEnvironmentVariable(PasswordVar);
-            Organization = Environment.GetEnvironmentVariable(OrganizationVar);
+            GrantType = Environment.GetEnvironmentVariable(GrantTypeVar);
             BaseUri = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
@@ -88,11 +88,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                         return null;
                     client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
-                else if (AuthorizationType == AuthorizationType.LfdsUsernamePassword)
+                else if (AuthorizationType == AuthorizationType.SelfHostedUsernamePassword)
                 {
-                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Organization) || string.IsNullOrEmpty(BaseUri))
+                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(GrantType) || string.IsNullOrEmpty(BaseUri))
                         return null;
-                    client = RepositoryApiClient.CreateFromLfdsUsernamePassword(Username, Password, Organization, RepositoryId, BaseUri);
+                    client = RepositoryApiClient.CreateFromSelfHostedUsernamePassword(Username, Password, GrantType, RepositoryId, BaseUri);
                 }
 
                 client.DefaultRequestHeaders.Add(ApplicationNameHeaderKey, ApplicationNameHeaderValue);
