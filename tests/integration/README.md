@@ -1,2 +1,0 @@
-﻿To run the integration tests locally
-- Create TestConfig.env file under the tests\integration folder and copy the secrets found in the keypass file located at https://github.com/Laserfiche/org-administration/laserfiche-org-keypass.kdbx in the DEV_CA_PUBLIC_USE_TEST_SECRET.env notes

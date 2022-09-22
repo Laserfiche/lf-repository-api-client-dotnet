@@ -6,10 +6,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
     [TestClass]
     public class SimpleSearchTest : BaseTest
     {
+        private const string _entryToCreate = "RepositoryClientIntegrationTest - SimpleSearchTest - search text";
+        private Entry _createdEntry;
+
         [TestInitialize]
-        public void Initialize()
+        public async Task Initialize()
         {
             client = CreateClient();
+            _createdEntry = await CreateEntry(client, _entryToCreate);
         }
 
         [TestMethod]
@@ -18,6 +22,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
             var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
             var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(RepositoryId, request: request);
             Assert.IsNotNull(result.Value);
+        }
+
+        [TestCleanup]
+        public async Task Cleanup()
+        {
+            await DeleteEntry(client, _createdEntry.Id);
         }
     }
 }

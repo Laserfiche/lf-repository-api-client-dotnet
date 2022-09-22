@@ -22,10 +22,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
             foreach (var repoInfo in result)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.RepoId));
-                Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
-                Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
+                if (AuthorizationType != AuthorizationType.APIServerUsernamePassword)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
+                    Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
+                }
 
-                if (repoInfo.RepoId == RepositoryId)
+                if (repoInfo.RepoId.Equals(RepositoryId, System.StringComparison.OrdinalIgnoreCase))
                     foundRepo = true;
             }
             Assert.IsTrue(foundRepo);

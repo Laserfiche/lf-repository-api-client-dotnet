@@ -16,6 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
         [TestMethod]
         public async Task RefreshServerSession_RefreshSuccessful()
         {
+            if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
+            {
+                return;
+            }
+
             var currentTime = DateTime.UtcNow;
             var refreshResult = await client.ServerSessionClient.RefreshServerSessionAsync(RepositoryId);
             var expireTime = refreshResult?.Value;

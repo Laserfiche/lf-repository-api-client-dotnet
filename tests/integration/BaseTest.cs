@@ -10,8 +10,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
     public enum AuthorizationType
     {
-        AccessKey,
-        LfdsUsernamePassword
+        CloudAccessKey,
+        APIServerUsernamePassword
     }
 
     public class BaseTest
@@ -25,17 +25,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         protected string RepositoryId;
         protected string Username;
         protected string Password;
-        protected string Organization;
-        protected string BaseUri;
+        protected string BaseUrl;
 
         private const string TestHeaderVar = "TEST_HEADER";
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
-        private const string UsernameVar = "LFDS_USERNAME";
-        private const string PasswordVar = "LFDS_PASSWORD";
-        private const string BaseUrlVar = "SELFHOSTED_REPOSITORY_API_BASE_URI";
-        private const string OrganizationVar = "LFDS_ORGANIZATION";
+        private const string UsernameVar = "APISERVER_USERNAME";
+        private const string PasswordVar = "APISERVER_PASSWORD";
+        private const string BaseUrlVar = "APISERVER_REPOSITORY_API_BASE_URL";
         private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
         private const string ApplicationNameHeaderKey = "X-LF-AppID";
@@ -74,25 +72,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
             Username = Environment.GetEnvironmentVariable(UsernameVar);
             Password = Environment.GetEnvironmentVariable(PasswordVar);
-            Organization = Environment.GetEnvironmentVariable(OrganizationVar);
-            BaseUri = Environment.GetEnvironmentVariable(BaseUrlVar);
+            BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
         public IRepositoryApiClient CreateClient()
         {
             if (client == null)
             {
-                if (AuthorizationType == AuthorizationType.AccessKey)
+                if (AuthorizationType == AuthorizationType.CloudAccessKey)
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
                     client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
-                else if (AuthorizationType == AuthorizationType.LfdsUsernamePassword)
+                else if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
                 {
-                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Organization) || string.IsNullOrEmpty(BaseUri))
+                    if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
                         return null;
-                    client = RepositoryApiClient.CreateFromLfdsUsernamePassword(Username, Password, Organization, RepositoryId, BaseUri);
+                    client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, Username, Password, BaseUrl);
                 }
 
                 client.DefaultRequestHeaders.Add(ApplicationNameHeaderKey, ApplicationNameHeaderValue);
@@ -116,6 +113,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
             return newEntry;
+        }
+
+        public async Task DeleteEntry(IRepositoryApiClient client, int entryId, DeleteEntryWithAuditReason auditReason = null)
+        {
+            var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason);
+            Assert.IsNotNull(operation.Token);
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token);
+            Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
         }
     }
 }

@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: "1.0.4"
+  VERSION_PREFIX: "1.0.5"
 
 jobs:
   build-n-test:
