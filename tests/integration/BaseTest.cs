@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
-    public enum TestEnvironment
+    public enum AuthorizationType
     {
-        CloudClientCredentials,
+        CloudAccessKey,
         APIServerUsernamePassword
     }
 
@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
     {
         private const string TestConfigFile = ".env";
         protected static readonly string TempPath = @"TestFiles/";
-        protected TestEnvironment TestEnvironment;
+        protected AuthorizationType AuthorizationType;
         protected string TestHeader;
         protected AccessKey AccessKey;
         protected string ServicePrincipalKey;
@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         private const string UsernameVar = "APISERVER_USERNAME";
         private const string PasswordVar = "APISERVER_PASSWORD";
         private const string BaseUrlVar = "APISERVER_REPOSITORY_API_BASE_URL";
-        private const string TestEnvVar = "API_ENVIRONMENT_UNDER_TEST";
+        private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
         private const string ApplicationNameHeaderKey = "X-LF-AppID";
         private const string ApplicationNameHeaderValue = "RepositoryApiClientIntegrationTest .Net";
@@ -69,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             ServicePrincipalKey = Environment.GetEnvironmentVariable(SpKeyVar);
             AccessKey = AccessKey.CreateFromBase64EncodedAccessKey(Environment.GetEnvironmentVariable(AccessKeyVar));
             RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
-            TestEnvironment = Enum.Parse<TestEnvironment>(Environment.GetEnvironmentVariable(TestEnvVar), ignoreCase: true);
+            AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
             Username = Environment.GetEnvironmentVariable(UsernameVar);
             Password = Environment.GetEnvironmentVariable(PasswordVar);
             BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
@@ -79,13 +79,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         {
             if (client == null)
             {
-                if (TestEnvironment == TestEnvironment.CloudClientCredentials)
+                if (AuthorizationType == AuthorizationType.CloudAccessKey)
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
                     client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
-                else if (TestEnvironment == TestEnvironment.APIServerUsernamePassword)
+                else if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
                 {
                     if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
                         return null;

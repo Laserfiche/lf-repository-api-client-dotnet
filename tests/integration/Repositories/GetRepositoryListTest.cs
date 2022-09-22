@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
             foreach (var repoInfo in result)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.RepoId));
-                if (TestEnvironment != TestEnvironment.APIServerUsernamePassword)
+                if (AuthorizationType != AuthorizationType.APIServerUsernamePassword)
                 {
                     Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
                     Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
