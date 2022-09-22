@@ -11,7 +11,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        private const string _defaultBaseAddress = "https://dummy.example.com/repository/";
+        private const string DefaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
@@ -76,13 +76,13 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler);
 
-            if (httpRequestHandler is SelfHostedUsernamePasswordHandler)
+            if (httpRequestHandler is UsernamePasswordHandler)
             {
                 httpClient.BaseAddress = new Uri(baseUrlDebug);
             }
             else
             {
-                httpClient.BaseAddress = new Uri(_defaultBaseAddress);
+                httpClient.BaseAddress = new Uri(DefaultBaseAddress);
             }
 
             var repositoryClient = new RepositoryApiClient(httpClient);
@@ -103,18 +103,17 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Create a Laserfiche repository client that will use username and password to get access tokens for self-host Laserfiche API.
+        /// Create a Laserfiche repository client that will use username and password to get access tokens for Laserfiche API. Password credentials grant type is implemented by the self-hosted API server. Not available in cloud.
         /// </summary>
+        /// <param name="repoId"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <param name="grantType"></param>
-        /// <param name="repoID"></param>
-        /// <param name="baseUrl">API server base URL e.g., https://example.com//lf-api-server/ </param>
+        /// <param name="baseUrl">API server base URL e.g., https://example.com/LFRepositoryAPI/ </param>
         /// <returns></returns>
-        public static IRepositoryApiClient CreateFromSelfHostedUsernamePassword(string username, string password, string grantType, string repoID, string baseUrl)
+        public static IRepositoryApiClient CreateFromUsernamePassword(string repoId, string username, string password, string baseUrl)
         {
             string baseUrlWithSlash = baseUrl.TrimEnd('/') + "/";
-            var httpRequestHandler = new SelfHostedUsernamePasswordHandler(username, password, grantType, repoID, baseUrlWithSlash);
+            var httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrlWithSlash);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlWithSlash);
         }
     }

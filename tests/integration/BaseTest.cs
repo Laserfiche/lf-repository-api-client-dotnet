@@ -8,35 +8,33 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
-    public enum AuthorizationType
+    public enum TestEnvironment
     {
-        AccessKey,
-        SelfHostedUsernamePassword
+        CloudClientCredentials,
+        APIServerUsernamePassword
     }
 
     public class BaseTest
     {
         private const string TestConfigFile = ".env";
         protected static readonly string TempPath = @"TestFiles/";
-        protected AuthorizationType AuthorizationType;
+        protected TestEnvironment TestEnvironment;
         protected string TestHeader;
         protected AccessKey AccessKey;
         protected string ServicePrincipalKey;
         protected string RepositoryId;
         protected string Username;
         protected string Password;
-        protected string GrantType;
-        protected string BaseUri;
+        protected string BaseUrl;
 
         private const string TestHeaderVar = "TEST_HEADER";
         private const string AccessKeyVar = "ACCESS_KEY";
         private const string SpKeyVar = "SERVICE_PRINCIPAL_KEY";
         private const string RepoKeyVar = "REPOSITORY_ID";
-        private const string UsernameVar = "SELFHOSTED_USERNAME";
-        private const string PasswordVar = "SELFHOSTED_PASSWORD";
-        private const string BaseUrlVar = "SELFHOSTED_REPOSITORY_API_BASE_URI";
-        private const string GrantTypeVar = "GRANT_TYPE";
-        private const string AuthTypeVar = "AUTHORIZATION_TYPE";
+        private const string UsernameVar = "APISERVER_USERNAME";
+        private const string PasswordVar = "APISERVER_PASSWORD";
+        private const string BaseUrlVar = "APISERVER_REPOSITORY_API_BASE_URL";
+        private const string TestEnvVar = "API_ENVIRONMENT_UNDER_TEST";
 
         private const string ApplicationNameHeaderKey = "X-LF-AppID";
         private const string ApplicationNameHeaderValue = "RepositoryApiClientIntegrationTest .Net";
@@ -71,28 +69,27 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             ServicePrincipalKey = Environment.GetEnvironmentVariable(SpKeyVar);
             AccessKey = AccessKey.CreateFromBase64EncodedAccessKey(Environment.GetEnvironmentVariable(AccessKeyVar));
             RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
-            AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
+            TestEnvironment = Enum.Parse<TestEnvironment>(Environment.GetEnvironmentVariable(TestEnvVar), ignoreCase: true);
             Username = Environment.GetEnvironmentVariable(UsernameVar);
             Password = Environment.GetEnvironmentVariable(PasswordVar);
-            GrantType = Environment.GetEnvironmentVariable(GrantTypeVar);
-            BaseUri = Environment.GetEnvironmentVariable(BaseUrlVar);
+            BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
         public IRepositoryApiClient CreateClient()
         {
             if (client == null)
             {
-                if (AuthorizationType == AuthorizationType.AccessKey)
+                if (TestEnvironment == TestEnvironment.CloudClientCredentials)
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
                     client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
-                else if (AuthorizationType == AuthorizationType.SelfHostedUsernamePassword)
+                else if (TestEnvironment == TestEnvironment.APIServerUsernamePassword)
                 {
-                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(GrantType) || string.IsNullOrEmpty(BaseUri))
+                    if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
                         return null;
-                    client = RepositoryApiClient.CreateFromSelfHostedUsernamePassword(Username, Password, GrantType, RepositoryId, BaseUri);
+                    client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, Username, Password, BaseUrl);
                 }
 
                 client.DefaultRequestHeaders.Add(ApplicationNameHeaderKey, ApplicationNameHeaderValue);
