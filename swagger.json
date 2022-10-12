@@ -64,7 +64,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -297,6 +297,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -669,6 +679,16 @@
               }
             }
           },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -795,6 +815,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1100,6 +1130,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1963,7 +2003,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -2709,6 +2749,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3559,7 +3609,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -3738,6 +3788,16 @@
               }
             }
           },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -3804,6 +3864,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3918,6 +3988,16 @@
               }
             }
           },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -3983,7 +4063,7 @@
             }
           },
           "202": {
-            "description": "Search is still in progress.",
+            "description": "Search is still in progress or not started.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4663,6 +4743,16 @@
               }
             }
           },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -4800,6 +4890,16 @@
           },
           "403": {
             "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4969,7 +5069,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get completed operation status with no result successfully.",
+            "description": "Get completed or failed operation status with no result successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4989,7 +5089,7 @@
             }
           },
           "202": {
-            "description": "Get in progress operation status successfully.",
+            "description": "Get not started or in progress operation status successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5754,8 +5854,8 @@
         "tags": [
           "ServerSession"
         ],
-        "summary": "Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.",
-        "description": "- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.\n- Only available in Laserfiche Cloud.",
+        "summary": "Deprecated. Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.",
+        "description": "- Deprecated.\n- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.\n- Only available in Laserfiche Cloud.",
         "operationId": "InvalidateServerSession",
         "parameters": [
           {
@@ -5810,6 +5910,16 @@
               }
             }
           },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -5820,7 +5930,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/v1/Repositories/{repoId}/ServerSession/Refresh": {
@@ -5828,8 +5939,8 @@
         "tags": [
           "ServerSession"
         ],
-        "summary": "Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.",
-        "description": "- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.\n- Only available in Laserfiche Cloud.",
+        "summary": "Deprecated. Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.",
+        "description": "- Deprecated.\n- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.\n- Only available in Laserfiche Cloud.",
         "operationId": "RefreshServerSession",
         "parameters": [
           {
@@ -5884,6 +5995,16 @@
               }
             }
           },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -5894,7 +6015,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/v1/Repositories/{repoId}/ServerSession/Create": {
@@ -5937,8 +6059,19 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
-        }
+        },
+        "deprecated": true
       }
     }
   },
@@ -6609,6 +6742,11 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/PutFieldValsRequest"
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
+            "nullable": true
           }
         }
       },
@@ -6952,6 +7090,7 @@
       },
       "Entry": {
         "type": "object",
+        "x-abstract": true,
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -7109,6 +7248,17 @@
             "description": "A boolean indicating if there are more field values."
           }
         }
+      },
+      "RecordSeries": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Entry"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
       },
       "Document": {
         "allOf": [
@@ -7706,6 +7856,11 @@
             "type": "integer",
             "description": "The SourceId is needed for some operations that require a source/destination. One example is the Copy operation.",
             "format": "int32"
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
+            "nullable": true
           }
         }
       },
@@ -7733,6 +7888,11 @@
             "type": "integer",
             "description": "The source entry Id to copy.",
             "format": "int32"
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
+            "nullable": true
           }
         }
       },
@@ -7936,6 +8096,11 @@
             "type": "string",
             "description": "The URI which can be used (via api call) to access the result(s) of the associated operation.",
             "nullable": true
+          },
+          "entryId": {
+            "type": "integer",
+            "description": "The ID of the entry affected (e.g. created or modified) by the execution of the associated operation.",
+            "format": "int32"
           },
           "startTimestamp": {
             "type": "string",
