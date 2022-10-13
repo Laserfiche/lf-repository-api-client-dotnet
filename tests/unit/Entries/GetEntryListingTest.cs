@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             {
                 Value = new List<Entry>()
                 {
-                    new Entry()
+                    new Document()
                     {
                         Id = 100,
                         Name = "entry1",
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                         VolumeName = "default",
                         RowNumber = 1
                     },
-                    new Entry()
+                    new Document()
                     {
                         Id = 101,
                         Name = "entry2",
@@ -198,7 +198,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             {
                 Value = new List<Entry>()
                 {
-                    new Entry()
+                    new Document()
                     {
                         Id = 100,
                         Name = "entry1",
