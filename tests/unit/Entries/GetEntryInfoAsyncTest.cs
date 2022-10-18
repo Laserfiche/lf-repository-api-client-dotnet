@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            Entry entry = new Entry() { 
+            Entry entry = new Folder() { 
                 Id = 10, 
                 Name = "EntryName", 
                 ParentId = 1, 
@@ -152,7 +152,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             string selectQueryParameter = "name";
-            Entry entry = new Entry()
+            Entry entry = new Folder()
             {
                 Id = 10,
                 Name = "EntryName",

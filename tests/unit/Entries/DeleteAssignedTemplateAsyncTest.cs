@@ -19,7 +19,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
             var entryId = 1;
-            var entry = new Entry()
+            var entry = new Folder()
             {
                 Id = 1,
                 Name = "entry1",

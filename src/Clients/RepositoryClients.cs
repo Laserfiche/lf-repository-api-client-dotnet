@@ -31,7 +31,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically
         /// <br/>            renamed if an entry already exists with the given name in the folder. The default value is false.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -150,7 +150,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -306,7 +306,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The ID of entry that will have its template updated.</param>
         /// <param name="request">The template and template fields that will be assigned to the entry.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -334,8 +334,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -350,7 +348,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically
         /// <br/>            renamed if an entry already exists with the given name in the folder. The default value is false.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -781,6 +779,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1650,7 +1658,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -2543,6 +2551,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3609,7 +3627,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The ID of entry that will have its template updated.</param>
         /// <param name="request">The template and template fields that will be assigned to the entry.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used.
-        /// <br/>            The value should be a standard language tag.</param>
+        /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -3914,8 +3932,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -4051,6 +4067,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4376,8 +4402,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -4663,6 +4687,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -4841,8 +4875,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -4973,6 +5005,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5276,8 +5318,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -5363,6 +5403,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5526,8 +5576,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -5628,6 +5676,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5852,8 +5910,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -5958,6 +6014,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6782,8 +6848,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -6937,6 +7001,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7121,8 +7195,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -7259,6 +7331,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7543,7 +7625,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="repoId">The requested repository ID</param>
         /// <param name="operationToken">The operation token</param>
-        /// <returns>Get completed operation status with no result successfully.</returns>
+        /// <returns>Get completed or failed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -7580,8 +7662,6 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
@@ -7592,7 +7672,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="repoId">The requested repository ID</param>
         /// <param name="operationToken">The operation token</param>
-        /// <returns>Get completed operation status with no result successfully.</returns>
+        /// <returns>Get completed or failed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -8067,8 +8147,6 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
 
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
@@ -8840,20 +8918,22 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Invalidates the server session. Acts as a "logout" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.
+        /// Deprecated. Invalidates the server session. Acts as a "logout" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.
+        /// Deprecated. Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -8863,6 +8943,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
@@ -8888,19 +8969,18 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Invalidates the server session. Acts as a "logout" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.
+        /// Deprecated. Invalidates the server session. Acts as a "logout" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
@@ -8993,6 +9073,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -9017,11 +9107,12 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.
+        /// Deprecated. Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.
         /// </summary>
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
@@ -9114,6 +9205,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -9143,6 +9244,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
@@ -9213,6 +9315,16 @@ namespace Laserfiche.Repository.Api.Client
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
                     throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                    }
+                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -9910,6 +10022,12 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PutFieldValsRequest Metadata { get; set; }
 
+        /// <summary>
+        /// The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VolumeName { get; set; }
+
     }
 
     /// <summary>
@@ -10252,7 +10370,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class Entry
+    public abstract partial class Entry
     {
         /// <summary>
         /// The ID of the entry.
@@ -10422,6 +10540,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("hasMoreValues", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool HasMoreValues { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class RecordSeries : Entry
+    {
 
     }
 
@@ -10988,6 +11112,12 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("sourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int SourceId { get; set; }
 
+        /// <summary>
+        /// The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VolumeName { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
@@ -11016,6 +11146,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("sourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int SourceId { get; set; }
+
+        /// <summary>
+        /// The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VolumeName { get; set; }
 
     }
 
@@ -11209,6 +11345,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("redirectUri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string RedirectUri { get; set; }
+
+        /// <summary>
+        /// The ID of the entry affected (e.g. created or modified) by the execution of the associated operation.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EntryId { get; set; }
 
         /// <summary>
         /// The timestamp representing when the associated operation's execution is started.

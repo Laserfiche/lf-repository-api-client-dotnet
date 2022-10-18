@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             bool fallBackToClosestAncestor = true;
             FindEntryResult getEntryByPath = new FindEntryResult()
             {
-                Entry = new Entry()
+                Entry = new Folder()
                 {
                     Id = 1,
                     Name = "EntryName",
@@ -111,7 +111,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             bool fallBackToClosestAncestor = true;
             FindEntryResult getAncestorEntryByPath = new FindEntryResult()
             {
-                AncestorEntry = new Entry()
+                AncestorEntry = new Folder()
                 {
                     Id = 1,
                     Name = "EntryName",

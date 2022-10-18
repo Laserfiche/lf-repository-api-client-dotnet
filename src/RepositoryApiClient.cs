@@ -108,7 +108,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        /// <param name="baseUrl">API server base URL e.g., https://example.com/LFRepositoryAPI/ </param>
+        /// <param name="baseUrl">API server base URL e.g., https://example.com/LFRepositoryAPI/</param>
         /// <returns></returns>
         public static IRepositoryApiClient CreateFromUsernamePassword(string repoId, string username, string password, string baseUrl)
         {

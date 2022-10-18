@@ -10,6 +10,11 @@ namespace Laserfiche.Repository.Api.Client
 {
     internal class BaseClient
     {
+        protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)
+        {
+            settings.MaxDepth = 128;
+        }
+
         protected async Task<T> GetNextLinkAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<T>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
         {
             if (nextLink == null)

@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = "entry1"
             };
-            var entry = new Entry()
+            var entry = new Folder()
             {
                 Id = 100,
                 Name = "entry1",
@@ -176,7 +176,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = "entry1"
             };
-            var entry = new Entry()
+            var entry = new Folder()
             {
                 Id = 100,
                 Name = "entry1",

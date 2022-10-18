@@ -22,6 +22,7 @@ namespace Laserfiche.Repository.Api.Client
     [JsonInheritance("Document", typeof(Document))]
     [JsonInheritance("Folder", typeof(Folder))]
     [JsonInheritance("Shortcut", typeof(Shortcut))]
+    [JsonInheritance("RecordSeries", typeof(RecordSeries))]
     partial class Entry
     { 
     }

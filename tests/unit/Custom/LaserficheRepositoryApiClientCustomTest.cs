@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            Entry entry = new Entry()
+            Entry entry = new Folder()
             {
                 Id = 10,
                 Name = "EntryName",
@@ -124,7 +124,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string acceptLanguageHeaderValue = "fr-FR";
             string baseAddress = "http://api.laserfiche.com/";
             string repoId = "repoId";
-            Entry entry = new Entry()
+            Entry entry = new Folder()
             {
                 Id = 10,
                 Name = "EntryName",
