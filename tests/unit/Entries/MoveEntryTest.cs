@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
     public class MoveEntryTest
     {
         [Fact]
-        public async Task MoveOrRenameDocumentAsync_ReturnSuccessfulStatusCode()
+        public async Task MoveOrRenameEntryAsync_ReturnSuccessfulStatusCode()
         {
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
@@ -69,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.MoveOrRenameDocumentAsync(repoId, entry.Id, request);
+            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -104,7 +104,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
         }
 
         [Fact]
-        public async Task MoveOrRenameDocumentAsync_ReturnErrorStatusCode()
+        public async Task MoveOrRenameEntryAsync_ReturnErrorStatusCode()
         {
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
@@ -145,7 +145,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.MoveOrRenameDocumentAsync(repoId, entryId, request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entryId, request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -166,7 +166,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
         }
 
         [Fact]
-        public async Task MoveOrRenameDocumentAsync_WithQueryParameter_ReturnSuccessfulStatusCode()
+        public async Task MoveOrRenameEntryAsync_WithQueryParameter_ReturnSuccessfulStatusCode()
         {
             // ARRANGE
             string baseAddress = "http://api.laserfiche.com/";
@@ -222,7 +222,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.MoveOrRenameDocumentAsync(repoId, entry.Id, request, autoRename: true);
+            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request, autoRename: true);
 
             // ASSERT
             Assert.NotNull(result);

@@ -42,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "RepositoryApiClientIntegrationTest .Net MovedFolder"
             };
 
-            var movedEntry = await client.EntriesClient.MoveOrRenameDocumentAsync(RepositoryId, childFolder.Id, request, autoRename: true);
+            var movedEntry = await client.EntriesClient.MoveOrRenameEntryAsync(RepositoryId, childFolder.Id, request, autoRename: true);
 
             Assert.IsNotNull(movedEntry);
             Assert.AreEqual(childFolder.Id, movedEntry.Id);

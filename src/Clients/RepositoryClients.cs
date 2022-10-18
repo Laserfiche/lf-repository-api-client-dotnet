@@ -72,7 +72,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -827,7 +827,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -868,7 +868,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    return await MoveOrRenameDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -878,7 +878,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
