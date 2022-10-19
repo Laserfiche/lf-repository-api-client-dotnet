@@ -1,9 +1,3 @@
-## 1.0.6
-
-### Fixes
-- **[BREAKING]**: `IEntriesClient`
-  - Rename `MoveOrRenameDocumentAsync` to `MoveOrRenameEntryAsync` to better represent its capability.
-
 ## 1.0.5
 
 ### Fixes
@@ -14,3 +8,5 @@
   - `ServerSessionClient.CreateServerSessionAsync`
   - `ServerSessionClient.RefreshServerSessionAsync`
   - `ServerSessionClient.InvalidateServerSessionAsync`
+- **[BREAKING]**: `IEntriesClient`
+  - Rename `MoveOrRenameDocumentAsync` to `MoveOrRenameEntryAsync` to better represent its capability.
