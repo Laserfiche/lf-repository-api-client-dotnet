@@ -22,7 +22,8 @@
       "clientClassAccessModifier": "internal",
       "templateDirectory": "nswag",
       "wrapResponses": true,
-      "wrapResponseMethods": ["EntriesClient.GetDocumentContentType"]
+      "wrapResponseMethods": ["EntriesClient.GetDocumentContentType"],
+      "responseClass": "HttpResponseHead"
     }
   }
 }
