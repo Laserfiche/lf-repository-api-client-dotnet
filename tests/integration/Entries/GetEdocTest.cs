@@ -35,7 +35,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task GetEdoc_ReturnDocument()
         {
-            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net ExportDocumentAsync");
+            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContent");
 
             using (var response = await client.EntriesClient.ExportDocumentAsync(RepositoryId, createdEntryId))
             {

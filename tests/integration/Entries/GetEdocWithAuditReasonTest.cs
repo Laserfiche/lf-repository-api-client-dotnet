@@ -35,7 +35,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task Export_document_with_audit_reasonAsync_ReturnDocument()
         {
-            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net ExportDocumentWithAuditReasonAsync");
+            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContent AuditReason");
             var request = new GetEdocWithAuditReasonRequest();
 
             using (var response = await client.EntriesClient.ExportDocumentWithAuditReasonAsync(RepositoryId, createdEntryId, request))
