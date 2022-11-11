@@ -2,6 +2,7 @@
 using Moq.Protected;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -51,7 +52,13 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await client.EntriesClient.GetDocumentContentTypeAsync(repoId, entryId);
+            var swaggerResponse = await client.EntriesClient.GetDocumentContentTypeAsync(repoId, entryId);
+
+            // ASSERT
+            Assert.NotNull(swaggerResponse);
+            Assert.Equal(200, swaggerResponse.StatusCode);
+            Assert.Equal(httpResponse.Content.Headers.ContentType.ToString(), swaggerResponse.Headers["Content-Type"].ElementAt(0).ToString());
+            Assert.Equal(httpResponse.Content.Headers.ContentLength.ToString(), swaggerResponse.Headers["Content-Length"].ElementAt(0).ToString());
 
             // Also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc");

@@ -20,7 +20,10 @@
       "generateUpdateJsonSerializerSettingsMethod": false,
       "useBaseUrl": false,
       "clientClassAccessModifier": "internal",
-      "templateDirectory": "nswag"
+      "templateDirectory": "nswag",
+      "wrapResponses": true,
+      "wrapResponseMethods": ["EntriesClient.GetDocumentContentType"],
+      "responseClass": "HttpResponseHead"
     }
   }
 }

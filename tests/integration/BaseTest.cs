@@ -122,5 +122,25 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token);
             Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
         }
+
+        protected async Task<int> CreateDocument(string name)
+        {
+            int parentEntryId = 1;
+            string fileLocation = TempPath + "test.pdf";
+            var request = new PostEntryWithEdocMetadataRequest();
+            using (var fileStream = File.OpenRead(fileLocation))
+            {
+                var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
+                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, name, autoRename: true, electronicDocument: electronicDocument, request: request);
+
+                var operations = result.Operations;
+                Assert.IsNotNull(operations?.EntryCreate);
+                Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
+                Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
+                Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
+                Assert.IsFalse(string.IsNullOrEmpty(result.DocumentLink));
+                return operations.EntryCreate.EntryId;
+            }
+        }
     }
 }

@@ -1,3 +1,8 @@
+## Prerelease
+
+### Fixes
+- Fix `IEntriesClient.GetDocumentContentTypeAsync` return type from `Task` to `Task<HttpResponseHead>` to allow retrieving response headers.
+
 ## 1.0.5
 
 ### Fixes
