@@ -6822,7 +6822,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -6867,7 +6867,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (repoId == null)
                 throw new System.ArgumentNullException("repoId");
@@ -6930,7 +6930,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfEntry> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6948,7 +6948,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6964,7 +6964,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 206)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfIListOfEntry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -11283,6 +11283,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Fuzzy type (None, Percentage, or NumberOfLetters)
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fuzzyType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public FuzzyType FuzzyType { get; set; }
 
         /// <summary>
@@ -11297,10 +11298,13 @@ namespace Laserfiche.Repository.Api.Client
     public enum FuzzyType
     {
 
+        [System.Runtime.Serialization.EnumMember(Value = @"None")]
         None = 0,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Percentage")]
         Percentage = 1,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"NumberOfLetters")]
         NumberOfLetters = 2,
 
     }
