@@ -2,6 +2,8 @@
 
 ### Fixes
 - Fix `IEntriesClient.GetDocumentContentTypeAsync` return type from `Task` to `Task<HttpResponseHead>` to allow retrieving response headers.
+- Fix `ISimpleSearchesClient.CreateSimpleSearchOperationAsync` return type from `Task<ODataValueOfIListOfEntry>` to `Task<ODataValueContextOfIListOfEntry>` to more accurately represent the response. The `ODataValueContextOfIListOfEntry` type derives from the `ODataValueOfIListOfEntry` type.
+- Fix `FuzzyType` enum to serialize to string values instead of numbers.
 
 ## 1.0.5
 
