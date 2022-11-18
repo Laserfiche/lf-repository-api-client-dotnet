@@ -13,11 +13,6 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
     public class GetTemplateDefinitionByIdTest
     {
         [Fact]
-        public async Task Unittestthatfails()
-        {
-            Assert.True(false);
-        }
-        [Fact]
         public async Task GetTemplateDefinitionByIdAsync_ReturnSuccessfulStatusCode()
         {
             // ARRANGE
