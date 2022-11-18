@@ -14,12 +14,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task Integrationtestthatfails()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
         public async Task GetTemplateDefinitionById_ReturnTemplate()
         {
             var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
