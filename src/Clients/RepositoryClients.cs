@@ -523,7 +523,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -664,7 +664,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -803,7 +803,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -976,7 +976,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1114,7 +1114,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1301,7 +1301,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1463,7 +1463,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1641,7 +1641,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1796,7 +1796,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1961,7 +1961,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2110,7 +2110,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2258,7 +2258,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2423,7 +2423,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2575,7 +2575,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2720,7 +2720,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2835,7 +2835,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2991,7 +2991,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3142,7 +3142,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3301,7 +3301,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3439,7 +3439,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3584,7 +3584,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3740,7 +3740,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4066,7 +4066,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4207,7 +4207,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4518,7 +4518,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4684,7 +4684,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5004,7 +5004,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5145,7 +5145,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5402,7 +5402,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5675,7 +5675,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6013,7 +6013,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6168,7 +6168,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6303,7 +6303,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6495,7 +6495,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6665,7 +6665,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7000,7 +7000,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7330,7 +7330,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7477,7 +7477,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7786,7 +7786,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7916,7 +7916,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8288,7 +8288,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8435,7 +8435,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8606,7 +8606,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8774,7 +8774,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9070,7 +9070,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9202,7 +9202,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9304,7 +9304,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
