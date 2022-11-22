@@ -458,7 +458,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<CreateEntryResult>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -468,7 +468,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -478,7 +478,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -488,7 +488,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<CreateEntryResult>("Parent entry is not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -498,7 +498,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<CreateEntryResult>("Document creation is partial success.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -508,7 +508,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 500)
@@ -518,7 +518,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<CreateEntryResult>("Document creation is complete failure.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -619,7 +619,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -629,7 +629,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -639,7 +639,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -649,7 +649,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -659,7 +659,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -758,7 +758,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -768,7 +768,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -778,7 +778,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -788,7 +788,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -798,7 +798,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -911,7 +911,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -921,7 +921,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -931,7 +931,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -941,7 +941,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -951,7 +951,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -961,7 +961,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -971,7 +971,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1069,7 +1069,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1079,7 +1079,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1089,7 +1089,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1099,7 +1099,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested entry path not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1109,7 +1109,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1256,7 +1256,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1266,7 +1266,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1276,7 +1276,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1286,7 +1286,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1296,7 +1296,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1408,7 +1408,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1418,7 +1418,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1428,7 +1428,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1438,7 +1438,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -1448,7 +1448,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry name conflicts.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1458,7 +1458,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1596,7 +1596,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1606,7 +1606,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1616,7 +1616,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1626,7 +1626,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1636,7 +1636,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1741,7 +1741,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1751,7 +1751,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1761,7 +1761,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1771,7 +1771,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -1781,7 +1781,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1791,7 +1791,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -1916,7 +1916,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1926,7 +1926,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1936,7 +1936,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1946,7 +1946,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1956,7 +1956,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2055,7 +2055,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2065,7 +2065,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2075,7 +2075,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2085,7 +2085,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -2095,7 +2095,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2105,7 +2105,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2203,7 +2203,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2213,7 +2213,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2223,7 +2223,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2233,7 +2233,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -2243,7 +2243,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2253,7 +2253,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2378,7 +2378,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2388,7 +2388,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2398,7 +2398,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2408,7 +2408,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2418,7 +2418,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2530,7 +2530,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2540,7 +2540,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2550,7 +2550,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2560,7 +2560,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2570,7 +2570,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2665,7 +2665,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2675,7 +2675,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2685,7 +2685,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2695,7 +2695,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -2705,7 +2705,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2715,7 +2715,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -2936,7 +2936,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2946,7 +2946,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2956,7 +2956,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2966,7 +2966,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -2976,7 +2976,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2986,7 +2986,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -3087,7 +3087,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3097,7 +3097,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3107,7 +3107,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3117,7 +3117,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -3127,7 +3127,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3137,7 +3137,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -3246,7 +3246,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3256,7 +3256,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3266,7 +3266,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3276,7 +3276,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -3286,7 +3286,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3296,7 +3296,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -3394,7 +3394,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3404,7 +3404,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3414,7 +3414,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3424,7 +3424,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3434,7 +3434,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -3529,7 +3529,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3539,7 +3539,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3549,7 +3549,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3559,7 +3559,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -3569,7 +3569,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3579,7 +3579,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -3685,7 +3685,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3695,7 +3695,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3705,7 +3705,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3715,7 +3715,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request entry id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -3725,7 +3725,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Entry is locked.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3735,7 +3735,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -4021,7 +4021,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4031,7 +4031,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4041,7 +4041,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4051,7 +4051,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4061,7 +4061,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -4162,7 +4162,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4172,7 +4172,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4182,7 +4182,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4192,7 +4192,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested attribute key not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4202,7 +4202,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -4473,7 +4473,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4483,7 +4483,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4493,7 +4493,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4503,7 +4503,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested field definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4513,7 +4513,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -4639,7 +4639,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4649,7 +4649,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4659,7 +4659,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4669,7 +4669,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4679,7 +4679,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -4959,7 +4959,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4969,7 +4969,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4979,7 +4979,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4989,7 +4989,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4999,7 +4999,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -5100,7 +5100,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5110,7 +5110,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5120,7 +5120,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5130,7 +5130,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Requested link type definition ID not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5140,7 +5140,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -5367,7 +5367,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5377,7 +5377,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5387,7 +5387,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5397,7 +5397,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -5630,7 +5630,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5640,7 +5640,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5650,7 +5650,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5660,7 +5660,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5670,7 +5670,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -5968,7 +5968,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5978,7 +5978,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5988,7 +5988,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5998,7 +5998,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6008,7 +6008,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -6123,7 +6123,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6133,7 +6133,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6143,7 +6143,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6153,7 +6153,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6163,7 +6163,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -6258,7 +6258,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6268,7 +6268,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6278,7 +6278,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6288,7 +6288,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6298,7 +6298,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -6450,7 +6450,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6460,7 +6460,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6470,7 +6470,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6480,7 +6480,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6490,7 +6490,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -6620,7 +6620,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6630,7 +6630,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6640,7 +6640,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6650,7 +6650,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request search token not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6660,7 +6660,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -6955,7 +6955,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6965,7 +6965,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6975,7 +6975,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6985,7 +6985,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6995,7 +6995,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Operation limit or request limit reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -7285,7 +7285,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7295,7 +7295,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7305,7 +7305,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -7315,7 +7315,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7325,7 +7325,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -7432,7 +7432,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7442,7 +7442,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7452,7 +7452,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -7462,7 +7462,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request tag definition id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7472,7 +7472,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -7741,7 +7741,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7751,7 +7751,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7761,7 +7761,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -7771,7 +7771,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request operationToken not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7781,7 +7781,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -7871,7 +7871,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7881,7 +7881,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7891,7 +7891,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -7901,7 +7901,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request operationToken not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7911,7 +7911,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -8243,7 +8243,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8253,7 +8253,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8263,7 +8263,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8273,7 +8273,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8283,7 +8283,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -8390,7 +8390,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8400,7 +8400,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8410,7 +8410,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8420,7 +8420,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8430,7 +8430,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -8561,7 +8561,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8571,7 +8571,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8581,7 +8581,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8591,7 +8591,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request template id not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8601,7 +8601,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -8729,7 +8729,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8739,7 +8739,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8749,7 +8749,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8759,7 +8759,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Request template name not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8769,7 +8769,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -9025,7 +9025,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9035,7 +9035,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9045,7 +9045,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9055,7 +9055,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9065,7 +9065,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -9157,7 +9157,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Invalid or bad request.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9167,7 +9167,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9177,7 +9177,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9187,7 +9187,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Not found.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9197,7 +9197,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Rate limit is reached.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
@@ -9289,7 +9289,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access token is invalid or expired.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9299,7 +9299,7 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         throw ApiException.Create(status_, headers_, null);
                     }
-                    throw new ApiException<ProblemDetails>("Access denied for the operation.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {

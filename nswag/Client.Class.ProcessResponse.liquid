@@ -48,7 +48,7 @@ throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, o
 throw responseObject_;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+throw {{ ExceptionClass }}.Create(status_, headers_, objectResponse_.Object, null);
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}
