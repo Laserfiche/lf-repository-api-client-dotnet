@@ -16,6 +16,7 @@
       "output": "src/Clients/RepositoryClients.cs",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
       "generateClientInterfaces": true,
+      "generateExceptionClasses": false,
       "generateOptionalParameters": true,
       "generateUpdateJsonSerializerSettingsMethod": false,
       "useBaseUrl": false,
