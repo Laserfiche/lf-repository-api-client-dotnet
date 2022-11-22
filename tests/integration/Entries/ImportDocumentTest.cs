@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -95,6 +96,42 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(0, operations.SetTemplate.Exceptions.Count);
             Assert.AreEqual(template.Name, operations.SetTemplate.Template);
             createdEntryId = operations.EntryCreate.EntryId;
+        }
+
+        [TestMethod]
+        public async Task ImportDocument_ThrowExceptionWithCreateEntryResult()
+        {
+            int parentEntryId = 1;
+            string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
+            var electronicDocument = GetFileParameter();
+            var request = new PostEntryWithEdocMetadataRequest()
+            {
+                Template = "faketemplate123",
+            };
+
+            try
+            {
+                await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+            }
+            catch (ApiException e)
+            {
+                Assert.IsNotNull(e?.ProblemDetails?.Title);
+                Assert.AreEqual(e.ProblemDetails.Title, e.Message);
+                Assert.AreEqual((int)HttpStatusCode.Conflict, e.StatusCode);
+                Assert.AreEqual((int)HttpStatusCode.Conflict, e.ProblemDetails.Status);
+                Assert.IsNotNull(e.ProblemDetails.OperationId);
+                Assert.IsNull(e.ProblemDetails.Type);
+                Assert.IsNull(e.ProblemDetails.Instance);
+                Assert.IsNull(e.ProblemDetails.ErrorSource);
+                Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
+                Assert.IsNull(e.ProblemDetails.TraceId);
+                Assert.AreEqual(1, e.ProblemDetails.AdditionalProperties.Count);
+
+                var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
+                Assert.IsNotNull(partialSuccessResult);
+                Assert.AreEqual(e.Message, partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message);
+                createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
+            }
         }
     }
 }

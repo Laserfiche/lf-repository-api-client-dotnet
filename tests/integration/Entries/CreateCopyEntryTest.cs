@@ -131,7 +131,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
 
-        [ExpectedException(typeof(ApiException<ProblemDetails>))]
+        [ExpectedException(typeof(ApiException))]
         [TestMethod]
         public async Task CreateCopyEntry_CopyFolder()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -35,6 +36,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(200, response.StatusCode);
             Assert.IsTrue(response.Headers.ContainsKey("Content-Type"));
             Assert.IsTrue(response.Headers.ContainsKey("Content-Length"));
+        }
+
+        [TestMethod]
+        public async Task GetDocumentContentTypeAsync_ThrowException()
+        {
+            int entryId = 1;
+            string repositoryId = "fakeRepository";
+            try
+            {
+                await client.EntriesClient.GetDocumentContentTypeAsync(repositoryId, entryId);
+            }
+            catch (ApiException e)
+            {
+                Assert.IsNotNull(e?.ProblemDetails?.Title);
+                Assert.AreEqual(e.ProblemDetails.Title, e.Message);
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.ProblemDetails.Status);
+                Assert.IsNotNull(e.ProblemDetails.OperationId);
+                Assert.IsNull(e.ProblemDetails.Type);
+                Assert.IsNull(e.ProblemDetails.Instance);
+                Assert.IsNull(e.ProblemDetails.ErrorSource);
+                Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
+                Assert.IsNull(e.ProblemDetails.TraceId);
+                Assert.AreEqual(0, e.ProblemDetails.AdditionalProperties.Count);
+            }
         }
     }
 }

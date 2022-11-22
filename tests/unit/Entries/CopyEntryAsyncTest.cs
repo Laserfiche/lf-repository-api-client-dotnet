@@ -126,11 +126,11 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException<ProblemDetails>>(async () => await client.EntriesClient.CopyEntryAsync(repoId, entryId, request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.CopyEntryAsync(repoId, entryId, request));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
-            Assert.Equal(exception.Title, response.Result.Title);
+            Assert.Equal(exception.Title, response.ProblemDetails.Title);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/CopyAsync");
