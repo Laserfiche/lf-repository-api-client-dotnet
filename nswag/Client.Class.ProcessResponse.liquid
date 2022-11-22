@@ -68,5 +68,5 @@ return;
 {%     endif -%}
 {% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
 string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseText_, headers_, null);
+throw {{ ExceptionClass }}.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
 {% endif %}

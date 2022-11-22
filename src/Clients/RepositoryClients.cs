@@ -2800,37 +2800,37 @@ namespace Laserfiche.Repository.Api.Client
                 if (status_ == 400)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Invalid or bad request.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 401)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Access token is invalid or expired.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 403)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Access denied for the operation.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 404)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Request entry id not found.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 423)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Entry is locked.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 429)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("Rate limit is reached.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 {
@@ -6935,7 +6935,7 @@ namespace Laserfiche.Repository.Api.Client
                 if (status_ == 204)
                 {
                     string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw new ApiException("No search results found.", status_, responseText_, headers_, null);
+                    throw ApiException.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 206)
