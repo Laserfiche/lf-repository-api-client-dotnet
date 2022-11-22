@@ -3783,7 +3783,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -3802,7 +3802,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -4250,7 +4250,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -4269,7 +4269,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -4727,7 +4727,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -4746,7 +4746,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -5188,7 +5188,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -5207,7 +5207,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -5445,7 +5445,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -5464,7 +5464,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -5718,7 +5718,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -5737,7 +5737,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -6708,7 +6708,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -6727,7 +6727,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -7043,7 +7043,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -7062,7 +7062,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -7520,7 +7520,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -7539,7 +7539,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -7959,7 +7959,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -7978,7 +7978,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -8817,7 +8817,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -8836,7 +8836,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -9347,7 +9347,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -9366,7 +9366,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
