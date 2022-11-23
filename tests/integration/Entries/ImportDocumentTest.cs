@@ -49,12 +49,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
             var operations = result.Operations;
+            createdEntryId = operations.EntryCreate.EntryId;
             Assert.IsNotNull(operations);
             Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
             Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
             Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
             Assert.IsTrue(!string.IsNullOrEmpty(result.DocumentLink));
-            createdEntryId = operations.EntryCreate.EntryId;
         }
 
         [TestMethod]
@@ -88,6 +88,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
 
             var operations = result.Operations;
+            createdEntryId = operations.EntryCreate.EntryId;
             Assert.IsNotNull(operations);
             Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
             Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
@@ -95,7 +96,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsTrue(!string.IsNullOrEmpty(result.DocumentLink));
             Assert.AreEqual(0, operations.SetTemplate.Exceptions.Count);
             Assert.AreEqual(template.Name, operations.SetTemplate.Template);
-            createdEntryId = operations.EntryCreate.EntryId;
         }
 
         [TestMethod]
@@ -126,11 +126,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
                 Assert.IsNull(e.ProblemDetails.TraceId);
                 Assert.AreEqual(1, e.ProblemDetails.AdditionalProperties.Count);
-
                 var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
                 Assert.IsNotNull(partialSuccessResult);
-                Assert.AreEqual(e.Message, partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message);
                 createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
+                Assert.AreEqual(e.Message, partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message);
             }
         }
     }

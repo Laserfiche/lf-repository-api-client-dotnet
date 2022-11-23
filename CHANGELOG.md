@@ -1,4 +1,4 @@
-## 1.1.0
+## Prerelease
 
 ### Fixes
 - Fix `IEntriesClient.GetDocumentContentTypeAsync` return type from `Task` to `Task<HttpResponseHead>` to allow retrieving response headers.
@@ -34,6 +34,7 @@
     int createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
   }
   ```
+- **[BREAKING]** Remove the `ApiException<TResult>` type. `ApiException` will be thrown from error responses instead.
 
 ## 1.0.5
 
