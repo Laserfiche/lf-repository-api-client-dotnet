@@ -7,20 +7,10 @@
 - Fix `FuzzyType` enum to serialize to string values instead of numbers.
 - Fix the error message when an `ApiException` is thrown and use the `ProblemDetails.Title` if possible.
 - Add more properties to the `ProblemDetails` type to more accurately represent the response.
-- **[BREAKING]** Remove the `ProblemDetails.Extensions` dictionary property. This property was always null.
-- **[BREAKING]** Update the usage of `ApiException` thrown from error response. In general, the `ApiException` can be caught like this.
-  ```c#
-  try
-  {
-    await repositoryApiClient.EntriesClient.GetEntryAsync(...);
-  }
-  catch (ApiException e)
-  {
-    Console.Error.WriteLine(e.Message);
-    Console.Error.WriteLine(e);
-  }
-  ```
-  In the case for `IEntriesClient.ImportDocumentAsync` when a document is successfully imported but errors occur when setting metadata, an `ApiException` is thrown with the partial success import response. The partial success import response and the successfully imported entry id can be retrieved like this.
+- **[BREAKING]** Property `ProblemDetails.Extensions` has been removed. This property was always null.
+- **[BREAKING]** Types of `ApiException<T>` has been removed. Use `ApiException` instead. The ApiException has a ProblemDetails property which may contain additional information. 
+<br>
+  `IEntriesClient.ImportDocumentAsync` API v1 can succeed in creating a document, but fail in setting some or all of its metadata components. To retrieve errors in the case of a partial success inspect the content of the `ProblemDetails.AdditionalProperties`. See example below.
   ```c#
   try
   {
@@ -34,7 +24,6 @@
     int createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
   }
   ```
-- **[BREAKING]** Remove the `ApiException<TResult>` type. `ApiException` will be thrown from error responses instead.
 
 ## 1.0.5
 

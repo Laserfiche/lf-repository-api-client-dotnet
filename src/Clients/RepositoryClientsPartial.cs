@@ -21,26 +21,31 @@ namespace Laserfiche.Repository.Api.Client
     partial class CreateEntryResult
     {
         /// <summary>
-        /// Returns all error messages concatenated together.
+        /// Returns a human-readable summary of the <see cref="CreateEntryResult"/>.
         /// </summary>
         /// <returns></returns>
-        public string GetErrorMessages()
+        public string GetSummary()
         {
-            var errorStringBuilder = new StringBuilder();
-            errorStringBuilder.Append(GetErrorMessages(Operations?.EntryCreate?.Exceptions));
-            errorStringBuilder.Append(GetErrorMessages(Operations?.SetEdoc?.Exceptions));
-            errorStringBuilder.Append(GetErrorMessages(Operations?.SetTemplate?.Exceptions));
-            errorStringBuilder.Append(GetErrorMessages(Operations?.SetFields?.Exceptions));
-            errorStringBuilder.Append(GetErrorMessages(Operations?.SetTags?.Exceptions));
-            errorStringBuilder.Append(GetErrorMessages(Operations?.SetLinks?.Exceptions));
-            return errorStringBuilder.ToString();
+            var messages = new List<string>();
+            int entryId = Operations?.EntryCreate?.EntryId ?? default;
+            if (entryId != default)
+            {
+                messages.Add($"{nameof(Operations.EntryCreate.EntryId)}={entryId}.");
+            }
+            messages.Add(GetErrorMessages(Operations?.EntryCreate?.Exceptions));
+            messages.Add(GetErrorMessages(Operations?.SetEdoc?.Exceptions));
+            messages.Add(GetErrorMessages(Operations?.SetTemplate?.Exceptions));
+            messages.Add(GetErrorMessages(Operations?.SetFields?.Exceptions));
+            messages.Add(GetErrorMessages(Operations?.SetTags?.Exceptions));
+            messages.Add(GetErrorMessages(Operations?.SetLinks?.Exceptions));
+            return string.Join(" ", messages.Where(s => !string.IsNullOrWhiteSpace(s)));
         }
 
         private string GetErrorMessages(ICollection<APIServerException> errors)
         {
             if (errors == null)
                 return string.Empty;
-            return string.Concat(errors?.Select(e => e.Message));
+            return string.Join(" ", errors?.Select(e => e.Message));
         }
     }
 
@@ -124,7 +129,7 @@ namespace Laserfiche.Repository.Api.Client
 
             ProblemDetails problemDetails = new ProblemDetails()
             {
-                Title = createEntryResult.GetErrorMessages(),
+                Title = createEntryResult.GetSummary(),
                 Status = statusCode,
                 OperationId = headers?.TryGetValue(OPERATION_ID_HEADER, out IEnumerable<string> operationIdHeader) == true ? operationIdHeader.FirstOrDefault() : null,
                 AdditionalProperties = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase) { [createEntryResult.GetType().Name] = createEntryResult }
@@ -156,19 +161,6 @@ namespace Laserfiche.Repository.Api.Client
             StatusCode = statusCode;
             Headers = headers;
             ProblemDetails = problemDetails;
-        }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            string result = string.Empty;
-            try
-            {
-                result = JsonConvert.SerializeObject(ProblemDetails);
-                result += "\n\n";
-            }
-            catch { }
-            return result + base.ToString();
         }
     }
 

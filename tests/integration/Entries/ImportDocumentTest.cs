@@ -129,7 +129,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
                 Assert.IsNotNull(partialSuccessResult);
                 createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
-                Assert.AreEqual(e.Message, partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message);
+                Assert.IsTrue(e.Message.Contains(partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message));
             }
         }
     }

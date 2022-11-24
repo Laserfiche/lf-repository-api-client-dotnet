@@ -227,8 +227,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
 
             ApiException exception = ApiException.Create(statusCode, headers, createEntryResult, innerException);
 
-            string errorMessage = setTemplateErrorMessage + setFieldsErrorMessage1 + setFieldsErrorMessage2 + setTagsErrorMessage + setLinksErrorMessage;
-            Assert.Equal(errorMessage, exception.ProblemDetails.Title);
+            var errorMessages = new string[] { setTemplateErrorMessage, setFieldsErrorMessage1, setFieldsErrorMessage2, setTagsErrorMessage, setLinksErrorMessage };
+            string expectedMessage = $"{nameof(createEntryResult.Operations.EntryCreate.EntryId)}={entryId}. " + string.Join(" ", errorMessages);
+            Assert.Equal(expectedMessage, exception.ProblemDetails.Title);
             Assert.Equal(statusCode, exception.ProblemDetails.Status);
             Assert.Equal(operationId, exception.ProblemDetails.OperationId);
             Assert.Equal(1, exception.ProblemDetails.AdditionalProperties.Count);

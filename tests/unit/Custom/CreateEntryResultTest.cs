@@ -6,8 +6,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
     public class CreateEntryResultTest
     {
         [Fact]
-        public void GetErrorMessages_AllOperationsHaveErrorMessages()
+        public void GetSummary_AllOperationsHaveErrorMessages()
         {
+            int entryId = 123;
             string entryCreateErrorMessage = "Error creating entry.";
             string setEdocErrorMessage = "Error setting edoc.";
             string setTemplateErrorMessage = "Error setting template.";
@@ -20,6 +21,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 {
                     EntryCreate = new EntryCreate()
                     {
+                        EntryId = entryId,
                         Exceptions = new List<APIServerException>()
                         {
                             new APIServerException() { Message = entryCreateErrorMessage }
@@ -63,21 +65,22 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 }
             };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
-            string expectedErrorMessage = entryCreateErrorMessage + setEdocErrorMessage + setTemplateErrorMessage + 
-                setFieldsErrorMessage1 + setTagsErrorMessage + setLinksErrorMessage;
-            Assert.Equal(expectedErrorMessage, result);
+            var errorMessages = new string[] { entryCreateErrorMessage, setEdocErrorMessage, setTemplateErrorMessage,
+                setFieldsErrorMessage1, setTagsErrorMessage, setLinksErrorMessage };
+            string expectedMessage = $"{nameof(createEntryResult.Operations.EntryCreate.EntryId)}={entryId}. " + string.Join(" ", errorMessages);
+            Assert.Equal(expectedMessage, result);
         }
 
         [Fact]
-        public void GetErrorMessages_OperationHasMultipleErrorMessages()
+        public void GetSummary_OperationHasMultipleErrorMessages()
         {
             string setTemplateErrorMessage1 = "Error setting template1.";
             string setTemplateErrorMessage2 = "Error setting template2.";
-            string setFieldsErrorMessage1 = "Error setting field1.";
-            string setFieldsErrorMessage2 = "Error setting field2.";
-            string setFieldsErrorMessage3 = "Error setting field3.";
+            string setTagsErrorMessage1 = "Error setting tag1.";
+            string setTagsErrorMessage2 = "Error setting tag2.";
+            string setTagsErrorMessage3 = "Error setting tag3.";
             CreateEntryResult createEntryResult = new CreateEntryResult()
             {
                 Operations = new CreateEntryOperations()
@@ -92,38 +95,40 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                             new APIServerException() { Message = setTemplateErrorMessage2 },
                         }
                     },
-                    SetFields = new SetFields()
+                    SetFields = new SetFields(),
+                    SetTags = new SetTags()
                     {
                         Exceptions = new List<APIServerException>()
                         {
-                            new APIServerException() { Message = setFieldsErrorMessage1 },
-                            new APIServerException() { Message = setFieldsErrorMessage2 },
-                            new APIServerException() { Message = setFieldsErrorMessage3 },
+                            new APIServerException() { Message = setTagsErrorMessage1 },
+                            new APIServerException() { Message = setTagsErrorMessage2 },
+                            new APIServerException() { Message = setTagsErrorMessage3 },
                         }
                     },
-                    SetTags = new SetTags(),
                     SetLinks = new SetLinks()
                 }
             };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
-            string expectedErrorMessage = setTemplateErrorMessage1 + setTemplateErrorMessage2 + setFieldsErrorMessage1 + setFieldsErrorMessage2 + setFieldsErrorMessage3;
-            Assert.Equal(expectedErrorMessage, result);
+            var errorMessages = new string[] { setTemplateErrorMessage1, setTemplateErrorMessage2,
+                setTagsErrorMessage1, setTagsErrorMessage2, setTagsErrorMessage3 };
+            string expectedMessage = string.Join(" ", errorMessages);
+            Assert.Equal(expectedMessage, result);
         }
 
         [Fact]
-        public void GetErrorMessages_NullOperations()
+        public void GetSummary_NullOperations()
         {
             CreateEntryResult createEntryResult = new CreateEntryResult() { Operations = null };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
             Assert.Equal(string.Empty, result);
         }
 
         [Fact]
-        public void GetErrorMessages_NullEntryOperations()
+        public void GetSummary_NullEntryOperations()
         {
             string setTemplateErrorMessage = "Error setting template.";
             CreateEntryResult createEntryResult = new CreateEntryResult()
@@ -145,13 +150,13 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 }
             };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
             Assert.Equal(setTemplateErrorMessage, result);
         }
 
         [Fact]
-        public void GetErrorMessages_OperationExceptionWithoutMessage()
+        public void GetSummary_OperationExceptionWithoutMessage()
         {
             CreateEntryResult createEntryResult = new CreateEntryResult()
             {
@@ -172,21 +177,22 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 }
             };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
             Assert.Equal(string.Empty, result);
         }
 
         [Fact]
-        public void GetErrorMessages_NoErrors()
+        public void GetSummary_NoErrors()
         {
+            int entryId = 123;
             CreateEntryResult createEntryResult = new CreateEntryResult()
             {
                 Operations = new CreateEntryOperations()
                 {
                     EntryCreate = new EntryCreate()
                     {
-                        EntryId = 123
+                        EntryId = entryId
                     },
                     SetEdoc = new SetEdoc(),
                     SetTemplate = new SetTemplate(),
@@ -196,9 +202,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
                 }
             };
 
-            string result = createEntryResult.GetErrorMessages();
+            string result = createEntryResult.GetSummary();
 
-            Assert.Equal(string.Empty, result);
+            Assert.Equal($"{nameof(createEntryResult.Operations.EntryCreate.EntryId)}={entryId}.", result);
         }
     }
 }
