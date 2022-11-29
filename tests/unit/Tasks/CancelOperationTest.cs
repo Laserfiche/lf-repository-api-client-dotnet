@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Laserfiche.Api.Client;
+using Moq;
 using Moq.Protected;
 using System;
 using System.Net;

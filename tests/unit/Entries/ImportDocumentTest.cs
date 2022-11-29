@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Laserfiche.Api.Client;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;

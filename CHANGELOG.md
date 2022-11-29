@@ -7,9 +7,10 @@
 - Fix `FuzzyType` enum to serialize to string values instead of numbers.
 - Fix the error message when an `ApiException` is thrown and use the `ProblemDetails.Title` if possible.
 - Add more properties to the `ProblemDetails` type to more accurately represent the response.
-- **[BREAKING]** Property `ProblemDetails.Extensions` has been removed. This property was always null.
+- **[BREAKING]** Types `ApiException` and `ProblemDetails` have been moved to namespace `Laserfiche.Api.Client`.
+- **[BREAKING]** Property `ProblemDetails.AdditionalProperties` has been removed. Use property `ProblemDetails.Extensions` instead.
 - **[BREAKING]** Types of `ApiException<T>` has been removed. Use `ApiException` instead. The `ApiException` has a `ProblemDetails` property which may contain additional information.\
-  `IEntriesClient.ImportDocumentAsync` API v1 can succeed in creating a document, but fail in setting some or all of its metadata components. To retrieve errors in the case of a partial success, inspect the content of the `ProblemDetails.AdditionalProperties`. See example below.
+  `IEntriesClient.ImportDocumentAsync` API v1 can succeed in creating a document, but fail in setting some or all of its metadata components. To retrieve errors in the case of a partial success, inspect the content of the `ProblemDetails.Extensions`. See example below.
   ```c#
   try
   {
@@ -19,7 +20,7 @@
   {
     Console.Error.WriteLine(e.Message);
     Console.Error.WriteLine(e);
-    CreateEntryResult partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
+    CreateEntryResult partialSuccessResult = (CreateEntryResult)e.ProblemDetails.Extensions[typeof(CreateEntryResult).Name];
     int createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
   }
   ```
