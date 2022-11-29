@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Laserfiche.Repository.Api.Client
 {
@@ -30,12 +29,11 @@ namespace Laserfiche.Repository.Api.Client
                 return ApiException.Create(statusCode, headers, innerException);
             }
 
-            ProblemDetails problemDetails = new ProblemDetails()
+            ProblemDetails problemDetails = ProblemDetails.Create(statusCode, headers);
+            problemDetails.Title = createEntryResult.GetSummary();
+            problemDetails.Extensions = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
             {
-                Title = createEntryResult.GetSummary(),
-                Status = statusCode,
-                OperationId = headers?.TryGetValue(ApiException.OPERATION_ID_HEADER, out IEnumerable<string> operationIdHeader) == true ? operationIdHeader.FirstOrDefault() : null,
-                Extensions = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase) { [createEntryResult.GetType().Name] = createEntryResult }
+                [createEntryResult.GetType().Name] = createEntryResult
             };
             return ApiException.Create(statusCode, headers, problemDetails, innerException);
         }

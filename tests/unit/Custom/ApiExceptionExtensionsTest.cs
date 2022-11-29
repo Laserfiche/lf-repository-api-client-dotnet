@@ -8,6 +8,8 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
 {
     public class ApiExceptionExtensionsTest
     {
+        private const string OPERATION_ID_HEADER = "X-RequestId";
+
         private void AssertApiExceptionAreEqual(ApiException expected, ApiException actual)
         {
             Assert.Equal(expected.StatusCode, actual.StatusCode);
@@ -42,7 +44,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string operationId = "123456789";
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                [ApiException.OPERATION_ID_HEADER] = new List<string>() { operationId }
+                [OPERATION_ID_HEADER] = new List<string>() { operationId }
             };
             Exception innerException = new Exception("An error occurred.");
 
@@ -59,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string operationId = "123456789";
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                [ApiException.OPERATION_ID_HEADER] = new List<string>() { operationId }
+                [OPERATION_ID_HEADER] = new List<string>() { operationId }
             };
             ProblemDetails problemDetails = new ProblemDetails()
             {
@@ -89,7 +91,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string operationId = "123456789";
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                [ApiException.OPERATION_ID_HEADER] = new List<string>() { operationId }
+                [OPERATION_ID_HEADER] = new List<string>() { operationId }
             };
             ProblemDetails problemDetails = new ProblemDetails()
             {
@@ -126,7 +128,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string setLinksErrorMessage = "Error setting link.";
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                [ApiException.OPERATION_ID_HEADER] = new List<string>() { operationId }
+                [OPERATION_ID_HEADER] = new List<string>() { operationId }
             };
             CreateEntryResult createEntryResult = new CreateEntryResult()
             {
@@ -195,7 +197,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             string operationId = "123456789";
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                [ApiException.OPERATION_ID_HEADER] = new List<string>() { operationId }
+                [OPERATION_ID_HEADER] = new List<string>() { operationId }
             };
             CreateEntryResult createEntryResult = null;
             Exception innerException = new Exception("An error occurred.");
