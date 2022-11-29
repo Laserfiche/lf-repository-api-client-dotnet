@@ -2,8 +2,27 @@
 
 ### Fixes
 - Fix `IEntriesClient.GetDocumentContentTypeAsync` return type from `Task` to `Task<HttpResponseHead>` to allow retrieving response headers.
+- Fix `IEntriesClient.GetDocumentContentTypeAsync` from throwing an error when trying to deserialize the response from an error response code.
 - Fix `ISimpleSearchesClient.CreateSimpleSearchOperationAsync` return type from `Task<ODataValueOfIListOfEntry>` to `Task<ODataValueContextOfIListOfEntry>` to more accurately represent the response. The `ODataValueContextOfIListOfEntry` type derives from the `ODataValueOfIListOfEntry` type.
 - Fix `FuzzyType` enum to serialize to string values instead of numbers.
+- Fix the error message when an `ApiException` is thrown and use the `ProblemDetails.Title` if possible.
+- Add more properties to the `ProblemDetails` type to more accurately represent the response.
+- **[BREAKING]** Property `ProblemDetails.Extensions` has been removed. This property was always null.
+- **[BREAKING]** Types of `ApiException<T>` has been removed. Use `ApiException` instead. The `ApiException` has a `ProblemDetails` property which may contain additional information.\
+  `IEntriesClient.ImportDocumentAsync` API v1 can succeed in creating a document, but fail in setting some or all of its metadata components. To retrieve errors in the case of a partial success, inspect the content of the `ProblemDetails.AdditionalProperties`. See example below.
+  ```c#
+  try
+  {
+    await repositoryApiClient.EntriesClient.ImportDocumentAsync(...);
+  }
+  catch (ApiException e)
+  {
+    Console.Error.WriteLine(e.Message);
+    Console.Error.WriteLine(e);
+    CreateEntryResult partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
+    int createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
+  }
+  ```
 
 ## 1.0.5
 

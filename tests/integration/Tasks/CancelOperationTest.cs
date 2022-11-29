@@ -27,9 +27,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
                 await client.TasksClient.CancelOperationAsync(RepositoryId, token);
                 Assert.Fail("Long operation should have ended before cancel.");
             }
-            catch (ApiException<ProblemDetails> e)
+            catch (ApiException e)
             {
-                Assert.IsTrue(e.Result.Title.Contains("Cannot cancel ended operation"));
+                Assert.IsTrue(e.ProblemDetails.Title.Contains("Cannot cancel ended operation"));
             }
         }
     }

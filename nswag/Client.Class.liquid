@@ -385,7 +385,7 @@ Success is always expected
 {%         endif -%}
             {
                 var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                throw {{ ExceptionClass }}.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
             }
 {%     endif -%}
         }
