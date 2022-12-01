@@ -73,6 +73,9 @@ namespace Laserfiche.Repository.Api.Client
             if (httpRequestHandler == null)
                 throw new ArgumentNullException(nameof(httpRequestHandler));
 
+            if (!string.IsNullOrEmpty(baseUrlDebug))
+                baseUrlDebug = baseUrlDebug.TrimEnd('/') + "/";
+
             var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
             var httpClient = new HttpClient(repositoryClientHandler);
 
@@ -112,9 +115,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns></returns>
         public static IRepositoryApiClient CreateFromUsernamePassword(string repoId, string username, string password, string baseUrl)
         {
-            string baseUrlWithSlash = baseUrl.TrimEnd('/') + "/";
-            var httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrlWithSlash);
-            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlWithSlash);
+            var httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl);
+            return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
         }
     }
 }

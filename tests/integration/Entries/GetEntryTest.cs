@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Laserfiche.Api.Client;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -91,7 +92,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.IsNotNull(e.ProblemDetails.ErrorSource);
                 Assert.AreNotEqual(default, e.ProblemDetails.ErrorCode);
                 Assert.IsNotNull(e.ProblemDetails.TraceId);
-                Assert.AreEqual(0, e.ProblemDetails.AdditionalProperties.Count);
+                Assert.AreEqual(0, e.ProblemDetails.Extensions.Count);
             }
         }
     }

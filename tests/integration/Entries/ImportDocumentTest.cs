@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Laserfiche.Api.Client;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -125,8 +126,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.IsNull(e.ProblemDetails.ErrorSource);
                 Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
                 Assert.IsNull(e.ProblemDetails.TraceId);
-                Assert.AreEqual(1, e.ProblemDetails.AdditionalProperties.Count);
-                var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.AdditionalProperties[typeof(CreateEntryResult).Name];
+                Assert.AreEqual(1, e.ProblemDetails.Extensions.Count);
+                var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.Extensions[typeof(CreateEntryResult).Name];
                 Assert.IsNotNull(partialSuccessResult);
                 createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
                 Assert.IsTrue(e.Message.Contains(partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message));

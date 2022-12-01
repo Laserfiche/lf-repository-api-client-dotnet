@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Laserfiche.Api.Client;
 
 namespace Laserfiche.Repository.Api.Client.Test.Entries
 {

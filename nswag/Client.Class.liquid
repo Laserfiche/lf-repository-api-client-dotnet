@@ -385,7 +385,7 @@ Success is always expected
 {%         endif -%}
             {
                 var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                throw {{ ExceptionClass }}.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                throw {{ ExceptionClass }}Extensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
             }
 {%     endif -%}
         }
