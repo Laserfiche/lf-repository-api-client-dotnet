@@ -46,8 +46,7 @@ jobs:
         dotnet test tests/integration/Laserfiche.Repository.Api.Client.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Run integration tests on API Server
-      # if: steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure'    # run this step if the previous is not cancelled or skipped
-      if: success() || failure()
+      if: always() && (steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure')
       env:
         REPOSITORY_ID:  ${{ secrets.APISERVER_REPOSITORY_ID }}
         APISERVER_USERNAME: ${{ secrets.APISERVER_USERNAME }}
