@@ -35,6 +35,7 @@ jobs:
       run: dotnet test tests/unit/Laserfiche.Repository.Api.Client.Test.csproj --no-build --verbosity normal --logger "trx;LogFileName=unit-test-results.trx"
 
     - name: Run integration tests
+      id: cloud-integration-test
       env:
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
@@ -45,6 +46,7 @@ jobs:
         dotnet test tests/integration/Laserfiche.Repository.Api.Client.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Run integration tests on API Server
+      if: steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure'    # run this step if the previous is not cancelled or skipped
       env:
         REPOSITORY_ID:  ${{ secrets.APISERVER_REPOSITORY_ID }}
         APISERVER_USERNAME: ${{ secrets.APISERVER_USERNAME }}
