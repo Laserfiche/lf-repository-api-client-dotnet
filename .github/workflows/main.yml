@@ -91,6 +91,7 @@ jobs:
         sed -i 's|MACRO_EXPANSION        = NO|MACRO_EXPANSION        = YES|i' doxygen.conf
         sed -i 's|EXPAND_ONLY_PREDEF     = NO|EXPAND_ONLY_PREDEF     = YES|i' doxygen.conf
         sed -i 's|PREDEFINED             =|PREDEFINED             = protected=private|i' doxygen.conf
+        sed -i 's|SORT_BRIEF_DOCS        = NO|SORT_BRIEF_DOCS        = YES|i' doxygen.conf
 
     - name: Dump doxygen.conf to check rewrite
       run: head -n 200 doxygen.conf
