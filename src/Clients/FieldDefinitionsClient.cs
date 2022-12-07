@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    partial class FieldDefinitionsClient
+    internal partial class FieldDefinitionsClient
     {
         public async Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
