@@ -67,7 +67,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
         /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
-        /// <returns></returns>
+        /// <returns>IRepositoryApiClient</returns>
         public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
             if (httpRequestHandler == null)
@@ -93,12 +93,12 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Create a Laserfiche repository client that will use OAuth client credentials to get access tokens.
+        /// Create a Laserfiche repository client that will use Laserfiche Cloud OAuth client credentials to get access tokens.
         /// </summary>
-        /// <param name="servicePrincipalKey"></param>
-        /// <param name="accessKey"></param>
+        /// <param name="servicePrincipalKey">The service principal key created for the service principal from the Laserfiche Account Administration.</param>
+        /// <param name="accessKey">The access key exported from the Laserfiche Developer Console.</param>
         /// <param name="baseUrlDebug"> Optional override for the Laserfiche repository API base url.</param>
-        /// <returns></returns>
+        /// <returns>IRepositoryApiClient</returns>
         public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
         {
             var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
@@ -106,16 +106,16 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Create a Laserfiche repository client that will use username and password to get access tokens for Laserfiche API. Password credentials grant type is implemented by the self-hosted API server. Not available in cloud.
+        /// Create a Laserfiche repository client that will use username and password to get access tokens for Laserfiche API. Password credentials grant type is implemented by the Laserfiche Self-Hosted API server. Not available in cloud.
         /// </summary>
-        /// <param name="repoId"></param>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="baseUrl">API server base URL e.g., https://example.com/LFRepositoryAPI/</param>
-        /// <returns></returns>
-        public static IRepositoryApiClient CreateFromUsernamePassword(string repoId, string username, string password, string baseUrl)
+        /// <param name="repositoryId">The repository ID.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="baseUrl">API server base URL e.g., https://{APIServerName}/LFRepositoryAPI.</param>
+        /// <returns>IRepositoryApiClient</returns>
+        public static IRepositoryApiClient CreateFromUsernamePassword(string repositoryId, string username, string password, string baseUrl)
         {
-            var httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl);
+            var httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
         }
     }

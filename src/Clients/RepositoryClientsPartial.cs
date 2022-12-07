@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns a human-readable summary of the <see cref="CreateEntryResult"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A human-readable summary of the <see cref="CreateEntryResult"/>.</returns>
         public string GetSummary()
         {
             var messages = new List<string>();

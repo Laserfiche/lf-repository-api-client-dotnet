@@ -16,7 +16,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="uriString">Uri string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get entry successfully.</returns>
         Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
         /// <summary>

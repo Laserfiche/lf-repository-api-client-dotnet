@@ -4,3 +4,5 @@
 *.cache
 *.manifest
 *.env
+docs_temp
+doxygen.conf
