@@ -14,10 +14,15 @@ namespace Laserfiche.Repository.Api.Client
         private readonly string _baseUrlDebug;
         private Uri _baseAddress;
 
+        private int _maxRetryDelay;
+        private readonly Random _randomNumGenerator;
+
         public RepositoryApiClientHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug) : base(new HttpClientHandler())
         {
             _httpRequestHandler = httpRequestHandler ?? throw new ArgumentNullException(nameof(httpRequestHandler));
             _baseUrlDebug = baseUrlDebug;
+            _maxRetryDelay = 3;
+            _randomNumGenerator= new Random();
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -41,6 +46,10 @@ namespace Laserfiche.Repository.Api.Client
                 if (returnNullIfRetriable)
                 {
                     Console.WriteLine($"Exception caught at retrieving access token: {ex.Message}");
+                    // wait for some random time
+                    int delayTime = _randomNumGenerator.Next(1000*_maxRetryDelay);
+                    await Task.Delay(delayTime);
+
                     return null;
                 }
                 else
