@@ -31,7 +31,24 @@ namespace Laserfiche.Repository.Api.Client
             HttpResponseMessage response;
 
             // Sets the authorization header
-            var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
+            BeforeSendResult beforeSendResult;
+            try
+            {
+                beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (returnNullIfRetriable)
+                {
+                    Console.WriteLine($"Exception caught at retrieving access token: {ex.Message}");
+                    return null;
+                }
+                else
+                {
+                    Console.WriteLine($"Exception thrown after re-try: {ex.Message}");
+                    throw;
+                }
+            }
 
             if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
             {
