@@ -42,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
             }
-            catch (APIServerException ex)
+            catch (Exception ex)
             {
                 if (returnNullIfRetriable)
                 {
