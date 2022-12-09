@@ -82,7 +82,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         public async Task GetSearchResults_SimplePaging()
         {
             int maxPageSize = 1;
-
+            int totalCount;
             // Create search first
             var request = new AdvancedSearchRequest()
             {
@@ -94,14 +94,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 
             await Task.Delay(10000);
 
+            totalCount = (await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token)).Value.Count;
+            if (totalCount <= maxPageSize)
+            {
+                return; // There's no point testing if the items do not need more than one page.
+            }
+
             // Initial request
             var result = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(result);
-
-            if (result.Value.Count == 0)
-            {
-                return; // There's no point testing if we don't have any such item.
-            }
 
             var nextLink = result.OdataNextLink;
             Assert.IsNotNull(nextLink);
