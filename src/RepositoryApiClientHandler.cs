@@ -1,4 +1,5 @@
-﻿using Laserfiche.Api.Client.HttpHandlers;
+﻿using Laserfiche.Api.Client;
+using Laserfiche.Api.Client.HttpHandlers;
 using Laserfiche.Api.Client.Utils;
 using System;
 using System.Net;
@@ -41,20 +42,30 @@ namespace Laserfiche.Repository.Api.Client
             {
                 beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
             }
-            catch (Exception ex)
+            catch (APIServerException ex)
             {
                 if (returnNullIfRetriable)
                 {
                     Console.WriteLine($"Exception caught at retrieving access token: {ex.Message}");
-                    // wait for some random time
-                    int delayTime = _randomNumGenerator.Next(1000*_maxRetryDelay);
-                    await Task.Delay(delayTime);
-
+                    if (ex is ApiException)
+                    {
+                        Console.WriteLine($"Status code: {(ex as ApiException).StatusCode}");
+                        Console.WriteLine($"ProblemDetails.Title: {(ex as ApiException).ProblemDetails.Title}");
+                        Console.WriteLine($"ProblemDetails.Type: {(ex as ApiException).ProblemDetails.Type}");
+                        Console.WriteLine($"ProblemDetails.Detail: {(ex as ApiException).ProblemDetails.Detail}");
+                    }
                     return null;
                 }
                 else
                 {
                     Console.WriteLine($"Exception thrown after re-try: {ex.Message}");
+                    if (ex is ApiException)
+                    {
+                        Console.WriteLine($"Status code: {(ex as ApiException).StatusCode}");
+                        Console.WriteLine($"ProblemDetails.Title: {(ex as ApiException).ProblemDetails.Title}");
+                        Console.WriteLine($"ProblemDetails.Type: {(ex as ApiException).ProblemDetails.Type}");
+                        Console.WriteLine($"ProblemDetails.Detail: {(ex as ApiException).ProblemDetails.Detail}");
+                    }
                     throw;
                 }
             }
