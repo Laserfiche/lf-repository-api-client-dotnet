@@ -84,16 +84,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 Assert.IsNotNull(e?.ProblemDetails?.Title);
                 Assert.AreEqual(e.ProblemDetails.Title, e.Message);
-                if (AuthorizationType == AuthorizationType.CloudAccessKey)
-                {
-                    Assert.AreEqual((int)HttpStatusCode.NotFound, e.StatusCode);
-                    Assert.AreEqual((int)HttpStatusCode.NotFound, e.ProblemDetails.Status);
-                }
-                else
-                {
-                    Assert.AreEqual((int)HttpStatusCode.Unauthorized, e.StatusCode);
-                    Assert.AreEqual((int)HttpStatusCode.Unauthorized, e.ProblemDetails.Status);
-                }
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.ProblemDetails.Status);
                 Assert.IsNotNull(e.ProblemDetails.OperationId);
                 Assert.IsNotNull(e.ProblemDetails.Type);
                 Assert.IsNotNull(e.ProblemDetails.Instance);
