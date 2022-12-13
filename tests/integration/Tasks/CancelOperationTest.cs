@@ -30,7 +30,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
             }
             catch (ApiException e)
             {
-                Assert.IsTrue(e.ProblemDetails.Title.Contains("Cannot cancel ended operation"));
+                Assert.IsTrue(e.ProblemDetails.Title.Contains("Cannot cancel completed operation"));
             }
         }
     }
