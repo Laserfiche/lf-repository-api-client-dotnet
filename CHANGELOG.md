@@ -22,8 +22,10 @@
   {
     Console.Error.WriteLine(e.Message);
     Console.Error.WriteLine(e);
-    CreateEntryResult partialSuccessResult = (CreateEntryResult)e.ProblemDetails.Extensions[typeof(CreateEntryResult).Name];
-    int createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
+    if (e?.ProblemDetails?.Extensions?.TryGetValue(nameof(CreateEntryResult), out var value) == true && value is CreateEntryResult partialSuccessResult)
+    {
+        int? createdEntryId = partialSuccessResult?.Operations?.EntryCreate?.EntryId;
+    }
   }
   ```
 
