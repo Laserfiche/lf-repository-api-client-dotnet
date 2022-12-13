@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
