@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -16,7 +17,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="uriString">Uri string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns></returns>
+        /// <returns>Get entry successfully.</returns>
         Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -139,7 +140,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    partial class EntriesClient
+    internal partial class EntriesClient
     {
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {

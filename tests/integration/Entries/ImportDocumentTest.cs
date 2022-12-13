@@ -1,5 +1,6 @@
 ﻿using Laserfiche.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -127,10 +128,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
                 Assert.IsNull(e.ProblemDetails.TraceId);
                 Assert.AreEqual(1, e.ProblemDetails.Extensions.Count);
-                var partialSuccessResult = (CreateEntryResult)e.ProblemDetails.Extensions[typeof(CreateEntryResult).Name];
-                Assert.IsNotNull(partialSuccessResult);
-                createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
-                Assert.IsTrue(e.Message.Contains(partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message));
+                if (e.ProblemDetails.Extensions.TryGetValue(nameof(CreateEntryResult), out var value) && value is CreateEntryResult partialSuccessResult)
+                {
+                    Assert.IsNotNull(partialSuccessResult);
+                    createdEntryId = partialSuccessResult.Operations.EntryCreate.EntryId;
+                    Assert.IsTrue(e.Message.Contains(partialSuccessResult.Operations.SetTemplate.Exceptions.First().Message));
+                }
+                else
+                {
+                    Assert.Fail($"{nameof(CreateEntryResult)} is missing from the exception.");
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    partial class AttributesClient
+    internal partial class AttributesClient
     {
         public async Task GetTrusteeAttributeKeyValuePairsForEachAsync(Func<ODataValueContextOfListOfAttribute, Task<bool>> callback, string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {

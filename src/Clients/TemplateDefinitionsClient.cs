@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -97,7 +98,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    partial class TemplateDefinitionsClient
+    internal partial class TemplateDefinitionsClient
     {
         public async Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, Task<bool>> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
