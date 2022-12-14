@@ -15,7 +15,7 @@ Technically you could use any editors you like. But it's more convenient if you 
 
 ### Build, Test, and Package
 
-See the `./workflow/main.yml`.
+See the [.github/workflows/main.yml](https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/HEAD/.github/workflows/main.yml).
 
 ### Change Log
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -73,7 +74,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    partial class SearchesClient
+    internal partial class SearchesClient
     {
         public async Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
 
