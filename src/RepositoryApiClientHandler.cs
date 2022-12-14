@@ -15,15 +15,10 @@ namespace Laserfiche.Repository.Api.Client
         private readonly string _baseUrlDebug;
         private Uri _baseAddress;
 
-        private int _maxRetryDelay;
-        private readonly Random _randomNumGenerator;
-
         public RepositoryApiClientHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug) : base(new HttpClientHandler())
         {
             _httpRequestHandler = httpRequestHandler ?? throw new ArgumentNullException(nameof(httpRequestHandler));
             _baseUrlDebug = baseUrlDebug;
-            _maxRetryDelay = 3;
-            _randomNumGenerator= new Random();
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -37,38 +32,7 @@ namespace Laserfiche.Repository.Api.Client
             HttpResponseMessage response;
 
             // Sets the authorization header
-            BeforeSendResult beforeSendResult;
-            try
-            {
-                beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                if (returnNullIfRetriable)
-                {
-                    Console.WriteLine($"Exception caught at retrieving access token: {ex.Message}");
-                    if (ex is ApiException)
-                    {
-                        Console.WriteLine($"Status code: {(ex as ApiException).StatusCode}");
-                        Console.WriteLine($"ProblemDetails.Title: {(ex as ApiException).ProblemDetails.Title}");
-                        Console.WriteLine($"ProblemDetails.Type: {(ex as ApiException).ProblemDetails.Type}");
-                        Console.WriteLine($"ProblemDetails.Detail: {(ex as ApiException).ProblemDetails.Detail}");
-                    }
-                    return null;
-                }
-                else
-                {
-                    Console.WriteLine($"Exception thrown after re-try: {ex.Message}");
-                    if (ex is ApiException)
-                    {
-                        Console.WriteLine($"Status code: {(ex as ApiException).StatusCode}");
-                        Console.WriteLine($"ProblemDetails.Title: {(ex as ApiException).ProblemDetails.Title}");
-                        Console.WriteLine($"ProblemDetails.Type: {(ex as ApiException).ProblemDetails.Type}");
-                        Console.WriteLine($"ProblemDetails.Detail: {(ex as ApiException).ProblemDetails.Detail}");
-                    }
-                    throw;
-                }
-            }
+            var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
 
             if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
             {
