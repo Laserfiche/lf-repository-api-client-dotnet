@@ -1,5 +1,4 @@
-﻿using Laserfiche.Api.Client;
-using Laserfiche.Api.Client.HttpHandlers;
+﻿using Laserfiche.Api.Client.HttpHandlers;
 using Laserfiche.Api.Client.Utils;
 using System;
 using System.Net;
