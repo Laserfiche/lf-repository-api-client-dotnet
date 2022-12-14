@@ -35,7 +35,6 @@ jobs:
       run: dotnet test tests/unit/Laserfiche.Repository.Api.Client.Test.csproj --no-build --verbosity normal --logger "trx;LogFileName=unit-test-results.trx"
 
     - name: Run integration tests
-      continue-on-error: true
       env:
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
