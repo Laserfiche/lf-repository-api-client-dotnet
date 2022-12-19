@@ -100,7 +100,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 
             if (result.Value.Count <= maxPageSize)
             {
-                return; // There's no point testing if the items do not need more than one page or do not exist
+                return; // There's no point testing if the items do not need more than one page or do not exist.
             }
 
             var nextLink = result.OdataNextLink;
