@@ -98,9 +98,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             var result = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token, prefer: $"maxpagesize={maxPageSize}");
             Assert.IsNotNull(result);
 
-            if (result.Value.Count == 0)
+            if (result.Value.Count <= maxPageSize)
             {
-                return; // There's no point testing if we don't have any such item.
+                return; // There's no point testing if the items do not need more than one page or do not exist.
             }
 
             var nextLink = result.OdataNextLink;
