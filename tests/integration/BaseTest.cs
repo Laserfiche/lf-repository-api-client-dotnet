@@ -77,7 +77,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
-        public IRepositoryApiClient CreateClient()
+        public IRepositoryApiClient CreateClient(bool nullUsernameAndPassword = false)
         {
             if (client == null)
             {
@@ -89,11 +89,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 }
                 else if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
                 {
-                    if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
-                        return null;
-                    client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, Username, Password, BaseUrl);
+                    //if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
+                    //    return null;
+                    if (nullUsernameAndPassword)
+                    {
+                        client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, null, null, BaseUrl);
+                    }
+                    else
+                    {
+                        client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, Username, Password, BaseUrl);
+                    }
                 }
-
                 client.DefaultRequestHeaders.Add(ApplicationNameHeaderKey, ApplicationNameHeaderValue);
                 if (!string.IsNullOrEmpty(TestHeader))
                 {
