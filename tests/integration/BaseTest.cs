@@ -89,8 +89,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 }
                 else if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
                 {
-                    //if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
-                    //    return null;
                     if (nullUsernameAndPassword)
                     {
                         client = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, null, null, BaseUrl);
