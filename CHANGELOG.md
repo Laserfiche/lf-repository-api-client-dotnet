@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+### Features
+- `CreateFromAccessKey` now has an optional parameter `scope` to specify the request scope(s) for the access token.
+
 ## 1.1.0
 
 ### Fixes

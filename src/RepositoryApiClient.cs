@@ -66,7 +66,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Create a Laserfiche repository client.
         /// </summary>
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
-        /// <param name="baseUrlDebug">Optional override for the Laserfiche repository API base url.</param>
+        /// <param name="baseUrlDebug">(optional) Override for the Laserfiche repository API base url.</param>
         /// <returns>IRepositoryApiClient</returns>
         public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
@@ -97,11 +97,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="servicePrincipalKey">The service principal key created for the service principal from the Laserfiche Account Administration.</param>
         /// <param name="accessKey">The access key exported from the Laserfiche Developer Console.</param>
-        /// <param name="baseUrlDebug"> Optional override for the Laserfiche repository API base url.</param>
+        /// <param name="scope">(optional) The requested space-delimited scopes for the access token.</param>
+        /// <param name="baseUrlDebug">(optional) Override for the Laserfiche repository API base url.</param>
         /// <returns>IRepositoryApiClient</returns>
-        public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string baseUrlDebug = null)
+        public static IRepositoryApiClient CreateFromAccessKey(string servicePrincipalKey, AccessKey accessKey, string scope = null, string baseUrlDebug = null)
         {
-            var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
+            var httpRequestHandler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey, scope);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrlDebug);
         }
 
