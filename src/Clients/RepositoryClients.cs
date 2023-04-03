@@ -380,7 +380,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -563,7 +563,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -699,7 +699,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -852,7 +852,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1013,7 +1013,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1197,7 +1197,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1349,7 +1349,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1537,7 +1537,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1682,7 +1682,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1857,7 +1857,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1996,7 +1996,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2144,7 +2144,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2319,7 +2319,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2471,7 +2471,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2609,7 +2609,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2754,7 +2754,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2801,37 +2801,37 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 400)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 401)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 403)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 404)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 423)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
                 if (status_ == 429)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
@@ -2871,7 +2871,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3031,7 +3031,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3178,7 +3178,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3335,7 +3335,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3473,7 +3473,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3626,7 +3626,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3824,7 +3824,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -3836,17 +3836,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -3962,7 +3962,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4106,7 +4106,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4291,7 +4291,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -4303,17 +4303,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -4417,7 +4417,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4580,7 +4580,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4768,7 +4768,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -4780,17 +4780,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -4900,7 +4900,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5044,7 +5044,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5229,7 +5229,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5241,17 +5241,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5311,7 +5311,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Append("v1/Repositories");
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5486,7 +5486,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5498,17 +5498,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5574,7 +5574,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5759,7 +5759,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -5771,17 +5771,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -5909,7 +5909,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6047,7 +6047,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6202,7 +6202,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6391,7 +6391,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6561,7 +6561,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6749,7 +6749,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -6761,17 +6761,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -6880,7 +6880,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6936,7 +6936,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 204)
                 {
-                    string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseText_, JsonSerializerSettings, null);
                 }
                 else
@@ -7084,7 +7084,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -7096,17 +7096,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -7226,7 +7226,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7376,7 +7376,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7561,7 +7561,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -7573,17 +7573,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -7665,7 +7665,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7820,7 +7820,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8000,7 +8000,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -8012,17 +8012,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -8184,7 +8184,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8334,7 +8334,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8502,7 +8502,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8670,7 +8670,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8858,7 +8858,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -8870,17 +8870,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -8968,7 +8968,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -9100,7 +9100,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -9232,7 +9232,7 @@ namespace Laserfiche.Repository.Api.Client
             urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[] { false };
+            bool[] disposeClient_ = new bool[]{ false };
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -9388,7 +9388,7 @@ namespace Laserfiche.Repository.Api.Client
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -9400,17 +9400,17 @@ namespace Laserfiche.Repository.Api.Client
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
@@ -11703,12 +11703,12 @@ namespace Laserfiche.Repository.Api.Client
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this(data, null, null)
+            : this (data, null, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string fileName)
-            : this(data, fileName, null)
+            : this (data, fileName, null)
         {
         }
 
@@ -11794,8 +11794,8 @@ namespace Laserfiche.Repository.Api.Client
 
 #pragma warning restore 1591
 #pragma warning restore 1573
-#pragma warning restore 472
-#pragma warning restore 114
-#pragma warning restore 108
+#pragma warning restore  472
+#pragma warning restore  114
+#pragma warning restore  108
 #pragma warning restore 3016
 #pragma warning restore 8603
