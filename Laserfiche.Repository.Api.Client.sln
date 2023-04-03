@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32630.192
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laserfiche.Repository.Api.Client", "src\Laserfiche.Repository.Api.Client.csproj", "{92C448D6-C50E-45FF-8C6D-E25FDBD65EB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laserfiche.Repository.Api.Client.Test", "tests\unit\Laserfiche.Repository.Api.Client.Test.csproj", "{1F63932D-3248-4A9A-ADC1-9A8A16F75440}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laserfiche.Repository.Api.Client.IntegrationTest", "tests\integration\Laserfiche.Repository.Api.Client.IntegrationTest.csproj", "{32DE1419-B73E-4D3F-960E-EF13F32F05D6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laserfiche.Api.Client.Core", "..\lf-api-client-core-dotnet\src\Laserfiche.Api.Client.Core.csproj", "{F6DD3BD4-2F3A-4980-9D70-30D284149C27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{32DE1419-B73E-4D3F-960E-EF13F32F05D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32DE1419-B73E-4D3F-960E-EF13F32F05D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32DE1419-B73E-4D3F-960E-EF13F32F05D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6DD3BD4-2F3A-4980-9D70-30D284149C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6DD3BD4-2F3A-4980-9D70-30D284149C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6DD3BD4-2F3A-4980-9D70-30D284149C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6DD3BD4-2F3A-4980-9D70-30D284149C27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
