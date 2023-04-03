@@ -139,10 +139,11 @@ namespace Laserfiche.Repository.Api.Client
             {
                 baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
             }
+            baseUrl = baseUrl + "/v1/Repositories";
             // make a get request without retry logic, beforesend/aftersend, custom http handlers, etc. (keep it simple)
             HttpResponseMessage response_ = await client_.GetAsync(baseUrl);
             var responseContent = await response_.Content.ReadAsStringAsync();
-            var jsonParsed = JObject.Parse(responseContent);
+            var jsonParsed = JArray.Parse(responseContent);
             List<RepositoryInfo> result = jsonParsed.ToObject<List<RepositoryInfo>>();
             return result;
         }
