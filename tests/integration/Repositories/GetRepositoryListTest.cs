@@ -37,7 +37,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         [TestMethod]
         public async Task GetSelfHostedRepositoryList_ReturnSuccessful()
         {
-            if (AuthorizationType != AuthorizationType.CloudAccessKey)
+            if (AuthorizationType == AuthorizationType.CloudAccessKey)
             {
                 return; // There's no point testing if it is a cloud environment
             }
