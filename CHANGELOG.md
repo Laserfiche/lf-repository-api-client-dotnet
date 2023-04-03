@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2
+
+## Fixes
+- Added `static async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetSelfHostedRepositoryListAsync(baseUrl: string)` method to the `RepositoryApiClient` class that will enable self hosted users to get their repo list without a jwt.
+
 ## 1.1.1
 
 ### Features
