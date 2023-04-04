@@ -316,7 +316,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class EntriesClient : BaseClient, IEntriesClient
+    public partial class EntriesClient : BaseClient, IEntriesClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -3889,7 +3889,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class AttributesClient : BaseClient, IAttributesClient
+    public partial class AttributesClient : BaseClient, IAttributesClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -4359,7 +4359,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class FieldDefinitionsClient : BaseClient, IFieldDefinitionsClient
+    public partial class FieldDefinitionsClient : BaseClient, IFieldDefinitionsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -4832,7 +4832,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
+    public partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -5275,7 +5275,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class RepositoriesClient : BaseClient, IRepositoriesClient
+    public partial class RepositoriesClient : BaseClient, IRepositoriesClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -5533,7 +5533,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class AuditReasonsClient : BaseClient, IAuditReasonsClient
+    public partial class AuditReasonsClient : BaseClient, IAuditReasonsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -5867,7 +5867,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class SearchesClient : BaseClient, ISearchesClient
+    public partial class SearchesClient : BaseClient, ISearchesClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -6805,7 +6805,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class SimpleSearchesClient : BaseClient, ISimpleSearchesClient
+    public partial class SimpleSearchesClient : BaseClient, ISimpleSearchesClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -7152,7 +7152,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class TagDefinitionsClient : BaseClient, ITagDefinitionsClient
+    public partial class TagDefinitionsClient : BaseClient, ITagDefinitionsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -7619,7 +7619,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class TasksClient : BaseClient, ITasksClient
+    public partial class TasksClient : BaseClient, ITasksClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -8105,7 +8105,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class TemplateDefinitionsClient : BaseClient, ITemplateDefinitionsClient
+    public partial class TemplateDefinitionsClient : BaseClient, ITemplateDefinitionsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -8926,7 +8926,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    internal partial class ServerSessionClient : BaseClient, IServerSessionClient
+    public partial class ServerSessionClient : BaseClient, IServerSessionClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;

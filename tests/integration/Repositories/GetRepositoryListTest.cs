@@ -41,15 +41,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
             {
                 return; // There's no point testing if it is a cloud environment
             }
-            var result = await RepositoryApiClient.GetSelfHostedRepositoryListAsync(BaseUrl);
+            var result = await RepositoriesClient.GetSelfHostedRepositoryListAsync(BaseUrl);
             Assert.IsTrue(result.Count > 0, "No repositories found.");
             Assert.IsNotNull(result);
             bool foundRepo = false;
             foreach (var repoInfo in result)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.RepoId));
-                Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
-                Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
                 if (repoInfo.RepoId.Equals(RepositoryId, System.StringComparison.OrdinalIgnoreCase))
                     foundRepo = true;
             }

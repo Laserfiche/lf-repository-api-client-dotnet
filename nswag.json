@@ -22,7 +22,6 @@
       "generateOptionalParameters": true,
       "generateUpdateJsonSerializerSettingsMethod": false,
       "useBaseUrl": false,
-      "clientClassAccessModifier": "internal",
       "templateDirectory": "nswag",
       "wrapResponses": true,
       "wrapResponseMethods": [ "EntriesClient.GetDocumentContentType" ],

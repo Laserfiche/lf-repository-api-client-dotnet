@@ -1,8 +1,6 @@
 ﻿using Laserfiche.Api.Client.HttpHandlers;
 using Laserfiche.Api.Client.OAuth;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -120,32 +118,6 @@ namespace Laserfiche.Repository.Api.Client
         {
             var httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
             return CreateFromHttpRequestHandler(httpRequestHandler, baseUrl);
-        }
-
-        /// <summary>
-        /// Returns the repository resource list that current user has access to given the API server base URL. Only available in Laserfiche Self-Hosted.
-        /// </summary>
-        /// <param name="baseUrl">API server base URL e.g., https://{APIServerName}/LFRepositoryAPI.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get the respository resource list successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public static async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetSelfHostedRepositoryListAsync(string baseUrl, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            // Get an http client (from a factory if possible in the future)
-            HttpClient client_ = new HttpClient();
-
-            // build the url
-            if (baseUrl.Trim().EndsWith("/"))
-            {
-                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-            }
-            baseUrl = baseUrl + "/v1/Repositories";
-            // make a get request without retry logic, beforesend/aftersend, custom http handlers, etc. (keep it simple)
-            HttpResponseMessage response_ = await client_.GetAsync(baseUrl);
-            var responseContent = await response_.Content.ReadAsStringAsync();
-            var jsonParsed = JArray.Parse(responseContent);
-            List<RepositoryInfo> result = jsonParsed.ToObject<List<RepositoryInfo>>();
-            return result;
         }
     }
 }

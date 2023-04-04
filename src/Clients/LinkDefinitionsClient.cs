@@ -38,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    internal partial class LinkDefinitionsClient
+    partial class LinkDefinitionsClient
     {
         public async Task GetLinkDefinitionsForEachAsync(Func<ODataValueContextOfIListOfEntryLinkTypeInfo, Task<bool>> callback, string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {

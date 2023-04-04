@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    internal partial class TagDefinitionsClient
+    partial class TagDefinitionsClient
     {
         public async Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {

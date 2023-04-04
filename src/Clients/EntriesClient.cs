@@ -140,7 +140,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
-    internal partial class EntriesClient
+    partial class EntriesClient
     {
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
