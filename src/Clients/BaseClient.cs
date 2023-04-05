@@ -8,7 +8,7 @@ using System;
 
 namespace Laserfiche.Repository.Api.Client
 {
-    internal class BaseClient
+    public abstract class BaseClient
     {
         protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)
         {

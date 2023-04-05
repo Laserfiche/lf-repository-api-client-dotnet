@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2 Pre-release
+
+### Features
+- Added `RepositoriesClient.GetSelfHostedRepositoryListAsync` method that will enable self hosted users to get their repository list without an access token.
+
 ## 1.1.1
 
 ### Features
