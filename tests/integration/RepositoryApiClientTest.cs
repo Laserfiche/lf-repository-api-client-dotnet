@@ -20,10 +20,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             IRepositoryApiClient invalidClient;
             switch (AuthorizationType)
             {
-                case AuthorizationType.CloudAccessKey:
+                case AuthorizationType.CLOUD_ACCESS_KEY:
                     invalidClient = RepositoryApiClient.CreateFromAccessKey("a wrong service principal key", AccessKey);
                     break;
-                case AuthorizationType.APIServerUsernamePassword:
+                case AuthorizationType.API_SERVER_USERNAME_PASSWORD:
                     invalidClient = RepositoryApiClient.CreateFromUsernamePassword(RepositoryId, Username, "wrong_password", BaseUrl);
                     break;
                 default:

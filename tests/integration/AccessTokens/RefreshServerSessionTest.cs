@@ -16,7 +16,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
         [TestMethod]
         public async Task RefreshServerSession_RefreshSuccessful()
         {
-            if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
+            if (AuthorizationType == AuthorizationType.API_SERVER_USERNAME_PASSWORD)
             {
                 return;
             }

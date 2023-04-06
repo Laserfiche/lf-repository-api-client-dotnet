@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
             foreach (var repoInfo in result)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(repoInfo.RepoId));
-                if (AuthorizationType != AuthorizationType.APIServerUsernamePassword)
+                if (AuthorizationType != AuthorizationType.API_SERVER_USERNAME_PASSWORD)
                 {
                     Assert.IsFalse(string.IsNullOrEmpty(repoInfo.WebclientUrl));
                     Assert.IsTrue(repoInfo.WebclientUrl.Contains(repoInfo.RepoId));
@@ -37,7 +37,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         [TestMethod]
         public async Task GetSelfHostedRepositoryList_ReturnSuccessful()
         {
-            if (AuthorizationType == AuthorizationType.CloudAccessKey)
+            if (AuthorizationType == AuthorizationType.CLOUD_ACCESS_KEY)
             {
                 return; // There's no point testing if it is a cloud environment
             }
