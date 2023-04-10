@@ -4,7 +4,7 @@
 
 ### Features
 - Added `RepositoriesClient.GetSelfHostedRepositoryListAsync` method that will enable self hosted users to get their repository list without an access token.
-- Changed `AuthorizationType` enums from `CloudAccessKey` and `APIServerUsernamePassword` to `CLOUD_ACCESS_KEY` and `API_SERVER_USERNAME_PASSWORD` respecitvely.
+- Changed `AuthorizationType` enum values from `CloudAccessKey` and `APIServerUsernamePassword` to `CLOUD_ACCESS_KEY` and `API_SERVER_USERNAME_PASSWORD` respecitvely.
 
 ## 1.1.1
 
