@@ -10,8 +10,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 {
     public enum AuthorizationType
     {
-        CloudAccessKey,
-        APIServerUsernamePassword
+        CLOUD_ACCESS_KEY,
+        API_SERVER_USERNAME_PASSWORD
     }
 
     public class BaseTest
@@ -81,13 +81,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         {
             if (client == null)
             {
-                if (AuthorizationType == AuthorizationType.CloudAccessKey)
+                if (AuthorizationType == AuthorizationType.CLOUD_ACCESS_KEY)
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
                     client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
                 }
-                else if (AuthorizationType == AuthorizationType.APIServerUsernamePassword)
+                else if (AuthorizationType == AuthorizationType.API_SERVER_USERNAME_PASSWORD)
                 {
                     if (string.IsNullOrEmpty(RepositoryId) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(BaseUrl))
                         return null;
