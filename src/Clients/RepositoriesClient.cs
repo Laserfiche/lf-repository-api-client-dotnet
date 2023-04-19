@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client
                     baseUrl = baseUrl.TrimEnd('/') + "/";
                 client_.BaseAddress = new Uri(baseUrl);
                 RepositoriesClient repositoriesClient = new RepositoriesClient(client_);
-                return await repositoriesClient.GetRepositoryListAsync(cancellationToken);
+                return await repositoriesClient.GetRepositoryListAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }
