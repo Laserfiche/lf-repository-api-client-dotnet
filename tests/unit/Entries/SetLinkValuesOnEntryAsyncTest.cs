@@ -99,7 +99,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     LinkTypeId = 2,
                     CustomProperties = entryLinkInfo2.LinkProperties
                 }
-            });
+            }).ConfigureAwait(false);
         
             var result = response.Value;
 
@@ -188,7 +188,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignEntryLinksAsync(repoId, entryId, new List<PutLinksRequest>()).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

@@ -17,14 +17,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetDynamicFields_ReturnDynamicFields()
         {
             // Get a template definition id
-            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var templateDefinitions = templateDefinitionResult.Value;
             Assert.IsNotNull(templateDefinitions);
             Assert.IsTrue(templateDefinitions.Count > 0, "No template definitions exist in the repository.");
 
             int entryId = 1;
             var request = new GetDynamicFieldLogicValueRequest() { TemplateId = templateDefinitions.First().Id };
-            var result = await client.EntriesClient.GetDynamicFieldValuesAsync(RepositoryId, entryId, request);
+            var result = await client.EntriesClient.GetDynamicFieldValuesAsync(RepositoryId, entryId, request).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
         }

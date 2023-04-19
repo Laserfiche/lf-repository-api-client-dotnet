@@ -86,7 +86,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var response = await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
             {
                 Tags = new List<string>() { tagInfo.Name, tagInfo2.Name }
-            });
+            }).ConfigureAwait(false);
             var result = response.Value;
 
             // ASSERT
@@ -194,7 +194,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignTagsAsync(repoId, entryId, new PutTagRequest()
             {
                 Tags = new List<string>() { tagInfo.Name, tagInfo2.Name }
-            }));
+            }).ConfigureAwait(false)).ConfigureAwait(false);
 
 
             // ASSERT

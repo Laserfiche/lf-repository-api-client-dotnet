@@ -101,7 +101,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request);
+            var result = await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -190,7 +190,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate: request).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

@@ -43,18 +43,18 @@ namespace Laserfiche.Repository.Api.Client
         public async Task GetLinkDefinitionsForEachAsync(Func<ODataValueContextOfIListOfEntryLinkTypeInfo, Task<bool>> callback, string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetLinkDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
+            var response = await GetLinkDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkDefinitionsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetLinkDefinitionsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetLinkDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
 }

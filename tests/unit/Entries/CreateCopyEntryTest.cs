@@ -70,7 +70,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request);
+            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -146,7 +146,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.CreateOrCopyEntryAsync(repoId, entryId, request));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.CreateOrCopyEntryAsync(repoId, entryId, request).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -223,7 +223,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request, autoRename: true);
+            var result = await client.EntriesClient.CreateOrCopyEntryAsync(repoId, (int)entry.ParentId, request, autoRename: true).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);

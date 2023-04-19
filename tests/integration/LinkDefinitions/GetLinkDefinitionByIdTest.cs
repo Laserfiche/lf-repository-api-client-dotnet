@@ -16,11 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         [TestMethod]
         public async Task GetLinkDefinitionByIdAsync_ReturnLinkDefinition()
         {
-            var allLinkDefinitionsResult = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId);
+            var allLinkDefinitionsResult = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstLinkDefinition = allLinkDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstLinkDefinition, "No link definitions exist in the repository.");
 
-            var linkDefinition = await client.LinkDefinitionsClient.GetLinkDefinitionByIdAsync(RepositoryId, firstLinkDefinition.LinkTypeId);
+            var linkDefinition = await client.LinkDefinitionsClient.GetLinkDefinitionByIdAsync(RepositoryId, firstLinkDefinition.LinkTypeId).ConfigureAwait(false);
 
             Assert.IsNotNull(linkDefinition);
             Assert.AreEqual(firstLinkDefinition.LinkTypeId, linkDefinition.LinkTypeId);

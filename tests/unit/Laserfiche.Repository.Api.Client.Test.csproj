@@ -6,6 +6,7 @@
     <Authors>Laserfiche</Authors>
     <Copyright>Apache License 2.0</Copyright>
     <PackageProjectUrl>https://www.laserfiche.com/</PackageProjectUrl>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

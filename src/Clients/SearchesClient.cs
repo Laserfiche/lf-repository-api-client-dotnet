@@ -80,35 +80,35 @@ namespace Laserfiche.Repository.Api.Client
 
         {
             // Initial request
-            var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
+            var response = await GetSearchResultsAsync(repoId, searchToken, groupByEntryType, refresh, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchResultsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchResultsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task GetSearchContextHitsForEachAsync(Func<ODataValueContextOfIListOfContextHit, Task<bool>> callback, string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
+            var response = await GetSearchContextHitsAsync(repoId, searchToken, rowNumber, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchContextHitsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task<ODataValueContextOfIListOfEntry> GetSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchResultsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchResultsSendAsync, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchContextHitsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
 }

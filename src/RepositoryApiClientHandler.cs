@@ -22,8 +22,8 @@ namespace Laserfiche.Repository.Api.Client
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return await SendExAsync(request, cancellationToken, true)
-                ?? await SendExAsync(request, cancellationToken, false);
+            return await SendExAsync(request, cancellationToken, true).ConfigureAwait(false)
+                ?? await SendExAsync(request, cancellationToken, false).ConfigureAwait(false);
         }
 
         private async Task<HttpResponseMessage> SendExAsync(HttpRequestMessage request, CancellationToken cancellationToken, bool returnNullIfRetriable)
@@ -31,7 +31,7 @@ namespace Laserfiche.Repository.Api.Client
             HttpResponseMessage response;
 
             // Sets the authorization header
-            var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken);
+            var beforeSendResult = await _httpRequestHandler.BeforeSendAsync(request, cancellationToken).ConfigureAwait(false);
 
             if (_baseAddress == null || (_baseUrlDebug == null && !_baseAddress.Host.EndsWith(beforeSendResult.RegionalDomain)))
             {
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client
 
             try
             {
-                response = await base.SendAsync(request, cancellationToken);
+                response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 if (returnNullIfRetriable && IsTransientHttpStatusCode(response.StatusCode) && IsIdempotentHttpMethod(request.Method))
                 {
                     return null;
@@ -59,7 +59,7 @@ namespace Laserfiche.Repository.Api.Client
                 }
             }
 
-            bool shouldRetry = await _httpRequestHandler.AfterSendAsync(response, cancellationToken);
+            bool shouldRetry = await _httpRequestHandler.AfterSendAsync(response, cancellationToken).ConfigureAwait(false);
             if (returnNullIfRetriable && shouldRetry)
             {
                 return null;

@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
@@ -33,9 +33,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task SetLinks_ReturnLinks()
         {
-            var sourceEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Source");
+            var sourceEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Source").ConfigureAwait(false);
             createdEntries.Add(sourceEntry);
-            var targetEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Target");
+            var targetEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Target").ConfigureAwait(false);
             createdEntries.Add(targetEntry);
             var request = new List<PutLinksRequest>()
             {
@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             };
 
-            var result = await client.EntriesClient.AssignEntryLinksAsync(RepositoryId, sourceEntry.Id, request);
+            var result = await client.EntriesClient.AssignEntryLinksAsync(RepositoryId, sourceEntry.Id, request).ConfigureAwait(false);
 
             var links = result.Value;
             Assert.IsNotNull(links);

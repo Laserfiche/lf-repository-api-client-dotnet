@@ -28,16 +28,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
             }
         }
 
         [TestMethod]
         public async Task GetEdoc_ReturnDocument()
         {
-            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContent");
+            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContent").ConfigureAwait(false);
 
-            using (var response = await client.EntriesClient.ExportDocumentAsync(RepositoryId, createdEntryId))
+            using (var response = await client.EntriesClient.ExportDocumentAsync(RepositoryId, createdEntryId).ConfigureAwait(false))
             {
                 Assert.AreEqual(200, response.StatusCode);
                 Assert.IsTrue(response.Headers.ContainsKey("Content-Type"));
@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 fileToWriteTo = Path.GetTempFileName();
                 using (Stream streamToWriteTo = File.Open(fileToWriteTo, FileMode.Create))
                 {
-                    await response.Stream.CopyToAsync(streamToWriteTo);
+                    await response.Stream.CopyToAsync(streamToWriteTo).ConfigureAwait(false);
                 }
             }
         }

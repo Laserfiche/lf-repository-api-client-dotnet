@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         [TestMethod]
         public async Task GetLinkDefinitionsAsync_ReturnAllLinks()
         {
-            var result = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId);
+            var result = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             Assert.IsNotNull(result.Value);
         }
 
@@ -38,8 +38,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
                 }
             }
 
-            await client.LinkDefinitionsClient.GetLinkDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
+            await client.LinkDefinitionsClient.GetLinkDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var result = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            var result = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
             Assert.IsNotNull(result);
 
             if (result.Value.Count == 0)
@@ -61,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
             Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.LinkDefinitionsClient.GetLinkDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            result = await client.LinkDefinitionsClient.GetLinkDefinitionsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
         }

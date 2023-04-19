@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
             }
         }
 
@@ -32,7 +32,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntry_ReturnRootFolder()
         {
             int entryId = 1;
-            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, entryId);
+            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, entryId).ConfigureAwait(false);
             Assert.IsNotNull(entry);
             Assert.AreEqual(typeof(Folder), entry.GetType());
             Assert.AreEqual(entryId, entry.Id);
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
 
                 var operations = result.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);
@@ -63,8 +63,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task GetEntry_ReturnDocument()
         {
-            createdEntryId = await CreateDocument();
-            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, createdEntryId);
+            createdEntryId = await CreateDocument().ConfigureAwait(false);
+            var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, createdEntryId).ConfigureAwait(false);
             Assert.IsNotNull(entry);
             Assert.AreEqual(typeof(Document), entry.GetType());
             Assert.AreEqual(createdEntryId, entry.Id);
@@ -78,7 +78,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             string repositoryId = "fakeRepository";
             try
             {
-                await client.EntriesClient.GetEntryAsync(repositoryId, entryId);
+                await client.EntriesClient.GetEntryAsync(repositoryId, entryId).ConfigureAwait(false);
             }
             catch (ApiException e)
             {

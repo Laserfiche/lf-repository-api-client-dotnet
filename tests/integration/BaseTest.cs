@@ -110,7 +110,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = entryName
             };
-            var newEntry = await client?.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename);
+            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename).ConfigureAwait(false);
             Assert.IsNotNull(newEntry);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
@@ -119,9 +119,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         public async Task DeleteEntry(IRepositoryApiClient client, int entryId, DeleteEntryWithAuditReason auditReason = null)
         {
-            var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason);
+            var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason).ConfigureAwait(false);
             Assert.IsNotNull(operation.Token);
-            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token);
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token).ConfigureAwait(false);
             Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
         }
 
@@ -133,7 +133,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, name, autoRename: true, electronicDocument: electronicDocument, request: request);
+                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, name, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
 
                 var operations = result.Operations;
                 Assert.IsNotNull(operations?.EntryCreate);

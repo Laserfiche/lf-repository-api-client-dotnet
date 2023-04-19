@@ -59,7 +59,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Repositories
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.RepositoriesClient.GetRepositoryListAsync();
+            var result = await client.RepositoriesClient.GetRepositoryListAsync().ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -117,7 +117,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Repositories
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.RepositoriesClient.GetRepositoryListAsync());
+            await Assert.ThrowsAsync<ApiException>(async () => await client.RepositoriesClient.GetRepositoryListAsync().ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

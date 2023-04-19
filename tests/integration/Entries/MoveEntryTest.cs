@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
@@ -32,9 +32,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task MoveAndRenameEntry_ReturnEntry()
         {
-            var parentFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ParentFolder");
+            var parentFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ParentFolder").ConfigureAwait(false);
             createdEntries.Add(parentFolder);
-            var childFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ChildFolder");
+            var childFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ChildFolder").ConfigureAwait(false);
             createdEntries.Add(childFolder);
             var request = new PatchEntryRequest()
             {
@@ -42,7 +42,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "RepositoryApiClientIntegrationTest .Net MovedFolder"
             };
 
-            var movedEntry = await client.EntriesClient.MoveOrRenameEntryAsync(RepositoryId, childFolder.Id, request, autoRename: true);
+            var movedEntry = await client.EntriesClient.MoveOrRenameEntryAsync(RepositoryId, childFolder.Id, request, autoRename: true).ConfigureAwait(false);
 
             Assert.IsNotNull(movedEntry);
             Assert.AreEqual(childFolder.Id, movedEntry.Id);

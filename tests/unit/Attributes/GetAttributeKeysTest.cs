@@ -55,7 +55,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId);
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -115,7 +115,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -176,7 +176,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Attributes
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone: true);
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(repoId, everyone: true).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);

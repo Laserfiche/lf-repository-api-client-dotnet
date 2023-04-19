@@ -60,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     TemplateId = 1,
                     FieldValues = fieldValsDict
             }
-            );
+            ).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(response);
@@ -126,7 +126,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 TemplateId = 1,
                 FieldValues = new Dictionary<string, string>() { ["1"] = "2" }
             }
-            ));
+            ).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

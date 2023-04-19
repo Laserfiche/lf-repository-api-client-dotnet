@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token).ConfigureAwait(false);
             }
         }
 
@@ -32,14 +32,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var searchResult = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            var searchResult = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
             token = searchResult.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            await Task.Delay(10000);
+            await Task.Delay(10000).ConfigureAwait(false);
 
             // Get search results
-            var searchResultsResult = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
+            var searchResultsResult = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token).ConfigureAwait(false);
             var searchResults = searchResultsResult.Value;
             Assert.IsNotNull(searchResults);
         }
@@ -54,11 +54,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"NLT\"})"
             };
-            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            await Task.Delay(10000);
+            await Task.Delay(10000).ConfigureAwait(false);
 
             Task<bool> PagingCallback(ODataValueContextOfIListOfEntry data)
             {
@@ -74,8 +74,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 }
             }
 
-            await client.SearchesClient.GetSearchResultsForEachAsync(PagingCallback, RepositoryId, token, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
+            await client.SearchesClient.GetSearchResultsForEachAsync(PagingCallback, RepositoryId, token, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
@@ -88,14 +88,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"NLT\"})"
             };
-            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            await Task.Delay(10000);
+            await Task.Delay(10000).ConfigureAwait(false);
 
             // Initial request
-            var result = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token, prefer: $"maxpagesize={maxPageSize}");
+            var result = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
             Assert.IsNotNull(result);
 
             if (result.Value.Count <= maxPageSize)
@@ -108,7 +108,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.SearchesClient.GetSearchResultsNextLinkAsync(nextLink, maxPageSize);
+            result = await client.SearchesClient.GetSearchResultsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
         }

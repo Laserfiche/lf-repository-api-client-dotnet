@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
                 return;
             }
 
-            var result = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId);
+            var result = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId).ConfigureAwait(false);
             Assert.AreEqual(true, result.Value);
         }
     }

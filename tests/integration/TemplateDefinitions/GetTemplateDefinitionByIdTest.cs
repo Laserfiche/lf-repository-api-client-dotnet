@@ -16,11 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task GetTemplateDefinitionById_ReturnTemplate()
         {
-            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition, "No template definitions exist in the repository.");
 
-            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(RepositoryId, firstTemplateDefinition.Id);
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(RepositoryId, firstTemplateDefinition.Id).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(firstTemplateDefinition.Id, result.Id);

@@ -63,7 +63,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId);
+            var result = await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -117,7 +117,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () =>  await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId));
+            await Assert.ThrowsAsync<ApiException>(async () =>  await client.EntriesClient.DeleteAssignedTemplateAsync(repoId, entryId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

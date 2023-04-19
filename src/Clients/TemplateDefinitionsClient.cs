@@ -103,52 +103,52 @@ namespace Laserfiche.Repository.Api.Client
         public async Task GetTemplateDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTemplateInfo, Task<bool>> callback, string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetTemplateDefinitionsAsync(repoId, templateName, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
+            var response = await GetTemplateDefinitionsAsync(repoId, templateName, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateDefinitionsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task GetTemplateFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, Task<bool>> callback, string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count);
+            var response = await GetTemplateFieldDefinitionsAsync(repoId, templateId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task GetTemplateFieldDefinitionsByTemplateNameForEachAsync(Func<ODataValueContextOfIListOfTemplateFieldInfo, Task<bool>> callback, string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
+            var response = await GetTemplateFieldDefinitionsByTemplateNameAsync(repoId, templateName, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTemplateFieldDefinitionsByTemplateNameSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateDefinitionsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTemplateFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -44,18 +44,18 @@ namespace Laserfiche.Repository.Api.Client
         public async Task GetTagDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetTagDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
+            var response = await GetTagDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagDefinitionsSendAsync, cancellationToken);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
 }

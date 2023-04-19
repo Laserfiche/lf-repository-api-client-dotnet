@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (entry != null)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
             }
         }
 
@@ -31,13 +31,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Find a template definition with no required fields
             WTemplateInfo template = null;
-            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var templateDefinitions = templateDefinitionResult.Value;
             Assert.IsNotNull(templateDefinitions);
             Assert.IsTrue(templateDefinitions.Count > 0, "No template definitions exist in the repository.");
             foreach (var templateDefinition in templateDefinitions)
             {
-                var templateDefinitionFieldsResult = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(RepositoryId, templateDefinition.Id);
+                var templateDefinitionFieldsResult = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(RepositoryId, templateDefinition.Id).ConfigureAwait(false);
                 if (templateDefinitionFieldsResult.Value != null && templateDefinitionFieldsResult.Value.All(f => !f.IsRequired))
                 {
                     template = templateDefinition;
@@ -51,13 +51,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 TemplateName = template.Name
             };
-            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net RemoveTemplateFromEntry");
-            var setTemplateEntryResult = await client.EntriesClient.WriteTemplateValueToEntryAsync(RepositoryId, entry.Id, request);
+            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net RemoveTemplateFromEntry").ConfigureAwait(false);
+            var setTemplateEntryResult = await client.EntriesClient.WriteTemplateValueToEntryAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
             Assert.IsNotNull(setTemplateEntryResult);
             Assert.AreEqual(template.Name, setTemplateEntryResult.TemplateName);
 
             // Delete the template on the entry
-            var deleteTemplateResponse = await client.EntriesClient.DeleteAssignedTemplateAsync(RepositoryId, entry.Id);
+            var deleteTemplateResponse = await client.EntriesClient.DeleteAssignedTemplateAsync(RepositoryId, entry.Id).ConfigureAwait(false);
             var returnedEntry = deleteTemplateResponse;
             Assert.IsNotNull(returnedEntry);
             Assert.AreEqual(entry.Id, returnedEntry.Id);
