@@ -16,11 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task GetTemplateDefinitionFieldsByTemplateName_ReturnTemplateFields()
         {
-            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition);
 
-            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name);
+            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name).ConfigureAwait(false);
             var templateFieldDefinitions = result.Value;
 
             Assert.IsNotNull(templateFieldDefinitions);
@@ -32,7 +32,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         {
             int maxPageSize = 10;
 
-            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition);
 
@@ -50,21 +50,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }
             }
 
-            await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, RepositoryId, firstTemplateDefinition.Name, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
+            await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, RepositoryId, firstTemplateDefinition.Name, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
         public async Task GetTemplateDefinitionFieldsByTemplateName_SimplePaging()
         {
-            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
             Assert.IsNotNull(firstTemplateDefinition);
 
             int maxPageSize = 1;
 
             // Initial request
-            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name, prefer: $"maxpagesize={maxPageSize}");
+            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
             Assert.IsNotNull(result);
 
             var nextLink = result.OdataNextLink;
@@ -72,7 +72,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(nextLink, maxPageSize);
+            result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsByTemplateNameNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
         }

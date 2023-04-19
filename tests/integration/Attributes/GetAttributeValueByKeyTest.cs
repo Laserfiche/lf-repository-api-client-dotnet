@@ -16,12 +16,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         [TestMethod]
         public async Task GetAttributeByKey_ReturnAttribute()
         {
-            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(RepositoryId);
+            var result = await client.AttributesClient.GetTrusteeAttributeKeyValuePairsAsync(RepositoryId).ConfigureAwait(false);
             var attributeKeys = result.Value;
             Assert.IsNotNull(attributeKeys);
             Assert.IsTrue(attributeKeys.Count > 0, "No attribute keys exist on the user.");
 
-            var attribute = await client.AttributesClient.GetTrusteeAttributeValueByKeyAsync(RepositoryId, attributeKeys.First().Key);
+            var attribute = await client.AttributesClient.GetTrusteeAttributeValueByKeyAsync(RepositoryId, attributeKeys.First().Key).ConfigureAwait(false);
             Assert.IsTrue(!string.IsNullOrEmpty(attribute.Value));
         }
     }

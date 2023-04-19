@@ -29,7 +29,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var electronicDocument = GetFileParameter();
             var request = new PostEntryWithEdocMetadataRequest();
 
-            var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+            var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
 
             var operations = result.Operations;
             createdEntryId = operations.EntryCreate.EntryId;
@@ -64,13 +64,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Find a template definition with no required fields
             WTemplateInfo template = null;
-            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId);
+            var templateDefinitionResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var templateDefinitions = templateDefinitionResult.Value;
             Assert.IsNotNull(templateDefinitions);
             Assert.IsTrue(templateDefinitions.Count > 0, "No template definitions exist in the repository.");
             foreach (var templateDefinition in templateDefinitions)
             {
-                var templateDefinitionFieldsResult = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(RepositoryId, templateDefinition.Id);
+                var templateDefinitionFieldsResult = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(RepositoryId, templateDefinition.Id).ConfigureAwait(false);
                 if (templateDefinitionFieldsResult.Value != null && templateDefinitionFieldsResult.Value.All(f => !f.IsRequired))
                 {
                     template = templateDefinition;
@@ -87,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Template = template.Name
             };
 
-            var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+            var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
 
             var operations = result.Operations;
             createdEntryId = operations.EntryCreate.EntryId;
@@ -113,7 +113,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             try
             {
-                await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request);
+                await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
             }
             catch (ApiException e)
             {

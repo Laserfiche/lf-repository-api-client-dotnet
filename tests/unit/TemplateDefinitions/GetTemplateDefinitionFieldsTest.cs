@@ -95,7 +95,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId);
+            var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -171,7 +171,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -258,7 +258,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             // ACT
             var result = await client.TemplateDefinitionsClient.GetTemplateFieldDefinitionsAsync(repoId, templateDefinitionId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
-                skip: skipQueryParameter, count: countQueryParameter);
+                skip: skipQueryParameter, count: countQueryParameter).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);

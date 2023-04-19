@@ -56,7 +56,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest);
+            var result = await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -119,7 +119,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Searches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SearchesClient.CreateSearchOperationAsync(repoId, searchRequest).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

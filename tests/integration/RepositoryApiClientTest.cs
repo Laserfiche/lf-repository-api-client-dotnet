@@ -31,7 +31,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                     return;
             }
 
-            var exception = await Assert.ThrowsExceptionAsync<ApiException>(async () => await invalidClient.EntriesClient.GetEntryAsync(RepositoryId, entryId));
+            var exception = await Assert.ThrowsExceptionAsync<ApiException>(async () => await invalidClient.EntriesClient.GetEntryAsync(RepositoryId, entryId).ConfigureAwait(false)).ConfigureAwait(false);
 
             Assert.AreEqual(401, exception.ProblemDetails.Status);
             Assert.AreEqual(exception.ProblemDetails.Status, exception.StatusCode);

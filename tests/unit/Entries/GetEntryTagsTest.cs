@@ -87,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId);
+            var result = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -156,7 +156,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId));
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -239,7 +239,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ACT
             var result = await client.EntriesClient.GetTagsAssignedToEntryAsync(repoId, entryId, prefer: preferHeaderValue,
                 select: selectQueryParameter, orderby: orderbyQueryParameter, top: topQueryParameter,
-                skip: skipQueryParameter, count: countQueryParameter);
+                skip: skipQueryParameter, count: countQueryParameter).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);

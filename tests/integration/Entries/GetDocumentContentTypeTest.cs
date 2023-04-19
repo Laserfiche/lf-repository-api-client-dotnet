@@ -23,16 +23,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (createdEntryId != 0)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
             }
         }
 
         [TestMethod]
         public async Task GetDocumentContentTypeAsync_ReturnHeaders()
         {
-            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContentTypeAsync");
+            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContentTypeAsync").ConfigureAwait(false);
 
-            var response = await client.EntriesClient.GetDocumentContentTypeAsync(RepositoryId, createdEntryId);
+            var response = await client.EntriesClient.GetDocumentContentTypeAsync(RepositoryId, createdEntryId).ConfigureAwait(false);
 
             Assert.AreEqual(200, response.StatusCode);
             Assert.IsTrue(response.Headers.ContainsKey("Content-Type"));
@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             string repositoryId = "fakeRepository";
             try
             {
-                await client.EntriesClient.GetDocumentContentTypeAsync(repositoryId, entryId);
+                await client.EntriesClient.GetDocumentContentTypeAsync(repositoryId, entryId).ConfigureAwait(false);
             }
             catch (ApiException e)
             {

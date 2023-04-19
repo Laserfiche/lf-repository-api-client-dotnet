@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Create a new folder that contains the created entry
             var testFolderName = "RepositoryApiClientIntegrationTest .Net CreateCopyEntry_CopyEntry_test_folder";
-            var testFolder = await CreateEntry(client, testFolderName);
+            var testFolder = await CreateEntry(client, testFolderName).ConfigureAwait(false);
             createdEntries.Add(testFolder);
 
             // Create new entry
@@ -44,7 +44,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, testFolder.Id, request, autoRename: true);
+            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, testFolder.Id, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(targetEntry);
             Assert.AreEqual(testFolder.Id, targetEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
@@ -55,12 +55,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "RepositoryApiClientIntegrationTest .Net CopiedEntry",
                 SourceId = targetEntry.Id
             };
-            var copyResult = await client.EntriesClient.CopyEntryAsync(RepositoryId, testFolder.Id, copyRequest, autoRename: true);
+            var copyResult = await client.EntriesClient.CopyEntryAsync(RepositoryId, testFolder.Id, copyRequest, autoRename: true).ConfigureAwait(false);
             var opToken = copyResult.Token;
 
             // Wait for the copy operation to finish
-            await Task.Delay(5000);
-            var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, opToken);
+            await Task.Delay(5000).ConfigureAwait(false);
+            var opResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, opToken).ConfigureAwait(false);
             Assert.AreEqual(OperationStatus.Completed, opResponse.Status);
         }
     }

@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = newEntryName
             };
 
-            var entry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var entry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(entry);
             createdEntries.Add(entry);
             Assert.AreEqual(parentEntryId, entry.ParentId);
@@ -60,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);
@@ -74,7 +74,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = newEntryName,
                 TargetId = targetEntry.Id
             };
-            var shortcut = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var shortcut = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(shortcut);
             createdEntries.Add(shortcut);
             Assert.AreEqual(parentEntryId, shortcut.ParentId);
@@ -96,7 +96,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);
@@ -110,7 +110,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = newEntryName,
                 TargetId = targetEntry.Id
             };
-            var shortcut = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var shortcut = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
 
             Assert.IsNotNull(shortcut);
             createdEntries.Add(shortcut);
@@ -123,7 +123,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "RepositoryApiClientIntegrationTest .Net CopiedEntry",
                 SourceId = shortcut.Id
             };
-            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             
             createdEntries.Add(newEntry);
             Assert.IsTrue(newEntry.Name.StartsWith(request.Name));
@@ -144,7 +144,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = newEntryName
             };
-            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            var targetEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);
@@ -156,7 +156,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = "RepositoryApiClientIntegrationTest .Net CopiedEntry",
                 SourceId = targetEntry.Id
             };
-            _ = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true);
+            _ = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: true).ConfigureAwait(false);
         }
     }
 }

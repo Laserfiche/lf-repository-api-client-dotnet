@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         [TestMethod]
         public async Task GetRepositoryList_ReturnSuccessful()
         {
-            var result = await client.RepositoriesClient.GetRepositoryListAsync();
+            var result = await client.RepositoriesClient.GetRepositoryListAsync().ConfigureAwait(false);
             Assert.IsTrue(result.Count > 0, "No repositories found.");
 
             bool foundRepo = false;
@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
             {
                 return; // There's no point testing if it is a cloud environment
             }
-            var result = await RepositoriesClient.GetSelfHostedRepositoryListAsync(BaseUrl);
+            var result = await RepositoriesClient.GetSelfHostedRepositoryListAsync(BaseUrl).ConfigureAwait(false);
             Assert.IsTrue(result.Count > 0, "No repositories found.");
             Assert.IsNotNull(result);
             bool foundRepo = false;

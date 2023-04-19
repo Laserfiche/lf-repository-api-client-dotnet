@@ -46,7 +46,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await client.TasksClient.CancelOperationAsync(repoId, operationToken);
+            await client.TasksClient.CancelOperationAsync(repoId, operationToken).ConfigureAwait(false);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");
@@ -97,7 +97,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Operations
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.CancelOperationAsync(repoId, operationToken));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.CancelOperationAsync(repoId, operationToken).ConfigureAwait(false)).ConfigureAwait(false);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");

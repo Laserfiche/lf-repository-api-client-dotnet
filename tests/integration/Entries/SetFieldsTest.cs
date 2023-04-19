@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             if (entry != null)
             {
                 DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body);
+                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
             }
         }
 
@@ -33,7 +33,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Find a string field
             WFieldInfo field = null;
             string fieldValue = "a";
-            var fieldDefinitionsResult = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId);
+            var fieldDefinitionsResult = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var fieldDefinitions = fieldDefinitionsResult.Value;
             Assert.IsNotNull(fieldDefinitions);
             foreach(var fieldDefinition in fieldDefinitions)
@@ -56,9 +56,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                     }
                 }
             };
-            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetFields");
+            entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetFields").ConfigureAwait(false);
 
-            var result = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody);
+            var result = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody).ConfigureAwait(false);
             var fields = result.Value;
             Assert.IsNotNull(fields);
             Assert.AreEqual(1, fields.Count);

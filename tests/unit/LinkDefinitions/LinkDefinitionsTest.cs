@@ -68,7 +68,7 @@ namespace Laserfiche.Repository.Api.Client.Test.LinkDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId);
+            var response = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId).ConfigureAwait(false);
             var result = response.Value;
             Assert.Equal(2, result.Count);
             for (int i = 0; i < 2; i++)
@@ -147,7 +147,7 @@ namespace Laserfiche.Repository.Api.Client.Test.LinkDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            _ = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId, prefer: "Prefer", select: "select", orderby: "orderby", top: 1, skip: 2, count: true);
+            _ = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId, prefer: "Prefer", select: "select", orderby: "orderby", top: 1, skip: 2, count: true).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it
@@ -197,7 +197,7 @@ namespace Laserfiche.Repository.Api.Client.Test.LinkDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

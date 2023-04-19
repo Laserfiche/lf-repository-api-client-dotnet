@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token);
+                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token).ConfigureAwait(false);
             }
         }
 
@@ -33,21 +33,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
-            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            await Task.Delay(5000);
+            await Task.Delay(5000).ConfigureAwait(false);
 
             // Get search results
-            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
+            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token).ConfigureAwait(false);
             var searchResults = searchResultsResponse.Value;
             Assert.IsNotNull(searchResults);
             Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
             int rowNumber = searchResults.First().RowNumber;
 
             // Get context hits
-            var contextHitsResponse = await client.SearchesClient.GetSearchContextHitsAsync(RepositoryId, token, rowNumber);
+            var contextHitsResponse = await client.SearchesClient.GetSearchContextHitsAsync(RepositoryId, token, rowNumber).ConfigureAwait(false);
             var contextHits = contextHitsResponse.Value;
             Assert.IsNotNull(contextHits);
         }
@@ -62,14 +62,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
-            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request);
+            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
             token = operation.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
 
-            await Task.Delay(5000);
+            await Task.Delay(5000).ConfigureAwait(false);
 
             // Get search results
-            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token);
+            var searchResultsResponse = await client.SearchesClient.GetSearchResultsAsync(RepositoryId, token).ConfigureAwait(false);
             var searchResults = searchResultsResponse.Value;
             Assert.IsNotNull(searchResults);
             Assert.IsTrue(searchResults.Count > 0, "No search results found. Cannot get context hits.");
@@ -89,8 +89,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 }
             }
 
-            await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, RepositoryId, token, rowNumber, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
+            await client.SearchesClient.GetSearchContextHitsForEachAsync(PagingCallback, RepositoryId, token, rowNumber, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
         }
     }
 }

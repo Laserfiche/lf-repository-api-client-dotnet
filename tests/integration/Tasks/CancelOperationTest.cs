@@ -16,16 +16,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         [TestMethod]
         public async Task CancelOpeartion_OperationEndedBeforeCancel()
         {
-            var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net CancelOperation");
+            var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net CancelOperation").ConfigureAwait(false);
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body);
+            var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
             var token = result.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
 
             try
             {
-                await Task.Delay(5000);
-                await client.TasksClient.CancelOperationAsync(RepositoryId, token);
+                await Task.Delay(5000).ConfigureAwait(false);
+                await client.TasksClient.CancelOperationAsync(RepositoryId, token).ConfigureAwait(false);
                 Assert.Fail("Long operation should have ended before cancel.");
             }
             catch (ApiException e)

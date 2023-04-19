@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         [TestMethod]
         public async Task GetTagDefinitions_ReturnAllTags()
         {
-            var result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
+            var result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             Assert.IsNotNull(result.Value);
         }
 
@@ -38,21 +38,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
                 }
             }
 
-            await client.TagDefinitionsClient.GetTagDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize);
-            await Task.Delay(5000);
+            await client.TagDefinitionsClient.GetTagDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
         public async Task GetTagDefinitions_SimplePaging()
         {
             // Get total count of tags
-            var  result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId);
+            var  result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             int tagsCount = result.Value.Count;
 
             int maxPageSize = 1;
 
             // Initial request
-            result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}");
+            result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
 
@@ -65,7 +65,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
             Assert.IsNotNull(nextLink);
 
             // Paging request
-            result = await client.TagDefinitionsClient.GetTagDefinitionsNextLinkAsync(nextLink, maxPageSize);
+            result = await client.TagDefinitionsClient.GetTagDefinitionsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
         }

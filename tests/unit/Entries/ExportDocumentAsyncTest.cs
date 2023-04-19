@@ -77,7 +77,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     var client = new RepositoryApiClient(httpClient);
 
                     // ACT
-                    var swaggerResponse = await client.EntriesClient.ExportDocumentAsync(repoId, entryId, range : "bytes=0-200, 300-400");
+                    var swaggerResponse = await client.EntriesClient.ExportDocumentAsync(repoId, entryId, range : "bytes=0-200, 300-400").ConfigureAwait(false);
 
                     // ASSERT
                     string result = "";
@@ -152,7 +152,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     var client = new RepositoryApiClient(httpClient);
 
                     // ACT
-                    var swaggerResponse = await client.EntriesClient.ExportDocumentAsync(repoId, entryId, range : "bytes=0-200, 300-400");
+                    var swaggerResponse = await client.EntriesClient.ExportDocumentAsync(repoId, entryId, range : "bytes=0-200, 300-400").ConfigureAwait(false);
 
                     // ASSERT
                     string result = "";
@@ -218,7 +218,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.ExportDocumentAsync(repoId, entryId));
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.ExportDocumentAsync(repoId, entryId).ConfigureAwait(false)).ConfigureAwait(false);
 
             // ASSERT
             // also check the 'http' call was like we expected it

@@ -85,7 +85,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetEntryAsync(uriString);
+            var result = await client.EntriesClient.GetEntryAsync(uriString).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
@@ -168,7 +168,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(acceptLanguageHeaderValue));
 
             // ACT
-            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
+            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id).ConfigureAwait(false);
 
             // ASSERT
             Assert.NotNull(result);
