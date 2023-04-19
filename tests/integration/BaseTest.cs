@@ -110,7 +110,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 EntryType = PostEntryChildrenEntryType.Folder,
                 Name = entryName
             };
-            var newEntry = await (client?.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename)).ConfigureAwait(false);
+            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename).ConfigureAwait(false);
             Assert.IsNotNull(newEntry);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
