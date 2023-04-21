@@ -15,8 +15,25 @@
       "namespace": "Laserfiche.Repository.Api.Client",
       "output": "src/Clients/RepositoryClients.cs",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
-      "additionalNamespaceUsages": [ "Laserfiche.Api.Client" ],
-      "excludedTypeNames": [ "ProblemDetails" ],
+      "additionalNamespaceUsages": [
+        "Laserfiche.Api.Client",
+        "System",
+        "System.CodeDom.Compiler",
+        "System.Collections.Generic",
+        "System.Globalization",
+        "System.IO",
+        "System.Linq",
+        "System.Net.Http",
+        "System.Net.Http.Headers",
+        "System.Reflection",
+        "System.Runtime.Serialization",
+        "System.Text",
+        "System.Threading",
+        "System.Threading.Tasks"
+      ],
+      "excludedTypeNames": [
+        "ProblemDetails"
+      ],
       "generateClientInterfaces": true,
       "generateExceptionClasses": false,
       "generateOptionalParameters": true,
@@ -24,7 +41,9 @@
       "useBaseUrl": false,
       "templateDirectory": "nswag",
       "wrapResponses": true,
-      "wrapResponseMethods": [ "EntriesClient.GetDocumentContentType" ],
+      "wrapResponseMethods": [
+        "EntriesClient.GetDocumentContentType"
+      ],
       "responseClass": "HttpResponseHead"
     }
   }

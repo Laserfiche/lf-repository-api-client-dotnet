@@ -85,25 +85,11 @@ jobs:
         dot -V
 
     - name: Create temporary directory
-      run: mkdir -p ./docs_temp/${{ github.ref_name }}
-
-    - name: Generate doxygen config
-      run: doxygen -g doxygen.conf
+      run: mkdir -p ./generated_documentation/
 
     - name: Rewrite doxygen config
       run: |
-        sed -i 's|"My Project"|${{ github.event.repository.name }}|i' doxygen.conf
-        sed -i 's|PROJECT_LOGO           =|PROJECT_LOGO           = logo.png|i' doxygen.conf
-        sed -i 's|EXCLUDE                =|EXCLUDE                = ./tests|i' doxygen.conf
-        sed -i "s|OUTPUT_DIRECTORY       =|OUTPUT_DIRECTORY       = ./docs_temp/${{ github.ref_name }}/|i" doxygen.conf
-        sed -i 's|RECURSIVE              = NO|RECURSIVE              = YES|i' doxygen.conf
-        sed -i 's|GENERATE_LATEX         = YES|GENERATE_LATEX         = NO|i' doxygen.conf
-        sed -i 's|EXTRACT_STATIC         = NO|EXTRACT_STATIC         = YES|i' doxygen.conf
-        sed -i 's|USE_MDFILE_AS_MAINPAGE =|USE_MDFILE_AS_MAINPAGE = README.md|i' doxygen.conf
-        sed -i 's|MACRO_EXPANSION        = NO|MACRO_EXPANSION        = YES|i' doxygen.conf
-        sed -i 's|EXPAND_ONLY_PREDEF     = NO|EXPAND_ONLY_PREDEF     = YES|i' doxygen.conf
-        sed -i 's|PREDEFINED             =|PREDEFINED             = protected=private|i' doxygen.conf
-        sed -i 's|SORT_BRIEF_DOCS        = NO|SORT_BRIEF_DOCS        = YES|i' doxygen.conf
+        sed -i 's|PROJECT_NUMBER         = version|PROJECT_NUMBER         = ${{ env.VERSION_PREFIX }}|i' doxygen.conf
 
     - name: Dump doxygen.conf to check rewrite
       run: head -n 200 doxygen.conf
@@ -115,13 +101,10 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: documentation-artifact
-        path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/html
+        path: ${{ github.workspace }}/generated_documentation/html
 
     - name: Delete temporary directory
-      run: rm -r ./docs_temp
-
-    - name: Delete doxygen config
-      run: rm -f doxygen.conf
+      run: rm -r ./generated_documentation
 
 
   publish-documentation:
@@ -132,13 +115,13 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
     - name: Create temporary directory
-      run: mkdir -p ./docs_temp/${{ github.ref_name }}/html/
+      run: mkdir -p ./generated_documentation/html/
 
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.0
       with:
         name: documentation-artifact
-        path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/html/
+        path: ${{ github.workspace }}/generated_documentation/html/
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -148,10 +131,10 @@ jobs:
         aws-region: us-west-2 # Use your bucket region here
 
     - name: Upload docs to S3 bucket
-      run: aws s3 sync ./docs_temp/${{ github.ref_name }}/html/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
+      run: aws s3 sync ./generated_documentation/html/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
 
     - name: Delete temporary directory
-      run: rm -r ./docs_temp/${{ github.ref_name }}/html/
+      run: rm -r ./generated_documentation/html/
 
 
   publish-preview-package:
