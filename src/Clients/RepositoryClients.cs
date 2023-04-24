@@ -5,6 +5,19 @@
 //----------------------
 
 using Laserfiche.Api.Client;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -19,7 +32,7 @@ namespace Laserfiche.Repository.Api.Client
 {
     using System = global::System;
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IEntriesClient
     {
 
@@ -36,7 +49,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -47,7 +60,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -58,7 +71,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The submitted audit reason.</param>
         /// <returns>Delete entry operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -74,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -85,7 +98,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fallbackToClosestAncestor">An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FindEntryResult> GetEntryByPathAsync(string repoId, string fullPath, bool? fallbackToClosestAncestor = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<FindEntryResult> GetEntryByPathAsync(string repoId, string fullPath, bool? fallbackToClosestAncestor = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -107,7 +120,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -122,7 +135,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -143,7 +156,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -155,7 +168,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -171,7 +184,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -182,7 +195,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="tagsToAdd">The tags to add.</param>
         /// <returns>Assign tags to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -192,7 +205,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Assign links to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, IEnumerable<PutLinksRequest> linksToAdd = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -208,7 +221,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -223,7 +236,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -233,7 +246,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Deleted edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -243,7 +256,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Get edoc info successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HttpResponseHead> GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<HttpResponseHead> GetDocumentContentTypeAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -255,7 +268,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            range with byte unit.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ExportDocumentAsync(string repoId, int entryId, string range = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<FileResponse> ExportDocumentAsync(string repoId, int entryId, string range = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -266,7 +279,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="pageRange">The pages to be deleted.</param>
         /// <returns>Deleted pages successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -278,7 +291,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            range with byte unit.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonAsync(string repoId, int entryId, GetEdocWithAuditReasonRequest request = null, string range = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<FileResponse> ExportDocumentWithAuditReasonAsync(string repoId, int entryId, GetEdocWithAuditReasonRequest request = null, string range = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -288,7 +301,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Get dynamic field logic values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<IDictionary<string, ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -298,7 +311,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The ID of the entry that will have its template removed.</param>
         /// <returns>Remove the currently assigned template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -311,20 +324,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class EntriesClient : BaseClient, IEntriesClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public EntriesClient(System.Net.Http.HttpClient httpClient)
+        public EntriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -336,9 +349,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -353,29 +366,29 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<CreateEntryResult> ImportDocumentAsync(string repoId, int parentEntryId, string fileName, bool? autoRename = null, string culture = null, FileParameter electronicDocument = null, PostEntryWithEdocMetadataRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (parentEntryId == null)
-                throw new System.ArgumentNullException("parentEntryId");
+                throw new ArgumentNullException("parentEntryId");
 
             if (fileName == null)
-                throw new System.ArgumentNullException("fileName");
+                throw new ArgumentNullException("fileName");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{parentEntryId}/{fileName}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{parentEntryId}", System.Uri.EscapeDataString(ConvertToString(parentEntryId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{fileName}", System.Uri.EscapeDataString(ConvertToString(fileName, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{parentEntryId}", Uri.EscapeDataString(ConvertToString(parentEntryId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{fileName}", Uri.EscapeDataString(ConvertToString(fileName, CultureInfo.InvariantCulture)));
             if (autoRename != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("autoRename") + "=").Append(System.Uri.EscapeDataString(ConvertToString(autoRename, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("autoRename") + "=").Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -383,37 +396,37 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var boundary_ = System.Guid.NewGuid().ToString();
-                    var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                    var boundary_ = Guid.NewGuid().ToString();
+                    var content_ = new MultipartFormDataContent(boundary_);
                     content_.Headers.Remove("Content-Type");
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
                     if (electronicDocument == null)
-                        throw new System.ArgumentNullException("electronicDocument");
+                        throw new ArgumentNullException("electronicDocument");
                     else
                     {
-                        var content_electronicDocument_ = new System.Net.Http.StreamContent(electronicDocument.Data);
+                        var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
                         if (!string.IsNullOrEmpty(electronicDocument.ContentType))
-                            content_electronicDocument_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
+                            content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
                         content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
                     }
 
                     if (request == null)
-                        throw new System.ArgumentNullException("request");
+                        throw new ArgumentNullException("request");
                     else
                     {
-                        content_.Add(new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value)), "request");
+                        content_.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value)), "request");
                     }
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -427,13 +440,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<CreateEntryResult> ImportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<CreateEntryResult> ImportDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -544,21 +557,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Entry> GetEntryAsync(string repoId, int entryId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -566,15 +579,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -588,13 +601,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> GetEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Entry> GetEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -685,35 +698,35 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The submitted audit reason.</param>
         /// <returns>Delete entry operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<AcceptedOperation> DeleteEntryInfoAsync(string repoId, int entryId, DeleteEntryWithAuditReason request = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -727,13 +740,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> DeleteEntryInfoSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<AcceptedOperation> DeleteEntryInfoSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -829,25 +842,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (autoRename != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("autoRename") + "=").Append(System.Uri.EscapeDataString(ConvertToString(autoRename, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("autoRename") + "=").Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -855,18 +868,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("PATCH");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -880,13 +893,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> MoveOrRenameEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Entry> MoveOrRenameEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -997,18 +1010,18 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fallbackToClosestAncestor">An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.</param>
         /// <returns>Get entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FindEntryResult> GetEntryByPathAsync(string repoId, string fullPath, bool? fallbackToClosestAncestor = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<FindEntryResult> GetEntryByPathAsync(string repoId, string fullPath, bool? fallbackToClosestAncestor = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/ByPath?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(System.Uri.EscapeDataString("fullPath") + "=").Append(System.Uri.EscapeDataString(fullPath != null ? ConvertToString(fullPath, System.Globalization.CultureInfo.InvariantCulture) : "")).Append("&");
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(Uri.EscapeDataString("fullPath") + "=").Append(Uri.EscapeDataString(fullPath != null ? ConvertToString(fullPath, CultureInfo.InvariantCulture) : "")).Append("&");
             if (fallbackToClosestAncestor != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("fallbackToClosestAncestor") + "=").Append(System.Uri.EscapeDataString(ConvertToString(fallbackToClosestAncestor, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("fallbackToClosestAncestor") + "=").Append(Uri.EscapeDataString(ConvertToString(fallbackToClosestAncestor, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1016,15 +1029,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1038,13 +1051,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<FindEntryResult> GetEntryByPathSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<FindEntryResult> GetEntryByPathSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1146,53 +1159,53 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get the children entries of a Folder successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfEntry> GetEntryListingAsync(string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (groupByEntryType != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("groupByEntryType") + "=").Append(System.Uri.EscapeDataString(ConvertToString(groupByEntryType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType") + "=").Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append("&");
             }
             if (fields != null)
             {
-                foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+                foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields") + "=").Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append("&"); }
             }
             if (formatFields != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("formatFields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(formatFields, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("formatFields") + "=").Append(Uri.EscapeDataString(ConvertToString(formatFields, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1200,18 +1213,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1225,13 +1238,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetEntryListingSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfEntry> GetEntryListingSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1326,25 +1339,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (autoRename != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("autoRename") + "=").Append(System.Uri.EscapeDataString(ConvertToString(autoRename, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("autoRename") + "=").Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1352,18 +1365,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1377,13 +1390,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> CreateOrCopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Entry> CreateOrCopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1494,45 +1507,45 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesAsync(string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/fields?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (formatValue != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("formatValue") + "=").Append(System.Uri.EscapeDataString(ConvertToString(formatValue, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("formatValue") + "=").Append(Uri.EscapeDataString(ConvertToString(formatValue, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1540,18 +1553,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1565,13 +1578,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1663,21 +1676,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, System.Collections.Generic.IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/fields?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1685,18 +1698,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(fieldsToUpdate, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(fieldsToUpdate, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1710,13 +1723,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfFieldValue> AssignFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfIListOfFieldValue> AssignFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1822,37 +1835,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/tags?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1860,18 +1873,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -1885,13 +1898,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -1982,35 +1995,35 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="tagsToAdd">The tags to add.</param>
         /// <returns>Assign tags to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, PutTagRequest tagsToAdd = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/tags");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(tagsToAdd, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(tagsToAdd, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2024,13 +2037,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWTagInfo> AssignTagsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfIListOfWTagInfo> AssignTagsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2130,35 +2143,35 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Assign links to an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, System.Collections.Generic.IEnumerable<PutLinksRequest> linksToAdd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, IEnumerable<PutLinksRequest> linksToAdd = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/links");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(linksToAdd, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(linksToAdd, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2172,13 +2185,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2284,37 +2297,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get links successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryAsync(string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/links?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -2322,18 +2335,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2347,13 +2360,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2448,25 +2461,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<AcceptedOperation> CopyEntryAsync(string repoId, int entryId, CopyAsyncRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/CopyAsync?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (autoRename != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("autoRename") + "=").Append(System.Uri.EscapeDataString(ConvertToString(autoRename, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("autoRename") + "=").Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -2474,18 +2487,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2499,13 +2512,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CopyEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<AcceptedOperation> CopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2595,32 +2608,32 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Deleted edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfBoolean> DeleteDocumentAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2634,13 +2647,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeleteDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfBoolean> DeleteDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2740,31 +2753,31 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested document ID.</param>
         /// <returns>Get edoc info successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<HttpResponseHead> GetDocumentContentTypeAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<HttpResponseHead> GetDocumentContentTypeAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("HEAD");
+                    request_.Method = new HttpMethod("HEAD");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2778,13 +2791,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<HttpResponseHead> GetDocumentContentTypeSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<HttpResponseHead> GetDocumentContentTypeSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2857,35 +2870,35 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            range with byte unit.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentAsync(string repoId, int entryId, string range = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<FileResponse> ExportDocumentAsync(string repoId, int entryId, string range = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (range != null)
-                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -2899,13 +2912,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<FileResponse> ExportDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -2917,7 +2930,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200 || status_ == 206)
                 {
-                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
                     disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
@@ -2925,7 +2938,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 206)
                 {
-                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
                     disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
@@ -3012,21 +3025,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="pageRange">The pages to be deleted.</param>
         /// <returns>Deleted pages successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfBoolean> DeletePagesAsync(string repoId, int entryId, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/pages?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (pageRange != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("pageRange") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pageRange, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("pageRange") + "=").Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -3034,15 +3047,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3056,13 +3069,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> DeletePagesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfBoolean> DeletePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -3164,38 +3177,38 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            range with byte unit.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonAsync(string repoId, int entryId, GetEdocWithAuditReasonRequest request = null, string range = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<FileResponse> ExportDocumentWithAuditReasonAsync(string repoId, int entryId, GetEdocWithAuditReasonRequest request = null, string range = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/GetEdocWithAuditReason");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (range != null)
-                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, System.Globalization.CultureInfo.InvariantCulture));
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3209,13 +3222,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<FileResponse> ExportDocumentWithAuditReasonSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<FileResponse> ExportDocumentWithAuditReasonSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -3227,7 +3240,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200 || status_ == 206)
                 {
-                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
                     disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
@@ -3235,7 +3248,7 @@ namespace Laserfiche.Repository.Api.Client
                 else
                 if (status_ == 206)
                 {
-                    var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
                     disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
                     return fileResponse_;
@@ -3321,35 +3334,35 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The requested entry ID.</param>
         /// <returns>Get dynamic field logic values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<IDictionary<string, ICollection<string>>> GetDynamicFieldValuesAsync(string repoId, int entryId, GetDynamicFieldLogicValueRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3363,13 +3376,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> GetDynamicFieldValuesSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<IDictionary<string, ICollection<string>>> GetDynamicFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -3381,7 +3394,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -3459,32 +3472,32 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="entryId">The ID of the entry that will have its template removed.</param>
         /// <returns>Remove the currently assigned template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Entry> DeleteAssignedTemplateAsync(string repoId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/template");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3498,13 +3511,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> DeleteAssignedTemplateSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Entry> DeleteAssignedTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -3607,21 +3620,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (entryId == null)
-                throw new System.ArgumentNullException("entryId");
+                throw new ArgumentNullException("entryId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Entries/{entryId}/template?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{entryId}", System.Uri.EscapeDataString(ConvertToString(entryId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{entryId}", Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -3629,18 +3642,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3654,13 +3667,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Entry> WriteTemplateValueToEntrySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Entry> WriteTemplateValueToEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -3767,7 +3780,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -3793,7 +3806,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -3809,53 +3822,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IAttributesClient
     {
 
@@ -3873,7 +3886,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute key value pairs successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -3884,20 +3897,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
         /// <returns>Get trustee attribute value successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AttributesClient : BaseClient, IAttributesClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public AttributesClient(System.Net.Http.HttpClient httpClient)
+        public AttributesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -3909,9 +3922,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -3927,37 +3940,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get trustee attribute key value pairs successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Attributes?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (everyone != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("everyone") + "=").Append(System.Uri.EscapeDataString(ConvertToString(everyone, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("everyone") + "=").Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -3965,18 +3978,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -3990,13 +4003,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -4087,21 +4100,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
         /// <returns>Get trustee attribute value successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (attributeKey == null)
-                throw new System.ArgumentNullException("attributeKey");
+                throw new ArgumentNullException("attributeKey");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Attributes/{attributeKey}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{attributeKey}", System.Uri.EscapeDataString(ConvertToString(attributeKey, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{attributeKey}", Uri.EscapeDataString(ConvertToString(attributeKey, CultureInfo.InvariantCulture)));
             if (everyone != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("everyone") + "=").Append(System.Uri.EscapeDataString(ConvertToString(everyone, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("everyone") + "=").Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -4109,15 +4122,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -4131,13 +4144,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<Attribute> GetTrusteeAttributeValueByKeySendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<Attribute> GetTrusteeAttributeValueByKeySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -4234,7 +4247,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -4260,7 +4273,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -4276,53 +4289,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IFieldDefinitionsClient
     {
 
@@ -4337,7 +4350,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get field definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -4354,20 +4367,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FieldDefinitionsClient : BaseClient, IFieldDefinitionsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public FieldDefinitionsClient(System.Net.Http.HttpClient httpClient)
+        public FieldDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -4379,9 +4392,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -4394,25 +4407,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get field definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<WFieldInfo> GetFieldDefinitionByIdAsync(string repoId, int fieldDefinitionId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (fieldDefinitionId == null)
-                throw new System.ArgumentNullException("fieldDefinitionId");
+                throw new ArgumentNullException("fieldDefinitionId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/FieldDefinitions/{fieldDefinitionId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{fieldDefinitionId}", System.Uri.EscapeDataString(ConvertToString(fieldDefinitionId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{fieldDefinitionId}", Uri.EscapeDataString(ConvertToString(fieldDefinitionId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -4420,15 +4433,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -4442,13 +4455,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<WFieldInfo> GetFieldDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<WFieldInfo> GetFieldDefinitionByIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -4545,37 +4558,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/FieldDefinitions?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -4583,18 +4596,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -4608,13 +4621,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -4711,7 +4724,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -4737,7 +4750,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -4753,53 +4766,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ILinkDefinitionsClient
     {
 
@@ -4816,7 +4829,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get link definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -4827,20 +4840,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get link definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public LinkDefinitionsClient(System.Net.Http.HttpClient httpClient)
+        public LinkDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -4852,9 +4865,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -4869,33 +4882,33 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get link definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsAsync(string repoId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/LinkDefinitions?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -4903,18 +4916,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -4928,13 +4941,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfEntryLinkTypeInfo> GetLinkDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -5025,21 +5038,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get link definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<EntryLinkTypeInfo> GetLinkDefinitionByIdAsync(string repoId, int linkTypeId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (linkTypeId == null)
-                throw new System.ArgumentNullException("linkTypeId");
+                throw new ArgumentNullException("linkTypeId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/LinkDefinitions/{linkTypeId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{linkTypeId}", System.Uri.EscapeDataString(ConvertToString(linkTypeId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{linkTypeId}", Uri.EscapeDataString(ConvertToString(linkTypeId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -5047,15 +5060,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -5069,13 +5082,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<EntryLinkTypeInfo> GetLinkDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<EntryLinkTypeInfo> GetLinkDefinitionByIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -5172,7 +5185,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -5198,7 +5211,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -5214,53 +5227,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IRepositoriesClient
     {
 
@@ -5270,20 +5283,20 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ICollection<RepositoryInfo>> GetRepositoryListAsync(CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class RepositoriesClient : BaseClient, IRepositoriesClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public RepositoriesClient(System.Net.Http.HttpClient httpClient)
+        public RepositoriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -5295,9 +5308,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5305,24 +5318,24 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ICollection<RepositoryInfo>> GetRepositoryListAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -5336,13 +5349,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RepositoryInfo>> GetRepositoryListSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ICollection<RepositoryInfo>> GetRepositoryListSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -5354,7 +5367,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<RepositoryInfo>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<ICollection<RepositoryInfo>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -5429,7 +5442,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -5455,7 +5468,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -5471,53 +5484,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IAuditReasonsClient
     {
 
@@ -5528,20 +5541,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Get audit reasons successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<AuditReasons> GetAuditReasonsAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AuditReasonsClient : BaseClient, IAuditReasonsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public AuditReasonsClient(System.Net.Http.HttpClient httpClient)
+        public AuditReasonsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -5553,9 +5566,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5564,28 +5577,28 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Get audit reasons successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<AuditReasons> GetAuditReasonsAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/AuditReasons");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -5599,13 +5612,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<AuditReasons> GetAuditReasonsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<AuditReasons> GetAuditReasonsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -5702,7 +5715,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -5728,7 +5741,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -5744,53 +5757,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ISearchesClient
     {
 
@@ -5802,7 +5815,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
         /// <returns>Search operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5812,7 +5825,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Search has failed. Check the errors property to find out why.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5822,7 +5835,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Cancel or closed search successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5845,7 +5858,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5862,20 +5875,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SearchesClient : BaseClient, ISearchesClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public SearchesClient(System.Net.Http.HttpClient httpClient)
+        public SearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -5887,9 +5900,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -5899,31 +5912,31 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
         /// <returns>Search operation start successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<AcceptedOperation> CreateSearchOperationAsync(string repoId, AdvancedSearchRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Searches");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -5937,13 +5950,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<AcceptedOperation> CreateSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<AcceptedOperation> CreateSearchOperationSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -6033,32 +6046,32 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Search has failed. Check the errors property to find out why.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<OperationProgress> GetSearchStatusAsync(string repoId, string searchToken, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (searchToken == null)
-                throw new System.ArgumentNullException("searchToken");
+                throw new ArgumentNullException("searchToken");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Searches/{searchToken}");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{searchToken}", Uri.EscapeDataString(ConvertToString(searchToken, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -6072,13 +6085,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<OperationProgress> GetSearchStatusSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<OperationProgress> GetSearchStatusSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -6188,32 +6201,32 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="searchToken">The requested searchToken.</param>
         /// <returns>Cancel or closed search successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueOfBoolean> CancelOrCloseSearchAsync(string repoId, string searchToken, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (searchToken == null)
-                throw new System.ArgumentNullException("searchToken");
+                throw new ArgumentNullException("searchToken");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Searches/{searchToken}");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{searchToken}", Uri.EscapeDataString(ConvertToString(searchToken, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("DELETE");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -6227,13 +6240,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CancelOrCloseSearchSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfBoolean> CancelOrCloseSearchSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -6336,57 +6349,57 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (searchToken == null)
-                throw new System.ArgumentNullException("searchToken");
+                throw new ArgumentNullException("searchToken");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Searches/{searchToken}/Results?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{searchToken}", Uri.EscapeDataString(ConvertToString(searchToken, CultureInfo.InvariantCulture)));
             if (groupByEntryType != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("groupByEntryType") + "=").Append(System.Uri.EscapeDataString(ConvertToString(groupByEntryType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType") + "=").Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append("&");
             }
             if (refresh != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("refresh") + "=").Append(System.Uri.EscapeDataString(ConvertToString(refresh, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("refresh") + "=").Append(Uri.EscapeDataString(ConvertToString(refresh, CultureInfo.InvariantCulture))).Append("&");
             }
             if (fields != null)
             {
-                foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+                foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields") + "=").Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append("&"); }
             }
             if (formatFields != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("formatFields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(formatFields, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("formatFields") + "=").Append(Uri.EscapeDataString(ConvertToString(formatFields, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -6394,18 +6407,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -6419,13 +6432,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> GetSearchResultsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfEntry> GetSearchResultsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -6522,41 +6535,41 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsAsync(string repoId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (searchToken == null)
-                throw new System.ArgumentNullException("searchToken");
+                throw new ArgumentNullException("searchToken");
 
             if (rowNumber == null)
-                throw new System.ArgumentNullException("rowNumber");
+                throw new ArgumentNullException("rowNumber");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Searches/{searchToken}/Results/{rowNumber}/ContextHits?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{searchToken}", System.Uri.EscapeDataString(ConvertToString(searchToken, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{rowNumber}", System.Uri.EscapeDataString(ConvertToString(rowNumber, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{searchToken}", Uri.EscapeDataString(ConvertToString(searchToken, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{rowNumber}", Uri.EscapeDataString(ConvertToString(rowNumber, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -6564,18 +6577,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -6589,13 +6602,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -6692,7 +6705,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -6718,7 +6731,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -6734,53 +6747,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ISimpleSearchesClient
     {
 
@@ -6800,20 +6813,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SimpleSearchesClient : BaseClient, ISimpleSearchesClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public SimpleSearchesClient(System.Net.Http.HttpClient httpClient)
+        public SimpleSearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -6825,9 +6838,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -6845,37 +6858,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>            culture will not be used for formatting.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, System.Collections.Generic.IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationAsync(string repoId, string select = null, string orderby = null, bool? count = null, IEnumerable<string> fields = null, bool? formatFields = null, SimpleSearchRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/SimpleSearches?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             if (fields != null)
             {
-                foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+                foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields") + "=").Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append("&"); }
             }
             if (formatFields != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("formatFields") + "=").Append(System.Uri.EscapeDataString(ConvertToString(formatFields, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("formatFields") + "=").Append(Uri.EscapeDataString(ConvertToString(formatFields, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -6883,18 +6896,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    var content_ = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -6908,13 +6921,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfEntry> CreateSimpleSearchOperationSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -7027,7 +7040,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -7053,7 +7066,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -7069,53 +7082,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ITagDefinitionsClient
     {
 
@@ -7134,7 +7147,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -7147,20 +7160,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get tag definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class TagDefinitionsClient : BaseClient, ITagDefinitionsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public TagDefinitionsClient(System.Net.Http.HttpClient httpClient)
+        public TagDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -7172,9 +7185,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -7191,37 +7204,37 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get tag definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsAsync(string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TagDefinitions?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -7229,18 +7242,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -7254,13 +7267,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfWTagInfo> GetTagDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -7353,25 +7366,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get tag definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<WTagInfo> GetTagDefinitionByIdAsync(string repoId, int tagId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (tagId == null)
-                throw new System.ArgumentNullException("tagId");
+                throw new ArgumentNullException("tagId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TagDefinitions/{tagId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{tagId}", System.Uri.EscapeDataString(ConvertToString(tagId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{tagId}", Uri.EscapeDataString(ConvertToString(tagId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -7379,15 +7392,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -7401,13 +7414,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<WTagInfo> GetTagDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<WTagInfo> GetTagDefinitionByIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -7504,7 +7517,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -7530,7 +7543,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -7546,53 +7559,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ITasksClient
     {
 
@@ -7604,7 +7617,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token</param>
         /// <returns>Get completed or failed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -7614,20 +7627,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task CancelOperationAsync(string repoId, string operationToken, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class TasksClient : BaseClient, ITasksClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public TasksClient(System.Net.Http.HttpClient httpClient)
+        public TasksClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -7639,9 +7652,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -7651,32 +7664,32 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token</param>
         /// <returns>Get completed or failed operation status with no result successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<OperationProgress> GetOperationStatusAndProgressAsync(string repoId, string operationToken, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (operationToken == null)
-                throw new System.ArgumentNullException("operationToken");
+                throw new ArgumentNullException("operationToken");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Tasks/{operationToken}");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{operationToken}", Uri.EscapeDataString(ConvertToString(operationToken, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -7690,13 +7703,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<OperationProgress> GetOperationStatusAndProgressSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<OperationProgress> GetOperationStatusAndProgressSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -7806,31 +7819,31 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="operationToken">The operation token</param>
         /// <returns>Cancel operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CancelOperationAsync(string repoId, string operationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task CancelOperationAsync(string repoId, string operationToken, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (operationToken == null)
-                throw new System.ArgumentNullException("operationToken");
+                throw new ArgumentNullException("operationToken");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/Tasks/{operationToken}");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{operationToken}", System.Uri.EscapeDataString(ConvertToString(operationToken, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{operationToken}", Uri.EscapeDataString(ConvertToString(operationToken, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+                    request_.Method = new HttpMethod("DELETE");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -7845,13 +7858,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task CancelOperationSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task CancelOperationSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -7943,7 +7956,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -7969,7 +7982,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -7985,53 +7998,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface ITemplateDefinitionsClient
     {
 
@@ -8051,7 +8064,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8064,7 +8077,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get template definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8082,7 +8095,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8100,20 +8113,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class TemplateDefinitionsClient : BaseClient, ITemplateDefinitionsClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public TemplateDefinitionsClient(System.Net.Http.HttpClient httpClient)
+        public TemplateDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -8125,9 +8138,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8145,41 +8158,41 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsAsync(string repoId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TemplateDefinitions?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
             if (templateName != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("templateName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(templateName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("templateName") + "=").Append(Uri.EscapeDataString(ConvertToString(templateName, CultureInfo.InvariantCulture))).Append("&");
             }
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -8187,18 +8200,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -8212,13 +8225,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfWTemplateInfo> GetTemplateDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -8311,25 +8324,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <returns>Get template definition successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<WTemplateInfo> GetTemplateDefinitionByIdAsync(string repoId, int templateId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (templateId == null)
-                throw new System.ArgumentNullException("templateId");
+                throw new ArgumentNullException("templateId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TemplateDefinitions/{templateId}?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{templateId}", System.Uri.EscapeDataString(ConvertToString(templateId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{templateId}", Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -8337,15 +8350,15 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -8359,13 +8372,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<WTemplateInfo> GetTemplateDefinitionByIdSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<WTemplateInfo> GetTemplateDefinitionByIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -8463,41 +8476,41 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsAsync(string repoId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
             if (templateId == null)
-                throw new System.ArgumentNullException("templateId");
+                throw new ArgumentNullException("templateId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TemplateDefinitions/{templateId}/Fields?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{templateId}", System.Uri.EscapeDataString(ConvertToString(templateId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{templateId}", Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -8505,18 +8518,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -8530,13 +8543,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -8634,38 +8647,38 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <returns>Get template field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameAsync(string repoId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/TemplateDefinitions/Fields?");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(System.Uri.EscapeDataString("templateName") + "=").Append(System.Uri.EscapeDataString(templateName != null ? ConvertToString(templateName, System.Globalization.CultureInfo.InvariantCulture) : "")).Append("&");
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(Uri.EscapeDataString("templateName") + "=").Append(Uri.EscapeDataString(templateName != null ? ConvertToString(templateName, CultureInfo.InvariantCulture) : "")).Append("&");
             if (culture != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("culture") + "=").Append(System.Uri.EscapeDataString(ConvertToString(culture, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("culture") + "=").Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append("&");
             }
             if (select != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$select") + "=").Append(System.Uri.EscapeDataString(ConvertToString(select, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$select") + "=").Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append("&");
             }
             if (orderby != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$orderby") + "=").Append(System.Uri.EscapeDataString(ConvertToString(orderby, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$orderby") + "=").Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append("&");
             }
             if (top != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$top") + "=").Append(System.Uri.EscapeDataString(ConvertToString(top, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$top") + "=").Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append("&");
             }
             if (skip != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$skip") + "=").Append(System.Uri.EscapeDataString(ConvertToString(skip, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$skip") + "=").Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append("&");
             }
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("$count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(Uri.EscapeDataString("$count") + "=").Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -8673,18 +8686,18 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
 
                     if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -8698,13 +8711,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueContextOfIListOfTemplateFieldInfo> GetTemplateFieldDefinitionsByTemplateNameSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -8801,7 +8814,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -8827,7 +8840,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -8843,53 +8856,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial interface IServerSessionClient
     {
 
@@ -8900,8 +8913,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        [Obsolete]
+        Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8910,8 +8923,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        [Obsolete]
+        Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8920,21 +8933,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        [Obsolete]
+        Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ServerSessionClient : BaseClient, IServerSessionClient
     {
-        private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private HttpClient _httpClient;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public ServerSessionClient(System.Net.Http.HttpClient httpClient)
+        public ServerSessionClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -8946,9 +8959,9 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -8957,30 +8970,30 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Invalidate the server session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [Obsolete]
+        public virtual async Task<ODataValueOfBoolean> InvalidateServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/ServerSession/Invalidate");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -8994,13 +9007,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> InvalidateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfBoolean> InvalidateServerSessionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -9089,30 +9102,30 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Refresh the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        public virtual async System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [Obsolete]
+        public virtual async Task<ODataValueOfDateTime> RefreshServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/ServerSession/Refresh");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -9126,13 +9139,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfDateTime> RefreshServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfDateTime> RefreshServerSessionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -9221,30 +9234,30 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <returns>Create the session successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [Obsolete]
+        public virtual async Task<ODataValueOfBoolean> CreateServerSessionAsync(string repoId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
-                throw new System.ArgumentNullException("repoId");
+                throw new ArgumentNullException("repoId");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
+            var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v1/Repositories/{repoId}/ServerSession/Create");
-            urlBuilder_.Replace("{repoId}", System.Uri.EscapeDataString(ConvertToString(repoId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{repoId}", Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                using (var request_ = new HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
 
@@ -9258,13 +9271,13 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public virtual async System.Threading.Tasks.Task<ODataValueOfBoolean> CreateServerSessionSendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        protected virtual async Task<ODataValueOfBoolean> CreateServerSessionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
             try
             {
-                var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                 if (response_.Content != null && response_.Content.Headers != null)
                 {
                     foreach (var item_ in response_.Content.Headers)
@@ -9331,7 +9344,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public bool ReadResponseAsString { get; set; }
 
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -9357,7 +9370,7 @@ namespace Laserfiche.Repository.Api.Client
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var streamReader = new StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
                         var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
@@ -9373,53 +9386,53 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                var name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
                         if (attribute != null)
                         {
                             return attribute.Value != null ? attribute.Value : name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted == null ? string.Empty : converted;
                 }
             }
             else if (value is bool) 
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return Convert.ToBase64String((byte[]) value);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array) value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
+            var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class CreateEntryResult
     {
         [Newtonsoft.Json.JsonProperty("operations", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -9436,7 +9449,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The results of each operation needed in order to create the electronic document with optional template and fields.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class CreateEntryOperations
     {
         [Newtonsoft.Json.JsonProperty("entryCreate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -9462,14 +9475,14 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The result of trying to create the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class EntryCreate
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
         /// <summary>
         /// The id of the created entry. If the id is 0, then the entry was not created.
@@ -9479,7 +9492,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class APIServerException
     {
         /// <summary>
@@ -9518,10 +9531,10 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("errorSource", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ErrorSource { get; set; }
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
 
         [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        public IDictionary<string, object> AdditionalProperties
         {
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
@@ -9532,28 +9545,28 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The result of trying to create the electronic document.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SetEdoc
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
     }
 
     /// <summary>
     /// The result of trying to assign a template to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SetTemplate
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
         /// <summary>
         /// The name of the template assigned to the entry. If this is null, then no template was assigned.
@@ -9566,14 +9579,14 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The result of trying to assign fields to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SetFields
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
         /// <summary>
         /// The number of fields assigned to the entry.
@@ -9586,336 +9599,336 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The result of trying to assign fields to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SetTags
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
         /// <summary>
         /// The tags that were assigned to the entry
         /// </summary>
         [Newtonsoft.Json.JsonProperty("assignedTags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> AssignedTags { get; set; }
+        public ICollection<string> AssignedTags { get; set; }
 
     }
 
     /// <summary>
     /// The result of trying to assign a entry link to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SetLinks
     {
         /// <summary>
         /// The list of exceptions that occured when trying to perform the operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exceptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<APIServerException> Exceptions { get; set; }
+        public ICollection<APIServerException> Exceptions { get; set; }
 
         /// <summary>
         /// The ids of the other entries linked to the entry
         /// </summary>
         [Newtonsoft.Json.JsonProperty("otherEntryIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<int> OtherEntryIds { get; set; }
+        public ICollection<int> OtherEntryIds { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public abstract partial class IHeaderDictionary
     {
         [Newtonsoft.Json.JsonProperty("Item", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Item { get; set; }
+        public ICollection<object> Item { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLength", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long? ContentLength { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Accept", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Accept { get; set; }
+        public ICollection<object> Accept { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptCharset", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AcceptCharset { get; set; }
+        public ICollection<object> AcceptCharset { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AcceptEncoding { get; set; }
+        public ICollection<object> AcceptEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptLanguage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AcceptLanguage { get; set; }
+        public ICollection<object> AcceptLanguage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptRanges", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AcceptRanges { get; set; }
+        public ICollection<object> AcceptRanges { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowCredentials", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlAllowCredentials { get; set; }
+        public ICollection<object> AccessControlAllowCredentials { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlAllowHeaders { get; set; }
+        public ICollection<object> AccessControlAllowHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowMethods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlAllowMethods { get; set; }
+        public ICollection<object> AccessControlAllowMethods { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowOrigin", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlAllowOrigin { get; set; }
+        public ICollection<object> AccessControlAllowOrigin { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlExposeHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlExposeHeaders { get; set; }
+        public ICollection<object> AccessControlExposeHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlMaxAge", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlMaxAge { get; set; }
+        public ICollection<object> AccessControlMaxAge { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlRequestHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlRequestHeaders { get; set; }
+        public ICollection<object> AccessControlRequestHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlRequestMethod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AccessControlRequestMethod { get; set; }
+        public ICollection<object> AccessControlRequestMethod { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Age", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Age { get; set; }
+        public ICollection<object> Age { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Allow", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Allow { get; set; }
+        public ICollection<object> Allow { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AltSvc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> AltSvc { get; set; }
+        public ICollection<object> AltSvc { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Authorization", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Authorization { get; set; }
+        public ICollection<object> Authorization { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Baggage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Baggage { get; set; }
+        public ICollection<object> Baggage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("CacheControl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> CacheControl { get; set; }
+        public ICollection<object> CacheControl { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Connection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Connection { get; set; }
+        public ICollection<object> Connection { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentDisposition", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentDisposition { get; set; }
+        public ICollection<object> ContentDisposition { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentEncoding { get; set; }
+        public ICollection<object> ContentEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLanguage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentLanguage { get; set; }
+        public ICollection<object> ContentLanguage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLocation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentLocation { get; set; }
+        public ICollection<object> ContentLocation { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentMD5", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentMD5 { get; set; }
+        public ICollection<object> ContentMD5 { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentRange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentRange { get; set; }
+        public ICollection<object> ContentRange { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentSecurityPolicy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentSecurityPolicy { get; set; }
+        public ICollection<object> ContentSecurityPolicy { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentSecurityPolicyReportOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentSecurityPolicyReportOnly { get; set; }
+        public ICollection<object> ContentSecurityPolicyReportOnly { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ContentType { get; set; }
+        public ICollection<object> ContentType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("CorrelationContext", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> CorrelationContext { get; set; }
+        public ICollection<object> CorrelationContext { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Cookie", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Cookie { get; set; }
+        public ICollection<object> Cookie { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Date { get; set; }
+        public ICollection<object> Date { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ETag", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ETag { get; set; }
+        public ICollection<object> ETag { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Expires", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Expires { get; set; }
+        public ICollection<object> Expires { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Expect", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Expect { get; set; }
+        public ICollection<object> Expect { get; set; }
 
         [Newtonsoft.Json.JsonProperty("From", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> From { get; set; }
+        public ICollection<object> From { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcAcceptEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> GrpcAcceptEncoding { get; set; }
+        public ICollection<object> GrpcAcceptEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> GrpcEncoding { get; set; }
+        public ICollection<object> GrpcEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcMessage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> GrpcMessage { get; set; }
+        public ICollection<object> GrpcMessage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> GrpcStatus { get; set; }
+        public ICollection<object> GrpcStatus { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> GrpcTimeout { get; set; }
+        public ICollection<object> GrpcTimeout { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Host", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Host { get; set; }
+        public ICollection<object> Host { get; set; }
 
         [Newtonsoft.Json.JsonProperty("KeepAlive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> KeepAlive { get; set; }
+        public ICollection<object> KeepAlive { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfMatch", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> IfMatch { get; set; }
+        public ICollection<object> IfMatch { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfModifiedSince", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> IfModifiedSince { get; set; }
+        public ICollection<object> IfModifiedSince { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfNoneMatch", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> IfNoneMatch { get; set; }
+        public ICollection<object> IfNoneMatch { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfRange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> IfRange { get; set; }
+        public ICollection<object> IfRange { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfUnmodifiedSince", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> IfUnmodifiedSince { get; set; }
+        public ICollection<object> IfUnmodifiedSince { get; set; }
 
         [Newtonsoft.Json.JsonProperty("LastModified", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> LastModified { get; set; }
+        public ICollection<object> LastModified { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Link", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Link { get; set; }
+        public ICollection<object> Link { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Location", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Location { get; set; }
+        public ICollection<object> Location { get; set; }
 
         [Newtonsoft.Json.JsonProperty("MaxForwards", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> MaxForwards { get; set; }
+        public ICollection<object> MaxForwards { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Origin", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Origin { get; set; }
+        public ICollection<object> Origin { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Pragma", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Pragma { get; set; }
+        public ICollection<object> Pragma { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyAuthenticate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ProxyAuthenticate { get; set; }
+        public ICollection<object> ProxyAuthenticate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyAuthorization", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ProxyAuthorization { get; set; }
+        public ICollection<object> ProxyAuthorization { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyConnection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> ProxyConnection { get; set; }
+        public ICollection<object> ProxyConnection { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Range", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Range { get; set; }
+        public ICollection<object> Range { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Referer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Referer { get; set; }
+        public ICollection<object> Referer { get; set; }
 
         [Newtonsoft.Json.JsonProperty("RetryAfter", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> RetryAfter { get; set; }
+        public ICollection<object> RetryAfter { get; set; }
 
         [Newtonsoft.Json.JsonProperty("RequestId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> RequestId { get; set; }
+        public ICollection<object> RequestId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketAccept", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SecWebSocketAccept { get; set; }
+        public ICollection<object> SecWebSocketAccept { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketKey", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SecWebSocketKey { get; set; }
+        public ICollection<object> SecWebSocketKey { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketProtocol", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SecWebSocketProtocol { get; set; }
+        public ICollection<object> SecWebSocketProtocol { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SecWebSocketVersion { get; set; }
+        public ICollection<object> SecWebSocketVersion { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketExtensions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SecWebSocketExtensions { get; set; }
+        public ICollection<object> SecWebSocketExtensions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Server", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Server { get; set; }
+        public ICollection<object> Server { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SetCookie", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> SetCookie { get; set; }
+        public ICollection<object> SetCookie { get; set; }
 
         [Newtonsoft.Json.JsonProperty("StrictTransportSecurity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> StrictTransportSecurity { get; set; }
+        public ICollection<object> StrictTransportSecurity { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TE", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> TE { get; set; }
+        public ICollection<object> TE { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Trailer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Trailer { get; set; }
+        public ICollection<object> Trailer { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TransferEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> TransferEncoding { get; set; }
+        public ICollection<object> TransferEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Translate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Translate { get; set; }
+        public ICollection<object> Translate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TraceParent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> TraceParent { get; set; }
+        public ICollection<object> TraceParent { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TraceState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> TraceState { get; set; }
+        public ICollection<object> TraceState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Upgrade", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Upgrade { get; set; }
+        public ICollection<object> Upgrade { get; set; }
 
         [Newtonsoft.Json.JsonProperty("UpgradeInsecureRequests", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> UpgradeInsecureRequests { get; set; }
+        public ICollection<object> UpgradeInsecureRequests { get; set; }
 
         [Newtonsoft.Json.JsonProperty("UserAgent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> UserAgent { get; set; }
+        public ICollection<object> UserAgent { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Vary", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Vary { get; set; }
+        public ICollection<object> Vary { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Via", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Via { get; set; }
+        public ICollection<object> Via { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Warning", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> Warning { get; set; }
+        public ICollection<object> Warning { get; set; }
 
         [Newtonsoft.Json.JsonProperty("WebSocketSubProtocols", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> WebSocketSubProtocols { get; set; }
+        public ICollection<object> WebSocketSubProtocols { get; set; }
 
         [Newtonsoft.Json.JsonProperty("WWWAuthenticate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> WWWAuthenticate { get; set; }
+        public ICollection<object> WWWAuthenticate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XContentTypeOptions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XContentTypeOptions { get; set; }
+        public ICollection<object> XContentTypeOptions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XFrameOptions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XFrameOptions { get; set; }
+        public ICollection<object> XFrameOptions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XPoweredBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XPoweredBy { get; set; }
+        public ICollection<object> XPoweredBy { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XRequestedWith", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XRequestedWith { get; set; }
+        public ICollection<object> XRequestedWith { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XUACompatible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XUACompatible { get; set; }
+        public ICollection<object> XUACompatible { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XXSSProtection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<object> XXSSProtection { get; set; }
+        public ICollection<object> XXSSProtection { get; set; }
 
     }
 
     /// <summary>
     /// The request body containing fields that will be assigned to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FieldToUpdate
     {
         /// <summary>
         /// The field values that will be assigned to the field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ValueToUpdate> Values { get; set; }
+        public ICollection<ValueToUpdate> Values { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ValueToUpdate
     {
         /// <summary>
@@ -9932,7 +9945,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class LinkToUpdate
     {
         /// <summary>
@@ -9955,7 +9968,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PostEntryWithEdocMetadataRequest
     {
         /// <summary>
@@ -9978,38 +9991,38 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The request body containing fields that will be assigned to the entry.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PutFieldValsRequest : SimpleImportMetadata
     {
         /// <summary>
         /// The links that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("links", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<LinkToUpdate> Links { get; set; }
+        public ICollection<LinkToUpdate> Links { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SimpleImportMetadata
     {
         /// <summary>
         /// The fields that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, FieldToUpdate> Fields { get; set; }
+        public IDictionary<string, FieldToUpdate> Fields { get; set; }
 
         /// <summary>
         /// The tags that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> Tags { get; set; }
+        public ICollection<string> Tags { get; set; }
 
     }
 
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfListOfAttribute : ODataValueOfListOfAttribute
     {
         /// <summary>
@@ -10026,15 +10039,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfListOfAttribute
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<Attribute> Value { get; set; }
+        public ICollection<Attribute> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Attribute
     {
         [Newtonsoft.Json.JsonProperty("key", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10045,7 +10058,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class WFieldInfo
     {
         /// <summary>
@@ -10122,7 +10135,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The list of items assigned to the represented field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("listValues", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> ListValues { get; set; }
+        public ICollection<string> ListValues { get; set; }
 
         /// <summary>
         /// The display format of the represented field.
@@ -10151,35 +10164,35 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// Enumeration of Laserfiche template field types.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum WFieldType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DateTime")]
+        [EnumMember(Value = @"DateTime")]
         DateTime = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Blob")]
+        [EnumMember(Value = @"Blob")]
         Blob = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Date")]
+        [EnumMember(Value = @"Date")]
         Date = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ShortInteger")]
+        [EnumMember(Value = @"ShortInteger")]
         ShortInteger = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LongInteger")]
+        [EnumMember(Value = @"LongInteger")]
         LongInteger = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"List")]
+        [EnumMember(Value = @"List")]
         List = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Number")]
+        [EnumMember(Value = @"Number")]
         Number = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"String")]
+        [EnumMember(Value = @"String")]
         String = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Time")]
+        [EnumMember(Value = @"Time")]
         Time = 8,
 
     }
@@ -10187,44 +10200,44 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// Enumeration of Laserfiche template field formats.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum WFieldFormat
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        [EnumMember(Value = @"None")]
         None = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ShortDate")]
+        [EnumMember(Value = @"ShortDate")]
         ShortDate = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LongDate")]
+        [EnumMember(Value = @"LongDate")]
         LongDate = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ShortDateTime")]
+        [EnumMember(Value = @"ShortDateTime")]
         ShortDateTime = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LongDateTime")]
+        [EnumMember(Value = @"LongDateTime")]
         LongDateTime = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ShortTime")]
+        [EnumMember(Value = @"ShortTime")]
         ShortTime = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LongTime")]
+        [EnumMember(Value = @"LongTime")]
         LongTime = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"GeneralNumber")]
+        [EnumMember(Value = @"GeneralNumber")]
         GeneralNumber = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Currency")]
+        [EnumMember(Value = @"Currency")]
         Currency = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Percent")]
+        [EnumMember(Value = @"Percent")]
         Percent = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Scientific")]
+        [EnumMember(Value = @"Scientific")]
         Scientific = 10,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Custom")]
+        [EnumMember(Value = @"Custom")]
         Custom = 11,
 
     }
@@ -10232,7 +10245,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfWFieldInfo : ODataValueOfIListOfWFieldInfo
     {
         /// <summary>
@@ -10249,18 +10262,18 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfWFieldInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WFieldInfo> Value { get; set; }
+        public ICollection<WFieldInfo> Value { get; set; }
 
     }
 
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfEntryLinkTypeInfo : ODataValueOfIListOfEntryLinkTypeInfo
     {
         /// <summary>
@@ -10277,15 +10290,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfEntryLinkTypeInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EntryLinkTypeInfo> Value { get; set; }
+        public ICollection<EntryLinkTypeInfo> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class EntryLinkTypeInfo
     {
         /// <summary>
@@ -10314,7 +10327,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public abstract partial class Entry
     {
         /// <summary>
@@ -10357,13 +10370,13 @@ namespace Laserfiche.Repository.Api.Client
         /// The creation time of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("creationTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
 
         /// <summary>
         /// The last modification time of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("lastModifiedTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset LastModifiedTime { get; set; }
+        public DateTimeOffset LastModifiedTime { get; set; }
 
         /// <summary>
         /// The type of the entry.
@@ -10400,7 +10413,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The names of the fields assigned to the template assigned to this entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("templateFieldNames", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> TemplateFieldNames { get; set; }
+        public ICollection<string> TemplateFieldNames { get; set; }
 
         /// <summary>
         /// The name of the volume that this entry is associated with.
@@ -10418,29 +10431,29 @@ namespace Laserfiche.Repository.Api.Client
         /// The fields assigned to this entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EntryFieldValue> Fields { get; set; }
+        public ICollection<EntryFieldValue> Fields { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum EntryType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Folder")]
+        [EnumMember(Value = @"Folder")]
         Folder = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"RecordSeries")]
+        [EnumMember(Value = @"RecordSeries")]
         RecordSeries = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Document")]
+        [EnumMember(Value = @"Document")]
         Document = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Shortcut")]
+        [EnumMember(Value = @"Shortcut")]
         Shortcut = 3,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class EntryFieldValue
     {
         /// <summary>
@@ -10453,7 +10466,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The values assigned to the field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<System.Collections.Generic.IDictionary<string, object>> Values { get; set; }
+        public ICollection<IDictionary<string, object>> Values { get; set; }
 
         /// <summary>
         /// The type of the field. The possible field types are listed below.
@@ -10488,13 +10501,13 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class RecordSeries : Entry
     {
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Document : Entry
     {
         /// <summary>
@@ -10554,13 +10567,13 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Edoc
     {
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Shortcut : Entry
     {
         /// <summary>
@@ -10584,7 +10597,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Folder : Entry
     {
         /// <summary>
@@ -10605,11 +10618,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The entries in this folder.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("children", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<Entry> Children { get; set; }
+        public ICollection<Entry> Children { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FindEntryResult
     {
         /// <summary>
@@ -10626,7 +10639,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AcceptedOperation
     {
         /// <summary>
@@ -10637,7 +10650,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class DeleteEntryWithAuditReason
     {
         /// <summary>
@@ -10654,7 +10667,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PatchEntryRequest
     {
         /// <summary>
@@ -10674,7 +10687,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfEntry : ODataValueOfIListOfEntry
     {
         /// <summary>
@@ -10691,18 +10704,18 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfEntry
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<Entry> Value { get; set; }
+        public ICollection<Entry> Value { get; set; }
 
     }
 
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfFieldValue : ODataValueOfIListOfFieldValue
     {
         /// <summary>
@@ -10719,15 +10732,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfFieldValue
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<FieldValue> Value { get; set; }
+        public ICollection<FieldValue> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FieldValue : EntryFieldValue
     {
         /// <summary>
@@ -10741,7 +10754,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfWTagInfo : ODataValueOfIListOfWTagInfo
     {
         /// <summary>
@@ -10758,15 +10771,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfWTagInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WTagInfo> Value { get; set; }
+        public ICollection<WTagInfo> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class WTagInfo
     {
         /// <summary>
@@ -10808,7 +10821,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Watermark
     {
         /// <summary>
@@ -10851,59 +10864,59 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum WatermarkPosition
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TopLeft")]
+        [EnumMember(Value = @"TopLeft")]
         TopLeft = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TopCenter")]
+        [EnumMember(Value = @"TopCenter")]
         TopCenter = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TopRight")]
+        [EnumMember(Value = @"TopRight")]
         TopRight = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MiddleLeft")]
+        [EnumMember(Value = @"MiddleLeft")]
         MiddleLeft = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DeadCenter")]
+        [EnumMember(Value = @"DeadCenter")]
         DeadCenter = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MiddleRight")]
+        [EnumMember(Value = @"MiddleRight")]
         MiddleRight = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BottomLeft")]
+        [EnumMember(Value = @"BottomLeft")]
         BottomLeft = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BottomCenter")]
+        [EnumMember(Value = @"BottomCenter")]
         BottomCenter = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BottomRight")]
+        [EnumMember(Value = @"BottomRight")]
         BottomRight = 8,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PutTagRequest
     {
         /// <summary>
         /// The tag names to assign to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> Tags { get; set; }
+        public ICollection<string> Tags { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfWEntryLinkInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WEntryLinkInfo> Value { get; set; }
+        public ICollection<WEntryLinkInfo> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class WEntryLinkInfo
     {
         /// <summary>
@@ -10970,7 +10983,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The properties for the entry link.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("linkProperties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, string> LinkProperties { get; set; }
+        public IDictionary<string, string> LinkProperties { get; set; }
 
         /// <summary>
         /// The navigation link to the source entry.
@@ -10986,7 +10999,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PutLinksRequest
     {
         /// <summary>
@@ -11005,14 +11018,14 @@ namespace Laserfiche.Repository.Api.Client
         /// Custom properties (key, value pairs) to be added to the link
         /// </summary>
         [Newtonsoft.Json.JsonProperty("customProperties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, string> CustomProperties { get; set; }
+        public IDictionary<string, string> CustomProperties { get; set; }
 
     }
 
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfWEntryLinkInfo : ODataValueOfIListOfWEntryLinkInfo
     {
         /// <summary>
@@ -11029,7 +11042,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PostEntryChildrenRequest
     {
         /// <summary>
@@ -11065,19 +11078,19 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum PostEntryChildrenEntryType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Folder")]
+        [EnumMember(Value = @"Folder")]
         Folder = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Shortcut")]
+        [EnumMember(Value = @"Shortcut")]
         Shortcut = 1,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class CopyAsyncRequest
     {
         /// <summary>
@@ -11100,7 +11113,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfBoolean
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11108,7 +11121,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class GetEdocWithAuditReasonRequest
     {
         /// <summary>
@@ -11125,7 +11138,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class GetDynamicFieldLogicValueRequest
     {
         /// <summary>
@@ -11138,11 +11151,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The dynamic fields.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fieldValues", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, string> FieldValues { get; set; }
+        public IDictionary<string, string> FieldValues { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PutTemplateRequest
     {
         /// <summary>
@@ -11155,11 +11168,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The template fields that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, FieldToUpdate> Fields { get; set; }
+        public IDictionary<string, FieldToUpdate> Fields { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class RepositoryInfo
     {
         /// <summary>
@@ -11182,24 +11195,24 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AuditReasons
     {
         /// <summary>
         /// The audit reasons associated with delete entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("deleteEntry", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WAuditReason> DeleteEntry { get; set; }
+        public ICollection<WAuditReason> DeleteEntry { get; set; }
 
         /// <summary>
         /// The audit reasons associated with export document.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("exportDocument", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WAuditReason> ExportDocument { get; set; }
+        public ICollection<WAuditReason> ExportDocument { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class WAuditReason
     {
         /// <summary>
@@ -11216,7 +11229,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AdvancedSearchRequest
     {
         /// <summary>
@@ -11240,22 +11253,22 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum FuzzyType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        [EnumMember(Value = @"None")]
         None = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Percentage")]
+        [EnumMember(Value = @"Percentage")]
         Percentage = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"NumberOfLetters")]
+        [EnumMember(Value = @"NumberOfLetters")]
         NumberOfLetters = 2,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class OperationProgress
     {
         /// <summary>
@@ -11287,7 +11300,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The list of errors occurred during the execution of the associated operation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("errors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<OperationErrorItem> Errors { get; set; }
+        public ICollection<OperationErrorItem> Errors { get; set; }
 
         /// <summary>
         /// The URI which can be used (via api call) to access the result(s) of the associated operation.
@@ -11305,38 +11318,38 @@ namespace Laserfiche.Repository.Api.Client
         /// The timestamp representing when the associated operation's execution is started.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("startTimestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset StartTimestamp { get; set; }
+        public DateTimeOffset StartTimestamp { get; set; }
 
         /// <summary>
         /// The timestamp representing the last time when the associated task's status has changed.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("statusTimestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset StatusTimestamp { get; set; }
+        public DateTimeOffset StatusTimestamp { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum OperationStatus
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"NotStarted")]
+        [EnumMember(Value = @"NotStarted")]
         NotStarted = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"InProgress")]
+        [EnumMember(Value = @"InProgress")]
         InProgress = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
+        [EnumMember(Value = @"Completed")]
         Completed = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
+        [EnumMember(Value = @"Failed")]
         Failed = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Cancelled")]
+        [EnumMember(Value = @"Cancelled")]
         Cancelled = 4,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class OperationErrorItem
     {
         /// <summary>
@@ -11356,7 +11369,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfContextHit : ODataValueOfIListOfContextHit
     {
         /// <summary>
@@ -11373,15 +11386,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfContextHit
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContextHit> Value { get; set; }
+        public ICollection<ContextHit> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ContextHit
     {
         [Newtonsoft.Json.JsonProperty("hitType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11477,61 +11490,61 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// The type of context hit.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public enum HitType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PageContent")]
+        [EnumMember(Value = @"PageContent")]
         PageContent = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Note")]
+        [EnumMember(Value = @"Note")]
         Note = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Callout")]
+        [EnumMember(Value = @"Callout")]
         Callout = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TextBox")]
+        [EnumMember(Value = @"TextBox")]
         TextBox = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Edoc")]
+        [EnumMember(Value = @"Edoc")]
         Edoc = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Prop")]
+        [EnumMember(Value = @"Prop")]
         Prop = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
+        [EnumMember(Value = @"Name")]
         Name = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Extension")]
+        [EnumMember(Value = @"Extension")]
         Extension = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"VersionGroupNote")]
+        [EnumMember(Value = @"VersionGroupNote")]
         VersionGroupNote = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"VersionComment")]
+        [EnumMember(Value = @"VersionComment")]
         VersionComment = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Field")]
+        [EnumMember(Value = @"Field")]
         Field = 10,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"SignatureComment")]
+        [EnumMember(Value = @"SignatureComment")]
         SignatureComment = 11,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"CertificateSubject")]
+        [EnumMember(Value = @"CertificateSubject")]
         CertificateSubject = 12,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TagComment")]
+        [EnumMember(Value = @"TagComment")]
         TagComment = 13,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"AnnotationComment")]
+        [EnumMember(Value = @"AnnotationComment")]
         AnnotationComment = 14,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Attachment")]
+        [EnumMember(Value = @"Attachment")]
         Attachment = 15,
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SimpleSearchRequest
     {
         /// <summary>
@@ -11545,7 +11558,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfWTemplateInfo : ODataValueOfIListOfWTemplateInfo
     {
         /// <summary>
@@ -11562,15 +11575,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfWTemplateInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<WTemplateInfo> Value { get; set; }
+        public ICollection<WTemplateInfo> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class WTemplateInfo
     {
         /// <summary>
@@ -11611,7 +11624,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class LFColor
     {
         [Newtonsoft.Json.JsonProperty("a", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11631,7 +11644,7 @@ namespace Laserfiche.Repository.Api.Client
     /// <summary>
     /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueContextOfIListOfTemplateFieldInfo : ODataValueOfIListOfTemplateFieldInfo
     {
         /// <summary>
@@ -11648,15 +11661,15 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfIListOfTemplateFieldInfo
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<TemplateFieldInfo> Value { get; set; }
+        public ICollection<TemplateFieldInfo> Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class TemplateFieldInfo : WFieldInfo
     {
         /// <summary>
@@ -11679,7 +11692,7 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Rule
     {
         /// <summary>
@@ -11687,63 +11700,63 @@ namespace Laserfiche.Repository.Api.Client
         /// <br/>form logic rule.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ancestors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<int> Ancestors { get; set; }
+        public ICollection<int> Ancestors { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ODataValueOfDateTime
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Value { get; set; }
+        public DateTimeOffset Value { get; set; }
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FileParameter
     {
-        public FileParameter(System.IO.Stream data)
+        public FileParameter(Stream data)
             : this (data, null, null)
         {
         }
 
-        public FileParameter(System.IO.Stream data, string fileName)
+        public FileParameter(Stream data, string fileName)
             : this (data, fileName, null)
         {
         }
 
-        public FileParameter(System.IO.Stream data, string fileName, string contentType)
+        public FileParameter(Stream data, string fileName, string contentType)
         {
             Data = data;
             FileName = fileName;
             ContentType = contentType;
         }
 
-        public System.IO.Stream Data { get; private set; }
+        public Stream Data { get; private set; }
 
         public string FileName { get; private set; }
 
         public string ContentType { get; private set; }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class FileResponse : System.IDisposable
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class FileResponse : IDisposable
     {
-        private System.IDisposable _client;
-        private System.IDisposable _response;
+        private IDisposable _client;
+        private IDisposable _response;
 
         public int StatusCode { get; private set; }
 
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
 
-        public System.IO.Stream Stream { get; private set; }
+        public Stream Stream { get; private set; }
 
         public bool IsPartial
         {
             get { return StatusCode == 206; }
         }
 
-        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        public FileResponse(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, Stream stream, IDisposable client, IDisposable response)
         {
             StatusCode = statusCode;
             Headers = headers;
@@ -11762,26 +11775,26 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class HttpResponseHead
     {
         public int StatusCode { get; private set; }
 
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
 
-        public HttpResponseHead(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        public HttpResponseHead(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers)
         {
             StatusCode = statusCode;
             Headers = headers;
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
+    [GeneratedCode("NSwag", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class HttpResponseHead<TResult> : HttpResponseHead
     {
         public TResult Result { get; private set; }
 
-        public HttpResponseHead(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
+        public HttpResponseHead(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, TResult result)
             : base(statusCode, headers)
         {
             Result = result;
