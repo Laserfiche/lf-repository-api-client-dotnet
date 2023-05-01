@@ -1,0 +1,4 @@
+var interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_simple_searches_client =
+[
+    [ "CreateSimpleSearchOperationAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_simple_searches_client.html#a257138909be9b3f91c44ab531ab84ced", null ]
+];
