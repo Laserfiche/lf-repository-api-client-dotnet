@@ -195,7 +195,7 @@ jobs:
         elif [[ '${{ github.ref_protected }}' == 'true' && '${{ github.ref_type }}' == 'branch' ]]; then
           echo 'DOCUMENTATION_VERSION=${{ github.ref_name }}' >> $GITHUB_ENV
         else
-          echo 'Unable to publish documentation for the current branch.'
+          echo '::error::Unable to publish documentation for the current branch.'
           exit 1
         fi
 
