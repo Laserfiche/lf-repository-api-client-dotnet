@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client
         private readonly string _baseUrlDebug;
         private Uri _baseAddress;
 
-        public RepositoryApiClientHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug) : base(new HttpClientHandler())
+        public RepositoryApiClientHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug) : base(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip })
         {
             _httpRequestHandler = httpRequestHandler ?? throw new ArgumentNullException(nameof(httpRequestHandler));
             _baseUrlDebug = baseUrlDebug;
@@ -38,6 +38,7 @@ namespace Laserfiche.Repository.Api.Client
                 _baseAddress = GetBaseAddress(beforeSendResult.RegionalDomain);
             }
             request.RequestUri = new Uri(_baseAddress, request.RequestUri.PathAndQuery);
+            request.Headers.Add("Accept-Encoding", "gzip");
 
             try
             {
