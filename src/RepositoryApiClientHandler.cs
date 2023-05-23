@@ -38,7 +38,6 @@ namespace Laserfiche.Repository.Api.Client
                 _baseAddress = GetBaseAddress(beforeSendResult.RegionalDomain);
             }
             request.RequestUri = new Uri(_baseAddress, request.RequestUri.PathAndQuery);
-            request.Headers.Add("Accept-Encoding", "gzip");
 
             try
             {
