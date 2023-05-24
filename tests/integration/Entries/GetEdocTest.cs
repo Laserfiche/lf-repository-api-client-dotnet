@@ -41,7 +41,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 Assert.AreEqual(200, response.StatusCode);
                 Assert.IsTrue(response.Headers.ContainsKey("Content-Type"));
-                Assert.IsTrue(response.Headers.ContainsKey("Content-Length"));
                 Assert.IsNotNull(response.Stream);
 
                 fileToWriteTo = Path.GetTempFileName();

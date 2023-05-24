@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3 Pre-release
+
+### Features
+- Added the gzip compression header which will compress every API response to improve performance 
+
 ## 1.1.2
 
 ### Features

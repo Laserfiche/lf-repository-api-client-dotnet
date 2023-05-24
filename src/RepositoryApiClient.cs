@@ -48,6 +48,10 @@ namespace Laserfiche.Repository.Api.Client
         internal RepositoryApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            if (_httpClient != null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            }
             AttributesClient = new AttributesClient(_httpClient);
             AuditReasonsClient = new AuditReasonsClient(_httpClient);
             EntriesClient = new EntriesClient(_httpClient);
