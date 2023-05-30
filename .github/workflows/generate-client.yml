@@ -1,0 +1,45 @@
+name: lf-repository-api-client-dotnet generate-client
+
+on:
+  push:
+    branches: [ 'generate-client-workflow' ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate-client:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Get API_VERSION
+      run: |
+        branch_name=${{ github.ref_name }}
+        if [[ $branch_name == *.x && '${{ github.ref_type }}' == 'branch' ]]; then
+          # Get the api version from the branch name by removing the '.x' part
+          api_version=${branch_name%.x}
+          echo Generating the client for version $api_version
+          echo 'API_VERSION=$api_version' >> $GITHUB_ENV
+        else
+          echo '::error::Unable to generate the client for the branch.'
+          exit 1
+        fi
+
+    - uses: actions/checkout@v3
+
+    - name: Download swagger file
+      run: |
+        python ./generate-client/download_swagger.py --swagger-url 'https://api.laserfiche.com/repository/swagger/v${{ env.API_VERSION }}/swagger.json' --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
+
+    - name: Generate the client
+      run: |
+        pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients' -client_filename 'RepositoryClients.cs'
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4.2.3
+      with:
+        branch: ${{ github.ref_name }}-generate-v${{ env.API_VERSION }}-client
+        delete-branch: true
+        title: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        commit-message: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        body: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        assignees: ${{ github.actor }}

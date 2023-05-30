@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/v1/changelog\">/v1/changelog</a></p><p><strong>Build# : </strong></p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>aaff6d423ff707961b557dfd188421654c0d4c5a_.20230519.1</p>",
     "version": "1"
   },
   "servers": [
@@ -148,6 +148,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateEntryResult"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -1148,6 +1158,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -1307,6 +1327,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -1440,8 +1470,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the children entries of a folder in the repository. Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route. Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
-        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "summary": "Returns the children entries of a folder in the repository. Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository. Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route. Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "GetEntryListing",
         "parameters": [
           {
@@ -1783,6 +1813,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -2078,6 +2118,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -2348,6 +2398,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -2459,6 +2519,16 @@
           },
           "404": {
             "description": "Request entry id not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2648,8 +2718,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Copy a new child entry in the designated folder async, and potentially return an operationToken. Provide the parent folder ID, and copy an entry as a child of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.  The status of the operation can be checked via the Tasks/{operationToken} route.",
-        "description": "- Copy a new child entry in the designated folder async, and potentially return an operationToken.\n- Provide the parent folder ID, and copy an entry as a child of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. \n- The status of the operation can be checked via the Tasks/{operationToken} route.",
+        "summary": "Copy a new child entry in the designated folder async, and potentially return an operationToken. Provide the parent folder ID, and copy an entry as a child of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.  The status of the operation can be checked via the Tasks/{operationToken} route. Token substitution in the name of the copied entry is not supported.",
+        "description": "- Copy a new child entry in the designated folder async, and potentially return an operationToken.\n- Provide the parent folder ID, and copy an entry as a child of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. \n- The status of the operation can be checked via the Tasks/{operationToken} route.\n- Token substitution in the name of the copied entry is not supported.",
         "operationId": "CopyEntryAsync",
         "parameters": [
           {
@@ -2759,6 +2829,16 @@
           },
           "404": {
             "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2888,8 +2968,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
-        "description": "- Returns information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
+        "summary": "Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry. If an error occurs, the error message can be found in the X-APIServer-Error HTTP response header.",
+        "description": "- Returns information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.\n- If an error occurs, the error message can be found in the X-APIServer-Error HTTP response header.",
         "operationId": "GetDocumentContentType",
         "parameters": [
           {
@@ -3296,6 +3376,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -3410,6 +3500,16 @@
           },
           "404": {
             "description": "Request entry not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3673,6 +3773,16 @@
           },
           "404": {
             "description": "Request entry id not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3948,6 +4058,16 @@
           },
           "404": {
             "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4703,6 +4823,16 @@
           },
           "404": {
             "description": "Not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6735,26 +6865,16 @@
       "PutFieldValsRequest": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/SimpleImportMetadata"
+            "$ref": "#/components/schemas/ImportAsyncMetadata"
           },
           {
             "type": "object",
             "description": "The request body containing fields that will be assigned to the entry.",
-            "additionalProperties": false,
-            "properties": {
-              "links": {
-                "type": "array",
-                "description": "The links that will be assigned to the entry.",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/LinkToUpdate"
-                }
-              }
-            }
+            "additionalProperties": false
           }
         ]
       },
-      "SimpleImportMetadata": {
+      "ImportAsyncMetadata": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -6772,6 +6892,14 @@
             "nullable": true,
             "items": {
               "type": "string"
+            }
+          },
+          "links": {
+            "type": "array",
+            "description": "The links that will be assigned to the entry.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LinkToUpdate"
             }
           }
         }
@@ -8495,24 +8623,15 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
             "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
-            "scopes": {}
-          }
-        }
-      },
-      "OAuth2 Client Credentials Flow": {
-        "type": "http",
-        "description": "",
-        "scheme": "Bearer",
-        "bearerFormat": "JWT",
-        "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
-            "scopes": {}
+            "scopes": {
+              "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
+              "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."
+            }
           }
         }
       }
@@ -8524,9 +8643,6 @@
     },
     {
       "OAuth2 Authorization Code Flow": []
-    },
-    {
-      "OAuth2 Client Credentials Flow": []
     }
   ]
 }
