@@ -1,4 +1,4 @@
-name: lf-repository-api-client-dotnet generate-client
+name: generate-client
 
 on:
   push:
