@@ -24,7 +24,7 @@ jobs:
         node-version: "16"
 
     - name: Install NSwag
-      run: npm install nswag
+      run: npm install nswag -g
 
     # - name: Get API_VERSION
     #   run: |
@@ -47,12 +47,12 @@ jobs:
     - name: Generate the client
       run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients' -client_filename 'RepositoryClients.cs'
 
-    # - name: Create Pull Request
-    #   uses: peter-evans/create-pull-request@v4.2.3
-    #   with:
-    #     branch: ${{ github.ref_name }}-generate-v${{ env.API_VERSION }}-client
-    #     delete-branch: true
-    #     title: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
-    #     commit-message: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
-    #     body: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
-    #     assignees: ${{ github.actor }}
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4.2.3
+      with:
+        branch: ${{ github.ref_name }}-generate-v${{ env.API_VERSION }}-client
+        delete-branch: true
+        title: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        commit-message: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        body: "Automated update for generating the v${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        assignees: ${{ github.actor }}
