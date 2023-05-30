@@ -24,7 +24,7 @@ jobs:
         node-version: "16"
 
     - name: Install NSwag
-      run: npm install nswag -g
+      run: npm install nswag
 
     # - name: Get API_VERSION
     #   run: |
