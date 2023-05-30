@@ -3,6 +3,7 @@ param(
   [Parameter(Mandatory=$true)][String]$output_folder,
   [Parameter(Mandatory=$true)][String]$client_filename
 )
+$ErrorActionPreference = "Stop"
 
 $input_folder = $input_folder.TrimEnd("/", "\")
 $output_folder = $output_folder.TrimEnd("/", "\")

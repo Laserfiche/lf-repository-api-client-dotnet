@@ -24,7 +24,7 @@ jobs:
         node-version: "16"
 
     - name: Install NSwag
-      run: npm install nswag
+      run: npm install nswag -g
 
     # - name: Get API_VERSION
     #   run: |
@@ -45,7 +45,6 @@ jobs:
       run: python ./generate-client/download_swagger.py --swagger-url 'https://api.laserfiche.com/repository/swagger/v${{ env.API_VERSION }}/swagger.json' --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
 
     - name: Generate the client
-      shell: pwsh
       run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients' -client_filename 'RepositoryClients.cs'
 
     # - name: Create Pull Request
