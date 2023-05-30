@@ -1,6 +1,8 @@
 name: generate-client
 
 on:
+  push:	
+    branches: [ 'generate-client-workflow' ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -9,18 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+    # - name: Get API_VERSION
+    #   run: |
+    #     branch_name=${{ github.ref_name }}
+    #     if [[ $branch_name == *.x && '${{ github.ref_type }}' == 'branch' ]]; then
+    #       # Get the api version from the branch name by removing the '.x' part
+    #       api_version=${branch_name%.x}
+    #       echo Generating the client for version $api_version
+    #       echo 'API_VERSION=$api_version' >> $GITHUB_ENV
+    #     else
+    #       echo '::error::Unable to generate the client for the branch.'
+    #       exit 1
+    #     fi
     - name: Get API_VERSION
       run: |
-        branch_name=${{ github.ref_name }}
-        if [[ $branch_name == *.x && '${{ github.ref_type }}' == 'branch' ]]; then
-          # Get the api version from the branch name by removing the '.x' part
-          api_version=${branch_name%.x}
-          echo Generating the client for version $api_version
-          echo 'API_VERSION=$api_version' >> $GITHUB_ENV
-        else
-          echo '::error::Unable to generate the client for the branch.'
-          exit 1
-        fi
+        echo 'API_VERSION=1' >> $GITHUB_ENV
 
     - uses: actions/checkout@v3
 
