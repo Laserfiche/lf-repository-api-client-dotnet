@@ -33,7 +33,7 @@ jobs:
       run: npm install nswag@13.15.10 -g
 
     - name: Download swagger file
-      run: python ./generate-client/download_swagger.py --swagger-url 'https://api.laserfiche.com/repository/swagger/v${{ env.INPUT_API_VERSION }}/swagger.json' --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
+      run: python ./generate-client/download_swagger.py --swagger-url 'https://api.laserfiche.com/repository/swagger/v${{ inputs.API_VERSION }}/swagger.json' --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
 
     - name: Generate the client
       run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients' -client_filename 'RepositoryClients.cs'
@@ -41,9 +41,9 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4.2.3
       with:
-        branch: ${{ github.ref_name }}-generate-v${{ env.INPUT_API_VERSION }}-client
+        branch: ${{ github.ref_name }}-generate-v${{ inputs.API_VERSION }}-client
         delete-branch: true
-        title: "Automated update for generating the v${{ env.INPUT_API_VERSION }} client by action ${{ github.run_id }}"
-        commit-message: "Automated update for generating the v${{ env.INPUT_API_VERSION }} client by action ${{ github.run_id }}"
-        body: "Automated update for generating the v${{ env.INPUT_API_VERSION }} client by action ${{ github.run_id }}"
+        title: "Automated update for generating the v${{ inputs.API_VERSION }} client by action ${{ github.run_id }}"
+        commit-message: "Automated update for generating the v${{ inputs.API_VERSION }} client by action ${{ github.run_id }}"
+        body: "Automated update for generating the v${{ inputs.API_VERSION }} client by action ${{ github.run_id }}"
         assignees: ${{ github.actor }}
