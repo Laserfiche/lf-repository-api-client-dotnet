@@ -1,15 +1,27 @@
+<#
+.SYNOPSIS
+Generates a client from a swagger json file using the nswag tool.
+
+.PARAMETER input_folder
+Path to the folder containing the necessary files for generating the client. The folder should contain nswag configuration file and a swagger json file.
+
+.PARAMETER output_folder
+Path to the folder the client should be created in
+#>
 param(
   [Parameter(Mandatory=$true)][String]$input_folder,
-  [Parameter(Mandatory=$true)][String]$output_folder,
-  [Parameter(Mandatory=$true)][String]$client_filename
+  [Parameter(Mandatory=$true)][String]$output_folder
 )
 $ErrorActionPreference = "Stop"
 
+$client_filename = 'RepositoryClients.cs'
+
+# Clean folder endings from input parameters
 $input_folder = $input_folder.TrimEnd("/", "\")
 $output_folder = $output_folder.TrimEnd("/", "\")
 
 # Generate the client
-nswag run "$input_folder/nswag.json" /variables:OutputFilename=$client_filename
+nswag run "$input_folder/nswag.json"
 
 # Remove long namespaces from class names in the generated client. This makes the generated documentation look nicer.
 $client_filepath = "$input_folder/$client_filename" 

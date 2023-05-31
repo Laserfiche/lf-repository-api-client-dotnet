@@ -1,6 +1,6 @@
 {
   "runtime": "Default",
-  "defaultVariables": "OutputFilename=RepositoryClients.cs",
+  "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
       "url": "swagger.json",
@@ -13,7 +13,7 @@
       "classname": "{controller}Client",
       "clientBaseClass": "BaseClient",
       "namespace": "Laserfiche.Repository.Api.Client",
-      "output": "$(OutputFilename)",
+      "output": "RepositoryClients.cs",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
       "additionalNamespaceUsages": [
         "Laserfiche.Api.Client",

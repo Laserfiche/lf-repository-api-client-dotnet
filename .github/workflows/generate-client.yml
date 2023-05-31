@@ -39,7 +39,7 @@ jobs:
       run: python ./generate-client/download_swagger.py --swagger-url 'https://api.laserfiche.com/repository/swagger/v${{ env.API_VERSION }}/swagger.json' --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
 
     - name: Generate the client
-      run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients' -client_filename 'RepositoryClients.cs'
+      run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients'
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4.2.3
