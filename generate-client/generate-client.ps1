@@ -3,7 +3,7 @@
 Generates a client from a swagger json file using the nswag tool.
 
 .PARAMETER input_folder
-Path to the folder containing the necessary files for generating the client. The folder should contain nswag configuration file and a swagger json file.
+Path to the folder containing the necessary files for generating the client. The folder should contain the nswag configuration file and the swagger json file.
 
 .PARAMETER output_folder
 Path to the folder the client should be created in
