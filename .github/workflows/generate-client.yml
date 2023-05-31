@@ -5,12 +5,12 @@ on:
     branches: [ 'generate-client-workflow' ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-inputs:
-  API_VERSION:
-    description: 'The API version. Default value is 1'
-    required: false
-    default: '1'
+    inputs:
+      API_VERSION:
+        description: 'The API version. Default value is 1'
+        required: false
+        type: string
+        default: '1'
 
 jobs:
   generate-client:
