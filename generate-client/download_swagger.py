@@ -81,10 +81,7 @@ if __name__ == '__main__':
     if args.swagger_override_filepath is not None:
         with open(args.swagger_override_filepath, 'r') as swagger_override_file:
             swagger_override_json = json.load(swagger_override_file)
-        try:
-            swagger_json['components']['schemas'] = replace_with_override_data(swagger_json['components']['schemas'], swagger_override_json['components']['schemas'])
-        except KeyError:
-            pass
+        swagger_json['components']['schemas'] = replace_with_override_data(swagger_json['components']['schemas'], swagger_override_json['components']['schemas'])
 
     with open(args.output_filepath, 'w') as json_file:
         json.dump(swagger_json, json_file, indent=2)
