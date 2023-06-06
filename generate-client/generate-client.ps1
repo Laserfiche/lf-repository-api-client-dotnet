@@ -41,5 +41,10 @@ $client_filepath = "$input_folder/$client_filename"
   -replace "System\.(?![\w\.]+;)","" `
   | Out-File $client_filepath
 
+# Fix line breaks in documentation by moving the <br/> tag from the beginning of new lines to the end of previous lines
+(Get-Content $client_filepath -Raw) `
+  -replace "(`r?`n\s+\/\/\/ )(<br\/>)","`${2}`${1}" `
+  | Out-File $client_filepath
+
 # Move the generated client to the output folder
 Move-Item -Path $client_filepath -Destination "$output_folder/$client_filename" -Force

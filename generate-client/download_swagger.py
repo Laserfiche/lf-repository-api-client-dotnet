@@ -15,24 +15,6 @@ def download_file_to_json(url):
     else:
         return response.json()
 
-def replace_summary_by_description(json_data):
-    '''
-    Replaces the summary value with description value for the specification of api routes.
-    '''
-    for path_element in json_data['paths'].values():
-        for api_element in path_element.values():
-            if 'description' in api_element:
-                description = api_element['description']
-                paragraphs = description.split('\n')
-                new_paragraphs = []
-                for paragraph in paragraphs:
-                    if paragraph.startswith('- '):
-                        paragraph = paragraph[2:]
-                    new_paragraphs.append(paragraph)
-                new_description = ' '.join(new_paragraphs)
-                api_element['summary'] = new_description
-    return json_data
-
 def replace_with_override_data(json_data, json_override_data):
     '''
     Replaces elements in json_data with elements in json_override_data.
@@ -75,7 +57,6 @@ if __name__ == '__main__':
     
 
     swagger_json = download_file_to_json(args.swagger_url)
-    swagger_json = replace_summary_by_description(swagger_json)
     swagger_json = sort_status_codes(swagger_json)
 
     if args.swagger_override_filepath is not None:
