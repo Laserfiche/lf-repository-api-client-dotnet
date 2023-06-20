@@ -44,9 +44,9 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4.2.3
       with:
-        branch: ${{ github.ref_name }}-generate-v$API_VERSION-client
+        branch: ${{ github.ref_name }}-generate-${{ env.API_VERSION }}-client
         delete-branch: true
-        title: "Automated update for generating the v$API_VERSION client by action ${{ github.run_id }}"
-        commit-message: "Automated update for generating the v$API_VERSION client by action ${{ github.run_id }}"
-        body: "Automated update for generating the v$API_VERSION client by action ${{ github.run_id }}"
+        title: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        commit-message: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        body: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
         assignees: ${{ github.actor }}
