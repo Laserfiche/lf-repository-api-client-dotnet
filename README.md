@@ -14,8 +14,7 @@ See CHANGELOG [here](https://github.com/Laserfiche/lf-repository-api-client-dotn
 Useful commands for building and testing the app.
 
 ### Generate the repository client
-1. Download the `nswag` command line tool. Instructions can be found [here](https://github.com/RicoSuter/NSwag/wiki/CommandLine).
-2. From the root directory of this Git repository, run the command `pwsh generate-client.ps1`
+See the [.github/workflows/generate-client.yml](https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/HEAD/.github/workflows/generate-client.yml).
 
 ### Build, Test, and Package
 See the [.github/workflows/main.yml](https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/HEAD/.github/workflows/main.yml).

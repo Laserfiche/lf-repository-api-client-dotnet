@@ -1,0 +1,51 @@
+{
+  "components": {
+    "schemas": {
+      "PutFieldValsRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SimpleImportMetadata"
+          },
+          {
+            "type": "object",
+            "description": "The request body containing fields that will be assigned to the entry.",
+            "additionalProperties": false,
+            "properties": {
+              "links": {
+                "type": "array",
+                "description": "The links that will be assigned to the entry.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/LinkToUpdate"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SimpleImportMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fields": {
+            "type": "object",
+            "description": "The fields that will be assigned to the entry.",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FieldToUpdate"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "The tags that will be assigned to the entry.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ImportAsyncMetadata": null
+    }
+  }
+}

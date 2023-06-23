@@ -1,0 +1,52 @@
+name: generate-client
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      SWAGGER_URL:
+        description: 'The url to download the swagger schema.'
+        required: true
+        type: string
+        default: 'https://api.laserfiche.com/repository/swagger/v1/swagger.json'
+
+jobs:
+  generate-client:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.5.1
+      with:
+        node-version: "16"
+
+    - name: Install NSwag
+      run: npm install nswag@13.19.0 -g
+
+    - name: Setup environment variables
+      run: |
+        # Make the swagger url an environment variable secret
+        SWAGGER_URL_INPUT=$(jq -r '.inputs.SWAGGER_URL' $GITHUB_EVENT_PATH)
+        echo ::add-mask::$SWAGGER_URL_INPUT
+        echo SWAGGER_URL="$SWAGGER_URL_INPUT" >> $GITHUB_ENV
+
+        # Extract the api version from the swagger url
+        echo API_VERSION="`echo $SWAGGER_URL_INPUT | grep -Po '/v.*?/' | tr -d '/'`" >> $GITHUB_ENV
+
+    - name: Download and modify swagger file
+      run: python ./generate-client/download_swagger.py --swagger-url $SWAGGER_URL --output-filepath './generate-client/swagger.json' --swagger-override-filepath './generate-client/swagger-override.json' 
+
+    - name: Generate the client
+      run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients'
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4.2.3
+      with:
+        branch: ${{ github.ref_name }}-generate-${{ env.API_VERSION }}-client
+        delete-branch: true
+        title: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        commit-message: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        body: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
+        assignees: ${{ github.actor }}
