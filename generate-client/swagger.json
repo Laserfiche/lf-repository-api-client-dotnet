@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/v1/changelog\">/v1/changelog</a></p><p><strong>Build# : </strong></p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>c2b48a709248742c8c1c8aa8718ead3d7e893a85_.20230614.5</p>",
     "version": "1"
   },
   "servers": [
@@ -17,7 +17,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Creates a new document in the specified folder with file (no more than 100 MB). Optionally sets metadata and electronic document component. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
+        "summary": "Creates a new document in a folder.",
         "description": "- Creates a new document in the specified folder with file (no more than 100 MB).\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
         "operationId": "ImportDocument",
         "parameters": [
@@ -152,6 +152,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -180,7 +190,7 @@
         "tags": [
           "Attributes"
         ],
-        "summary": "Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the \"Everyone\" group. Attribute keys can be used with subsequent calls to get specific attribute values. Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer. Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the \"Everyone\" group. Note when this is true, the response does not include both the \"Everyone\" groups attribute and the currently authenticated user, but only the \"Everyone\" groups.",
+        "summary": "Returns the attribute key value pairs associated with the authenticated user.",
         "description": "- Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the \"Everyone\" group.\n- Attribute keys can be used with subsequent calls to get specific attribute values.\n- Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer. Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the \"Everyone\" group. Note when this is true, the response does not include both the \"Everyone\" groups attribute and the currently authenticated user, but only the \"Everyone\" groups.",
         "operationId": "GetTrusteeAttributeKeyValuePairs",
         "parameters": [
@@ -333,7 +343,7 @@
         "tags": [
           "Attributes"
         ],
-        "summary": "Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within \"Everyone\" group. Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.",
+        "summary": "Returns an attribute object associated with the authenticated user.",
         "description": "- Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within \"Everyone\" group.\n- Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.",
         "operationId": "GetTrusteeAttributeValueByKey",
         "parameters": [
@@ -436,7 +446,7 @@
         "tags": [
           "FieldDefinitions"
         ],
-        "summary": "Returns a single field definition associated with the specified ID.  Useful when a route provides a minimal amount of details and more information about the specific field definition is needed. Allowed OData query options: Select",
+        "summary": "Returns a single field definition object.",
         "description": "- Returns a single field definition associated with the specified ID. \n- Useful when a route provides a minimal amount of details and more information about the specific field definition is needed.\n- Allowed OData query options: Select",
         "operationId": "GetFieldDefinitionById",
         "parameters": [
@@ -552,7 +562,7 @@
         "tags": [
           "FieldDefinitions"
         ],
-        "summary": "Returns a paged listing of field definitions available in the specified repository. Useful when trying to find a list of all field definitions available, rather than only those assigned to a specific entry/template. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the paged listing of the field definitions available in a repository.",
         "description": "- Returns a paged listing of field definitions available in the specified repository.\n- Useful when trying to find a list of all field definitions available, rather than only those assigned to a specific entry/template.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetFieldDefinitions",
         "parameters": [
@@ -707,7 +717,7 @@
         "tags": [
           "LinkDefinitions"
         ],
-        "summary": "Returns the link definitions in the repository. Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the link definitions associated with a repository.",
         "description": "- Returns the link definitions in the repository.\n- Provide a repository ID and get a paged listing of link definitions available in the repository. Useful when trying to display all link definitions available, not only links assigned to a specific entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetLinkDefinitions",
         "parameters": [
@@ -851,7 +861,7 @@
         "tags": [
           "LinkDefinitions"
         ],
-        "summary": "Returns a single link definition associated with the specified ID. Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed. Allowed OData query options: Select",
+        "summary": "Returns a single link definition object.",
         "description": "- Returns a single link definition associated with the specified ID.\n- Provide a link type ID and get the associated link definition. Useful when a route provides a minimal amount of details and more information about the specific link definition is needed.\n- Allowed OData query options: Select",
         "operationId": "GetLinkDefinitionById",
         "parameters": [
@@ -956,7 +966,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns a single entry object. Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc. Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.",
+        "summary": "Returns a single entry object.",
         "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.",
         "operationId": "GetEntry",
         "parameters": [
@@ -1059,7 +1069,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Begins a task to delete an entry, and returns an operationToken. Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately. Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.",
+        "summary": "Deletes an entry asynchronously.",
         "description": "- Begins a task to delete an entry, and returns an operationToken.\n- Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.\n- Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.",
         "operationId": "DeleteEntryInfo",
         "parameters": [
@@ -1148,6 +1158,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -1164,7 +1184,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Moves and/or renames an entry. Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
+        "summary": "Moves and/or renames an entry.",
         "description": "- Moves and/or renames an entry.\n- Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "operationId": "MoveOrRenameEntry",
         "parameters": [
@@ -1307,6 +1327,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -1335,7 +1365,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns a single entry object using the entry path. Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.",
+        "summary": "Returns a single entry object using the entry path.",
         "description": "- Returns a single entry object using the entry path.\n- Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.",
         "operationId": "GetEntryByPath",
         "parameters": [
@@ -1440,8 +1470,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the children entries of a folder in the repository. Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route. Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
-        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "summary": "Returns the children entries of a folder.",
+        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "GetEntryListing",
         "parameters": [
           {
@@ -1637,7 +1667,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Create/copy a new child entry in the designated folder. Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
+        "summary": "Creates/copies a new child entry in a folder.",
         "description": "- Create/copy a new child entry in the designated folder.\n- Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.",
         "operationId": "CreateOrCopyEntry",
         "parameters": [
@@ -1783,6 +1813,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -1801,7 +1841,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the fields assigned to an entry. Provide an entry ID, and get a paged listing of all fields assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the fields assigned to an entry.",
         "description": "- Returns the fields assigned to an entry.\n- Provide an entry ID, and get a paged listing of all fields assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetFieldValues",
         "parameters": [
@@ -1975,7 +2015,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Update the field values assigned to an entry. Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.  This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
+        "summary": "Updates the field values assigned to an entry.",
         "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. \n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
         "operationId": "AssignFieldValues",
         "parameters": [
@@ -2078,6 +2118,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -2106,7 +2156,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the tags assigned to an entry. Provide an entry ID, and get a paged listing of tags assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the tags assigned to an entry.",
         "description": "- Returns the tags assigned to an entry.\n- Provide an entry ID, and get a paged listing of tags assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTagsAssignedToEntry",
         "parameters": [
@@ -2259,7 +2309,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Assign tags to an entry. Provide an entry ID and a list of tags to assign to that entry. This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.",
+        "summary": "Assigns tags to an entry.",
         "description": "- Assign tags to an entry.\n- Provide an entry ID and a list of tags to assign to that entry.\n- This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.",
         "operationId": "AssignTags",
         "parameters": [
@@ -2348,6 +2398,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -2376,7 +2436,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Assign links to an entry. Provide an entry ID and a list of links to assign to that entry. This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.",
+        "summary": "Assigns links to an entry.",
         "description": "- Assign links to an entry.\n- Provide an entry ID and a list of links to assign to that entry.\n- This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.",
         "operationId": "AssignEntryLinks",
         "parameters": [
@@ -2467,6 +2527,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -2493,7 +2563,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the links assigned to an entry. Provide an entry ID, and get a paged listing of links assigned to that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the links assigned to an entry.",
         "description": "- Returns the links assigned to an entry.\n- Provide an entry ID, and get a paged listing of links assigned to that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetLinkValuesFromEntry",
         "parameters": [
@@ -2648,8 +2718,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Copy a new child entry in the designated folder async, and potentially return an operationToken. Provide the parent folder ID, and copy an entry as a child of the designated folder. Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.  The status of the operation can be checked via the Tasks/{operationToken} route.",
-        "description": "- Copy a new child entry in the designated folder async, and potentially return an operationToken.\n- Provide the parent folder ID, and copy an entry as a child of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. \n- The status of the operation can be checked via the Tasks/{operationToken} route.",
+        "summary": "Copies an entry into a folder asynchronously.",
+        "description": "- Copy a new child entry in the designated folder async, and potentially return an operationToken.\n- Provide the parent folder ID, and copy an entry as a child of the designated folder.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. \n- The status of the operation can be checked via the Tasks/{operationToken} route.\n- Token substitution in the name of the copied entry is not supported.",
         "operationId": "CopyEntryAsync",
         "parameters": [
           {
@@ -2767,6 +2837,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -2785,7 +2865,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Delete the edoc associated with the provided entry ID.",
+        "summary": "Deletes the edoc associated with an entry.",
         "description": "- Delete the edoc associated with the provided entry ID.",
         "operationId": "DeleteDocument",
         "parameters": [
@@ -2888,8 +2968,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns information about the edoc content of an entry, without downloading the edoc in its entirety. Provide an entry ID, and get back the Content-Type and Content-Length in the response headers. This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
-        "description": "- Returns information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.",
+        "summary": "Returns information about the edoc content of an entry.",
+        "description": "- Returns information about the edoc content of an entry, without downloading the edoc in its entirety.\n- Provide an entry ID, and get back the Content-Type and Content-Length in the response headers.\n- This route does not provide a way to download the actual edoc. Instead, it just gives metadata information about the edoc associated with the entry.\n- If an error occurs, the error message can be found in the X-APIServer-Error HTTP response header.",
         "operationId": "GetDocumentContentType",
         "parameters": [
           {
@@ -2942,7 +3022,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns an entry's edoc resource in a stream format. Provide an entry ID, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.",
+        "summary": "Returns an entry's edoc resource in a stream format.",
         "description": "- Returns an entry's edoc resource in a stream format.\n- Provide an entry ID, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.",
         "operationId": "ExportDocument",
         "parameters": [
@@ -3070,7 +3150,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Delete the pages associated with the provided entry ID. If no pageRange is specified, all pages will be deleted. Optional parameter: pageRange (default empty). The value should be a comma-seperated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"",
+        "summary": "Deletes the pages associated with an entry.",
         "description": "- Delete the pages associated with the provided entry ID. If no pageRange is specified, all pages will be deleted.\n- Optional parameter: pageRange (default empty). The value should be a comma-seperated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"",
         "operationId": "DeletePages",
         "parameters": [
@@ -3185,7 +3265,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns an entry's edoc resource in a stream format while including an audit reason. Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content. Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
+        "summary": "Returns an entry's edoc resource in a stream format, including an audit reason.",
         "description": "- Returns an entry's edoc resource in a stream format while including an audit reason.\n- Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
         "operationId": "ExportDocumentWithAuditReason",
         "parameters": [
@@ -3296,6 +3376,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -3324,7 +3414,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns dynamic field logic values with the current values of the fields in the template. Provide an entry ID and field values in the JSON body to get dynamic field logic values.  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
+        "summary": "Returns the dynamic field logic values assigned to an entry.",
         "description": "- Returns dynamic field logic values with the current values of the fields in the template.\n- Provide an entry ID and field values in the JSON body to get dynamic field logic values.\n Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
         "operationId": "GetDynamicFieldValues",
         "parameters": [
@@ -3418,6 +3508,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -3436,7 +3536,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Remove the currently assigned template from the specified entry. Provide an entry ID to clear template value on. If the entry does not have a template assigned, no change will be made.",
+        "summary": "Removes the currently assigned template from an entry.",
         "description": "- Remove the currently assigned template from the specified entry.\n- Provide an entry ID to clear template value on.\n- If the entry does not have a template assigned, no change will be made.",
         "operationId": "DeleteAssignedTemplate",
         "parameters": [
@@ -3539,7 +3639,7 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Assign a template to an entry. Provide an entry ID, template name, and a list of template fields to assign to that entry. Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.",
+        "summary": "Assigns a template to an entry.",
         "description": "- Assign a template to an entry.\n- Provide an entry ID, template name, and a list of template fields to assign to that entry.\n- Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.",
         "operationId": "WriteTemplateValueToEntry",
         "parameters": [
@@ -3681,6 +3781,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "423": {
             "description": "Entry is locked.",
             "content": {
@@ -3709,7 +3819,7 @@
         "tags": [
           "Repositories"
         ],
-        "summary": "Returns the repository resource list that current user has access to.",
+        "summary": "Returns the list of repositories accessible to the user.",
         "description": "- Returns the repository resource list that current user has access to.",
         "operationId": "GetRepositoryList",
         "responses": {
@@ -3774,7 +3884,7 @@
         "tags": [
           "AuditReasons"
         ],
-        "summary": "Returns the audit reasons associated with the authenticated user. Inherited audit reasons are included. Only includes audit reasons associated with available API functionalities, like delete entry and export document. If the authenticated user does not have the appropriate Laserfiche feature right, the audit reasons associated with that feature right will not be included.",
+        "summary": "Returns the audit reasons associated with the authenticated user.",
         "description": "- Returns the audit reasons associated with the authenticated user. Inherited audit reasons are included.\n- Only includes audit reasons associated with available API functionalities, like delete entry and export document.\n- If the authenticated user does not have the appropriate Laserfiche feature right, the audit reasons associated with that feature right will not be included.",
         "operationId": "GetAuditReasons",
         "parameters": [
@@ -3858,7 +3968,7 @@
         "tags": [
           "Searches"
         ],
-        "summary": "Runs a search operation on the repository. Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage). The status for search operations must be checked via the Search specific status checking route.         ",
+        "summary": "Runs a search in the specified repository.",
         "description": "- Runs a search operation on the repository.\n- Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage). The status for search operations must be checked via the Search specific status checking route.         ",
         "operationId": "CreateSearchOperation",
         "parameters": [
@@ -3956,6 +4066,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -3974,7 +4094,7 @@
         "tags": [
           "Searches"
         ],
-        "summary": "Returns search status. Provide a token (returned in the create search asynchronous route), and get the search status, progress, and any errors that may have occurred. When the search is completed, the Location header can be inspected as a link to the search results. OperationStatus can be one of the following : NotStarted, InProgress, Completed, Failed, or Canceled.",
+        "summary": "Returns the status of a search operation.",
         "description": "- Returns search status.\n- Provide a token (returned in the create search asynchronous route), and get the search status, progress, and any errors that may have occurred. When the search is completed, the Location header can be inspected as a link to the search results.\n- OperationStatus can be one of the following : NotStarted, InProgress, Completed, Failed, or Canceled.",
         "operationId": "GetSearchStatus",
         "parameters": [
@@ -4086,7 +4206,7 @@
         "tags": [
           "Searches"
         ],
-        "summary": "Cancels a currently running search. Closes a completed search.",
+        "summary": "Cancels or closes a search operation.",
         "description": "- Cancels a currently running search.\n- Closes a completed search.",
         "operationId": "CancelOrCloseSearch",
         "parameters": [
@@ -4180,7 +4300,7 @@
         "tags": [
           "Searches"
         ],
-        "summary": "Returns a search result listing if the search is completed. Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type. Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values. Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\". Search results expire after 5 minutes, but can be refreshed by retrieving the results again. Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "summary": "Returns the results listing associated with a search operation.",
         "description": "- Returns a search result listing if the search is completed.\n- Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.\n- Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\". Search results expire after 5 minutes, but can be refreshed by retrieving the results again.\n- Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "GetSearchResults",
         "parameters": [
@@ -4387,7 +4507,7 @@
         "tags": [
           "Searches"
         ],
-        "summary": "Returns the context hits associated with a search result entry. Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the context hits associated with a search result entry.",
         "description": "- Returns the context hits associated with a search result entry.\n- Given a searchToken, and rowNumber associated with a search entry in the listing, return the context hits for that entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetSearchContextHits",
         "parameters": [
@@ -4552,7 +4672,7 @@
         "tags": [
           "SimpleSearches"
         ],
-        "summary": "Runs a \"simple\" search operation on the repository. Returns a truncated search result listing. Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches. Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "summary": "Runs a \"simple\" search operation.",
         "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "CreateSimpleSearchOperation",
         "parameters": [
@@ -4711,6 +4831,16 @@
               }
             }
           },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Operation limit or request limit reached.",
             "content": {
@@ -4729,7 +4859,7 @@
         "tags": [
           "TagDefinitions"
         ],
-        "summary": "Returns all tag definitions in the repository. Provide a repository ID and get a paged listing of tag definitions available in the repository. Useful when trying to display all tag definitions available, not only tags assigned to a specific entry. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the tag definitions associated with a repository.",
         "description": "- Returns all tag definitions in the repository.\n- Provide a repository ID and get a paged listing of tag definitions available in the repository. Useful when trying to display all tag definitions available, not only tags assigned to a specific entry.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTagDefinitions",
         "parameters": [
@@ -4884,7 +5014,7 @@
         "tags": [
           "TagDefinitions"
         ],
-        "summary": "Returns a single tag definition. Provide a tag definition ID, and get the single tag definition associated with that ID. Useful when another route provides a minimal amount of details, and more information about the specific tag is needed. Allowed OData query options: Select",
+        "summary": "Returns a single tag definition object.",
         "description": "- Returns a single tag definition.\n- Provide a tag definition ID, and get the single tag definition associated with that ID. Useful when another route provides a minimal amount of details, and more information about the specific tag is needed.\n- Allowed OData query options: Select",
         "operationId": "GetTagDefinitionById",
         "parameters": [
@@ -5000,7 +5130,7 @@
         "tags": [
           "Tasks"
         ],
-        "summary": "Returns the status of an operation. Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant). OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
+        "summary": "Returns the status of an operation.",
         "description": "- Returns the status of an operation.\n- Provide an operationToken (returned in other asynchronous routes) to get the operation status, progress, and any errors that may have occurred. When the operation is completed, the Location header can be inspected as a link to the modified resources (if relevant).\n- OperationStatus can be one of the following values: NotStarted, InProgress, Completed, or Failed.",
         "operationId": "GetOperationStatusAndProgress",
         "parameters": [
@@ -5112,7 +5242,7 @@
         "tags": [
           "Tasks"
         ],
-        "summary": "Cancels an operation. Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary. Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
+        "summary": "Cancels an operation.",
         "description": "- Cancels an operation.\n- Provide an operationToken to cancel the operation, if possible. Should be used if an operation was created in error, or is no longer necessary.\n- Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.",
         "operationId": "CancelOperation",
         "parameters": [
@@ -5199,7 +5329,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
-        "summary": "Returns all template definitions (including field definitions) in the repository. If a template name query parameter is given, then a single template definition is returned. Provide a repository ID, and get a paged listing of template definitions available in the repository. Useful when trying to find a list of all template definitions available, rather than a specific one. Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the template definitions associated with a repository.",
         "description": "- Returns all template definitions (including field definitions) in the repository. If a template name query parameter is given, then a single template definition is returned.\n- Provide a repository ID, and get a paged listing of template definitions available in the repository. Useful when trying to find a list of all template definitions available, rather than a specific one.\n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateDefinitions",
         "parameters": [
@@ -5364,7 +5494,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
-        "summary": "Returns a single template definition (including field definitions, if relevant). Provide a template definition ID, and get the single template definition associated with that ID. Useful when a route provides a minimal amount of details, and more information about the specific template is needed. Allowed OData query options: Select",
+        "summary": "Returns a single template definition object.",
         "description": "- Returns a single template definition (including field definitions, if relevant).\n- Provide a template definition ID, and get the single template definition associated with that ID. Useful when a route provides a minimal amount of details, and more information about the specific template is needed.\n- Allowed OData query options: Select",
         "operationId": "GetTemplateDefinitionById",
         "parameters": [
@@ -5480,7 +5610,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
-        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition ID, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the field definitions assigned to a template definition (by template definition ID).",
         "description": "- Returns the field definitions assigned to a template definition.\n- Provide a template definition ID, and get a paged listing of the field definitions assigned to that template. \n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateFieldDefinitions",
         "parameters": [
@@ -5646,7 +5776,7 @@
         "tags": [
           "TemplateDefinitions"
         ],
-        "summary": "Returns the field definitions assigned to a template definition. Provide a template definition name, and get a paged listing of the field definitions assigned to that template.  Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
+        "summary": "Returns the field definitions assigned to a template definition (by template definition name).",
         "description": "- Returns the field definitions assigned to a template definition.\n- Provide a template definition name, and get a paged listing of the field definitions assigned to that template. \n- Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.",
         "operationId": "GetTemplateFieldDefinitionsByTemplateName",
         "parameters": [
@@ -5812,7 +5942,7 @@
         "tags": [
           "ServerSession"
         ],
-        "summary": "Deprecated. Invalidates the server session. Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session. Only available in Laserfiche Cloud.",
+        "summary": "Deprecated. Do not call this api.",
         "description": "- Deprecated.\n- Invalidates the server session.\n- Acts as a \"logout\" operation, and invalidates the session associated with the provided access token. This method should be used when the client wants to clean up the current session.\n- Only available in Laserfiche Cloud.",
         "operationId": "InvalidateServerSession",
         "parameters": [
@@ -5897,7 +6027,7 @@
         "tags": [
           "ServerSession"
         ],
-        "summary": "Deprecated. Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires. When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token. Only available in Laserfiche Cloud.",
+        "summary": "Deprecated. Do not call this api.",
         "description": "- Deprecated.\n- Refreshes the session associated with the access token. This is only necessary if you want to keep the same session alive, otherwise a new session will be automatically created when the session expires.\n- When a client application wants to keep a session alive that has been idle for an hour, this route can be used to refresh the expiration timer associated with the access token.\n- Only available in Laserfiche Cloud.",
         "operationId": "RefreshServerSession",
         "parameters": [
@@ -5982,7 +6112,7 @@
         "tags": [
           "ServerSession"
         ],
-        "summary": "Deprecated. This function is a no-op, always returns 200. Only available in Laserfiche Cloud.",
+        "summary": "Deprecated. Do not call this api.",
         "description": "- Deprecated. This function is a no-op, always returns 200.\n- Only available in Laserfiche Cloud.",
         "operationId": "CreateServerSession",
         "parameters": [
@@ -6753,28 +6883,6 @@
             }
           }
         ]
-      },
-      "SimpleImportMetadata": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "fields": {
-            "type": "object",
-            "description": "The fields that will be assigned to the entry.",
-            "nullable": true,
-            "additionalProperties": {
-              "$ref": "#/components/schemas/FieldToUpdate"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "description": "The tags that will be assigned to the entry.",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          }
-        }
       },
       "ODataValueContextOfListOfAttribute": {
         "allOf": [
@@ -8485,6 +8593,28 @@
             "format": "date-time"
           }
         }
+      },
+      "SimpleImportMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fields": {
+            "type": "object",
+            "description": "The fields that will be assigned to the entry.",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FieldToUpdate"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "The tags that will be assigned to the entry.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -8495,24 +8625,15 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
             "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
-            "scopes": {}
-          }
-        }
-      },
-      "OAuth2 Client Credentials Flow": {
-        "type": "http",
-        "description": "",
-        "scheme": "Bearer",
-        "bearerFormat": "JWT",
-        "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
-            "scopes": {}
+            "scopes": {
+              "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
+              "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."
+            }
           }
         }
       }
@@ -8524,9 +8645,6 @@
     },
     {
       "OAuth2 Authorization Code Flow": []
-    },
-    {
-      "OAuth2 Client Credentials Flow": []
     }
   ]
 }
