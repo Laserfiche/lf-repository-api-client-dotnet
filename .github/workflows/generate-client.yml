@@ -41,9 +41,16 @@ jobs:
     - name: Generate the client
       run: pwsh ./generate-client/generate-client.ps1 -input_folder './generate-client' -output_folder './src/Clients'
 
+    - uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.LF_PULL_REQUEST_BOT_APPID }}
+        private_key: ${{ secrets.LF_PULL_REQUEST_BOT_PRIVATE_KEY }}
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4.2.3
       with:
+        token: ${{ steps.generate-token.outputs.token }}
         branch: ${{ github.ref_name }}-generate-${{ env.API_VERSION }}-client
         delete-branch: true
         title: "Automated update for generating the ${{ env.API_VERSION }} client by action ${{ github.run_id }}"
