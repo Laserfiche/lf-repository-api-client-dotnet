@@ -43,15 +43,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Creates a new document in the specified folder with file (no more than 100 MB).<br/>
         /// - Optionally sets metadata and electronic document component.<br/>
-        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.
+        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.<br/>
+        /// - With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="parentEntryId">The entry ID of the folder that the document will be created in.</param>
         /// <param name="fileName">The created document's file name.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -63,7 +62,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns a single entry object.<br/>
         /// - Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.<br/>
-        /// - Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.
+        /// - If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.<br/>
+        /// - Allowed OData query options: Select.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -77,9 +77,9 @@ namespace Laserfiche.Repository.Api.Client
         /// Deletes an entry asynchronously.
         /// </summary>
         /// <remarks>
-        /// - Begins a task to delete an entry, and returns an operationToken.<br/>
+        /// - Begins an asynchronous task to delete an entry, and returns an operationToken. Check the progress via the Tasks/{operationToken} route.<br/>
         /// - Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.<br/>
-        /// - Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.
+        /// - Optionally include an audit reason ID and comment in the JSON body.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -99,12 +99,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name<br/>
-        ///             the entry will be renamed to.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically<br/>
-        ///             renamed if another entry already exists with the same name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically renamed if another entry already exists with the same name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -131,10 +128,10 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns the children entries of a folder in the repository.<br/>
         /// - Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.<br/>
-        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.<br/>
-        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.<br/>
+        /// - Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. <br/>
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc".
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID.</param>
@@ -142,9 +139,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -166,10 +161,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
         /// <param name="request">The entry to create.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -186,11 +179,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted.<br/>
-        ///             The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -206,13 +196,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Update the field values assigned to an entry.<br/>
-        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. <br/>
+        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -304,10 +293,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
         /// <param name="request">Copy entry request.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -352,8 +339,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
-        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single<br/>
-        ///             range with byte unit.</param>
+        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -380,12 +366,12 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns an entry's edoc resource in a stream format while including an audit reason.<br/>
         /// - Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.<br/>
-        /// - Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
+        /// - Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.<br/>
+        /// - This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
-        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single<br/>
-        ///             range with byte unit.</param>
+        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -397,7 +383,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns dynamic field logic values with the current values of the fields in the template.<br/>
         /// - Provide an entry ID and field values in the JSON body to get dynamic field logic values.<br/>
-        ///  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
+        /// - Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -432,8 +418,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The ID of entry that will have its template updated.</param>
         /// <param name="request">The template and template fields that will be assigned to the entry.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -472,15 +457,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Creates a new document in the specified folder with file (no more than 100 MB).<br/>
         /// - Optionally sets metadata and electronic document component.<br/>
-        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.
+        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.<br/>
+        /// - With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="parentEntryId">The entry ID of the folder that the document will be created in.</param>
         /// <param name="fileName">The created document's file name.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new document should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Document creation is success.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -683,7 +667,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns a single entry object.<br/>
         /// - Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.<br/>
-        /// - Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.
+        /// - If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.<br/>
+        /// - Allowed OData query options: Select.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -827,9 +812,9 @@ namespace Laserfiche.Repository.Api.Client
         /// Deletes an entry asynchronously.
         /// </summary>
         /// <remarks>
-        /// - Begins a task to delete an entry, and returns an operationToken.<br/>
+        /// - Begins an asynchronous task to delete an entry, and returns an operationToken. Check the progress via the Tasks/{operationToken} route.<br/>
         /// - Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.<br/>
-        /// - Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.
+        /// - Optionally include an audit reason ID and comment in the JSON body.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -988,12 +973,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name<br/>
-        ///             the entry will be renamed to.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically<br/>
-        ///             renamed if another entry already exists with the same name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically renamed if another entry already exists with the same name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Moves and/or renames an entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1315,10 +1297,10 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns the children entries of a folder in the repository.<br/>
         /// - Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.<br/>
-        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.<br/>
-        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.<br/>
+        /// - Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. <br/>
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc".
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID.</param>
@@ -1326,9 +1308,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -1515,10 +1495,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
         /// <param name="request">The entry to create.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Created a new child entry successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1693,11 +1671,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted.<br/>
-        ///             The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -1870,13 +1845,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Update the field values assigned to an entry.<br/>
-        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. <br/>
+        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Update field values successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2718,10 +2692,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The folder ID that the entry will be created in.</param>
         /// <param name="request">Copy entry request.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically<br/>
-        ///             renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -3154,8 +3126,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
-        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single<br/>
-        ///             range with byte unit.</param>
+        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -3466,12 +3437,12 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns an entry's edoc resource in a stream format while including an audit reason.<br/>
         /// - Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.<br/>
-        /// - Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
+        /// - Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.<br/>
+        /// - This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested document ID.</param>
-        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single<br/>
-        ///             range with byte unit.</param>
+        /// <param name="range">An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get edoc successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -3641,7 +3612,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns dynamic field logic values with the current values of the fields in the template.<br/>
         /// - Provide an entry ID and field values in the JSON body to get dynamic field logic values.<br/>
-        ///  Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
+        /// - Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The requested entry ID.</param>
@@ -3950,8 +3921,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The ID of entry that will have its template updated.</param>
         /// <param name="request">The template and template fields that will be assigned to the entry.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used.<br/>
-        ///             The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4224,7 +4194,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
         /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
-        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer. Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.
+        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
+        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
@@ -4287,7 +4258,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
         /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
-        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer. Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.
+        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
+        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
@@ -4713,8 +4685,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="fieldDefinitionId">The requested field definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get field definition successfully.</returns>
@@ -4731,8 +4702,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -4780,8 +4750,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="fieldDefinitionId">The requested field definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get field definition successfully.</returns>
@@ -4932,8 +4901,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -6232,7 +6200,8 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Runs a search operation on the repository.<br/>
-        /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage). The status for search operations must be checked via the Search specific status checking route.
+        /// - The status for search operations must be checked via the Search specific status checking route.<br/>
+        /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
@@ -6275,12 +6244,11 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Returns a search result listing if the search is completed.<br/>
+        /// - Search results expire after 5 minutes, but can be refreshed by retrieving the results again.<br/>
         /// - Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.<br/>
         /// - Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.<br/>
-        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc". Search results expire after 5 minutes, but can be refreshed by retrieving the results again.<br/>
-        /// - Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc".
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="searchToken">The requested searchToken.</param>
@@ -6289,9 +6257,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -6356,7 +6322,8 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Runs a search operation on the repository.<br/>
-        /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage). The status for search operations must be checked via the Search specific status checking route.
+        /// - The status for search operations must be checked via the Search specific status checking route.<br/>
+        /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
@@ -6804,12 +6771,11 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Returns a search result listing if the search is completed.<br/>
+        /// - Search results expire after 5 minutes, but can be refreshed by retrieving the results again.<br/>
         /// - Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.<br/>
         /// - Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.<br/>
-        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc". Search results expire after 5 minutes, but can be refreshed by retrieving the results again.<br/>
-        /// - Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc".
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="searchToken">The requested searchToken.</param>
@@ -6818,9 +6784,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -7289,9 +7253,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Runs a "simple" search operation on the repository.<br/>
         /// - Returns a truncated search result listing.<br/>
         /// - Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.<br/>
-        /// - Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
@@ -7300,9 +7262,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="request">The Laserfiche search command to run.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -7342,9 +7302,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Runs a "simple" search operation on the repository.<br/>
         /// - Returns a truncated search result listing.<br/>
         /// - Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.<br/>
-        /// - Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.<br/>
-        /// - If field values are requested, only the first value is returned if it is a multi value field.<br/>
-        /// - Null or Empty field values should not be used to determine if a field is assigned to the entry.
+        /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
@@ -7353,9 +7311,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
         /// <param name="formatFields">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
         /// <param name="request">The Laserfiche search command to run.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise<br/>
-        ///             culture will not be used for formatting.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Simple search run successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -7654,8 +7610,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -7676,8 +7631,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="tagId">The requested tag definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get tag definition successfully.</returns>
@@ -7721,8 +7675,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -7892,8 +7845,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="tagId">The requested tag definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get tag definition successfully.</returns>
@@ -8611,8 +8563,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -8633,8 +8584,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get template definition successfully.</returns>
@@ -8652,8 +8602,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -8675,8 +8624,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">A required query parameter for the requested template name.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -8725,8 +8673,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -8900,8 +8847,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get template definition successfully.</returns>
@@ -9053,8 +8999,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateId">The requested template definition ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -9229,8 +9174,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="templateName">A required query parameter for the requested template name.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.<br/>
-        ///             The value should be a standard language tag.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
         /// <param name="top">Limits the number of items returned from a collection.</param>
@@ -10706,8 +10650,7 @@ namespace Laserfiche.Repository.Api.Client
         public int Length { get; set; }
 
         /// <summary>
-        /// The default value of the field for new entries that are assigned<br/>
-        /// to a template the represented field is a member of.
+        /// The default value of the field for new entries that are assigned to a template the represented field is a member of.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("defaultValue", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DefaultValue { get; set; }
@@ -10719,8 +10662,7 @@ namespace Laserfiche.Repository.Api.Client
         public bool IsMultiValue { get; set; }
 
         /// <summary>
-        /// A boolean indicating if the represented field must have a value set<br/>
-        /// on entries assigned to a template that the field is a member of.
+        /// A boolean indicating if the represented field must have a value set on entries assigned to a template that the field is a member of.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsRequired { get; set; }
@@ -10732,8 +10674,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Constraint { get; set; }
 
         /// <summary>
-        /// The error string that will be returned when the field constraint<br/>
-        /// is violated when setting a value for this field.
+        /// The error string that will be returned when the field constraint is violated when setting a value for this field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("constraintError", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ConstraintError { get; set; }
@@ -10752,16 +10693,13 @@ namespace Laserfiche.Repository.Api.Client
         public WFieldFormat Format { get; set; }
 
         /// <summary>
-        /// The name of the currency that will be using when formatting<br/>
-        /// the represented field when the Format property is set to the<br/>
-        /// Currency member of the WFieldFormat enumeration.
+        /// The name of the currency that will be using when formatting the represented field when the Format property is set to the Currency member of the WFieldFormat enumeration.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Currency { get; set; }
 
         /// <summary>
-        /// The custom format pattern for fields that are configured to<br/>
-        /// use a custom format.
+        /// The custom format pattern for fields that are configured to use a custom format.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("formatPattern", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FormatPattern { get; set; }
@@ -11118,8 +11056,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class Document : Entry
     {
         /// <summary>
-        /// The size of the electronic document attached to the represented document,<br/>
-        /// if there is one, in bytes.
+        /// The size of the electronic document attached to the represented document, if there is one, in bytes.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("elecDocumentSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long ElecDocumentSize { get; set; }
@@ -11208,15 +11145,13 @@ namespace Laserfiche.Repository.Api.Client
     public partial class Folder : Entry
     {
         /// <summary>
-        /// A boolean indicating if the folder that this instance represents is known<br/>
-        /// to be a record folder.
+        /// A boolean indicating if the folder that this instance represents is known to be a record folder.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isRecordFolder", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsRecordFolder { get; set; }
 
         /// <summary>
-        /// A boolean indicating if the folder that this instance represents is known<br/>
-        /// to directly or indirectly under a record series in the repository.
+        /// A boolean indicating if the folder that this instance represents is known to directly or indirectly under a record series in the repository.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isUnderRecordSeries", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsUnderRecordSeries { get; set; }
@@ -11414,8 +11349,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Description { get; set; }
 
         /// <summary>
-        /// A boolean indicating whether or not the tag definition is classified<br/>
-        /// as a security tag (true) or an informational tag (false).
+        /// A boolean indicating whether or not the tag definition is classified as a security tag (true) or an informational tag (false).
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isSecure", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsSecure { get; set; }
@@ -11463,8 +11397,7 @@ namespace Laserfiche.Repository.Api.Client
         public bool IsWatermarkMandatory { get; set; }
 
         /// <summary>
-        /// The intensity of the watermark associated with the tag definition. Valid value <br/>
-        /// ranges from 0 to 100, with -1 as the default values.
+        /// The intensity of the watermark associated with the tag definition. Valid value ranges from 0 to 100, with -1 as the default values.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("watermarkIntensity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int WatermarkIntensity { get; set; }
@@ -12303,8 +12236,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class Rule
     {
         /// <summary>
-        /// The IDs of the parent fields in the template according to the<br/>
-        /// form logic rule.
+        /// The IDs of the parent fields in the template according to the form logic rule.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ancestors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ICollection<int> Ancestors { get; set; }

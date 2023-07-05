@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>c2b48a709248742c8c1c8aa8718ead3d7e893a85_.20230614.5</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>617d5be003aaf233ff53781aed4dac15a060c8ac_.20230630.1</p>",
     "version": "1"
   },
   "servers": [
@@ -18,7 +18,7 @@
           "Entries"
         ],
         "summary": "Creates a new document in a folder.",
-        "description": "- Creates a new document in the specified folder with file (no more than 100 MB).\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed. With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
+        "description": "- Creates a new document in the specified folder with file (no more than 100 MB).\n- Optionally sets metadata and electronic document component.\n- Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.\n- With this route, partial success is possible. The response returns multiple operation (entryCreate operation, setEdoc operation, setLinks operation, etc..) objects, which contain information about any errors that may have occurred during the creation. As long as the entryCreate operation succeeds, the entry will be created, even if all other operations fail.",
         "operationId": "ImportDocument",
         "parameters": [
           {
@@ -55,7 +55,7 @@
           {
             "name": "autoRename",
             "in": "query",
-            "description": "An optional query parameter used to indicate if the new document should be automatically\n            renamed if an entry already exists with the given name in the folder. The default value is false.",
+            "description": "An optional query parameter used to indicate if the new document should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.",
             "schema": {
               "type": "boolean"
             },
@@ -64,7 +64,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -191,7 +191,7 @@
           "Attributes"
         ],
         "summary": "Returns the attribute key value pairs associated with the authenticated user.",
-        "description": "- Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the \"Everyone\" group.\n- Attribute keys can be used with subsequent calls to get specific attribute values.\n- Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer. Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the \"Everyone\" group. Note when this is true, the response does not include both the \"Everyone\" groups attribute and the currently authenticated user, but only the \"Everyone\" groups.",
+        "description": "- Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the \"Everyone\" group.\n- Attribute keys can be used with subsequent calls to get specific attribute values.\n- Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the \"Everyone\" group. Note when this is true, the response does not include both the \"Everyone\" groups attribute and the currently authenticated user, but only the \"Everyone\" groups.\n- Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.",
         "operationId": "GetTrusteeAttributeKeyValuePairs",
         "parameters": [
           {
@@ -474,7 +474,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -590,7 +590,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -967,7 +967,7 @@
           "Entries"
         ],
         "summary": "Returns a single entry object.",
-        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- Allowed OData query options: Select. If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.",
+        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.\n- Allowed OData query options: Select.",
         "operationId": "GetEntry",
         "parameters": [
           {
@@ -1070,7 +1070,7 @@
           "Entries"
         ],
         "summary": "Deletes an entry asynchronously.",
-        "description": "- Begins a task to delete an entry, and returns an operationToken.\n- Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.\n- Optionally include an audit reason ID and comment in the JSON body. This route returns an operationToken, and will run as an asynchronous operation. Check the progress via the Tasks/{operationToken} route.",
+        "description": "- Begins an asynchronous task to delete an entry, and returns an operationToken. Check the progress via the Tasks/{operationToken} route.\n- Provide an entry ID, and queue a delete task to remove it from the repository (includes nested objects if the entry is a Folder type). The entry will not be deleted immediately.\n- Optionally include an audit reason ID and comment in the JSON body.",
         "operationId": "DeleteEntryInfo",
         "parameters": [
           {
@@ -1212,7 +1212,7 @@
           {
             "name": "autoRename",
             "in": "query",
-            "description": "An optional query parameter used to indicate if the entry should be automatically\n            renamed if another entry already exists with the same name in the folder. The default value is false.",
+            "description": "An optional query parameter used to indicate if the entry should be automatically renamed if another entry already exists with the same name in the folder. The default value is false.",
             "schema": {
               "type": "boolean"
             },
@@ -1221,7 +1221,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -1232,7 +1232,7 @@
         ],
         "requestBody": {
           "x-name": "request",
-          "description": "The request containing the folder ID that the entry will be moved to and the new name\n            the entry will be renamed to.",
+          "description": "The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.",
           "content": {
             "application/json": {
               "schema": {
@@ -1471,7 +1471,7 @@
           "Entries"
         ],
         "summary": "Returns the children entries of a folder.",
-        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\". Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "description": "- Returns the children entries of a folder in the repository.\n- Provide an entry ID (must be a folder), and get a paged listing of entries in that folder. Used as a way of navigating through the repository.\n- Entries returned in the listing are not automatically converted to their subtype (Folder, Shortcut, Document), so clients who want model-specific information should request it via the GET entry by ID route.\n- Optional query parameters: groupByOrderType (bool). This query parameter decides if results are returned in groups based on their entry type. \n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". Sort order can be either value \"asc\" or \"desc\".",
         "operationId": "GetEntryListing",
         "parameters": [
           {
@@ -1542,7 +1542,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise\n            culture will not be used for formatting.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.",
             "schema": {
               "type": "string",
               "default": "",
@@ -1695,7 +1695,7 @@
           {
             "name": "autoRename",
             "in": "query",
-            "description": "An optional query parameter used to indicate if the new entry should be automatically\n            renamed if an entry already exists with the given name in the folder. The default value is false.",
+            "description": "An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.",
             "schema": {
               "type": "boolean"
             },
@@ -1704,7 +1704,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -1880,7 +1880,7 @@
           {
             "name": "formatValue",
             "in": "query",
-            "description": "An optional query parameter used to indicate if the field values should be formatted.\n            The default value is false.",
+            "description": "An optional query parameter used to indicate if the field values should be formatted. The default value is false.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -1890,7 +1890,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise\n            culture will not be used for formatting.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise culture will not be used for formatting.",
             "schema": {
               "type": "string",
               "default": "",
@@ -2016,7 +2016,7 @@
           "Entries"
         ],
         "summary": "Updates the field values assigned to an entry.",
-        "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values. \n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
+        "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.\n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.",
         "operationId": "AssignFieldValues",
         "parameters": [
           {
@@ -2043,7 +2043,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -2746,7 +2746,7 @@
           {
             "name": "autoRename",
             "in": "query",
-            "description": "An optional query parameter used to indicate if the new entry should be automatically\n            renamed if an entry already exists with the given name in the folder. The default value is false.",
+            "description": "An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.",
             "schema": {
               "type": "boolean"
             },
@@ -2755,7 +2755,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -3051,7 +3051,7 @@
             "name": "Range",
             "x-originalName": "range",
             "in": "header",
-            "description": "An optional header used to retrieve partial content of the edoc. Only supports single\n            range with byte unit.",
+            "description": "An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -3266,7 +3266,7 @@
           "Entries"
         ],
         "summary": "Returns an entry's edoc resource in a stream format, including an audit reason.",
-        "description": "- Returns an entry's edoc resource in a stream format while including an audit reason.\n- Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc. This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
+        "description": "- Returns an entry's edoc resource in a stream format while including an audit reason.\n- Provide an entry ID and audit reason/comment in the request body, and get the edoc resource as part of the response content.\n- Optional header: Range. Use the Range header (single range with byte unit) to retrieve partial content of the edoc, rather than the entire edoc.\n- This route is identical to the GET edoc route, but allows clients to include an audit reason when downloading the edoc.",
         "operationId": "ExportDocumentWithAuditReason",
         "parameters": [
           {
@@ -3294,7 +3294,7 @@
             "name": "Range",
             "x-originalName": "range",
             "in": "header",
-            "description": "An optional header used to retrieve partial content of the edoc. Only supports single\n            range with byte unit.",
+            "description": "An optional header used to retrieve partial content of the edoc. Only supports single range with byte unit.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -3415,7 +3415,7 @@
           "Entries"
         ],
         "summary": "Returns the dynamic field logic values assigned to an entry.",
-        "description": "- Returns dynamic field logic values with the current values of the fields in the template.\n- Provide an entry ID and field values in the JSON body to get dynamic field logic values.\n Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
+        "description": "- Returns dynamic field logic values with the current values of the fields in the template.\n- Provide an entry ID and field values in the JSON body to get dynamic field logic values.\n- Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.",
         "operationId": "GetDynamicFieldValues",
         "parameters": [
           {
@@ -3667,7 +3667,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used.\n            The value should be a standard language tag. This may be used when setting field values with tokens.",
+            "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.",
             "schema": {
               "type": "string",
               "default": "",
@@ -3969,7 +3969,7 @@
           "Searches"
         ],
         "summary": "Runs a search in the specified repository.",
-        "description": "- Runs a search operation on the repository.\n- Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage). The status for search operations must be checked via the Search specific status checking route.         ",
+        "description": "- Runs a search operation on the repository.\n- The status for search operations must be checked via the Search specific status checking route.\n- Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).",
         "operationId": "CreateSearchOperation",
         "parameters": [
           {
@@ -4301,7 +4301,7 @@
           "Searches"
         ],
         "summary": "Returns the results listing associated with a search operation.",
-        "description": "- Returns a search result listing if the search is completed.\n- Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.\n- Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\". Search results expire after 5 minutes, but can be refreshed by retrieving the results again.\n- Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "description": "- Returns a search result listing if the search is completed.\n- Search results expire after 5 minutes, but can be refreshed by retrieving the results again.\n- Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.\n- Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\".",
         "operationId": "GetSearchResults",
         "parameters": [
           {
@@ -4380,7 +4380,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise\n            culture will not be used for formatting.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.",
             "schema": {
               "type": "string",
               "default": "",
@@ -4673,7 +4673,7 @@
           "SimpleSearches"
         ],
         "summary": "Runs a \"simple\" search operation.",
-        "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- Optionally returns field values for the entries in the search result listing. Each field name needs to be specified in the request. Maximum limit of 10 field names.\n- If field values are requested, only the first value is returned if it is a multi value field.\n- Null or Empty field values should not be used to determine if a field is assigned to the entry.",
+        "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.",
         "operationId": "CreateSimpleSearchOperation",
         "parameters": [
           {
@@ -4713,7 +4713,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise\n            culture will not be used for formatting.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.",
             "schema": {
               "type": "string",
               "default": "",
@@ -4887,7 +4887,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -5042,7 +5042,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -5367,7 +5367,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -5522,7 +5522,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -5649,7 +5649,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -5815,7 +5815,7 @@
           {
             "name": "culture",
             "in": "query",
-            "description": "An optional query parameter used to indicate the locale that should be used for formatting.\n            The value should be a standard language tag.",
+            "description": "An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.",
             "schema": {
               "type": "string",
               "default": "",
@@ -6973,7 +6973,7 @@
           },
           "defaultValue": {
             "type": "string",
-            "description": "The default value of the field for new entries that are assigned\nto a template the represented field is a member of.",
+            "description": "The default value of the field for new entries that are assigned to a template the represented field is a member of.",
             "nullable": true
           },
           "isMultiValue": {
@@ -6982,7 +6982,7 @@
           },
           "isRequired": {
             "type": "boolean",
-            "description": "A boolean indicating if the represented field must have a value set\non entries assigned to a template that the field is a member of."
+            "description": "A boolean indicating if the represented field must have a value set on entries assigned to a template that the field is a member of."
           },
           "constraint": {
             "type": "string",
@@ -6991,7 +6991,7 @@
           },
           "constraintError": {
             "type": "string",
-            "description": "The error string that will be returned when the field constraint\nis violated when setting a value for this field.",
+            "description": "The error string that will be returned when the field constraint is violated when setting a value for this field.",
             "nullable": true
           },
           "listValues": {
@@ -7012,12 +7012,12 @@
           },
           "currency": {
             "type": "string",
-            "description": "The name of the currency that will be using when formatting\nthe represented field when the Format property is set to the\nCurrency member of the WFieldFormat enumeration.",
+            "description": "The name of the currency that will be using when formatting the represented field when the Format property is set to the Currency member of the WFieldFormat enumeration.",
             "nullable": true
           },
           "formatPattern": {
             "type": "string",
-            "description": "The custom format pattern for fields that are configured to\nuse a custom format.",
+            "description": "The custom format pattern for fields that are configured to use a custom format.",
             "nullable": true
           }
         }
@@ -7361,7 +7361,7 @@
             "properties": {
               "elecDocumentSize": {
                 "type": "integer",
-                "description": "The size of the electronic document attached to the represented document,\nif there is one, in bytes.",
+                "description": "The size of the electronic document attached to the represented document, if there is one, in bytes.",
                 "format": "int64"
               },
               "extension": {
@@ -7454,11 +7454,11 @@
             "properties": {
               "isRecordFolder": {
                 "type": "boolean",
-                "description": "A boolean indicating if the folder that this instance represents is known\nto be a record folder."
+                "description": "A boolean indicating if the folder that this instance represents is known to be a record folder."
               },
               "isUnderRecordSeries": {
                 "type": "boolean",
-                "description": "A boolean indicating if the folder that this instance represents is known\nto directly or indirectly under a record series in the repository."
+                "description": "A boolean indicating if the folder that this instance represents is known to directly or indirectly under a record series in the repository."
               },
               "children": {
                 "type": "array",
@@ -7694,7 +7694,7 @@
           },
           "isSecure": {
             "type": "boolean",
-            "description": "A boolean indicating whether or not the tag definition is classified\nas a security tag (true) or an informational tag (false)."
+            "description": "A boolean indicating whether or not the tag definition is classified as a security tag (true) or an informational tag (false)."
           },
           "watermark": {
             "description": "The watermark properties associated with the tag definition.",
@@ -7740,7 +7740,7 @@
           },
           "watermarkIntensity": {
             "type": "integer",
-            "description": "The intensity of the watermark associated with the tag definition. Valid value \nranges from 0 to 100, with -1 as the default values.",
+            "description": "The intensity of the watermark associated with the tag definition. Valid value ranges from 0 to 100, with -1 as the default values.",
             "format": "int32"
           }
         }
@@ -8575,7 +8575,7 @@
         "properties": {
           "ancestors": {
             "type": "array",
-            "description": "The IDs of the parent fields in the template according to the\nform logic rule.",
+            "description": "The IDs of the parent fields in the template according to the form logic rule.",
             "nullable": true,
             "items": {
               "type": "integer",
