@@ -21,7 +21,9 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: |
+          3.1.x
+          6.0.x
 
     - name: Restore dependencies
       run: dotnet restore --ignore-failed-sources
@@ -34,7 +36,7 @@ jobs:
       with:
         appname: 'lf-repository-api-client-dotnet'
         createprofile: true
-        filepath: 'src/bin/Debug/netstandard2.0'
+        filepath: 'src/bin/Debug'
         vid: '${{ secrets.VERACODE_API_ID }}'
         vkey: '${{ secrets.VERACODE_API_KEY }}'
 
