@@ -26,7 +26,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore --ignore-failed-sources
 
-    - name: Build solution
+    - name: Publish solution
       run: dotnet publish --no-restore
 
     - name: Veracode Upload And Scan (Static Application Security Testing)
