@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore --ignore-failed-sources
 
     - name: Publish solution
-      run: dotnet publish --no-restore
+      run: dotnet publish src/Laserfiche.Repository.Api.Client.csproj --no-restore
 
     - name: Veracode Upload And Scan (Static Application Security Testing)
       uses: veracode/veracode-uploadandscan-action@0.2.6
