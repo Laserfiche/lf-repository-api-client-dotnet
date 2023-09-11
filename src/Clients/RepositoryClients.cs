@@ -9672,7 +9672,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Attribute> Value { get; set; }
+        public IList<Attribute> Value { get; set; }
 
     }
 
@@ -9715,7 +9715,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<AuditReason> Value { get; set; }
+        public IList<AuditReason> Value { get; set; }
 
     }
 
@@ -9838,7 +9838,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The list of items assigned to the represented field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("listValues", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> ListValues { get; set; }
+        public IList<string> ListValues { get; set; }
 
         /// <summary>
         /// The display format of the represented field.
@@ -9961,7 +9961,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<FieldDefinition> Value { get; set; }
+        public IList<FieldDefinition> Value { get; set; }
 
     }
 
@@ -9984,7 +9984,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<LinkDefinition> Value { get; set; }
+        public IList<LinkDefinition> Value { get; set; }
 
     }
 
@@ -10036,7 +10036,7 @@ namespace Laserfiche.Repository.Api.Client
         /// A list of URLs to which the file chunk should be written.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("urls", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> Urls { get; set; }
+        public IList<string> Urls { get; set; }
 
     }
 
@@ -10110,7 +10110,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("partETags", Required = Newtonsoft.Json.Required.Always)]
         [ComponentModel.DataAnnotations.Required]
-        public ICollection<string> PartETags { get; set; } = new Collections.ObjectModel.Collection<string>();
+        public IList<string> PartETags { get; set; } = new Collections.ObjectModel.Collection<string>();
 
         /// <summary>
         /// The name for the imported entry.
@@ -10218,19 +10218,19 @@ namespace Laserfiche.Repository.Api.Client
         /// The fields that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<FieldToUpdate> Fields { get; set; }
+        public IList<FieldToUpdate> Fields { get; set; }
 
         /// <summary>
         /// The tags that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> Tags { get; set; }
+        public IList<string> Tags { get; set; }
 
         /// <summary>
         /// The links that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("links", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<LinkToUpdate> Links { get; set; }
+        public IList<LinkToUpdate> Links { get; set; }
 
     }
 
@@ -10251,7 +10251,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The field values that will be assigned to the field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> Values { get; set; }
+        public IList<string> Values { get; set; }
 
     }
 
@@ -10651,7 +10651,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The names of the fields assigned to the template assigned to this entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("templateFieldNames", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> TemplateFieldNames { get; set; }
+        public IList<string> TemplateFieldNames { get; set; }
 
         /// <summary>
         /// The name of the volume that this entry is associated with.
@@ -10669,7 +10669,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The fields assigned to this entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Field> Fields { get; set; }
+        public IList<Field> Fields { get; set; }
 
     }
 
@@ -10747,7 +10747,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The values assigned to the field.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("values", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> Values { get; set; }
+        public IList<string> Values { get; set; }
 
     }
 
@@ -10867,277 +10867,277 @@ namespace Laserfiche.Repository.Api.Client
     public abstract partial class IHeaderDictionary
     {
         [Newtonsoft.Json.JsonProperty("Item", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Item { get; set; }
+        public IList<object> Item { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLength", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long? ContentLength { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Accept", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Accept { get; set; }
+        public IList<object> Accept { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptCharset", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AcceptCharset { get; set; }
+        public IList<object> AcceptCharset { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AcceptEncoding { get; set; }
+        public IList<object> AcceptEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptLanguage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AcceptLanguage { get; set; }
+        public IList<object> AcceptLanguage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AcceptRanges", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AcceptRanges { get; set; }
+        public IList<object> AcceptRanges { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowCredentials", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlAllowCredentials { get; set; }
+        public IList<object> AccessControlAllowCredentials { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlAllowHeaders { get; set; }
+        public IList<object> AccessControlAllowHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowMethods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlAllowMethods { get; set; }
+        public IList<object> AccessControlAllowMethods { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlAllowOrigin", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlAllowOrigin { get; set; }
+        public IList<object> AccessControlAllowOrigin { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlExposeHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlExposeHeaders { get; set; }
+        public IList<object> AccessControlExposeHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlMaxAge", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlMaxAge { get; set; }
+        public IList<object> AccessControlMaxAge { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlRequestHeaders", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlRequestHeaders { get; set; }
+        public IList<object> AccessControlRequestHeaders { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AccessControlRequestMethod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AccessControlRequestMethod { get; set; }
+        public IList<object> AccessControlRequestMethod { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Age", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Age { get; set; }
+        public IList<object> Age { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Allow", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Allow { get; set; }
+        public IList<object> Allow { get; set; }
 
         [Newtonsoft.Json.JsonProperty("AltSvc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> AltSvc { get; set; }
+        public IList<object> AltSvc { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Authorization", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Authorization { get; set; }
+        public IList<object> Authorization { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Baggage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Baggage { get; set; }
+        public IList<object> Baggage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("CacheControl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> CacheControl { get; set; }
+        public IList<object> CacheControl { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Connection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Connection { get; set; }
+        public IList<object> Connection { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentDisposition", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentDisposition { get; set; }
+        public IList<object> ContentDisposition { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentEncoding { get; set; }
+        public IList<object> ContentEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLanguage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentLanguage { get; set; }
+        public IList<object> ContentLanguage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentLocation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentLocation { get; set; }
+        public IList<object> ContentLocation { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentMD5", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentMD5 { get; set; }
+        public IList<object> ContentMD5 { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentRange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentRange { get; set; }
+        public IList<object> ContentRange { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentSecurityPolicy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentSecurityPolicy { get; set; }
+        public IList<object> ContentSecurityPolicy { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentSecurityPolicyReportOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentSecurityPolicyReportOnly { get; set; }
+        public IList<object> ContentSecurityPolicyReportOnly { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ContentType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ContentType { get; set; }
+        public IList<object> ContentType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("CorrelationContext", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> CorrelationContext { get; set; }
+        public IList<object> CorrelationContext { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Cookie", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Cookie { get; set; }
+        public IList<object> Cookie { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Date { get; set; }
+        public IList<object> Date { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ETag", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ETag { get; set; }
+        public IList<object> ETag { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Expires", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Expires { get; set; }
+        public IList<object> Expires { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Expect", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Expect { get; set; }
+        public IList<object> Expect { get; set; }
 
         [Newtonsoft.Json.JsonProperty("From", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> From { get; set; }
+        public IList<object> From { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcAcceptEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> GrpcAcceptEncoding { get; set; }
+        public IList<object> GrpcAcceptEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> GrpcEncoding { get; set; }
+        public IList<object> GrpcEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcMessage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> GrpcMessage { get; set; }
+        public IList<object> GrpcMessage { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> GrpcStatus { get; set; }
+        public IList<object> GrpcStatus { get; set; }
 
         [Newtonsoft.Json.JsonProperty("GrpcTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> GrpcTimeout { get; set; }
+        public IList<object> GrpcTimeout { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Host", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Host { get; set; }
+        public IList<object> Host { get; set; }
 
         [Newtonsoft.Json.JsonProperty("KeepAlive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> KeepAlive { get; set; }
+        public IList<object> KeepAlive { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfMatch", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> IfMatch { get; set; }
+        public IList<object> IfMatch { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfModifiedSince", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> IfModifiedSince { get; set; }
+        public IList<object> IfModifiedSince { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfNoneMatch", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> IfNoneMatch { get; set; }
+        public IList<object> IfNoneMatch { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfRange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> IfRange { get; set; }
+        public IList<object> IfRange { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IfUnmodifiedSince", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> IfUnmodifiedSince { get; set; }
+        public IList<object> IfUnmodifiedSince { get; set; }
 
         [Newtonsoft.Json.JsonProperty("LastModified", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> LastModified { get; set; }
+        public IList<object> LastModified { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Link", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Link { get; set; }
+        public IList<object> Link { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Location", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Location { get; set; }
+        public IList<object> Location { get; set; }
 
         [Newtonsoft.Json.JsonProperty("MaxForwards", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> MaxForwards { get; set; }
+        public IList<object> MaxForwards { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Origin", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Origin { get; set; }
+        public IList<object> Origin { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Pragma", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Pragma { get; set; }
+        public IList<object> Pragma { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyAuthenticate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ProxyAuthenticate { get; set; }
+        public IList<object> ProxyAuthenticate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyAuthorization", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ProxyAuthorization { get; set; }
+        public IList<object> ProxyAuthorization { get; set; }
 
         [Newtonsoft.Json.JsonProperty("ProxyConnection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> ProxyConnection { get; set; }
+        public IList<object> ProxyConnection { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Range", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Range { get; set; }
+        public IList<object> Range { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Referer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Referer { get; set; }
+        public IList<object> Referer { get; set; }
 
         [Newtonsoft.Json.JsonProperty("RetryAfter", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> RetryAfter { get; set; }
+        public IList<object> RetryAfter { get; set; }
 
         [Newtonsoft.Json.JsonProperty("RequestId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> RequestId { get; set; }
+        public IList<object> RequestId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketAccept", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SecWebSocketAccept { get; set; }
+        public IList<object> SecWebSocketAccept { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketKey", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SecWebSocketKey { get; set; }
+        public IList<object> SecWebSocketKey { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketProtocol", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SecWebSocketProtocol { get; set; }
+        public IList<object> SecWebSocketProtocol { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SecWebSocketVersion { get; set; }
+        public IList<object> SecWebSocketVersion { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SecWebSocketExtensions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SecWebSocketExtensions { get; set; }
+        public IList<object> SecWebSocketExtensions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Server", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Server { get; set; }
+        public IList<object> Server { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SetCookie", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> SetCookie { get; set; }
+        public IList<object> SetCookie { get; set; }
 
         [Newtonsoft.Json.JsonProperty("StrictTransportSecurity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> StrictTransportSecurity { get; set; }
+        public IList<object> StrictTransportSecurity { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TE", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> TE { get; set; }
+        public IList<object> TE { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Trailer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Trailer { get; set; }
+        public IList<object> Trailer { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TransferEncoding", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> TransferEncoding { get; set; }
+        public IList<object> TransferEncoding { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Translate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Translate { get; set; }
+        public IList<object> Translate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TraceParent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> TraceParent { get; set; }
+        public IList<object> TraceParent { get; set; }
 
         [Newtonsoft.Json.JsonProperty("TraceState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> TraceState { get; set; }
+        public IList<object> TraceState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Upgrade", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Upgrade { get; set; }
+        public IList<object> Upgrade { get; set; }
 
         [Newtonsoft.Json.JsonProperty("UpgradeInsecureRequests", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> UpgradeInsecureRequests { get; set; }
+        public IList<object> UpgradeInsecureRequests { get; set; }
 
         [Newtonsoft.Json.JsonProperty("UserAgent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> UserAgent { get; set; }
+        public IList<object> UserAgent { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Vary", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Vary { get; set; }
+        public IList<object> Vary { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Via", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Via { get; set; }
+        public IList<object> Via { get; set; }
 
         [Newtonsoft.Json.JsonProperty("Warning", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> Warning { get; set; }
+        public IList<object> Warning { get; set; }
 
         [Newtonsoft.Json.JsonProperty("WebSocketSubProtocols", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> WebSocketSubProtocols { get; set; }
+        public IList<object> WebSocketSubProtocols { get; set; }
 
         [Newtonsoft.Json.JsonProperty("WWWAuthenticate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> WWWAuthenticate { get; set; }
+        public IList<object> WWWAuthenticate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XContentTypeOptions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XContentTypeOptions { get; set; }
+        public IList<object> XContentTypeOptions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XFrameOptions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XFrameOptions { get; set; }
+        public IList<object> XFrameOptions { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XPoweredBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XPoweredBy { get; set; }
+        public IList<object> XPoweredBy { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XRequestedWith", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XRequestedWith { get; set; }
+        public IList<object> XRequestedWith { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XUACompatible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XUACompatible { get; set; }
+        public IList<object> XUACompatible { get; set; }
 
         [Newtonsoft.Json.JsonProperty("XXSSProtection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<object> XXSSProtection { get; set; }
+        public IList<object> XXSSProtection { get; set; }
 
     }
 
@@ -11302,7 +11302,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Entry> Value { get; set; }
+        public IList<Entry> Value { get; set; }
 
     }
 
@@ -11325,7 +11325,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Field> Value { get; set; }
+        public IList<Field> Value { get; set; }
 
     }
 
@@ -11339,7 +11339,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The fields that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<FieldToUpdate> Fields { get; set; }
+        public IList<FieldToUpdate> Fields { get; set; }
 
     }
 
@@ -11362,7 +11362,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Tag> Value { get; set; }
+        public IList<Tag> Value { get; set; }
 
     }
 
@@ -11465,7 +11465,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The tag names to assign to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<string> Tags { get; set; }
+        public IList<string> Tags { get; set; }
 
     }
 
@@ -11488,7 +11488,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Link> Value { get; set; }
+        public IList<Link> Value { get; set; }
 
     }
 
@@ -11588,7 +11588,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The links that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("links", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<LinkToUpdate> Links { get; set; }
+        public IList<LinkToUpdate> Links { get; set; }
 
     }
 
@@ -11718,7 +11718,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The template fields that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<FieldToUpdate> Fields { get; set; }
+        public IList<FieldToUpdate> Fields { get; set; }
 
     }
 
@@ -11729,7 +11729,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class RepositoryCollectionResponse
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Repository> Value { get; set; }
+        public IList<Repository> Value { get; set; }
 
     }
 
@@ -11821,7 +11821,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<SearchContextHit> Value { get; set; }
+        public IList<SearchContextHit> Value { get; set; }
 
     }
 
@@ -12015,7 +12015,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<TagDefinition> Value { get; set; }
+        public IList<TagDefinition> Value { get; set; }
 
     }
 
@@ -12070,7 +12070,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TaskCollectionResponse
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<TaskProgress> Value { get; set; }
+        public IList<TaskProgress> Value { get; set; }
 
     }
 
@@ -12110,7 +12110,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The list of errors occurred during the execution of the associated task.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("errors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<ProblemDetails> Errors { get; set; }
+        public IList<ProblemDetails> Errors { get; set; }
 
         /// <summary>
         /// The result of the execution of the associated task.
@@ -12207,7 +12207,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class CancelTasksResponse
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<CancelTaskResult> Value { get; set; }
+        public IList<CancelTaskResult> Value { get; set; }
 
     }
 
@@ -12257,7 +12257,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<TemplateDefinition> Value { get; set; }
+        public IList<TemplateDefinition> Value { get; set; }
 
     }
 
@@ -12356,7 +12356,7 @@ namespace Laserfiche.Repository.Api.Client
         public int? OdataCount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<TemplateFieldDefinition> Value { get; set; }
+        public IList<TemplateFieldDefinition> Value { get; set; }
 
     }
 
@@ -12396,7 +12396,7 @@ namespace Laserfiche.Repository.Api.Client
         /// The IDs of the parent fields in the template according to the form logic rule.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ancestors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<int> Ancestors { get; set; }
+        public IList<int> Ancestors { get; set; }
 
     }
 
