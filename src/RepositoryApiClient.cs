@@ -35,8 +35,6 @@ namespace Laserfiche.Repository.Api.Client
         /// <inheritdoc/>
         public ISearchesClient SearchesClient { get; }
         /// <inheritdoc/>
-        public IServerSessionClient ServerSessionClient { get; }
-        /// <inheritdoc/>
         public ISimpleSearchesClient SimpleSearchesClient { get; }
         /// <inheritdoc/>
         public ITagDefinitionsClient TagDefinitionsClient { get; }
@@ -59,7 +57,6 @@ namespace Laserfiche.Repository.Api.Client
             LinkDefinitionsClient = new LinkDefinitionsClient(_httpClient);
             RepositoriesClient = new RepositoriesClient(_httpClient);
             SearchesClient = new SearchesClient(_httpClient);
-            ServerSessionClient = new ServerSessionClient(_httpClient);
             SimpleSearchesClient = new SimpleSearchesClient(_httpClient);
             TagDefinitionsClient = new TagDefinitionsClient(_httpClient);
             TasksClient = new TasksClient(_httpClient);
