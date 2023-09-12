@@ -105,12 +105,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
         {
-            var request = new PostEntryChildrenRequest()
+            var request = new CreateEntryRequest()
             {
-                EntryType = PostEntryChildrenEntryType.Folder,
-                Name = entryName
+                EntryType = CreateEntryRequestEntryType.Folder,
+                Name = entryName,
+                AutoRename = autoRename
             };
-            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename).ConfigureAwait(false);
+            var newEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
             Assert.IsNotNull(newEntry);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
