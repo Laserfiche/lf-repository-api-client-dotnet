@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
 {
     [TestClass]
-    public class GetAttributeValueByKeyTest : BaseTest
+    public class GetAttributeTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         }
 
         [TestMethod]
-        public async Task GetAttributeByKey_ReturnAttribute()
+        public async Task GetAttribute_ReturnAttribute()
         {
             var result = await client.AttributesClient.ListAttributesAsync(RepositoryId).ConfigureAwait(false);
             var attributeKeys = result.Value;

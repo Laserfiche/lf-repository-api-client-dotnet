@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
 {
     [TestClass]
-    public class GetAttributesTest : BaseTest
+    public class ListAttributesTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -13,14 +13,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         }
 
         [TestMethod]
-        public async Task GetAttributes_ReturnAttributes()
+        public async Task ListAttributes_ReturnAttributes()
         {
             var response = await client.AttributesClient.ListAttributesAsync(RepositoryId).ConfigureAwait(false);
+            
             Assert.IsNotNull(response.Value);
         }
 
         [TestMethod]
-        public async Task GetAttributes_ForEachPaging()
+        public async Task ListAttributes_ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -43,7 +44,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         }
 
         [TestMethod]
-        public async Task GetAttributes_SimplePaging()
+        public async Task ListAttributes_SimplePaging()
         {
             int maxPageSize = 1;
 
