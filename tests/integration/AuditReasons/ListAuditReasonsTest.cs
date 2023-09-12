@@ -17,10 +17,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         {
             var response = await client.AuditReasonsClient.ListAuditReasonsAsync(RepositoryId).ConfigureAwait(false);
 
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Value);
-            Assert.IsNotNull(response.Value.Count > 0);
-            Assert.IsNotNull(response.Value[0]);
+            AssertCollectionResponse(response);
             Assert.IsNotNull(response.Value[0].AuditEventType);
         }
     }
