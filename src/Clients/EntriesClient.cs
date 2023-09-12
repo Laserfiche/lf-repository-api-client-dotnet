@@ -97,7 +97,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListTagsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListTagsForEachAsync(Func<TagCollectionResponse, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the children entries of a folder in the repository using a nextlink.
@@ -137,7 +137,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagDefinitionCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
     partial class EntriesClient
