@@ -149,5 +149,101 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
             return entry.Id;
         }
+
+        protected static void AssertCollectionResponse(AttributeCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(AuditReasonCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(FieldDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(LinkDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(EntryCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(FieldCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TagCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(LinkCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(RepositoryCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(SearchContextHitCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TaskCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TemplateDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
     }
 }
