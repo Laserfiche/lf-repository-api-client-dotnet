@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
 {
     [TestClass]
-    public class GetAuditReasonsTest : BaseTest
+    public class ListAuditReasonsTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         }
 
         [TestMethod]
-        public async Task GetAuditReasons_ReturnAuditReasons()
+        public async Task ListAuditReasons_ReturnAuditReasons()
         {
             var response = await client.AuditReasonsClient.ListAuditReasonsAsync(RepositoryId).ConfigureAwait(false);
 
