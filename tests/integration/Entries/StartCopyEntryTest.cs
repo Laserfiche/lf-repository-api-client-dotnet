@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class CopyEntryTest : BaseTest
+    public class StartCopyEntryTest : BaseTest
     {
         IList<Entry> createdEntries;
 
