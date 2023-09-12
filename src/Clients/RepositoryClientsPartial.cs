@@ -18,37 +18,6 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
-    partial class CreateEntryResult
-    {
-        /// <summary>
-        /// Returns a human-readable summary of the <see cref="CreateEntryResult"/>.
-        /// </summary>
-        /// <returns>A human-readable summary of the <see cref="CreateEntryResult"/>.</returns>
-        public string GetSummary()
-        {
-            var messages = new List<string>();
-            int entryId = Operations?.EntryCreate?.EntryId ?? default;
-            if (entryId != default)
-            {
-                messages.Add($"{nameof(Operations.EntryCreate.EntryId)}={entryId}.");
-            }
-            messages.Add(GetErrorMessages(Operations?.EntryCreate?.Exceptions));
-            messages.Add(GetErrorMessages(Operations?.SetEdoc?.Exceptions));
-            messages.Add(GetErrorMessages(Operations?.SetTemplate?.Exceptions));
-            messages.Add(GetErrorMessages(Operations?.SetFields?.Exceptions));
-            messages.Add(GetErrorMessages(Operations?.SetTags?.Exceptions));
-            messages.Add(GetErrorMessages(Operations?.SetLinks?.Exceptions));
-            return string.Join(" ", messages.Where(s => !string.IsNullOrWhiteSpace(s)));
-        }
-
-        private string GetErrorMessages(ICollection<APIServerException> errors)
-        {
-            if (errors == null)
-                return string.Empty;
-            return string.Join(" ", errors?.Select(e => e.Message));
-        }
-    }
-
     #region inheritance
     [JsonConverter(typeof(JsonInheritanceConverter), "entryType")]
     [JsonInheritance("Document", typeof(Document))]
