@@ -1,4 +1,5 @@
 ﻿using Laserfiche.Api.Client.OAuth;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -244,6 +245,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.IsNotNull(response.Value);
             Assert.IsTrue(response.Value.Count > 0);
             Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertIsNotNullOrEmpty(string value)
+        {
+            Assert.IsFalse(value.IsNullOrEmpty());
         }
     }
 }
