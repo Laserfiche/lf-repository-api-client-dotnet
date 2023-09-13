@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task CreateSearchOperation_ReturnToken()
+        public async Task StartSearchEntry_ReturnTaskId()
         {
             var request = new StartSearchEntryRequest()
             {

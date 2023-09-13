@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task GetSearchResults_ReturnSearchResults()
+        public async Task ListSearchResults_ReturnSearchResults()
         {
             // Create search
             var request = new StartSearchEntryRequest()
@@ -50,7 +50,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task GetSearchResults_ForEachPaging()
+        public async Task ListSearchResults_ForEachPaging()
         {
             int maxPageSize = 90;
 
@@ -88,7 +88,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task GetSearchResults_SimplePaging()
+        public async Task ListSearchResults_SimplePaging()
         {
             int maxPageSize = 1;
 
