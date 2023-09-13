@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             Assert.IsTrue(attributeKeys.Count > 0, "No attribute keys exist on the user.");
 
             var attribute = await client.AttributesClient.GetAttributeAsync(RepositoryId, attributeKeys.First().Key).ConfigureAwait(false);
-            Assert.IsTrue(!string.IsNullOrEmpty(attribute.Value));
+            AssertIsNotNullOrEmpty(attribute.Value);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             StartDeleteEntryRequest body = new();
             var response = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
             
-            Assert.IsTrue(!string.IsNullOrEmpty(response.TaskId));
+            AssertIsNotNullOrEmpty(response.TaskId);
         }
     }
 }
