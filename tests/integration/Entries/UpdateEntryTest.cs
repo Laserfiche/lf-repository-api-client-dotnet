@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                    StartDeleteEntryRequest body = new();
                     await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
@@ -38,11 +38,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntries.Add(childFolder);
             var request = new UpdateEntryRequest()
             {
+                AutoRename = true,
                 ParentId = parentFolder.Id,
                 Name = "RepositoryApiClientIntegrationTest .Net MovedFolder"
             };
 
-            var movedEntry = await client.EntriesClient.UpdateEntryAsync(RepositoryId, childFolder.Id, request, autoRename: true).ConfigureAwait(false);
+            var movedEntry = await client.EntriesClient.UpdateEntryAsync(RepositoryId, childFolder.Id, request).ConfigureAwait(false);
 
             Assert.IsNotNull(movedEntry);
             Assert.AreEqual(childFolder.Id, movedEntry.Id);
