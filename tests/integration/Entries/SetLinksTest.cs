@@ -24,8 +24,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                    StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                    await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
@@ -37,20 +37,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntries.Add(sourceEntry);
             var targetEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Target").ConfigureAwait(false);
             createdEntries.Add(targetEntry);
-            var request = new List<PutLinksRequest>()
+            var request = new SetLinksRequest()
             {
-                new PutLinksRequest()
+                Links = new List<LinkToUpdate>
                 {
-                    TargetId = targetEntry.Id,
-                    LinkTypeId = 1
+                    new LinkToUpdate
+                    {
+                        LinkDefinitionId = targetEntry.Id,
+                    }
                 }
             };
 
-            var result = await client.EntriesClient.AssignEntryLinksAsync(RepositoryId, sourceEntry.Id, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.SetLinksAsync(RepositoryId, sourceEntry.Id, request).ConfigureAwait(false);
 
             var links = result.Value;
             Assert.IsNotNull(links);
-            Assert.AreEqual(request.Count, links.Count);
+            Assert.AreEqual(request.Links.Count, links.Count);
             Assert.AreEqual(sourceEntry.Id, links.FirstOrDefault()?.SourceId);
             Assert.AreEqual(targetEntry.Id, links.FirstOrDefault()?.TargetId);
         }
