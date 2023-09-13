@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             if (entry != null)
             {
-                StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                StartDeleteEntryRequest body = new();
                 await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
             }
         }
@@ -32,8 +32,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             var tagDefinitionsResult = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var tagDefinitions = tagDefinitionsResult.Value;
+            
             Assert.IsNotNull(tagDefinitions);
             Assert.IsTrue(tagDefinitions.Count > 0, "No tag definitions exist in the repository.");
+            
             string tag = tagDefinitions.First().Name;
             var request = new SetTagsRequest()
             {
@@ -43,6 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             var result = await client.EntriesClient.SetTagsAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
             var tags = result.Value;
+            
             Assert.IsNotNull(tags);
             Assert.AreEqual(request.Tags.Count, tags.Count);
             Assert.AreEqual(tag, tags.FirstOrDefault()?.Name);

@@ -15,10 +15,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         [TestMethod]
         public async Task ListAuditReasons_ReturnAuditReasons()
         {
-            var response = await client.AuditReasonsClient.ListAuditReasonsAsync(RepositoryId).ConfigureAwait(false);
+            var collectionResponse = await client.AuditReasonsClient.ListAuditReasonsAsync(RepositoryId).ConfigureAwait(false);
 
-            AssertCollectionResponse(response);
-            Assert.IsNotNull(response.Value[0].AuditEventType);
+            AssertCollectionResponse(collectionResponse);
+            Assert.IsNotNull(collectionResponse.Value[0].AuditEventType);
         }
     }
 }

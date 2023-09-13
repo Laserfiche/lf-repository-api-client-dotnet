@@ -23,7 +23,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                    StartDeleteEntryRequest body = new();
                     await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
@@ -42,6 +42,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
 
             var entry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            
             Assert.IsNotNull(entry);
             createdEntries.Add(entry);
             Assert.AreEqual(parentEntryId, entry.ParentId);
@@ -62,6 +63,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var targetEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);
@@ -77,6 +79,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var shortcut = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            
             Assert.IsNotNull(shortcut);
             createdEntries.Add(shortcut);
             Assert.AreEqual(parentEntryId, shortcut.ParentId);

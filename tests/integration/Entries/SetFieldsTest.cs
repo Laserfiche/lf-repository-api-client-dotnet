@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             if (entry != null)
             {
-                StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                StartDeleteEntryRequest body = new();
                 await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
             }
         }
@@ -33,9 +33,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Find a string field
             FieldDefinition field = null;
             string fieldValue = "a";
-            var fieldDefinitionsResult = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
-            var fieldDefinitions = fieldDefinitionsResult.Value;
+            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var fieldDefinitions = fieldDefinitionCollectionResponse.Value;
+            
             Assert.IsNotNull(fieldDefinitions);
+            
             foreach(var fieldDefinition in fieldDefinitions)
             {
                 if (fieldDefinition.FieldType == FieldType.String && string.IsNullOrEmpty(fieldDefinition.Constraint) && fieldDefinition.Length >= 1)
@@ -44,6 +46,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                     break;
                 }
             }
+            
             Assert.IsNotNull(field, "Could not find a string field to set.");
 
             var request = new SetFieldsRequest()
@@ -58,8 +61,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetFields").ConfigureAwait(false);
 
-            var result = await client.EntriesClient.SetFieldsAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
-            var fields = result.Value;
+            var fieldCollectionResponse = await client.EntriesClient.SetFieldsAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
+            var fields = fieldCollectionResponse.Value;
+            
             Assert.IsNotNull(fields);
             Assert.AreEqual(1, fields.Count);
             Assert.AreEqual(field.Name, fields.FirstOrDefault()?.Name);

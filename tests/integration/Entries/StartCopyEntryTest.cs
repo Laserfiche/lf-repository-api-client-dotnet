@@ -25,7 +25,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                    StartDeleteEntryRequest body = new();
                     await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
@@ -48,6 +48,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var targetEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, testFolder.Id, request).ConfigureAwait(false);
+            
             Assert.IsNotNull(targetEntry);
             Assert.AreEqual(testFolder.Id, targetEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, targetEntry.EntryType);
@@ -60,13 +61,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var copyResult = await client.EntriesClient.StartCopyEntryAsync(RepositoryId, testFolder.Id, copyRequest).ConfigureAwait(false);
-            var opToken = copyResult.TaskId;
 
             // Wait for the copy operation to finish
             await Task.Delay(5000).ConfigureAwait(false);
             var taskCollectionResponse = await client.TasksClient.ListTasksAsync(RepositoryId).ConfigureAwait(false);
             AssertCollectionResponse(taskCollectionResponse);
-            Assert.IsNotNull(taskCollectionResponse.Value.First(t => t.Id == opToken && t.Status == TaskStatus.Completed));
+            Assert.IsNotNull(taskCollectionResponse.Value.First(t => t.Id == copyResult.TaskId && t.Status == TaskStatus.Completed));
         }
 
         [TestMethod]
@@ -82,6 +82,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var targetEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, createEntryRequest).ConfigureAwait(false);
+            
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);
@@ -133,6 +134,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
             var targetEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, createEntryRequest).ConfigureAwait(false);
+            
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
             Assert.AreEqual(parentEntryId, targetEntry.ParentId);

@@ -16,8 +16,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task DeleteEntry_ReturnOperationToken()
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net DeleteFolder").ConfigureAwait(false);
-            StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+            
+            StartDeleteEntryRequest body = new();
             var response = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
+            
             Assert.IsTrue(!string.IsNullOrEmpty(response.TaskId));
         }
     }

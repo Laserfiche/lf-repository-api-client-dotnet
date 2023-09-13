@@ -16,9 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ListEntries_ReturnEntries()
         {
             int entryId = 1;
-            var result = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId).ConfigureAwait(false);
-            var entries = result.Value;
+            var entryCollectionResponse = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId).ConfigureAwait(false);
+            var entries = entryCollectionResponse.Value;
+            
             Assert.IsNotNull(entries);
+            
             foreach (var entry in entries)
             {
                 Assert.AreEqual(entryId, entry.ParentId);
@@ -37,6 +39,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     Assert.AreNotEqual(0, data.Value.Count);
                     Assert.IsTrue(data.Value.Count <= maxPageSize);
+                    
                     return Task.FromResult(true);
                 }
                 else
@@ -56,22 +59,25 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
             
             // Initial request
-            var result = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
-            Assert.IsNotNull(result);
+            var entryCollectionResponse = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            
+            Assert.IsNotNull(entryCollectionResponse);
 
-            if (result.Value.Count == 0)
+            if (entryCollectionResponse.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = result.OdataNextLink;
+            var nextLink = entryCollectionResponse.OdataNextLink;
+            
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            Assert.IsTrue(entryCollectionResponse.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.EntriesClient.ListEntriesNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            entryCollectionResponse = await client.EntriesClient.ListEntriesNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
+            
+            Assert.IsNotNull(entryCollectionResponse);
+            Assert.IsTrue(entryCollectionResponse.Value.Count <= maxPageSize);
         }
     }
 }

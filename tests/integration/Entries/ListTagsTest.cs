@@ -16,8 +16,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetEntryTags_ReturnTags()
         {
             int entryId = 1;
-            var result = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId).ConfigureAwait(false);
-            Assert.IsNotNull(result.Value);
+            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId).ConfigureAwait(false);
+            
+            Assert.IsNotNull(tagCollectionResponse.Value);
         }
 
         [TestMethod]
@@ -32,6 +33,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     Assert.AreNotEqual(0, data.Value.Count);
                     Assert.IsTrue(data.Value.Count <= maxPageSize);
+                    
                     return Task.FromResult(true);
                 }
                 else
@@ -51,22 +53,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var result = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
-            Assert.IsNotNull(result);
+            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            Assert.IsNotNull(tagCollectionResponse);
 
-            if (result.Value.Count == 0)
+            if (tagCollectionResponse.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = result.OdataNextLink;
+            var nextLink = tagCollectionResponse.OdataNextLink;
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            Assert.IsTrue(tagCollectionResponse.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.EntriesClient.ListTagsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            tagCollectionResponse = await client.EntriesClient.ListTagsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
+            Assert.IsNotNull(tagCollectionResponse);
+            Assert.IsTrue(tagCollectionResponse.Value.Count <= maxPageSize);
         }
     }
 }

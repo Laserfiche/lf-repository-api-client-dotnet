@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                    StartDeleteEntryRequest body = new();
                     await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
@@ -35,8 +35,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             var sourceEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Source").ConfigureAwait(false);
             createdEntries.Add(sourceEntry);
+            
             var targetEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetLinks Target").ConfigureAwait(false);
             createdEntries.Add(targetEntry);
+            
             var request = new SetLinksRequest()
             {
                 Links = new List<LinkToUpdate>
@@ -49,8 +51,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
 
             var result = await client.EntriesClient.SetLinksAsync(RepositoryId, sourceEntry.Id, request).ConfigureAwait(false);
-
             var links = result.Value;
+
             Assert.IsNotNull(links);
             Assert.AreEqual(request.Links.Count, links.Count);
             Assert.AreEqual(sourceEntry.Id, links.FirstOrDefault()?.SourceId);
