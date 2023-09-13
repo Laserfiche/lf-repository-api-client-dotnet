@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
 {
     [TestClass]
-    public class GetLinkDefinitionByIdTest : BaseTest
+    public class GetLinkDefinitionTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -16,14 +16,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         [TestMethod]
         public async Task GetLinkDefinitionByIdAsync_ReturnLinkDefinition()
         {
-            var allLinkDefinitionsResult = await client.LinkDefinitionsClient.GetLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var allLinkDefinitionsResult = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstLinkDefinition = allLinkDefinitionsResult.Value?.FirstOrDefault();
+            
             Assert.IsNotNull(firstLinkDefinition, "No link definitions exist in the repository.");
 
-            var linkDefinition = await client.LinkDefinitionsClient.GetLinkDefinitionByIdAsync(RepositoryId, firstLinkDefinition.LinkTypeId).ConfigureAwait(false);
+            var linkDefinition = await client.LinkDefinitionsClient.GetLinkDefinitionAsync(RepositoryId, firstLinkDefinition.Id).ConfigureAwait(false);
 
             Assert.IsNotNull(linkDefinition);
-            Assert.AreEqual(firstLinkDefinition.LinkTypeId, linkDefinition.LinkTypeId);
+            Assert.AreEqual(firstLinkDefinition.Id, linkDefinition.Id);
         }
     }
 }
