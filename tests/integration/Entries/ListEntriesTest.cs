@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetEntryListingTest : BaseTest
+    public class ListEntriesTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -13,10 +13,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryListing_ReturnEntries()
+        public async Task ListEntries_ReturnEntries()
         {
             int entryId = 1;
-            var result = await client.EntriesClient.GetEntryListingAsync(RepositoryId, entryId).ConfigureAwait(false);
+            var result = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId).ConfigureAwait(false);
             var entries = result.Value;
             Assert.IsNotNull(entries);
             foreach (var entry in entries)
@@ -26,12 +26,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryListing_ForEachPaging()
+        public async Task ListEntries_ForEachPaging()
         {
             int entryId = 1;
             int maxPageSize = 10;
             
-            Task<bool> PagingCallback(ODataValueContextOfIListOfEntry data)
+            Task<bool> PagingCallback(EntryCollectionResponse data)
             {
                 if (data.OdataNextLink != null)
                 {
@@ -45,18 +45,18 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.EntriesClient.GetEntryListingForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.EntriesClient.ListEntriesForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetEntryListing_SimplePaging()
+        public async Task ListEntries_SimplePaging()
         {
             int entryId = 1;
             int maxPageSize = 1;
             
             // Initial request
-            var result = await client.EntriesClient.GetEntryListingAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var result = await client.EntriesClient.ListEntriesAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
             Assert.IsNotNull(result);
 
             if (result.Value.Count == 0)
@@ -69,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsTrue(result.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.EntriesClient.GetEntryListingNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
+            result = await client.EntriesClient.ListEntriesNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Value.Count <= maxPageSize);
         }
