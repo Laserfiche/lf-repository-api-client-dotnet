@@ -23,8 +23,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             if (createdEntryId != 0)
             {
-                DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
+                StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
             }
         }
 
@@ -44,19 +44,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int parentEntryId = 1;
             string fileName = "RepositoryApiClientIntegrationTest .Net GetEntry";
             string fileLocation = TempPath + "test.pdf";
-            var request = new PostEntryWithEdocMetadataRequest();
+            var request = new ImportEntryRequest()
+            {
+                AutoRename = true
+            }
             using (var fileStream = File.OpenRead(fileLocation))
             {
                 var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, fileName, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
+                var importedEntry = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, fileName, file: electronicDocument, request: request).ConfigureAwait(false);
 
-                var operations = result.Operations;
-                Assert.IsNotNull(operations?.EntryCreate);
-                Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
-                Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
-                Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
-                Assert.IsFalse(string.IsNullOrEmpty(result.DocumentLink));
-                return operations.EntryCreate.EntryId;
+                Assert.IsNotNull(importedEntry);
+                Assert.IsNotNull(importedEntry.Id);
+
+                return importedEntry.Id;
             }
         }
 
