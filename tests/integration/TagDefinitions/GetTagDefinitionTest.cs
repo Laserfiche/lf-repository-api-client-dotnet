@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
 {
     [TestClass]
-    public class GetTagDefinitionsByIdTest : BaseTest
+    public class GetTagDefinitionTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -14,13 +14,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task GetTagDefinitionsById_ReturnTag()
+        public async Task GetTagDefinition_ReturnTag()
         {
-            var allTagDefinitionsResult = await client.TagDefinitionsClient.GetTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
-            var firstTagDefinition = allTagDefinitionsResult.Value?.FirstOrDefault();
+            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var firstTagDefinition = tagDefinitionCollectionResponse.Value?.FirstOrDefault();
+            
             Assert.IsNotNull(firstTagDefinition, "No tag definitions exist in the repository.");
 
-            var tagDefinition = await client.TagDefinitionsClient.GetTagDefinitionByIdAsync(RepositoryId, firstTagDefinition.Id).ConfigureAwait(false);
+            var tagDefinition = await client.TagDefinitionsClient.GetTagDefinitionAsync(RepositoryId, firstTagDefinition.Id).ConfigureAwait(false);
 
             Assert.IsNotNull(tagDefinition);
             Assert.AreEqual(firstTagDefinition.Id, tagDefinition.Id);

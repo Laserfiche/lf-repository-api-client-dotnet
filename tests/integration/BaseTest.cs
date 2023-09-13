@@ -207,6 +207,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.IsNotNull(response.Value[0]);
         }
 
+        protected static void AssertCollectionResponse(TagDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
         protected static void AssertCollectionResponse(LinkCollectionResponse response)
         {
             Assert.IsNotNull(response);
