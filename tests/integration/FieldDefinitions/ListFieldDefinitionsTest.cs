@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
 {
     [TestClass]
-    public class GetFieldDefinitionsTest : BaseTest
+    public class ListFieldDefinitionsTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         [TestMethod]
         public async Task GetFieldDefinitions_ReturnAllFields()
         {
-            var result = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var result = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             Assert.IsNotNull(result.Value);
         }
 
@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         {
             int maxPageSize = 10;
 
-            Task<bool> PagingCallback(ODataValueContextOfIListOfWFieldInfo data)
+            Task<bool> PagingCallback(FieldDefinitionCollectionResponse data)
             {
                 if (data.OdataNextLink != null)
                 {
@@ -38,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                 }
             }
 
-            await client.FieldDefinitionsClient.GetFieldDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.FieldDefinitionsClient.ListFieldDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -48,22 +48,25 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var result = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
-            Assert.IsNotNull(result);
+            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            
+            Assert.IsNotNull(fieldDefinitionCollectionResponse);
 
-            if (result.Value.Count == 0)
+            if (fieldDefinitionCollectionResponse.Value.Count == 0)
             {
                 return; // There's no point testing if we don't have any such item.
             }
 
-            var nextLink = result.OdataNextLink;
+            var nextLink = fieldDefinitionCollectionResponse.OdataNextLink;
+            
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            Assert.IsTrue(fieldDefinitionCollectionResponse.Value.Count <= maxPageSize);
 
             // Paging request
-            result = await client.FieldDefinitionsClient.GetFieldDefinitionsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
+            
+            Assert.IsNotNull(fieldDefinitionCollectionResponse);
+            Assert.IsTrue(fieldDefinitionCollectionResponse.Value.Count <= maxPageSize);
         }
     }
 }
