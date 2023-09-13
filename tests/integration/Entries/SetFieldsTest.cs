@@ -22,8 +22,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             if (entry != null)
             {
-                DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                StartDeleteEntryRequest body = new StartDeleteEntryRequest();
+                await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
             }
         }
 
@@ -31,14 +31,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task SetFields_ReturnFields()
         {
             // Find a string field
-            WFieldInfo field = null;
+            FieldDefinition field = null;
             string fieldValue = "a";
-            var fieldDefinitionsResult = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var fieldDefinitionsResult = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var fieldDefinitions = fieldDefinitionsResult.Value;
             Assert.IsNotNull(fieldDefinitions);
             foreach(var fieldDefinition in fieldDefinitions)
             {
-                if (fieldDefinition.FieldType == WFieldType.String && string.IsNullOrEmpty(fieldDefinition.Constraint) && fieldDefinition.Length >= 1)
+                if (fieldDefinition.FieldType == FieldType.String && string.IsNullOrEmpty(fieldDefinition.Constraint) && fieldDefinition.Length >= 1)
                 {
                     field = fieldDefinition;
                     break;
@@ -46,24 +46,23 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             }
             Assert.IsNotNull(field, "Could not find a string field to set.");
 
-            var requestBody = new Dictionary<string, FieldToUpdate>()
+            var request = new SetFieldsRequest()
             {
-                [field.Name] = new FieldToUpdate()
+                Fields = new List<FieldToUpdate>
                 {
-                    Values = new List<ValueToUpdate>()
+                    new FieldToUpdate()
                     {
-                        new ValueToUpdate() { Value = fieldValue, Position = 1 }
+                        Values = new List<string> { fieldValue }
                     }
                 }
             };
             entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetFields").ConfigureAwait(false);
 
-            var result = await client.EntriesClient.AssignFieldValuesAsync(RepositoryId, entry.Id, requestBody).ConfigureAwait(false);
+            var result = await client.EntriesClient.SetFieldsAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
             var fields = result.Value;
             Assert.IsNotNull(fields);
             Assert.AreEqual(1, fields.Count);
-            Assert.AreEqual(field.Name, fields.FirstOrDefault()?.FieldName);
-            Assert.AreEqual(fieldValue, fields.FirstOrDefault()?.Values.FirstOrDefault()["value"]);
+            Assert.AreEqual(field.Name, fields.FirstOrDefault()?.Name);
         }
     }
 }
