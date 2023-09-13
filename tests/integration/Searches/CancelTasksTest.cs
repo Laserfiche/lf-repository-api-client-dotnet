@@ -4,23 +4,23 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
 {
     [TestClass]
-    public class CloseSearchOperationTest : BaseTest
+    public class CancelTasksTest : BaseTest
     {
-        string token;
+        string taskId;
 
         [TestInitialize]
         public void Initialize()
         {
             client = CreateClient();
-            token = "";
+            taskId = "";
         }
 
         [TestCleanup]
         public async Task Cleanup()
         {
-            if (!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(taskId))
             {
-                await client.SearchesClient.CancelOrCloseSearchAsync(RepositoryId, token).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(taskId).ConfigureAwait(false);
             }
         }
 
@@ -28,13 +28,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         public async Task CloseSearchOperation_CloseSearch()
         {
             // Create search
-            var request = new AdvancedSearchRequest()
+            var request = new StartSearchEntryRequest()
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var operation = await client.SearchesClient.CreateSearchOperationAsync(RepositoryId, request).ConfigureAwait(false);
-            token = operation.Token;
-            Assert.IsTrue(!string.IsNullOrEmpty(token));
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+
+            AssertIsNotNullOrEmpty(taskResponse.TaskId);
         }
     }
 }
