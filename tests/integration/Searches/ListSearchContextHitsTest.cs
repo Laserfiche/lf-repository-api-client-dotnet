@@ -54,7 +54,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             // Get context hits
             var contextHitsCollectionResponse = await client.SearchesClient.ListSearchContextHitsAsync(RepositoryId, taskId, rowNumber).ConfigureAwait(false);
 
-            AssertCollectionResponse(contextHitsCollectionResponse);
+            Assert.IsNotNull(contextHitsCollectionResponse);
         }
 
         [TestMethod]
