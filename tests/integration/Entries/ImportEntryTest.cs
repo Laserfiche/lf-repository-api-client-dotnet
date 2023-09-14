@@ -123,15 +123,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 Assert.IsNotNull(e?.ProblemDetails?.Title);
                 Assert.AreEqual(e.ProblemDetails.Title, e.Message);
-                Assert.AreEqual((int)HttpStatusCode.Conflict, e.StatusCode);
-                Assert.AreEqual((int)HttpStatusCode.Conflict, e.ProblemDetails.Status);
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.StatusCode);
+                Assert.AreEqual((int)HttpStatusCode.NotFound, e.ProblemDetails.Status);
                 Assert.IsNotNull(e.ProblemDetails.OperationId);
-                Assert.IsNull(e.ProblemDetails.Type);
-                Assert.IsNull(e.ProblemDetails.Instance);
-                Assert.IsNull(e.ProblemDetails.ErrorSource);
-                Assert.AreEqual(default, e.ProblemDetails.ErrorCode);
-                Assert.IsNull(e.ProblemDetails.TraceId);
-                Assert.AreEqual(1, e.ProblemDetails.Extensions.Count);
+                Assert.IsNotNull(e.ProblemDetails.Type);
+                Assert.IsNotNull(e.ProblemDetails.Instance);
+                Assert.IsNotNull(e.ProblemDetails.ErrorSource);
+                Assert.AreEqual(204, e.ProblemDetails.ErrorCode);
+                Assert.IsNotNull(e.ProblemDetails.TraceId);
+                Assert.AreEqual(0, e.ProblemDetails.Extensions.Count);
             }
         }
     }
