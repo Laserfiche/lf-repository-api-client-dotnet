@@ -55,6 +55,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     new FieldToUpdate()
                     {
+                        Name = field.Name,
                         Values = new List<string> { fieldValue }
                     }
                 }
