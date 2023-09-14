@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(taskId))
             {
-                await client.TasksClient.CancelTasksAsync(taskId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(RepositoryId).ConfigureAwait(false);
             }
         }
 
