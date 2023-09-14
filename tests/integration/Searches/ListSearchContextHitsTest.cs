@@ -19,9 +19,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         [TestCleanup]
         public async Task Cleanup()
         {
-            if (!string.IsNullOrEmpty(taskId))
+            if (!string.IsNullOrEmpty(RepositoryId))
             {
-                await client.TasksClient.CancelTasksAsync(taskId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(RepositoryId).ConfigureAwait(false);
             }
         }
 
@@ -34,8 +34,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
             var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            taskId = taskResponse.TaskId;
 
-            AssertIsNotNullOrEmpty(taskResponse.TaskId);
+            AssertIsNotNullOrEmpty(taskId);
 
             await Task.Delay(5000).ConfigureAwait(false);
 
