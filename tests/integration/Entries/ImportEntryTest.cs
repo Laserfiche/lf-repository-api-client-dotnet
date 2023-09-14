@@ -47,6 +47,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var electronicDocument = GetFileParameter();
             var request = new ImportEntryRequest()
             {
+                Name = fileName,
                 AutoRename = true
             };
 
@@ -82,6 +83,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var electronicDocument = GetFileParameter();
             var request = new ImportEntryRequest()
             {
+                Name = fileName,
                 AutoRename = true,
                 Metadata = new ImportEntryRequestMetadata()
                 {
@@ -105,6 +107,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var electronicDocument = GetFileParameter();
             var request = new ImportEntryRequest()
             {
+                Name = fileName,
                 AutoRename = true,
                 Metadata = new ImportEntryRequestMetadata()
                 {

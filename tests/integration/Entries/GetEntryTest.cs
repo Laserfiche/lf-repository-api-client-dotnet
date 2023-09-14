@@ -47,6 +47,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             string fileLocation = TempPath + "test.pdf";
             var request = new ImportEntryRequest()
             {
+                Name = fileName,
                 AutoRename = true
             };
 
