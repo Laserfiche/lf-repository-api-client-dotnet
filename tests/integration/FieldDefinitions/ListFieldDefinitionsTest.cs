@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task ListFieldDefinitions_ReturnAllFields()
+        public async Task ReturnAllFields()
         {
             var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             
@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task ListFieldDefinitions_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -45,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task ListFieldDefinitions_SimplePaging()
+        public async Task SimplePaging()
         {
             int maxPageSize = 1;
 

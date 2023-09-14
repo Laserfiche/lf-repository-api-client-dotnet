@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         }
 
         [TestMethod]
-        public async Task GetAttribute_ReturnAttribute()
+        public async Task ReturnAttribute()
         {
             var result = await client.AttributesClient.ListAttributesAsync(RepositoryId).ConfigureAwait(false);
             var attributeKeys = result.Value;

@@ -40,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task ImportEntry_DocumentCreated()
+        public async Task DocumentCreated()
         {
             int parentEntryId = 1;
             string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
@@ -56,7 +56,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task ImportEntry_DocumentCreatedWithTemplate()
+        public async Task DocumentCreatedWithTemplate()
         {
             // Find a template definition with no required fields
             TemplateDefinition template = null;
@@ -98,7 +98,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task ImportDocument_ThrowExceptionWithCreateEntryResult()
+        public async Task ThrowExceptionWithCreateEntryResult()
         {
             int parentEntryId = 1;
             string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";

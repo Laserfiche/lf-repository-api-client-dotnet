@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinitionFields_ReturnTemplateFields()
+        public async Task ReturnTemplateFields()
         {
             var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
@@ -29,7 +29,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinitionFields_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -58,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinitionFields_SimplePaging()
+        public async Task SimplePaging()
         {
             var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();

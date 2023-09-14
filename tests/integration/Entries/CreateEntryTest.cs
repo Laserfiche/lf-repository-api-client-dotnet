@@ -30,7 +30,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task CreateCopyEntry_CreateFolder()
+        public async Task CreateFolder()
         {
             string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
             int parentEntryId = 1;
@@ -51,7 +51,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task CreateCopyEntry_CreateShortcut()
+        public async Task CreateShortcut()
         {
             // Create new entry
             string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class ListTemplateDefinitionsTest : BaseTest
+    public class ListDynamicFieldValuesTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetDynamicFields_ReturnDynamicFields()
+        public async Task ReturnDynamicFields()
         {
             // Get a template definition id
             var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);

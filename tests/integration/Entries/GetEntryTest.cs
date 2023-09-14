@@ -29,7 +29,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntry_ReturnRootFolder()
+        public async Task ReturnRootFolder()
         {
             int entryId = 1;
             var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, entryId).ConfigureAwait(false);
@@ -61,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntry_ReturnDocument()
+        public async Task ReturnEntry()
         {
             createdEntryId = await CreateDocument().ConfigureAwait(false);
             var entry = await client.EntriesClient.GetEntryAsync(RepositoryId, createdEntryId).ConfigureAwait(false);
@@ -73,7 +73,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntry_ThrowException()
+        public async Task ThrowException()
         {
             int entryId = 1;
             string repositoryId = "fakeRepository";

@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         }
 
         [TestMethod]
-        public async Task GetLinkDefinitionsAsync_ReturnAllLinks()
+        public async Task ReturnAllLinks()
         {
             var linkedDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             
@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         }
 
         [TestMethod]
-        public async Task GetLinkDefinitionsAsync_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -45,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         }
 
         [TestMethod]
-        public async Task GetLinkDefinitionsAsync_SimplePaging()
+        public async Task SimplePaging()
         {
             int maxPageSize = 1;
 

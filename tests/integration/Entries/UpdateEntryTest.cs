@@ -30,7 +30,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task MoveAndRenameEntry_ReturnEntry()
+        public async Task ReturnEntry()
         {
             var parentFolder = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net ParentFolder").ConfigureAwait(false);
             createdEntries.Add(parentFolder);

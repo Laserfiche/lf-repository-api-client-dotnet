@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryFields_ReturnFields()
+        public async Task ReturnFields()
         {
             int entryId = 1;
             var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(RepositoryId, entryId).ConfigureAwait(false);
@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryFields_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int entryId = 1;
             int maxPageSize = 10;
@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryFields_SimplePaging()
+        public async Task SimplePaging()
         {
             int entryId = 1;
             int maxPageSize = 1;

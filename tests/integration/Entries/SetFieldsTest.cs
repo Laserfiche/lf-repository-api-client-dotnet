@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task SetFields_ReturnFields()
+        public async Task SetAndReturnFields()
         {
             // Find a string field
             FieldDefinition field = null;

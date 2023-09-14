@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         }
 
         [TestMethod]
-        public async Task FailedAuthentication_ThrowsException()
+        public async Task FailedAuthenticationThrowsException()
         {
             int entryId = 1;
             IRepositoryApiClient invalidClient;

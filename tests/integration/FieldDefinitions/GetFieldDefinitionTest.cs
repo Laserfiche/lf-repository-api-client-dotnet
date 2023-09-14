@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task GetFieldDefinition_ReturnField()
+        public async Task ReturnField()
         {
             var allFieldDefinitionsResult = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstFieldDefinition = allFieldDefinitionsResult.Value?.FirstOrDefault();

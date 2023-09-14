@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_ReturnAllTemplates()
+        public async Task ReturnAllTemplates()
         {
             var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             
@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_TemplateNameQueryParameter_ReturnSingleTemplate()
+        public async Task TemplateNameQueryParameter_ReturnSingleTemplate()
         {
             var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
@@ -37,7 +37,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -61,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_SimplePaging()
+        public async Task SimplePaging()
         {
             int maxPageSize = 1;
 

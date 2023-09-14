@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         }
 
         [TestMethod]
-        public async Task ListTasks_ReturnStatus()
+        public async Task ReturnStatus()
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net GetOperationStatus").ConfigureAwait(false);
 

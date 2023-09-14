@@ -32,7 +32,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task CreateCopyEntry_CopyEntry()
+        public async Task CopyEntry()
         {
             // Create a new folder that contains the created entry
             var testFolderName = "RepositoryApiClientIntegrationTest .Net CreateCopyEntry_CopyEntry_test_folder";
@@ -70,7 +70,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task CreateCopyEntry_CopyShortcut()
+        public async Task CopyShortcut()
         {
             // Create new entry
             string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";
@@ -122,7 +122,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
         [ExpectedException(typeof(ApiException))]
         [TestMethod]
-        public async Task CreateCopyEntry_CopyFolder()
+        public async Task CopyFolder()
         {
             // Create new entry
             string newEntryName = "RepositoryApiClientIntegrationTest .Net CreateFolder";

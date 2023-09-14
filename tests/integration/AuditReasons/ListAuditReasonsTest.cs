@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AuditReasons
         }
 
         [TestMethod]
-        public async Task ListAuditReasons_ReturnAuditReasons()
+        public async Task ReturnAuditReasons()
         {
             var collectionResponse = await client.AuditReasonsClient.ListAuditReasonsAsync(RepositoryId).ConfigureAwait(false);
 

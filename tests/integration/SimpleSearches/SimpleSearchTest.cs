@@ -17,7 +17,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
         }
 
         [TestMethod]
-        public async Task SimpleSearch_SearchEntry()
+        public async Task SearchEntry()
         {
             var request = new SearchEntryRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
             var entryCollectionResponse = await client.SimpleSearchesClient.SearchEntryAsync(RepositoryId, request: request).ConfigureAwait(false);

@@ -27,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task SetTemplate_ReturnEntryWithTemplate()
+        public async Task ReturnEntryWithTemplate()
         {
             // Find a template definition with no required fields
             TemplateDefinition template = null;

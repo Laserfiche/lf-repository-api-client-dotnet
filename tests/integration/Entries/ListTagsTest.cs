@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryTags_ReturnTags()
+        public async Task ReturnTags()
         {
             int entryId = 1;
             var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId).ConfigureAwait(false);
@@ -22,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryTags_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int entryId = 1;
             int maxPageSize = 10;
@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetEntryTags_SimplePaging()
+        public async Task SimplePaging()
         {
             int entryId = 1;
             int maxPageSize = 1;

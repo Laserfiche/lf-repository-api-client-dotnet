@@ -14,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         }
 
         [TestMethod]
-        public async Task GetLinkDefinitionByIdAsync_ReturnLinkDefinition()
+        public async Task ReturnLinkDefinition()
         {
             var allLinkDefinitionsResult = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var firstLinkDefinition = allLinkDefinitionsResult.Value?.FirstOrDefault();

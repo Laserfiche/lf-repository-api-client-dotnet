@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         }
 
         [TestMethod]
-        public async Task CancelTasks_OperationEndedBeforeCancel()
+        public async Task OperationEndedBeforeCancel()
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net CancelOperation").ConfigureAwait(false);
             StartDeleteEntryRequest body = new();

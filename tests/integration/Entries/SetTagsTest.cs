@@ -28,7 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task SetTags_ReturnTags()
+        public async Task SetAndReturnTags()
         {
             var tagDefinitionsResult = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
             var tagDefinitions = tagDefinitionsResult.Value;

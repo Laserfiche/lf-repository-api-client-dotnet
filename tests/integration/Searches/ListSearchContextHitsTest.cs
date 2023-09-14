@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task ListSearchContextHits_ReturnContextHits()
+        public async Task ReturnContextHits()
         {
             // Create search
             var request = new StartSearchEntryRequest()
@@ -57,7 +57,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task ListSearchContextHits_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 

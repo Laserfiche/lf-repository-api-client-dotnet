@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task ListTagDefinitions_ReturnAllTags()
+        public async Task ReturnAllTags()
         {
             var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
 
@@ -21,7 +21,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task ListTagDefinitions_ForEachPaging()
+        public async Task ForEachPaging()
         {
             int maxPageSize = 10;
 
@@ -45,7 +45,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task ListTagDefinitions_SimplePaging()
+        public async Task SimplePaging()
         {
             // Get total count of tags
             var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);

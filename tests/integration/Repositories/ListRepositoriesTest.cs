@@ -13,7 +13,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         }
 
         [TestMethod]
-        public async Task ListRepositories_ReturnSuccessful()
+        public async Task ReturnSuccessful()
         {
             var repositoryCollectionResponse = await client.RepositoriesClient.ListRepositoriesAsync().ConfigureAwait(false);
             AssertCollectionResponse(repositoryCollectionResponse);
@@ -37,7 +37,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Repositories
         }
 
         [TestMethod]
-        public async Task GetSelfHostedRepositoryList_ReturnSuccessful()
+        public async Task SelfHosted_ReturnSuccessful()
         {
             if (AuthorizationType == AuthorizationType.CLOUD_ACCESS_KEY)
             {
