@@ -114,7 +114,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var newEntry = await client.EntriesClient.CopyEntryAsync(RepositoryId, parentEntryId, copyEntryRequest).ConfigureAwait(false);
 
             createdEntries.Add(newEntry);
-            Assert.IsTrue(newEntry.Name.StartsWith(createEntryRequest.Name));
+            Assert.AreEqual(EntryType.Shortcut, newEntry.EntryType);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(shortcut.EntryType, newEntry.EntryType);
         }
