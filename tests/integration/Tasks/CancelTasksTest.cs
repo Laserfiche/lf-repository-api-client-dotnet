@@ -1,11 +1,12 @@
 ﻿using Laserfiche.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
 {
     [TestClass]
-    public class CancelOperationTest : BaseTest
+    public class CancelTasksTest : BaseTest
     {
         [TestInitialize]
         public void Initialize()
@@ -14,18 +15,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         }
 
         [TestMethod]
-        public async Task CancelOpeartion_OperationEndedBeforeCancel()
+        public async Task CancelTasks_OperationEndedBeforeCancel()
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net CancelOperation").ConfigureAwait(false);
-            DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-            var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
-            var token = result.Token;
-            Assert.IsFalse(string.IsNullOrEmpty(token));
+            StartDeleteEntryRequest body = new();
+            var taskResponse = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
+            
+            AssertIsNotNullOrEmpty(taskResponse.TaskId);
 
             try
             {
                 await Task.Delay(5000).ConfigureAwait(false);
-                await client.TasksClient.CancelOperationAsync(RepositoryId, token).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(RepositoryId, new List<string> { taskResponse.TaskId }).ConfigureAwait(false);
+                
                 Assert.Fail("Long operation should have ended before cancel.");
             }
             catch (ApiException e)
