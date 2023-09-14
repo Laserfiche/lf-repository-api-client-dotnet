@@ -45,7 +45,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     new LinkToUpdate
                     {
-                        LinkDefinitionId = targetEntry.Id,
+                        LinkDefinitionId = 1,
+                        OtherEntryId = targetEntry.Id
                     }
                 }
             };
