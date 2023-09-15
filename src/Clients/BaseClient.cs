@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Threading;
-using System;
+using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Laserfiche.Repository.Api.Client
 {
@@ -57,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         // Copied from auto generated code
-        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        private string ConvertToString(object value, CultureInfo cultureInfo)
         {
             if (value == null)
             {
@@ -71,12 +72,12 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null && 
-                        CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                        CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) is EnumMemberAttribute attribute)
                     {
                         return attribute.Value ?? name;
                     }
 
-                    var converted = Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
                     return converted ?? string.Empty;
                 }
             }
@@ -90,8 +91,8 @@ namespace Laserfiche.Repository.Api.Client
             }
             else if (value.GetType().IsArray)
             {
-                var array = Enumerable.OfType<object>((System.Array)value);
-                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+                var array = Enumerable.OfType<object>((Array)value);
+                return string.Join(",", Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
             var result = Convert.ToString(value, cultureInfo);

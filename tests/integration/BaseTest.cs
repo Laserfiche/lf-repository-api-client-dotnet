@@ -1,9 +1,8 @@
 ﻿using Laserfiche.Api.Client.OAuth;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
@@ -85,7 +84,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
-                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey);
+                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey, "repository.ReadWrite");
                 }
                 else if (AuthorizationType == AuthorizationType.API_SERVER_USERNAME_PASSWORD)
                 {
@@ -105,44 +104,160 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
         public async Task<Entry> CreateEntry(IRepositoryApiClient client, string entryName, int parentEntryId = 1, bool autoRename = true)
         {
-            var request = new PostEntryChildrenRequest()
+            var request = new CreateEntryRequest()
             {
-                EntryType = PostEntryChildrenEntryType.Folder,
-                Name = entryName
+                EntryType = CreateEntryRequestEntryType.Folder,
+                Name = entryName,
+                AutoRename = autoRename
             };
-            var newEntry = await client.EntriesClient.CreateOrCopyEntryAsync(RepositoryId, parentEntryId, request, autoRename: autoRename).ConfigureAwait(false);
+            var newEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            
             Assert.IsNotNull(newEntry);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
             Assert.AreEqual(EntryType.Folder, newEntry.EntryType);
+            
             return newEntry;
         }
 
-        public async Task DeleteEntry(IRepositoryApiClient client, int entryId, DeleteEntryWithAuditReason auditReason = null)
+        public async Task DeleteEntry(IRepositoryApiClient client, int entryId, StartDeleteEntryRequest auditReason = null)
         {
-            var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason).ConfigureAwait(false);
-            Assert.IsNotNull(operation.Token);
-            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token).ConfigureAwait(false);
-            Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
+            var operation = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entryId, auditReason).ConfigureAwait(false);
+            Assert.IsNotNull(operation.TaskId);
+            
+            var progress = await client.TasksClient.ListTasksAsync(RepositoryId, new [] { operation.TaskId }).ConfigureAwait(false);
+            Assert.IsNotNull(progress);
+            Assert.IsNotNull(progress.Value);
+            Assert.IsTrue(progress.Value.Count > 0);
+            Assert.IsTrue(progress.Value[0].Status == TaskStatus.InProgress || progress.Value[0].Status == TaskStatus.Completed);
         }
 
         protected async Task<int> CreateDocument(string name)
         {
             int parentEntryId = 1;
             string fileLocation = TempPath + "test.pdf";
-            var request = new PostEntryWithEdocMetadataRequest();
-            using (var fileStream = File.OpenRead(fileLocation))
+            var request = new ImportEntryRequest()
             {
-                var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-                var result = await client.EntriesClient.ImportDocumentAsync(RepositoryId, parentEntryId, name, autoRename: true, electronicDocument: electronicDocument, request: request).ConfigureAwait(false);
+                AutoRename = true,
+                Name = name,
+            };
 
-                var operations = result.Operations;
-                Assert.IsNotNull(operations?.EntryCreate);
-                Assert.AreEqual(0, operations.EntryCreate.Exceptions.Count);
-                Assert.AreNotEqual(0, operations.EntryCreate.EntryId);
-                Assert.AreEqual(0, operations.SetEdoc.Exceptions.Count);
-                Assert.IsFalse(string.IsNullOrEmpty(result.DocumentLink));
-                return operations.EntryCreate.EntryId;
-            }
+            using var fileStream = File.OpenRead(fileLocation);
+            var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
+            var entry = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, null, electronicDocument, request).ConfigureAwait(false);
+
+            Assert.IsNotNull(entry);
+            Assert.IsNotNull(entry.Id);
+
+            return entry.Id;
+        }
+
+        protected static void AssertCollectionResponse(AttributeCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(AuditReasonCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(FieldDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(LinkDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(EntryCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(FieldCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TagCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TagDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(LinkCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(RepositoryCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(SearchContextHitCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TaskCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertCollectionResponse(TemplateDefinitionCollectionResponse response)
+        {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Value.Count > 0);
+            Assert.IsNotNull(response.Value[0]);
+        }
+
+        protected static void AssertIsNotNullOrEmpty(string value)
+        {
+            Assert.IsFalse(value.IsNullOrEmpty());
         }
     }
 }

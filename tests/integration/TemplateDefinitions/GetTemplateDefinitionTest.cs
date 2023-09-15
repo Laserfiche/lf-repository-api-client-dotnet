@@ -14,70 +14,20 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task GetTemplateDefinition_ReturnAllTemplates()
+        public async Task ReturnTemplate()
         {
-            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
-            Assert.IsNotNull(result.Value);
-        }
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
 
-        [TestMethod]
-        public async Task GetTemplateDefinition_TemplateNameQueryParameter_ReturnSingleTemplate()
-        {
-            var allTemplateDefinitionsResult = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
-            var firstTemplateDefinition = allTemplateDefinitionsResult.Value?.FirstOrDefault();
-            Assert.IsNotNull(firstTemplateDefinition);
+            AssertCollectionResponse(templateDefinitionCollectionResponse);
+            
+            var firstTemplateDefinition = templateDefinitionCollectionResponse.Value?.FirstOrDefault();
+            
+            Assert.IsNotNull(firstTemplateDefinition, "No template definitions exist in the repository.");
 
-            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, templateName: firstTemplateDefinition.Name).ConfigureAwait(false);
-            Assert.IsNotNull(result.Value);
-            Assert.AreEqual(1, result.Value.Count);
-            Assert.AreEqual(firstTemplateDefinition.Id, result.Value.FirstOrDefault().Id);
-        }
+            var templateDefinition = await client.TemplateDefinitionsClient.GetTemplateDefinitionAsync(RepositoryId, firstTemplateDefinition.Id).ConfigureAwait(false);
 
-        [TestMethod]
-        public async Task GetTemplateDefinition_ForEachPaging()
-        {
-            int maxPageSize = 10;
-
-            Task<bool> PagingCallback(ODataValueContextOfIListOfWTemplateInfo data)
-            {
-                if (data.OdataNextLink != null)
-                {
-                    Assert.AreNotEqual(0, data.Value.Count);
-                    Assert.IsTrue(data.Value.Count <= maxPageSize);
-                    return Task.FromResult(true);
-                }
-                else
-                {
-                    return Task.FromResult(false);
-                }
-            }
-
-            await client.TemplateDefinitionsClient.GetTemplateDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
-            await Task.Delay(5000).ConfigureAwait(false);
-        }
-
-        [TestMethod]
-        public async Task GetTemplateDefinition_SimplePaging()
-        {
-            int maxPageSize = 1;
-
-            // Initial request
-            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
-            Assert.IsNotNull(result);
-
-            if (result.Value.Count == 0)
-            {
-                return; // There's no point testing if we don't have any such item.
-            }
-
-            var nextLink = result.OdataNextLink;
-            Assert.IsNotNull(nextLink);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
-
-            // Paging request
-            result = await client.TemplateDefinitionsClient.GetTemplateDefinitionsNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Value.Count <= maxPageSize);
+            Assert.IsNotNull(templateDefinition);
+            Assert.AreEqual(firstTemplateDefinition.Id, templateDefinition.Id);
         }
     }
 }

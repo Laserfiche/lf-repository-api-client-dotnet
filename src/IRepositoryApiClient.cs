@@ -41,10 +41,6 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         ISearchesClient SearchesClient { get; }
         /// <summary>
-        /// The Laserfiche Repository Server Session API client.
-        /// </summary>
-        IServerSessionClient ServerSessionClient { get; }
-        /// <summary>
         /// The Laserfiche Repository Simple Searches API client.
         /// </summary>
         ISimpleSearchesClient SimpleSearchesClient { get; }

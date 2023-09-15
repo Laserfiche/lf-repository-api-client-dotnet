@@ -17,11 +17,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
         }
 
         [TestMethod]
-        public async Task SimpleSearch_ReturnSearchResults()
+        public async Task SearchEntry()
         {
-            var request = new SimpleSearchRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(RepositoryId, request: request).ConfigureAwait(false);
-            Assert.IsNotNull(result.Value);
+            var request = new SearchEntryRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
+            var entryCollectionResponse = await client.SimpleSearchesClient.SearchEntryAsync(RepositoryId, request: request).ConfigureAwait(false);
+            
+            AssertCollectionResponse(entryCollectionResponse);
         }
 
         [TestCleanup]

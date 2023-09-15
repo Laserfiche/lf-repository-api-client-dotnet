@@ -1,0 +1,26 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+
+namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
+{
+    [TestClass]
+    public class StartDeleteEntryTest : BaseTest
+    {
+        [TestInitialize]
+        public void Initialize()
+        {
+            client = CreateClient();
+        }
+
+        [TestMethod]
+        public async Task ReturnOperationToken()
+        {
+            var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net DeleteFolder").ConfigureAwait(false);
+            
+            StartDeleteEntryRequest body = new();
+            var response = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
+            
+            AssertIsNotNullOrEmpty(response.TaskId);
+        }
+    }
+}

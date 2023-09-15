@@ -21,21 +21,5 @@ namespace Laserfiche.Repository.Api.Client
         {
             return ApiException.Create(statusCode, headers, innerException);
         }
-
-        internal static ApiException Create(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, CreateEntryResult createEntryResult, Exception innerException)
-        {
-            if (createEntryResult == null)
-            {
-                return ApiException.Create(statusCode, headers, innerException);
-            }
-
-            ProblemDetails problemDetails = ProblemDetails.Create(statusCode, headers);
-            problemDetails.Title = createEntryResult.GetSummary();
-            problemDetails.Extensions = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
-            {
-                [createEntryResult.GetType().Name] = createEntryResult
-            };
-            return ApiException.Create(statusCode, headers, problemDetails, innerException);
-        }
     }
 }

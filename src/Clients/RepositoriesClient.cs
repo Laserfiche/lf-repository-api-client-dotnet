@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
@@ -13,7 +14,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get the respository resource list successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public static async System.Threading.Tasks.Task<ICollection<RepositoryInfo>> GetSelfHostedRepositoryListAsync(string baseUrl, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public static async Task<RepositoryCollectionResponse> GetSelfHostedRepositoryListAsync(string baseUrl, CancellationToken cancellationToken = default)
         {
             using (HttpClient client_ = new HttpClient())
             {
@@ -21,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client
                     baseUrl = baseUrl.TrimEnd('/') + "/";
                 client_.BaseAddress = new Uri(baseUrl);
                 RepositoriesClient repositoriesClient = new RepositoriesClient(client_);
-                return await repositoriesClient.GetRepositoryListAsync(cancellationToken).ConfigureAwait(false);
+                return await repositoriesClient.ListRepositoriesAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

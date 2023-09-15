@@ -39,6 +39,7 @@
       "generateOptionalParameters": true,
       "generateUpdateJsonSerializerSettingsMethod": false,
       "useBaseUrl": false,
+      "arrayType": "IList",
       "templateDirectory": "nswag",
       "wrapResponses": true,
       "wrapResponseMethods": [

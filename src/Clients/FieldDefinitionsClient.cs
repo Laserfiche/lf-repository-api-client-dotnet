@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="repositoryId">The requested repository ID.</param>
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
         /// <br/>            The value should be a standard language tag.</param>
@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListFieldDefinitionsForEachAsync(Func<FieldDefinitionCollectionResponse, Task<bool>> callback, string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns a collection of field definitions using a nextlink. 
@@ -36,27 +36,27 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Get field definitions successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
     }
 
     partial class FieldDefinitionsClient
     {
-        public async Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListFieldDefinitionsForEachAsync(Func<FieldDefinitionCollectionResponse, Task<bool>> callback, string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetFieldDefinitionsAsync(repoId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            var response = await ListFieldDefinitionsAsync(repositoryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task<ODataValueContextOfIListOfWFieldInfo> GetFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
 }
