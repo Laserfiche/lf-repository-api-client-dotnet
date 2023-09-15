@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(taskId))
             {
-                await client.TasksClient.CancelTasksAsync(taskId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(RepositoryId, new List<string> { taskId }).ConfigureAwait(false);
             }
         }
 
