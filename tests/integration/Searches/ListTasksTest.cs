@@ -35,20 +35,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
             var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+
+            Assert.IsNotNull(taskResponse);
+
             taskId = taskResponse.TaskId;
-            
-            AssertIsNotNullOrEmpty(taskId);
 
             await Task.Delay(5000).ConfigureAwait(false);
 
             // Get search status
-            var taskCollectionResponse = await client.TasksClient.ListTasksAsync(RepositoryId).ConfigureAwait(false);
+            var taskCollectionResponse = await client.TasksClient.ListTasksAsync(RepositoryId, new List<string> { taskId }).ConfigureAwait(false);
 
             AssertCollectionResponse(taskCollectionResponse);
 
-            var searchTaskId = taskCollectionResponse.Value.First(t => t.Id == taskId);
-            
-            Assert.AreEqual(taskId, searchTaskId);
+            var searchTaskProgress = taskCollectionResponse.Value.First(t => t.Id == taskId);
+
+            Assert.IsNotNull(searchTaskProgress);
         }
     }
 }
