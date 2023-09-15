@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using Xunit;
 
 namespace Laserfiche.Repository.Api.Client.Test.Custom
