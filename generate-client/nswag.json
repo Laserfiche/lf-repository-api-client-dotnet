@@ -35,11 +35,13 @@
         "ProblemDetails"
       ],
       "generateClientInterfaces": true,
+      "generateDataAnnotations": false,
       "generateExceptionClasses": false,
       "generateOptionalParameters": true,
       "generateUpdateJsonSerializerSettingsMethod": false,
       "useBaseUrl": false,
       "arrayType": "IList",
+      "arrayInstanceType": "List",
       "templateDirectory": "nswag",
       "wrapResponses": true,
       "wrapResponseMethods": [

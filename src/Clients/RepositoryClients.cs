@@ -10102,21 +10102,18 @@ namespace Laserfiche.Repository.Api.Client
         /// The UploadId received when calling the CreateMultipartUploadUrls API to request upload URLs.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uploadId", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string UploadId { get; set; }
 
         /// <summary>
         /// The array of the ETag values received when writing the file chunks into the upload URLs.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("partETags", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
-        public IList<string> PartETags { get; set; } = new System.Collections.ObjectModel.Collection<string>();
+        public IList<string> PartETags { get; set; } = new List<string>();
 
         /// <summary>
         /// The name for the imported entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -10244,7 +10241,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The name of the field that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -10309,7 +10305,6 @@ namespace Laserfiche.Repository.Api.Client
         /// Specifies the part of the document to export.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)] https://github.com/dotnet/standard/issues/450
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
 
@@ -10519,7 +10514,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The name of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -11151,7 +11145,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The name for the imported entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -11219,7 +11212,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The part of the document to export. Options include: Image, Text, Edoc.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)] https://github.com/dotnet/standard/issues/450
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
 
@@ -11602,7 +11594,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The name of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -11635,7 +11626,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The name of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string Name { get; set; }
 
         /// <summary>
@@ -11648,7 +11638,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The type of the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("entryType", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)] https://github.com/dotnet/standard/issues/450
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CreateEntryRequestEntryType EntryType { get; set; }
 
@@ -11711,7 +11700,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The template that will be assigned to the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("templateName", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string TemplateName { get; set; }
 
         /// <summary>
@@ -11769,7 +11757,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The search command to run. The search command should follow the Laserfiche search syntax. https://doc.laserfiche.com/laserfiche.documentation/en-us/Default.htm#Search_Syntax.htm
         /// </summary>
         [Newtonsoft.Json.JsonProperty("searchCommand", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string SearchCommand { get; set; }
 
         /// <summary>
@@ -11991,7 +11978,6 @@ namespace Laserfiche.Repository.Api.Client
         /// The search command to run. The search command should follow the Laserfiche search syntax. https://doc.laserfiche.com/laserfiche.documentation/en-us/Default.htm#Search_Syntax.htm
         /// </summary>
         [Newtonsoft.Json.JsonProperty("searchCommand", Required = Newtonsoft.Json.Required.Always)]
-        // [ComponentModel.DataAnnotations.Required] https://github.com/dotnet/standard/issues/450
         public string SearchCommand { get; set; }
 
     }
