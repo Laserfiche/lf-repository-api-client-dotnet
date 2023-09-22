@@ -14,19 +14,11 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns a collection of tag definitions using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
-        /// <br/>            The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, ListTagDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns a collection of tag definitions using a nextlink.
@@ -41,15 +33,16 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class TagDefinitionsClient
     {
-        public async Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, ListTagDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListTagDefinitionsAsync(repositoryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListTagDefinitionsAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListTagDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListTagDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
