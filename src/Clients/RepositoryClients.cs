@@ -526,7 +526,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IAttributesClient.ListAttributesAsync">ListAttributes</see>.
+    /// Represents the request parameters for <see cref="IAttributesClient.ListAttributesAsync(ListAttributesParameters, CancellationToken)">ListAttributes</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListAttributesParameters
@@ -574,7 +574,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IAttributesClient.GetAttributeAsync">GetAttribute</see>.
+    /// Represents the request parameters for <see cref="IAttributesClient.GetAttributeAsync(GetAttributeParameters, CancellationToken)">GetAttribute</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetAttributeParameters
@@ -917,7 +917,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IAuditReasonsClient.ListAuditReasonsAsync">ListAuditReasons</see>.
+    /// Represents the request parameters for <see cref="IAuditReasonsClient.ListAuditReasonsAsync(ListAuditReasonsParameters, CancellationToken)">ListAuditReasons</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListAuditReasonsParameters
@@ -1457,7 +1457,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IFieldDefinitionsClient.GetFieldDefinitionAsync">GetFieldDefinition</see>.
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetFieldDefinitionAsync(GetFieldDefinitionParameters, CancellationToken)">GetFieldDefinition</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetFieldDefinitionParameters
@@ -1485,7 +1485,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IFieldDefinitionsClient.ListFieldDefinitionsAsync">ListFieldDefinitions</see>.
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.ListFieldDefinitionsAsync(ListFieldDefinitionsParameters, CancellationToken)">ListFieldDefinitions</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListFieldDefinitionsParameters
@@ -2020,7 +2020,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ILinkDefinitionsClient.ListLinkDefinitionsAsync">ListLinkDefinitions</see>.
+    /// Represents the request parameters for <see cref="ILinkDefinitionsClient.ListLinkDefinitionsAsync(ListLinkDefinitionsParameters, CancellationToken)">ListLinkDefinitions</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListLinkDefinitionsParameters
@@ -2063,7 +2063,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ILinkDefinitionsClient.GetLinkDefinitionAsync">GetLinkDefinition</see>.
+    /// Represents the request parameters for <see cref="ILinkDefinitionsClient.GetLinkDefinitionAsync(GetLinkDefinitionParameters, CancellationToken)">GetLinkDefinition</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetLinkDefinitionParameters
@@ -6748,7 +6748,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.CreateMultipartUploadUrlsAsync">CreateMultipartUploadUrls</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters, CancellationToken)">CreateMultipartUploadUrls</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CreateMultipartUploadUrlsParameters
@@ -6766,7 +6766,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.StartImportUploadedPartsAsync">StartImportUploadedParts</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.StartImportUploadedPartsAsync(StartImportUploadedPartsParameters, CancellationToken)">StartImportUploadedParts</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartImportUploadedPartsParameters
@@ -6794,7 +6794,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.StartExportEntryAsync">StartExportEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.StartExportEntryAsync(StartExportEntryParameters, CancellationToken)">StartExportEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartExportEntryParameters
@@ -6822,7 +6822,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.StartCopyEntryAsync">StartCopyEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.StartCopyEntryAsync(StartCopyEntryParameters, CancellationToken)">StartCopyEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartCopyEntryParameters
@@ -6850,7 +6850,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.StartDeleteEntryAsync">StartDeleteEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.StartDeleteEntryAsync(StartDeleteEntryParameters, CancellationToken)">StartDeleteEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartDeleteEntryParameters
@@ -6873,7 +6873,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.GetEntryAsync">GetEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryAsync(GetEntryParameters, CancellationToken)">GetEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetEntryParameters
@@ -6896,7 +6896,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.UpdateEntryAsync">UpdateEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateEntryAsync(UpdateEntryParameters, CancellationToken)">UpdateEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class UpdateEntryParameters
@@ -6924,7 +6924,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ImportEntryAsync">ImportEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ImportEntryAsync(ImportEntryParameters, CancellationToken)">ImportEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ImportEntryParameters
@@ -6951,7 +6951,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ExportEntryAsync">ExportEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ExportEntryAsync(ExportEntryParameters, CancellationToken)">ExportEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ExportEntryParameters
@@ -6979,7 +6979,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.GetEntryByPathAsync">GetEntryByPath</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryByPathAsync(GetEntryByPathParameters, CancellationToken)">GetEntryByPath</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetEntryByPathParameters
@@ -7002,7 +7002,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ListEntriesAsync">ListEntries</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ListEntriesAsync(ListEntriesParameters, CancellationToken)">ListEntries</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListEntriesParameters
@@ -7070,7 +7070,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.CreateEntryAsync">CreateEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.CreateEntryAsync(CreateEntryParameters, CancellationToken)">CreateEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CreateEntryParameters
@@ -7098,7 +7098,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ListFieldsAsync">ListFields</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ListFieldsAsync(ListFieldsParameters, CancellationToken)">ListFields</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListFieldsParameters
@@ -7156,7 +7156,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.SetFieldsAsync">SetFields</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.SetFieldsAsync(SetFieldsParameters, CancellationToken)">SetFields</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SetFieldsParameters
@@ -7184,7 +7184,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ListTagsAsync">ListTags</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ListTagsAsync(ListTagsParameters, CancellationToken)">ListTags</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTagsParameters
@@ -7232,7 +7232,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.SetTagsAsync">SetTags</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.SetTagsAsync(SetTagsParameters, CancellationToken)">SetTags</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SetTagsParameters
@@ -7255,7 +7255,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.SetLinksAsync">SetLinks</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.SetLinksAsync(SetLinksParameters, CancellationToken)">SetLinks</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SetLinksParameters
@@ -7278,7 +7278,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ListLinksAsync">ListLinks</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ListLinksAsync(ListLinksParameters, CancellationToken)">ListLinks</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListLinksParameters
@@ -7326,7 +7326,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.CopyEntryAsync">CopyEntry</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.CopyEntryAsync(CopyEntryParameters, CancellationToken)">CopyEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CopyEntryParameters
@@ -7354,7 +7354,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.DeleteElectronicDocumentAsync">DeleteElectronicDocument</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters, CancellationToken)">DeleteElectronicDocument</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class DeleteElectronicDocumentParameters
@@ -7372,7 +7372,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.DeletePagesAsync">DeletePages</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.DeletePagesAsync(DeletePagesParameters, CancellationToken)">DeletePages</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class DeletePagesParameters
@@ -7395,7 +7395,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.ListDynamicFieldValuesAsync">ListDynamicFieldValues</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters, CancellationToken)">ListDynamicFieldValues</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListDynamicFieldValuesParameters
@@ -7418,7 +7418,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.RemoveTemplateAsync">RemoveTemplate</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.RemoveTemplateAsync(RemoveTemplateParameters, CancellationToken)">RemoveTemplate</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class RemoveTemplateParameters
@@ -7436,7 +7436,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IEntriesClient.SetTemplateAsync">SetTemplate</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.SetTemplateAsync(SetTemplateParameters, CancellationToken)">SetTemplate</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SetTemplateParameters
@@ -7732,7 +7732,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="IRepositoriesClient.ListRepositoriesAsync">ListRepositories</see>.
+    /// Represents the request parameters for <see cref="IRepositoriesClient.ListRepositoriesAsync(ListRepositoriesParameters, CancellationToken)">ListRepositories</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListRepositoriesParameters
@@ -8466,7 +8466,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ISearchesClient.StartSearchEntryAsync">StartSearchEntry</see>.
+    /// Represents the request parameters for <see cref="ISearchesClient.StartSearchEntryAsync(StartSearchEntryParameters, CancellationToken)">StartSearchEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartSearchEntryParameters
@@ -8484,7 +8484,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ISearchesClient.ListSearchResultsAsync">ListSearchResults</see>.
+    /// Represents the request parameters for <see cref="ISearchesClient.ListSearchResultsAsync(ListSearchResultsParameters, CancellationToken)">ListSearchResults</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListSearchResultsParameters
@@ -8557,7 +8557,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ISearchesClient.ListSearchContextHitsAsync">ListSearchContextHits</see>.
+    /// Represents the request parameters for <see cref="ISearchesClient.ListSearchContextHitsAsync(ListSearchContextHitsParameters, CancellationToken)">ListSearchContextHits</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListSearchContextHitsParameters
@@ -8961,7 +8961,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ISimpleSearchesClient.SearchEntryAsync">SearchEntry</see>.
+    /// Represents the request parameters for <see cref="ISimpleSearchesClient.SearchEntryAsync(SearchEntryParameters, CancellationToken)">SearchEntry</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SearchEntryParameters
@@ -9506,7 +9506,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITagDefinitionsClient.ListTagDefinitionsAsync">ListTagDefinitions</see>.
+    /// Represents the request parameters for <see cref="ITagDefinitionsClient.ListTagDefinitionsAsync(ListTagDefinitionsParameters, CancellationToken)">ListTagDefinitions</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTagDefinitionsParameters
@@ -9554,7 +9554,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITagDefinitionsClient.GetTagDefinitionAsync">GetTagDefinition</see>.
+    /// Represents the request parameters for <see cref="ITagDefinitionsClient.GetTagDefinitionAsync(GetTagDefinitionParameters, CancellationToken)">GetTagDefinition</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetTagDefinitionParameters
@@ -10048,7 +10048,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITasksClient.ListTasksAsync">ListTasks</see>.
+    /// Represents the request parameters for <see cref="ITasksClient.ListTasksAsync(ListTasksParameters, CancellationToken)">ListTasks</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTasksParameters
@@ -10066,7 +10066,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITasksClient.CancelTasksAsync">CancelTasks</see>.
+    /// Represents the request parameters for <see cref="ITasksClient.CancelTasksAsync(CancelTasksParameters, CancellationToken)">CancelTasks</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CancelTasksParameters
@@ -10978,7 +10978,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateDefinitionsAsync">ListTemplateDefinitions</see>.
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters, CancellationToken)">ListTemplateDefinitions</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTemplateDefinitionsParameters
@@ -11031,7 +11031,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITemplateDefinitionsClient.GetTemplateDefinitionAsync">GetTemplateDefinition</see>.
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateDefinitionAsync(GetTemplateDefinitionParameters, CancellationToken)">GetTemplateDefinition</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetTemplateDefinitionParameters
@@ -11059,7 +11059,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync">ListTemplateFieldDefinitionsByTemplateId</see>.
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters, CancellationToken)">ListTemplateFieldDefinitionsByTemplateId</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTemplateFieldDefinitionsByTemplateIdParameters
@@ -11112,7 +11112,7 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync">ListTemplateFieldDefinitionsByTemplateName</see>.
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters, CancellationToken)">ListTemplateFieldDefinitionsByTemplateName</see>.
     /// </summary>
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListTemplateFieldDefinitionsByTemplateNameParameters

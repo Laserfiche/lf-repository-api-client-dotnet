@@ -1,6 +1,6 @@
 {% for operation in Operations -%}
 /// <summary>
-/// Parameters for <see cref="I{{ Class }}.{{ operation.ActualOperationName }}Async">{{ operation.ActualOperationName }}</see>.
+/// Represents the request parameters for <see cref="I{{ Class }}.{{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters, CancellationToken)">{{ operation.ActualOperationName }}</see>.
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ operation.ActualOperationName }}Parameters
