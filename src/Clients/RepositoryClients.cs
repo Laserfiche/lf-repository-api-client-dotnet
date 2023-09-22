@@ -47,18 +47,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="everyone">Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of attributes associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<AttributeCollectionResponse> ListAttributesAsync(string repositoryId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AttributeCollectionResponse> ListAttributesAsync(ListAttributesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns an attribute object associated with the authenticated user.
@@ -68,13 +61,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="attributeKey">The requested attribute key.</param>
-        /// <param name="everyone">Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single attribute associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Attribute> GetAttributeAsync(string repositoryId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Attribute> GetAttributeAsync(GetAttributeParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -113,21 +104,26 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="everyone">Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of attributes associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<AttributeCollectionResponse> ListAttributesAsync(string repositoryId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<AttributeCollectionResponse> ListAttributesAsync(ListAttributesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var everyone = parameters.Everyone;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes?");
@@ -283,19 +279,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="attributeKey">The requested attribute key.</param>
-        /// <param name="everyone">Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single attribute associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Attribute> GetAttributeAsync(string repositoryId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Attribute> GetAttributeAsync(GetAttributeParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var attributeKey = parameters.AttributeKey;
+            var everyone = parameters.Everyone;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (attributeKey == null)
-                throw new ArgumentNullException("attributeKey");
+                throw new ArgumentNullException("parameters.AttributeKey");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes/{attributeKey}?");
@@ -524,6 +525,77 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="IAttributesClient.ListAttributesAsync">ListAttributes</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListAttributesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.
+        /// </summary>
+        public bool? Everyone { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IAttributesClient.GetAttributeAsync">GetAttribute</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetAttributeParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested attribute key.
+        /// </summary>
+        public string AttributeKey { get; set; }
+
+        /// <summary>
+        /// Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.
+        /// </summary>
+        public bool? Everyone { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IAuditReasonsClient
     {
@@ -537,17 +609,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - If the authenticated user does not have the appropriate Laserfiche feature right, the audit reasons associated with that feature right will not be included.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of audit reasons.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(ListAuditReasonsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -585,20 +651,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - If the authenticated user does not have the appropriate Laserfiche feature right, the audit reasons associated with that feature right will not be included.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of audit reasons.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(ListAuditReasonsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/AuditReasons?");
@@ -845,6 +916,49 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="IAuditReasonsClient.ListAuditReasonsAsync">ListAuditReasons</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListAuditReasonsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IFieldDefinitionsClient
     {
@@ -858,14 +972,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="fieldId">The requested field definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single field definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<FieldDefinition> GetFieldDefinitionAsync(string repositoryId, int fieldId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FieldDefinition> GetFieldDefinitionAsync(GetFieldDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the paged listing of the field definitions available in a repository.
@@ -876,18 +987,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(ListFieldDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -925,20 +1029,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="fieldId">The requested field definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single field definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldDefinition> GetFieldDefinitionAsync(string repositoryId, int fieldId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldDefinition> GetFieldDefinitionAsync(GetFieldDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (fieldId == null)
-                throw new ArgumentNullException("fieldId");
+                throw new ArgumentNullException("parameters.FieldId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}?");
@@ -1077,21 +1186,26 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(ListFieldDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions?");
@@ -1342,6 +1456,82 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="IFieldDefinitionsClient.GetFieldDefinitionAsync">GetFieldDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFieldDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested field definition ID.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IFieldDefinitionsClient.ListFieldDefinitionsAsync">ListFieldDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListFieldDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ILinkDefinitionsClient
     {
@@ -1355,17 +1545,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(ListLinkDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns a single link definition object.
@@ -1376,13 +1560,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="linkDefinitionId">The requested link definition ID.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single link definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<LinkDefinition> GetLinkDefinitionAsync(string repositoryId, int linkDefinitionId, string select = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<LinkDefinition> GetLinkDefinitionAsync(GetLinkDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -1420,20 +1602,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(ListLinkDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions?");
@@ -1586,19 +1773,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="linkDefinitionId">The requested link definition ID.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single link definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkDefinition> GetLinkDefinitionAsync(string repositoryId, int linkDefinitionId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkDefinition> GetLinkDefinitionAsync(GetLinkDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var linkDefinitionId = parameters.LinkDefinitionId;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (linkDefinitionId == null)
-                throw new ArgumentNullException("linkDefinitionId");
+                throw new ArgumentNullException("parameters.LinkDefinitionId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}?");
@@ -1827,6 +2019,72 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="ILinkDefinitionsClient.ListLinkDefinitionsAsync">ListLinkDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListLinkDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ILinkDefinitionsClient.GetLinkDefinitionAsync">GetLinkDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetLinkDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested link definition ID.
+        /// </summary>
+        public int LinkDefinitionId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IEntriesClient
     {
@@ -1845,12 +2103,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - The total number of Upload URLs for a single file is 1000, which means (StartingPartNumber + NumberOfParts) should be less than or equal to 1001.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A response containing an upload id and an array of upload URLs.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(string repositoryId, CreateMultipartUploadUrlsRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Starts an asynchronous import task to import a document into a folder.
@@ -1860,14 +2117,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - This route does not support partial success.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the folder that the document will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> StartImportUploadedPartsAsync(string repositoryId, int entryId, StartImportUploadedPartsRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartImportUploadedPartsAsync(StartImportUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Starts an asynchronous export task to export an entry.
@@ -1877,14 +2131,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry to export.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="pageRange">A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> StartExportEntryAsync(string repositoryId, int entryId, StartExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartExportEntryAsync(StartExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Starts an asynchronous copy task to copy an entry into a folder.
@@ -1896,14 +2147,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Token substitution in the name of the copied entry is not supported.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> StartCopyEntryAsync(string repositoryId, int entryId, StartCopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartCopyEntryAsync(StartCopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Starts an asynchronous delete task to delete an entry.
@@ -1914,13 +2162,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optionally include an audit reason ID and comment in the JSON body. This route returns a taskId, and will run as an asynchronous operation. Check the progress via the Tasks route.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The submitted audit reason.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> StartDeleteEntryAsync(string repositoryId, int entryId, StartDeleteEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartDeleteEntryAsync(StartDeleteEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns a single entry object.
@@ -1932,13 +2178,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> GetEntryAsync(string repositoryId, int entryId, string select = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> GetEntryAsync(GetEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Update an entry. (Move and/or Rename)
@@ -1949,14 +2193,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Rename an entry by setting the Name in the request body.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> UpdateEntryAsync(string repositoryId, int entryId, UpdateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> UpdateEntryAsync(UpdateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Imports a file into a folder (max length: 100 MB).
@@ -1966,13 +2207,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the folder that the document will be created in.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> ImportEntryAsync(string repositoryId, int entryId, string culture = null, FileParameter file = null, ImportEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> ImportEntryAsync(ImportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Exports an entry.
@@ -1982,14 +2221,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry to export.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="pageRange">A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A link to download the exported entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ExportEntryResponse> ExportEntryAsync(string repositoryId, int entryId, ExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns a single entry object using the entry path.
@@ -1999,13 +2235,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="fullPath">The requested entry path.</param>
-        /// <param name="fallbackToClosestAncestor">An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The found entry or ancestor entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<GetEntryByPathResponse> GetEntryByPathAsync(string repositoryId, string fullPath, bool? fallbackToClosestAncestor = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<GetEntryByPathResponse> GetEntryByPathAsync(GetEntryByPathParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the children entries of a folder.
@@ -2019,22 +2253,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc".<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID.</param>
-        /// <param name="groupByEntryType">Indicates if the result should be grouped by entry type or not. The default value is false.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of children entries of a folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<EntryCollectionResponse> ListEntriesAsync(string repositoryId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<EntryCollectionResponse> ListEntriesAsync(ListEntriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Creates a new child entry in a folder.
@@ -2044,14 +2267,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide the parent folder ID, and based on the request body, create a folder/shortcut as a child entry of the designated folder.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> CreateEntryAsync(string repositoryId, int entryId, CreateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the fields assigned to an entry.
@@ -2062,20 +2282,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="formatFieldValues">An optional query parameter used to indicate if the field values should be formatted. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<FieldCollectionResponse> ListFieldsAsync(string repositoryId, int entryId, string prefer = null, bool? formatFieldValues = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FieldCollectionResponse> ListFieldsAsync(ListFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Updates the field values assigned to an entry.
@@ -2086,14 +2297,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<FieldCollectionResponse> SetFieldsAsync(string repositoryId, int entryId, SetFieldsRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the tags assigned to an entry.
@@ -2104,18 +2312,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagCollectionResponse> ListTagsAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TagCollectionResponse> ListTagsAsync(ListTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Assigns tags to an entry.
@@ -2126,13 +2327,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The tags to add.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagCollectionResponse> SetTagsAsync(string repositoryId, int entryId, SetTagsRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Assigns links to an entry.
@@ -2143,13 +2342,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The request repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<LinkCollectionResponse> SetLinksAsync(string repositoryId, int entryId, SetLinksRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the links assigned to an entry.
@@ -2160,18 +2357,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<LinkCollectionResponse> ListLinksAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<LinkCollectionResponse> ListLinksAsync(ListLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Copies a new child entry in a folder.
@@ -2181,14 +2371,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide the parent folder ID, and based on the request body, copy a child entry of the designated folder.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The copied entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> CopyEntryAsync(string repositoryId, int entryId, CopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Deletes the edoc associated with an entry.
@@ -2197,12 +2384,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Delete the edoc associated with the provided entry ID.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested document ID.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> DeleteElectronicDocumentAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Deletes the pages associated with an entry.
@@ -2212,13 +2398,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional parameter: pageRange (default empty). The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested document ID.</param>
-        /// <param name="pageRange">The pages to be deleted.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> DeletePagesAsync(string repositoryId, int entryId, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
@@ -2229,13 +2413,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of dynamic field values.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(string repositoryId, int entryId, ListDynamicFieldValuesRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Removes the currently assigned template from an entry.
@@ -2246,12 +2428,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - If the entry does not have a template assigned, no change will be made.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of the entry that will have its template removed.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> RemoveTemplateAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> RemoveTemplateAsync(RemoveTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Assigns a template to an entry.
@@ -2262,14 +2443,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry that will have its template updated.</param>
-        /// <param name="request">The template and template fields that will be assigned to the entry.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> SetTemplateAsync(string repositoryId, int entryId, SetTemplateRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -2312,18 +2490,23 @@ namespace Laserfiche.Repository.Api.Client
         /// - The total number of Upload URLs for a single file is 1000, which means (StartingPartNumber + NumberOfParts) should be less than or equal to 1001.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A response containing an upload id and an array of upload URLs.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(string repositoryId, CreateMultipartUploadUrlsRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls");
@@ -2465,20 +2648,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - This route does not support partial success.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the folder that the document will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartImportUploadedPartsAsync(string repositoryId, int entryId, StartImportUploadedPartsRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartImportUploadedPartsAsync(StartImportUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts?");
@@ -2636,23 +2824,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry to export.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="pageRange">A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartExportEntryAsync(string repositoryId, int entryId, StartExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartExportEntryAsync(StartExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync?");
@@ -2812,23 +3005,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - Token substitution in the name of the copied entry is not supported.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartCopyEntryAsync(string repositoryId, int entryId, StartCopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartCopyEntryAsync(StartCopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync?");
@@ -2977,19 +3175,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optionally include an audit reason ID and comment in the JSON body. This route returns a taskId, and will run as an asynchronous operation. Check the progress via the Tasks route.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The submitted audit reason.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartDeleteEntryAsync(string repositoryId, int entryId, StartDeleteEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartDeleteEntryAsync(StartDeleteEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}");
@@ -3134,19 +3337,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> GetEntryAsync(string repositoryId, int entryId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> GetEntryAsync(GetEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3281,23 +3489,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - Rename an entry by setting the Name in the request body.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> UpdateEntryAsync(string repositoryId, int entryId, UpdateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> UpdateEntryAsync(UpdateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3465,19 +3678,26 @@ namespace Laserfiche.Repository.Api.Client
         /// - The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the folder that the document will be created in.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> ImportEntryAsync(string repositoryId, int entryId, string culture = null, FileParameter file = null, ImportEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> ImportEntryAsync(ImportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var culture = parameters.Culture;
+            var file = parameters.File;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import?");
@@ -3501,7 +3721,7 @@ namespace Laserfiche.Repository.Api.Client
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
                     if (file == null)
-                        throw new ArgumentNullException("file");
+                        throw new ArgumentNullException("parameters.File");
                     else
                     {
                         var content_file_ = new StreamContent(file.Data);
@@ -3511,7 +3731,7 @@ namespace Laserfiche.Repository.Api.Client
                     }
 
                     if (request == null)
-                        throw new ArgumentNullException("request");
+                        throw new ArgumentNullException("parameters.Request");
                     else
                     {
                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
@@ -3654,23 +3874,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry to export.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="pageRange">A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A link to download the exported entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<ExportEntryResponse> ExportEntryAsync(string repositoryId, int entryId, ExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Export?");
@@ -3838,19 +4063,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional query parameter: fallbackToClosestAncestor. Use the fallbackToClosestAncestor query parameter to return the closest existing ancestor if the initial entry path is not found.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="fullPath">The requested entry path.</param>
-        /// <param name="fallbackToClosestAncestor">An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The found entry or ancestor entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<GetEntryByPathResponse> GetEntryByPathAsync(string repositoryId, string fullPath, bool? fallbackToClosestAncestor = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<GetEntryByPathResponse> GetEntryByPathAsync(GetEntryByPathParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fullPath = parameters.FullPath;
+            var fallbackToClosestAncestor = parameters.FallbackToClosestAncestor;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (fullPath == null)
-                throw new ArgumentNullException("fullPath");
+                throw new ArgumentNullException("parameters.FullPath");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/ByPath?");
@@ -3988,28 +4218,33 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". Sort order can be either value "asc" or "desc".<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID.</param>
-        /// <param name="groupByEntryType">Indicates if the result should be grouped by entry type or not. The default value is false.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of children entries of a folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> ListEntriesAsync(string repositoryId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> ListEntriesAsync(ListEntriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var groupByEntryType = parameters.GroupByEntryType;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4178,23 +4413,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide the parent folder ID, and based on the request body, create a folder/shortcut as a child entry of the designated folder.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> CreateEntryAsync(string repositoryId, int entryId, CreateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4353,26 +4593,31 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="formatFieldValues">An optional query parameter used to indicate if the field values should be formatted. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldCollectionResponse> ListFieldsAsync(string repositoryId, int entryId, string prefer = null, bool? formatFieldValues = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldCollectionResponse> ListFieldsAsync(ListFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -4534,23 +4779,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldCollectionResponse> SetFieldsAsync(string repositoryId, int entryId, SetFieldsRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -4709,24 +4959,29 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagCollectionResponse> ListTagsAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagCollectionResponse> ListTagsAsync(ListTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags?");
@@ -4880,22 +5135,27 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The tags to add.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagCollectionResponse> SetTagsAsync(string repositoryId, int entryId, SetTagsRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags");
@@ -5049,22 +5309,27 @@ namespace Laserfiche.Repository.Api.Client
         /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The request repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkCollectionResponse> SetLinksAsync(string repositoryId, int entryId, SetLinksRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links");
@@ -5218,24 +5483,29 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkCollectionResponse> ListLinksAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkCollectionResponse> ListLinksAsync(ListLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links?");
@@ -5388,23 +5658,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide the parent folder ID, and based on the request body, copy a child entry of the designated folder.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="request">The request body.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The copied entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> CopyEntryAsync(string repositoryId, int entryId, CopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy?");
@@ -5561,18 +5836,23 @@ namespace Laserfiche.Repository.Api.Client
         /// - Delete the edoc associated with the provided entry ID.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested document ID.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> DeleteElectronicDocumentAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc");
@@ -5711,19 +5991,24 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional parameter: pageRange (default empty). The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested document ID.</param>
-        /// <param name="pageRange">The pages to be deleted.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> DeletePagesAsync(string repositoryId, int entryId, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages?");
@@ -5868,22 +6153,27 @@ namespace Laserfiche.Repository.Api.Client
         /// - Independent and non-dynamic fields in the request body will be ignored, and only related dynamic field logic values for the assigned template will be returned.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="request">The request body.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of dynamic field values.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(string repositoryId, int entryId, ListDynamicFieldValuesRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue");
@@ -6027,18 +6317,23 @@ namespace Laserfiche.Repository.Api.Client
         /// - If the entry does not have a template assigned, no change will be made.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of the entry that will have its template removed.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> RemoveTemplateAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> RemoveTemplateAsync(RemoveTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template");
@@ -6178,23 +6473,28 @@ namespace Laserfiche.Repository.Api.Client
         /// - Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry that will have its template updated.</param>
-        /// <param name="request">The template and template fields that will be assigned to the entry.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> SetTemplateAsync(string repositoryId, int entryId, SetTemplateRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template?");
@@ -6447,6 +6747,722 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.CreateMultipartUploadUrlsAsync">CreateMultipartUploadUrls</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateMultipartUploadUrlsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CreateMultipartUploadUrlsRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.StartImportUploadedPartsAsync">StartImportUploadedParts</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartImportUploadedPartsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the folder that the document will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartImportUploadedPartsRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.StartExportEntryAsync">StartExportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartExportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry to export.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartExportEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.StartCopyEntryAsync">StartCopyEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartCopyEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartCopyEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.StartDeleteEntryAsync">StartDeleteEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartDeleteEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The submitted audit reason.
+        /// </summary>
+        public StartDeleteEntryRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.GetEntryAsync">GetEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.UpdateEntryAsync">UpdateEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.
+        /// </summary>
+        public UpdateEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ImportEntryAsync">ImportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ImportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the folder that the document will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        public FileParameter File { get; set; } = null;
+
+        public ImportEntryRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ExportEntryAsync">ExportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ExportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry to export.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public ExportEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.GetEntryByPathAsync">GetEntryByPath</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryByPathParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry path.
+        /// </summary>
+        public string FullPath { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.
+        /// </summary>
+        public bool? FallbackToClosestAncestor { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ListEntriesAsync">ListEntries</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListEntriesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Indicates if the result should be grouped by entry type or not. The default value is false.
+        /// </summary>
+        public bool? GroupByEntryType { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each entry.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.CreateEntryAsync">CreateEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CreateEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ListFieldsAsync">ListFields</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListFieldsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate if the field values should be formatted. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.SetFieldsAsync">SetFields</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetFieldsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the entry that will have its fields updated.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public SetFieldsRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ListTagsAsync">ListTags</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTagsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.SetTagsAsync">SetTags</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTagsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The tags to add.
+        /// </summary>
+        public SetTagsRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.SetLinksAsync">SetLinks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetLinksParameters
+    {
+        /// <summary>
+        /// The request repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public SetLinksRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ListLinksAsync">ListLinks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListLinksParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.CopyEntryAsync">CopyEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CopyEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CopyEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.DeleteElectronicDocumentAsync">DeleteElectronicDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeleteElectronicDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.DeletePagesAsync">DeletePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeletePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The pages to be deleted.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.ListDynamicFieldValuesAsync">ListDynamicFieldValues</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListDynamicFieldValuesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public ListDynamicFieldValuesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.RemoveTemplateAsync">RemoveTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RemoveTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the entry that will have its template removed.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="IEntriesClient.SetTemplateAsync">SetTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry that will have its template updated.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The template and template fields that will be assigned to the entry.
+        /// </summary>
+        public SetTemplateRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IRepositoriesClient
     {
@@ -6458,10 +7474,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Returns the repository resource list that current user has access to.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of respositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<RepositoryCollectionResponse> ListRepositoriesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -6497,11 +7514,13 @@ namespace Laserfiche.Repository.Api.Client
         /// - Returns the repository resource list that current user has access to.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of respositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<RepositoryCollectionResponse> ListRepositoriesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories");
 
@@ -6712,6 +7731,14 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="IRepositoriesClient.ListRepositoriesAsync">ListRepositories</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListRepositoriesParameters
+    {
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ISearchesClient
     {
@@ -6725,12 +7752,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> StartSearchEntryAsync(string repositoryId, StartSearchEntryRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartSearchEntryAsync(StartSearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the results listing associated with a search task.
@@ -6744,23 +7770,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc".<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="taskId">The requested task ID.</param>
-        /// <param name="groupByEntryType">Indicates if the result should be grouped by entry type or not. The default value is false.</param>
-        /// <param name="refresh">Indicates if the search listing should be refreshed to show updated values. The default value is false.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<EntryCollectionResponse> ListSearchResultsAsync(string repositoryId, string taskId, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<EntryCollectionResponse> ListSearchResultsAsync(ListSearchResultsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the context hits associated with a search result entry.
@@ -6771,19 +7785,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="taskId">The requested task ID.</param>
-        /// <param name="rowNumber">The search result listing row number to get context hits for.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of context hits for a search result.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(string repositoryId, string taskId, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(ListSearchContextHitsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -6821,18 +7827,23 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The Laserfiche search command to run, optionally include fuzzy search settings.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartSearchEntryAsync(string repositoryId, StartSearchEntryRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartSearchEntryAsync(StartSearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/SearchAsync");
@@ -6978,29 +7989,34 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: "PropertyName direction,PropertyName2 direction". sort order can be either "asc" or "desc".<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="taskId">The requested task ID.</param>
-        /// <param name="groupByEntryType">Indicates if the result should be grouped by entry type or not. The default value is false.</param>
-        /// <param name="refresh">Indicates if the search listing should be refreshed to show updated values. The default value is false.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> ListSearchResultsAsync(string repositoryId, string taskId, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> ListSearchResultsAsync(ListSearchResultsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskId = parameters.TaskId;
+            var groupByEntryType = parameters.GroupByEntryType;
+            var refresh = parameters.Refresh;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("taskId");
+                throw new ArgumentNullException("parameters.TaskId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results?");
@@ -7174,28 +8190,33 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="taskId">The requested task ID.</param>
-        /// <param name="rowNumber">The search result listing row number to get context hits for.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of context hits for a search result.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(string repositoryId, string taskId, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(ListSearchContextHitsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskId = parameters.TaskId;
+            var rowNumber = parameters.RowNumber;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("taskId");
+                throw new ArgumentNullException("parameters.TaskId");
 
             if (rowNumber == null)
-                throw new ArgumentNullException("rowNumber");
+                throw new ArgumentNullException("parameters.RowNumber");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits?");
@@ -7444,6 +8465,150 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="ISearchesClient.StartSearchEntryAsync">StartSearchEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartSearchEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The Laserfiche search command to run, optionally include fuzzy search settings.
+        /// </summary>
+        public StartSearchEntryRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ISearchesClient.ListSearchResultsAsync">ListSearchResults</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListSearchResultsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested task ID.
+        /// </summary>
+        public string TaskId { get; set; }
+
+        /// <summary>
+        /// Indicates if the result should be grouped by entry type or not. The default value is false.
+        /// </summary>
+        public bool? GroupByEntryType { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if the search listing should be refreshed to show updated values. The default value is false.
+        /// </summary>
+        public bool? Refresh { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each search result.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ISearchesClient.ListSearchContextHitsAsync">ListSearchContextHits</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListSearchContextHitsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested task ID.
+        /// </summary>
+        public string TaskId { get; set; }
+
+        /// <summary>
+        /// The search result listing row number to get context hits for.
+        /// </summary>
+        public int RowNumber { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ISimpleSearchesClient
     {
@@ -7458,18 +8623,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The Laserfiche search command to run.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<EntryCollectionResponse> SearchEntryAsync(string repositoryId, SearchEntryRequest request, string select = null, string orderby = null, bool? count = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<EntryCollectionResponse> SearchEntryAsync(SearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -7508,24 +8666,29 @@ namespace Laserfiche.Repository.Api.Client
         /// - Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="request">The Laserfiche search command to run.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
-        /// <param name="formatFieldValues">Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> SearchEntryAsync(string repositoryId, SearchEntryRequest request, string select = null, string orderby = null, bool? count = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> SearchEntryAsync(SearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var count = parameters.Count;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/SimpleSearches?");
@@ -7797,6 +8960,54 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="ISimpleSearchesClient.SearchEntryAsync">SearchEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SearchEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The Laserfiche search command to run.
+        /// </summary>
+        public SearchEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each search result.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITagDefinitionsClient
     {
@@ -7810,18 +9021,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tag definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(ListTagDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns a single tag definition object.
@@ -7832,14 +9036,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="tagId">The requested tag definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single tag definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagDefinition> GetTagDefinitionAsync(string repositoryId, int tagId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TagDefinition> GetTagDefinitionAsync(GetTagDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -7877,21 +9078,26 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tag definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(ListTagDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions?");
@@ -8048,20 +9254,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="tagId">The requested tag definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single tag definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagDefinition> GetTagDefinitionAsync(string repositoryId, int tagId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagDefinition> GetTagDefinitionAsync(GetTagDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var tagId = parameters.TagId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (tagId == null)
-                throw new ArgumentNullException("tagId");
+                throw new ArgumentNullException("parameters.TagId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions/{tagId}?");
@@ -8294,6 +9505,82 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="ITagDefinitionsClient.ListTagDefinitionsAsync">ListTagDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTagDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITagDefinitionsClient.GetTagDefinitionAsync">GetTagDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTagDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested tag definition ID.
+        /// </summary>
+        public int TagId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITasksClient
     {
@@ -8309,12 +9596,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after atmost 60 seconds.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID</param>
-        /// <param name="taskIds">An array of task IDs. Leave this parameter empty to get the list of all the tasks associated with the current access token.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task progresses.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TaskCollectionResponse> ListTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TaskCollectionResponse> ListTasksAsync(ListTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Starts the cancellation for a set of one or more tasks.
@@ -8327,12 +9613,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID</param>
-        /// <param name="taskIds">An array of task IDs. Leave this parameter empty to cancel the list of all the tasks associated with the current access token.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task cancellation results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<CancelTasksResponse> CancelTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -8372,15 +9657,20 @@ namespace Laserfiche.Repository.Api.Client
         /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after atmost 60 seconds.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID</param>
-        /// <param name="taskIds">An array of task IDs. Leave this parameter empty to get the list of all the tasks associated with the current access token.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task progresses.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TaskCollectionResponse> ListTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TaskCollectionResponse> ListTasksAsync(ListTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskIds = parameters.TaskIds;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -8516,15 +9806,20 @@ namespace Laserfiche.Repository.Api.Client
         /// - Rollbacks must be done manually. For example, if a copy operation is started and is halfway complete when canceled, the client application is responsible for cleaning up the files that were successfully copied before the operation was canceled.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID</param>
-        /// <param name="taskIds">An array of task IDs. Leave this parameter empty to cancel the list of all the tasks associated with the current access token.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task cancellation results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<CancelTasksResponse> CancelTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskIds = parameters.TaskIds;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -8752,6 +10047,42 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Parameters for <see cref="ITasksClient.ListTasksAsync">ListTasks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTasksParameters
+    {
+        /// <summary>
+        /// The requested repository ID
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An array of task IDs. Leave this parameter empty to get the list of all the tasks associated with the current access token.
+        /// </summary>
+        public IEnumerable<string> TaskIds { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITasksClient.CancelTasksAsync">CancelTasks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CancelTasksParameters
+    {
+        /// <summary>
+        /// The requested repository ID
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An array of task IDs. Leave this parameter empty to cancel the list of all the tasks associated with the current access token.
+        /// </summary>
+        public IEnumerable<string> TaskIds { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITemplateDefinitionsClient
     {
@@ -8765,19 +10096,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(string repositoryId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns a single template definition object.
@@ -8788,14 +10111,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single template definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TemplateDefinition> GetTemplateDefinitionAsync(string repositoryId, int templateId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition ID).
@@ -8806,19 +10126,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(string repositoryId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition name).
@@ -8829,19 +10141,11 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateName">A required query parameter for the requested template name.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(string repositoryId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -8879,22 +10183,27 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateName">An optional query parameter. Can be used to get a single template definition using the template name.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(string repositoryId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateName = parameters.TemplateName;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions?");
@@ -9055,20 +10364,25 @@ namespace Laserfiche.Repository.Api.Client
         /// - Allowed OData query options: Select<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single template definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateDefinition> GetTemplateDefinitionAsync(string repositoryId, int templateId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("templateId");
+                throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}?");
@@ -9207,25 +10521,30 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateId">The requested template definition ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(string repositoryId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("templateId");
+                throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions?");
@@ -9383,25 +10702,30 @@ namespace Laserfiche.Repository.Api.Client
         /// - Default page size: 100. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="templateName">A required query parameter for the requested template name.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(string repositoryId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateName = parameters.TemplateName;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateName == null)
-                throw new ArgumentNullException("templateName");
+                throw new ArgumentNullException("parameters.TemplateName");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions?");
@@ -9651,6 +10975,193 @@ namespace Laserfiche.Repository.Api.Client
             var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateDefinitionsAsync">ListTemplateDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter. Can be used to get a single template definition using the template name.
+        /// </summary>
+        public string TemplateName { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITemplateDefinitionsClient.GetTemplateDefinitionAsync">GetTemplateDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplateDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync">ListTemplateFieldDefinitionsByTemplateId</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateFieldDefinitionsByTemplateIdParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync">ListTemplateFieldDefinitionsByTemplateName</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateFieldDefinitionsByTemplateNameParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// A required query parameter for the requested template name.
+        /// </summary>
+        public string TemplateName { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
     }
 
     /// <summary>

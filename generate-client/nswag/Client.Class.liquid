@@ -115,25 +115,34 @@
 {%     endif -%}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters parameters{% unless operation.Parameters.first.IsRequired %} = null{% endunless %}, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
+{%     if operation.Parameters.first.IsRequired -%}
+        if (parameters == null)
+            throw new System.ArgumentNullException("parameters");
+{%     endif -%}
+
+{%     for parameter in operation.Parameters -%}
+        var {{ parameter.VariableName }} = parameters.{{ parameter.VariableName | capitalize }};
+{%     endfor -%}
+
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ operation.ContentParameter.VariableName | capitalize }}");
 
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
@@ -185,7 +194,7 @@
 {%     for parameter in operation.HeaderParameters %}
 {%         if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 {% template Client.Class.HeaderParameter %}
 {%         else -%}
                 if ({{ parameter.VariableName }} != null)
@@ -227,7 +236,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 else
 {%                     endif -%}
                     keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
@@ -243,7 +252,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 else
 {%                     endif -%}
                 {
@@ -419,3 +428,5 @@ Success is always expected
     {% template Client.Class.ConvertToString %}
     {% template Client.Class.Body %}
 }
+
+{% template Client.Method.Parameters %}

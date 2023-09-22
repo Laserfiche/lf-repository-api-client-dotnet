@@ -18,7 +18,7 @@ public partial interface I{{ Class }}{% if HasClientBaseInterface %} : {{ Client
 {%-   endif %}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %});
+    {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters parameters{% unless operation.Parameters.first.IsRequired %} = null{% endunless %}, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %});
 
 {% endfor -%}
 }
