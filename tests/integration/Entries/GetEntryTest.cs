@@ -45,7 +45,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task ReturnEntry()
         {
-            createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetEntry").ConfigureAwait(false);
+            var createdEntry = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetEntry").ConfigureAwait(false);
+            createdEntryId = createdEntry.Id;
             var entry = await client.EntriesClient.GetEntryAsync(new GetEntryParameters()
             {
                 RepositoryId = RepositoryId,

@@ -135,7 +135,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.IsNotNull(operation.TaskId);
         }
 
-        protected async Task<int> CreateDocument(string name)
+        protected async Task<Entry> CreateDocument(string name)
         {
             int parentEntryId = 1;
             string fileLocation = TempPath + "test.pdf";
@@ -143,10 +143,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             {
                 AutoRename = true,
                 Name = name,
+                PdfOptions = new ImportEntryRequestPdfOptions()
+                {
+                    GeneratePages = true,
+                }
             };
 
             using var fileStream = File.OpenRead(fileLocation);
-            var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
+            var electronicDocument = new FileParameter(fileStream, "test.pdf", "application/pdf");
             var entry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
             {
                 RepositoryId = RepositoryId,
@@ -158,7 +162,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.IsNotNull(entry);
             Assert.IsNotNull(entry.Id);
 
-            return entry.Id;
+            return entry;
         }
 
         protected static void AssertCollectionResponse(AttributeCollectionResponse response)
