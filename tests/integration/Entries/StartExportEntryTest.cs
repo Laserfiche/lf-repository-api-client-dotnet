@@ -40,17 +40,32 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
+            var request = new StartExportEntryRequest()
+            {
+                Part = ExportEntryRequestPart.Image,
+                ImageOptions = new ExportEntryRequestImageOptions() { Format = ExportEntryRequestImageFormat.PDF },
+            };
+
+            // If needed, add export audit reason to request body
+            var auditReasonCollectionResponse = await client.AuditReasonsClient.ListAuditReasonsAsync(new ListAuditReasonsParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
+            var exportAuditReason = auditReasonCollectionResponse.Value.FirstOrDefault(ar => ar.AuditEventType == AuditEventType.ExportDocument);
+            if (exportAuditReason != null)
+            {
+                request.AuditReasonId = exportAuditReason.Id;
+            }
+
             // Export entry
             var result = await client.EntriesClient.StartExportEntryAsync(new StartExportEntryParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new StartExportEntryRequest()
-                {
-                    Part = ExportEntryRequestPart.Image,
-                    ImageOptions = new ExportEntryRequestImageOptions() { Format = ExportEntryRequestImageFormat.PDF },
-                }
+                Request = request
             }).ConfigureAwait(false);
+
+            Assert.IsNotNull(result?.TaskId);
 
             // Wait for the long operation to finish
             await Task.Delay(5000).ConfigureAwait(false);
@@ -60,8 +75,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 TaskIds = new[] { result.TaskId }
             }).ConfigureAwait(false);
             AssertCollectionResponse(taskCollectionResponse);
-            var task = taskCollectionResponse.Value.First(t => t.Id == result.TaskId && t.Status == TaskStatus.Completed);
+            var task = taskCollectionResponse.Value.FirstOrDefault(t => t.Id == result.TaskId);
             Assert.IsNotNull(task);
+            Assert.AreEqual(TaskStatus.Completed, task.Status);
 
             // Download exported entry
             string downloadLink = task.Result.Uri;

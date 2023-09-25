@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -39,15 +40,28 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
+            var request = new ExportEntryRequest()
+            {
+                Part = ExportEntryRequestPart.Image,
+                ImageOptions = new ExportEntryRequestImageOptions() { Format = ExportEntryRequestImageFormat.PDF },
+            };
+
+            // If needed, add export audit reason to request body
+            var auditReasonCollectionResponse = await client.AuditReasonsClient.ListAuditReasonsAsync(new ListAuditReasonsParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
+            var exportAuditReason = auditReasonCollectionResponse.Value.FirstOrDefault(ar => ar.AuditEventType == AuditEventType.ExportDocument);
+            if (exportAuditReason != null)
+            {
+                request.AuditReasonId = exportAuditReason.Id;
+            }
+
             var result = await client.EntriesClient.ExportEntryAsync(new ExportEntryParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new ExportEntryRequest()
-                {
-                    Part = ExportEntryRequestPart.Image,
-                    ImageOptions = new ExportEntryRequestImageOptions() { Format = ExportEntryRequestImageFormat.PDF },
-                }
+                Request = request
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result?.Value);
