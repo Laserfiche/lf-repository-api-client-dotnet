@@ -15,8 +15,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
         [TestMethod]
         public async Task ReturnAttributes()
         {
-            var response = await client.AttributesClient.ListAttributesAsync(RepositoryId).ConfigureAwait(false);
-            
+            var response = await client.AttributesClient.ListAttributesAsync(new ListAttributesParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
+
             Assert.IsNotNull(response.Value);
         }
 
@@ -39,7 +42,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
                 }
             }
 
-            await client.AttributesClient.ListAttributesForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.AttributesClient.ListAttributesForEachAsync(PagingCallback, new ListAttributesParameters()
+            {
+                RepositoryId = RepositoryId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -49,7 +55,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Attributes
             int maxPageSize = 1;
 
             // Initial request
-            var result = await client.AttributesClient.ListAttributesAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var result = await client.AttributesClient.ListAttributesAsync(new ListAttributesParameters()
+            {
+                RepositoryId = RepositoryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             Assert.IsNotNull(result);
 
             if (result.Value.Count == 0)

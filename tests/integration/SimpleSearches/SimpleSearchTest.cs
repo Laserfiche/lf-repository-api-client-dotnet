@@ -16,19 +16,23 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
             _createdEntry = await CreateEntry(client, _entryToCreate).ConfigureAwait(false);
         }
 
+        [TestCleanup]
+        public async Task Cleanup()
+        {
+            await DeleteEntry(_createdEntry.Id).ConfigureAwait(false);
+        }
+
         [TestMethod]
         public async Task SearchEntry()
         {
             var request = new SearchEntryRequest() { SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})" };
-            var entryCollectionResponse = await client.SimpleSearchesClient.SearchEntryAsync(RepositoryId, request: request).ConfigureAwait(false);
-            
-            AssertCollectionResponse(entryCollectionResponse);
-        }
+            var entryCollectionResponse = await client.SimpleSearchesClient.SearchEntryAsync(new SearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
 
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await DeleteEntry(client, _createdEntry.Id).ConfigureAwait(false);
+            AssertCollectionResponse(entryCollectionResponse);
         }
     }
 }

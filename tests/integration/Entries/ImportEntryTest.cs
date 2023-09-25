@@ -10,14 +10,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class ImportEntryTest : BaseTest
     {
-        int createdEntryId;
+        Entry importedEntry;
         Stream fileStream;
 
         [TestInitialize]
         public void Initialize()
         {
             client = CreateClient();
-            createdEntryId = 0;
+            importedEntry = null;
             fileStream = null;
         }
 
@@ -25,10 +25,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task Cleanup()
         {
             fileStream?.Dispose();
-            if (createdEntryId != 0)
+            if (importedEntry != null)
             {
-                StartDeleteEntryRequest body = new();
-                await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, createdEntryId, body).ConfigureAwait(false);
+                await DeleteEntry(importedEntry.Id).ConfigureAwait(false);
             }
         }
 
@@ -51,7 +50,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
 
-            var importedEntry = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, fileName, file: electronicDocument, request: request).ConfigureAwait(false);
+            importedEntry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                File = electronicDocument,
+                Request = request
+            }).ConfigureAwait(false);
 
             Assert.IsNotNull(importedEntry);
         }
@@ -61,7 +66,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             // Find a template definition with no required fields
             TemplateDefinition template = null;
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             var templateDefinitions = templateDefinitionCollectionResponse.Value;
             
             Assert.IsNotNull(templateDefinitions);
@@ -69,7 +77,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             
             foreach (var templateDefinition in templateDefinitions)
             {
-                var templateFieldDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync(RepositoryId, templateDefinition.Id).ConfigureAwait(false);
+                var templateFieldDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync(new ListTemplateFieldDefinitionsByTemplateIdParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    TemplateId = templateDefinition.Id,
+                }).ConfigureAwait(false);
                 if (templateFieldDefinitionCollectionResponse.Value != null && templateFieldDefinitionCollectionResponse.Value.All(f => !f.IsRequired))
                 {
                     template = templateDefinition;
@@ -91,7 +103,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             };
 
-            var importedEntry = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, fileName, file: electronicDocument, request: request).ConfigureAwait(false);
+            importedEntry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                File = electronicDocument,
+                Request = request
+            }).ConfigureAwait(false);
 
             Assert.IsNotNull(importedEntry);
             Assert.IsNotNull(importedEntry.TemplateId);
@@ -100,7 +118,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task ThrowExceptionWithCreateEntryResult()
+        public async Task ThrowException()
         {
             int parentEntryId = 1;
             string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
@@ -117,7 +135,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             try
             {
-                _ = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, fileName, file: electronicDocument, request: request).ConfigureAwait(false);
+                _ = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    EntryId = parentEntryId,
+                    File = electronicDocument,
+                    Request = request
+                }).ConfigureAwait(false);
             }
             catch (ApiException e)
             {

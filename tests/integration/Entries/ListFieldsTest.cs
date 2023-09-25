@@ -16,7 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ReturnFields()
         {
             int entryId = 1;
-            var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(RepositoryId, entryId).ConfigureAwait(false);
+            var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(new ListFieldsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(fieldCollectionResponse.Value);
         }
@@ -42,7 +46,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.EntriesClient.ListFieldsForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.EntriesClient.ListFieldsForEachAsync(PagingCallback, new ListFieldsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -53,7 +61,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(new ListFieldsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(fieldCollectionResponse);
 

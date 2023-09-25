@@ -15,7 +15,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         [TestMethod]
         public async Task ReturnAllLinks()
         {
-            var linkedDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var linkedDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(new ListLinkDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(linkedDefinitionCollectionResponse.Value);
         }
@@ -40,7 +43,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
                 }
             }
 
-            await client.LinkDefinitionsClient.ListLinkDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.LinkDefinitionsClient.ListLinkDefinitionsForEachAsync(PagingCallback, new ListLinkDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -50,7 +56,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var linkDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var linkDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(new ListLinkDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(linkDefinitionCollectionResponse);
 

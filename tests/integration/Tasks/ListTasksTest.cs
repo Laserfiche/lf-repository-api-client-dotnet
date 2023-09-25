@@ -19,13 +19,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net GetOperationStatus").ConfigureAwait(false);
 
             StartDeleteEntryRequest request = new();
-            var result = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, deleteEntry.Id, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = deleteEntry.Id,
+                Request = request
+            }).ConfigureAwait(false);
             
             Assert.IsFalse(string.IsNullOrEmpty(result.TaskId));
 
             await Task.Delay(5000).ConfigureAwait(false);
 
-            var taskCollectionResponse = await client.TasksClient.ListTasksAsync(RepositoryId).ConfigureAwait(false);
+            var taskCollectionResponse = await client.TasksClient.ListTasksAsync(new ListTasksParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskIds = new [] { result.TaskId }
+            }).ConfigureAwait(false);
 
             AssertCollectionResponse(taskCollectionResponse);
 
