@@ -2113,7 +2113,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Starts an asynchronous import task to import a document into a folder.
         /// </summary>
         /// <remarks>
-        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api.<br/>
+        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api. The maximum file size allowed is 64 GB.<br/>
         /// - This route does not support partial success.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
@@ -2644,7 +2644,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Starts an asynchronous import task to import a document into a folder.
         /// </summary>
         /// <remarks>
-        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api.<br/>
+        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api. The maximum file size allowed is 64 GB.<br/>
         /// - This route does not support partial success.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
@@ -9593,7 +9593,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide a comma-separated list of task IDs to get the task status, progress, and any errors that may have occurred.<br/>
         /// - Leave the taskIds query parameter empty, to get the list of all the task IDs associated with the current access token.<br/>
         /// - TaskStatus can be one of the following values: NotStarted, InProgress, Completed, Cancelled, or Failed.<br/>
-        /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after atmost 60 seconds.<br/>
+        /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after at most 60 seconds.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -9654,7 +9654,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Provide a comma-separated list of task IDs to get the task status, progress, and any errors that may have occurred.<br/>
         /// - Leave the taskIds query parameter empty, to get the list of all the task IDs associated with the current access token.<br/>
         /// - TaskStatus can be one of the following values: NotStarted, InProgress, Completed, Cancelled, or Failed.<br/>
-        /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after atmost 60 seconds.<br/>
+        /// - This API employs long polling technique and could return the result immediately (e.g. if the export operation is failed or completed successfully) or after at most 60 seconds.<br/>
         /// - Required OAuth scope: None
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -11616,7 +11616,7 @@ namespace Laserfiche.Repository.Api.Client
         public string UploadId { get; set; }
 
         /// <summary>
-        /// The array of the ETag values received when writing the file chunks into the upload URLs.
+        /// The array of the ETag values received when writing the file chunks into the upload URLs. The ETag values should be in the order of their associated upload URLs, i.e. {eTag received when writing to the first URL}, {eTag received when writing to the second URL}, ...
         /// </summary>
         [Newtonsoft.Json.JsonProperty("partETags", Required = Newtonsoft.Json.Required.Always)]
         public IList<string> PartETags { get; set; } = new List<string>();
@@ -11883,7 +11883,7 @@ namespace Laserfiche.Repository.Api.Client
         public bool ConvertPdfAnnotations { get; set; } = true;
 
         /// <summary>
-        /// The page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of atmost 10 characters and only valid characters that can be included in file names are allowed. The default value is ", Page ".
+        /// The page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of at most 10 characters and only valid characters that can be included in file names are allowed. The default value is ", Page ".
         /// </summary>
         [Newtonsoft.Json.JsonProperty("pagePrefix", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PagePrefix { get; set; } = ", Page ";
@@ -11933,7 +11933,7 @@ namespace Laserfiche.Repository.Api.Client
     public partial class ExportEntryRequestWatermark
     {
         /// <summary>
-        /// The text of the watermark. The value must be a string with a length of atmost 100 characters and must not be all whitespace characters.
+        /// The text of the watermark. The value must be a string with a length of at most 100 characters and must not be all whitespace characters.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Text { get; set; } = "";
