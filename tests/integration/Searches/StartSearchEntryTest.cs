@@ -20,7 +20,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(taskId))
             {
-                await client.TasksClient.CancelTasksAsync(taskId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(new CancelTasksParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    TaskIds = new [] { taskId }
+                }).ConfigureAwait(false);
             }
         }
 
@@ -31,7 +35,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
 
             AssertIsNotNullOrEmpty(taskResponse.TaskId);
         }

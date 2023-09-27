@@ -1,0 +1,19 @@
+{% for operation in Operations -%}
+/// <summary>
+/// Represents the request parameters for <see cref="I{{ Class }}.{{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters, CancellationToken)">{{ operation.ActualOperationName }}</see>.
+/// </summary>
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+{{ ClientClassAccessModifier }} partial class {{ operation.ActualOperationName }}Parameters
+{
+{%     for parameter in operation.Parameters -%}
+{%         if parameter.HasDescription -%}
+    /// <summary>
+    /// {{ parameter.Description | csharpdocs }}
+    /// </summary>
+{%         endif -%}
+    public {{ parameter.Type }} {{ parameter.VariableName | capitalize }} { get; set; }{% if GenerateOptionalParameters and parameter.IsOptional %} = null;{% endif %}
+
+{%     endfor -%}
+}
+
+{% endfor -%}

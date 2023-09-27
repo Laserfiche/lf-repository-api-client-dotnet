@@ -16,7 +16,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ReturnTags()
         {
             int entryId = 1;
-            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId).ConfigureAwait(false);
+            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(new ListTagsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(tagCollectionResponse.Value);
         }
@@ -42,7 +46,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             }
 
-            await client.EntriesClient.ListTagsForEachAsync(PagingCallback, RepositoryId, entryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.EntriesClient.ListTagsForEachAsync(PagingCallback, new ListTagsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -53,7 +61,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             int maxPageSize = 1;
 
             // Initial request
-            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(RepositoryId, entryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var tagCollectionResponse = await client.EntriesClient.ListTagsAsync(new ListTagsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             Assert.IsNotNull(tagCollectionResponse);
 
             if (tagCollectionResponse.Value.Count == 0)

@@ -24,80 +24,41 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns the children entries of a folder in the repository using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID.</param>
-        /// <param name="groupByEntryType">An optional query parameter used to indicate if the result should be grouped by entry type or not.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each entry.</param>
-        /// <param name="formatFieldValues">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
-        /// <br/>            The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise
-        /// <br/>            culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListEntriesForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListEntriesForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListEntriesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the fields assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="formatValue">An optional query parameter used to indicate if the field values should be formatted.
-        /// <br/>            The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
-        /// <br/>            The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise
-        /// <br/>            culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListFieldsForEachAsync(Func<FieldCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListFieldsForEachAsync(Func<FieldCollectionResponse, Task<bool>> callback, ListFieldsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the links assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListLinksForEachAsync(Func<LinkCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListLinksForEachAsync(Func<LinkCollectionResponse, Task<bool>> callback, ListLinksParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the tags assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListTagsForEachAsync(Func<TagCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListTagsForEachAsync(Func<TagCollectionResponse, Task<bool>> callback, ListTagsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the children entries of a folder in the repository using a nextlink.
@@ -153,51 +114,55 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        public async Task ListEntriesForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListEntriesForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListEntriesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListEntriesAsync(repositoryId, entryId, groupByEntryType, fields, formatFieldValues, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListEntriesAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListEntriesSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListEntriesSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task ListFieldsForEachAsync(Func<FieldCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListFieldsForEachAsync(Func<FieldCollectionResponse, Task<bool>> callback, ListFieldsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListFieldsAsync(repositoryId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), formatValue, culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListFieldsAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListFieldsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListFieldsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task ListLinksForEachAsync(Func<LinkCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListLinksForEachAsync(Func<LinkCollectionResponse, Task<bool>> callback, ListLinksParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListLinksAsync(repositoryId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListLinksAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListLinksSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListLinksSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task ListTagsForEachAsync(Func<TagCollectionResponse, Task<bool>> callback, string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListTagsForEachAsync(Func<TagCollectionResponse, Task<bool>> callback, ListTagsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListTagsAsync(repositoryId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListTagsAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 

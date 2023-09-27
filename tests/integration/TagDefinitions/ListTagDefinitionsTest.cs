@@ -15,7 +15,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         [TestMethod]
         public async Task ReturnAllTags()
         {
-            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
 
             AssertCollectionResponse(tagDefinitionCollectionResponse);
         }
@@ -40,7 +43,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
                 }
             }
 
-            await client.TagDefinitionsClient.ListTagDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.TagDefinitionsClient.ListTagDefinitionsForEachAsync(PagingCallback, new ListTagDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -48,14 +54,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         public async Task SimplePaging()
         {
             // Get total count of tags
-            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             AssertCollectionResponse(tagDefinitionCollectionResponse);
             
             int tagCount = tagDefinitionCollectionResponse.Value.Count;
             int maxPageSize = 1;
 
             // Initial request
-            tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(tagDefinitionCollectionResponse);
             Assert.IsTrue(tagDefinitionCollectionResponse.Value.Count <= maxPageSize);

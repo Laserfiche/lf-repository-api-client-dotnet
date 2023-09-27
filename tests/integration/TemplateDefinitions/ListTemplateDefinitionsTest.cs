@@ -16,7 +16,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task ReturnAllTemplates()
         {
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             
             AssertCollectionResponse(templateDefinitionCollectionResponse);
         }
@@ -24,12 +27,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task TemplateNameQueryParameter_ReturnSingleTemplate()
         {
-            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
             
             Assert.IsNotNull(firstTemplateDefinition);
 
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId, templateName: firstTemplateDefinition.Name).ConfigureAwait(false);
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TemplateName = firstTemplateDefinition.Name
+            }).ConfigureAwait(false);
 
             AssertCollectionResponse(templateDefinitionCollectionResponse);
             Assert.AreEqual(1, templateDefinitionCollectionResponse.Value.Count);
@@ -56,7 +66,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }
             }
 
-            await client.TemplateDefinitionsClient.ListTemplateDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.TemplateDefinitionsClient.ListTemplateDefinitionsForEachAsync(PagingCallback, new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -66,7 +79,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(templateDefinitionCollectionResponse);
 

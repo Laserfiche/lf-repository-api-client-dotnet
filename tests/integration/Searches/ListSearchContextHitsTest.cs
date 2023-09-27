@@ -21,7 +21,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(RepositoryId))
             {
-                await client.TasksClient.CancelTasksAsync(RepositoryId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(new CancelTasksParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    TaskIds = new [] { taskId }
+                }).ConfigureAwait(false);
             }
         }
 
@@ -33,7 +37,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
             taskId = taskResponse.TaskId;
 
             AssertIsNotNullOrEmpty(taskId);
@@ -41,7 +49,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             await Task.Delay(5000).ConfigureAwait(false);
 
             // Get search results
-            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(RepositoryId, taskId).ConfigureAwait(false);
+            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(new ListSearchResultsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId
+            }).ConfigureAwait(false);
 
             AssertCollectionResponse(entryCollectionResponse);
 
@@ -52,7 +64,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             var rowNumber = (int)searchResults.First().RowNumber;
 
             // Get context hits
-            var contextHitsCollectionResponse = await client.SearchesClient.ListSearchContextHitsAsync(RepositoryId, taskId, rowNumber).ConfigureAwait(false);
+            var contextHitsCollectionResponse = await client.SearchesClient.ListSearchContextHitsAsync(new ListSearchContextHitsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId,
+                RowNumber = rowNumber
+            }).ConfigureAwait(false);
 
             Assert.IsNotNull(contextHitsCollectionResponse);
         }
@@ -68,7 +85,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 SearchCommand = "({LF:Basic ~= \"*\", option=\"DFANLT\"})"
             };
             
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
             taskId = taskResponse.TaskId;
 
             AssertIsNotNullOrEmpty(taskId);
@@ -76,7 +97,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             await Task.Delay(5000).ConfigureAwait(false);
 
             // Get search results
-            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(RepositoryId, taskId).ConfigureAwait(false);
+            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(new ListSearchResultsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId
+            }).ConfigureAwait(false);
             var searchResults = entryCollectionResponse.Value;
 
             AssertCollectionResponse(entryCollectionResponse);
@@ -99,7 +124,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 }
             }
 
-            await client.SearchesClient.ListSearchContextHitsForEachAsync(PagingCallback, RepositoryId, taskId, rowNumber, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.SearchesClient.ListSearchContextHitsForEachAsync(PagingCallback, new ListSearchContextHitsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId,
+                RowNumber = rowNumber
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
     }

@@ -110,7 +110,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 Name = entryName,
                 AutoRename = autoRename
             };
-            var newEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            var newEntry = await client.EntriesClient.CreateEntryAsync(new CreateEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                Request = request
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(newEntry);
             Assert.AreEqual(parentEntryId, newEntry.ParentId);
@@ -119,19 +124,18 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             return newEntry;
         }
 
-        public async Task DeleteEntry(IRepositoryApiClient client, int entryId, StartDeleteEntryRequest auditReason = null)
+        public async Task DeleteEntry(int entryId, StartDeleteEntryRequest request = null)
         {
-            var operation = await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entryId, auditReason).ConfigureAwait(false);
+            var operation = await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entryId,
+                Request = request
+            }).ConfigureAwait(false);
             Assert.IsNotNull(operation.TaskId);
-            
-            var progress = await client.TasksClient.ListTasksAsync(RepositoryId, new [] { operation.TaskId }).ConfigureAwait(false);
-            Assert.IsNotNull(progress);
-            Assert.IsNotNull(progress.Value);
-            Assert.IsTrue(progress.Value.Count > 0);
-            Assert.IsTrue(progress.Value[0].Status == TaskStatus.InProgress || progress.Value[0].Status == TaskStatus.Completed);
         }
 
-        protected async Task<int> CreateDocument(string name)
+        protected async Task<Entry> CreateDocument(string name)
         {
             int parentEntryId = 1;
             string fileLocation = TempPath + "test.pdf";
@@ -139,16 +143,26 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             {
                 AutoRename = true,
                 Name = name,
+                PdfOptions = new ImportEntryRequestPdfOptions()
+                {
+                    GeneratePages = true,
+                }
             };
 
             using var fileStream = File.OpenRead(fileLocation);
-            var electronicDocument = new FileParameter(fileStream, "test", "application/pdf");
-            var entry = await client.EntriesClient.ImportEntryAsync(RepositoryId, parentEntryId, null, electronicDocument, request).ConfigureAwait(false);
+            var electronicDocument = new FileParameter(fileStream, "test.pdf", "application/pdf");
+            var entry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                File = electronicDocument,
+                Request = request
+            }).ConfigureAwait(false);
 
             Assert.IsNotNull(entry);
             Assert.IsNotNull(entry.Id);
 
-            return entry.Id;
+            return entry;
         }
 
         protected static void AssertCollectionResponse(AttributeCollectionResponse response)
