@@ -13,6 +13,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns a collection of tag definitions using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListTagDefinitionsAsync(ListTagDefinitionsParameters, CancellationToken)">ListTagDefinitionsAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -23,6 +26,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns a collection of tag definitions using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListTagDefinitionsAsync(ListTagDefinitionsParameters, CancellationToken)">ListTagDefinitionsAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>

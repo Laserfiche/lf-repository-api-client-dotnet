@@ -15,6 +15,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Get entry with uri.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="GetEntryAsync(GetEntryParameters, CancellationToken)">GetEntryAsync</see>
+        /// </remarks>
         /// <param name="uriString">Uri string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single entry.</returns>
@@ -23,6 +26,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the children entries of a folder in the repository using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListEntriesAsync(ListEntriesParameters, CancellationToken)">ListEntriesAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -33,6 +39,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the fields assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListFieldsAsync(ListFieldsParameters, CancellationToken)">ListFieldsAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -43,6 +52,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the links assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListLinksAsync(ListLinksParameters, CancellationToken)">ListLinksAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -53,6 +65,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the tags assigned to an entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListTagsAsync(ListTagsParameters, CancellationToken)">ListTagsAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -63,6 +78,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the children entries of a folder in the repository using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListEntriesAsync(ListEntriesParameters, CancellationToken)">ListEntriesAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -73,6 +91,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the fields assigned to an entry using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListFieldsAsync(ListFieldsParameters, CancellationToken)">ListFieldsAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -83,6 +104,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the links assigned to an entry using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListLinksAsync(ListLinksParameters, CancellationToken)">ListLinksAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -93,6 +117,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the tags assigned to an entry using a nextlink
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListTagsAsync(ListTagsParameters, CancellationToken)">ListTagsAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
