@@ -24,7 +24,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     StartDeleteEntryRequest body = new();
-                    await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                    await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
+                    {
+                        RepositoryId = RepositoryId,
+                        EntryId = entry.Id,
+                        Request = body
+                    }).ConfigureAwait(false);
                 }
             }
         }
@@ -41,7 +46,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 AutoRename = true
             };
 
-            var entry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            var entry = await client.EntriesClient.CreateEntryAsync(new CreateEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                Request = request
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(entry);
             createdEntries.Add(entry);
@@ -62,7 +72,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Name = newEntryName,
                 AutoRename = true
             };
-            var targetEntry = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            var targetEntry = await client.EntriesClient.CreateEntryAsync(new CreateEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                Request = request
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(targetEntry);
             createdEntries.Add(targetEntry);
@@ -78,7 +93,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 TargetId = targetEntry.Id,
                 AutoRename = true
             };
-            var shortcut = await client.EntriesClient.CreateEntryAsync(RepositoryId, parentEntryId, request).ConfigureAwait(false);
+            var shortcut = await client.EntriesClient.CreateEntryAsync(new CreateEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                Request = request
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(shortcut);
             createdEntries.Add(shortcut);

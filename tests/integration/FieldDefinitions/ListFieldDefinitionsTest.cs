@@ -15,7 +15,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         [TestMethod]
         public async Task ReturnAllFields()
         {
-            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(new ListFieldDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(fieldDefinitionCollectionResponse.Value);
         }
@@ -40,7 +43,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                 }
             }
 
-            await client.FieldDefinitionsClient.ListFieldDefinitionsForEachAsync(PagingCallback, RepositoryId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.FieldDefinitionsClient.ListFieldDefinitionsForEachAsync(PagingCallback, new ListFieldDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -50,7 +56,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(RepositoryId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(new ListFieldDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(fieldDefinitionCollectionResponse);
 

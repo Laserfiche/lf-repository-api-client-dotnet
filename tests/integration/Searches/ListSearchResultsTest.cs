@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
@@ -20,7 +21,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         {
             if (!string.IsNullOrEmpty(taskId))
             {
-                await client.TasksClient.CancelTasksAsync(RepositoryId).ConfigureAwait(false);
+                await client.TasksClient.CancelTasksAsync(new CancelTasksParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    TaskIds = new [] { taskId }
+                }).ConfigureAwait(false);
             }
         }
 
@@ -32,7 +37,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
             };
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
             taskId = taskResponse.TaskId;
 
             AssertIsNotNullOrEmpty(taskId);
@@ -40,7 +49,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             await Task.Delay(10000).ConfigureAwait(false);
 
             // Get search results
-            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(RepositoryId, taskId).ConfigureAwait(false);
+            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(new ListSearchResultsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId
+            }).ConfigureAwait(false);
 
             AssertCollectionResponse(entryCollectionResponse);
 
@@ -60,7 +73,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"NLT\"})"
             };
             
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
             
             taskId = taskResponse.TaskId;
             
@@ -83,7 +100,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
                 }
             }
 
-            await client.SearchesClient.ListSearchResultsForEachAsync(PagingCallback, RepositoryId, taskId, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.SearchesClient.ListSearchResultsForEachAsync(PagingCallback, new ListSearchResultsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
@@ -97,7 +118,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             {
                 SearchCommand = "({LF:Basic ~= \"search text\", option=\"NLT\"})"
             };
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(RepositoryId, request).ConfigureAwait(false);
+            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                Request = request
+            }).ConfigureAwait(false);
             taskId = taskResponse.TaskId;
             
             Assert.IsTrue(!string.IsNullOrEmpty(taskId));
@@ -106,7 +131,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
             await Task.Delay(10000).ConfigureAwait(false);
 
             // Initial request
-            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(RepositoryId, taskId, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(new ListSearchResultsParameters()
+            {
+                RepositoryId = RepositoryId,
+                TaskId = taskId,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(entryCollectionResponse);
 

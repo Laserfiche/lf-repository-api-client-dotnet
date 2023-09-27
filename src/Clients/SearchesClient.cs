@@ -15,43 +15,21 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns a collection of search results using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="searchToken">The requested searchToken.</param>
-        /// <param name="groupByEntryType">An optional query parameter used to indicate if the result should be grouped by entry type or not.</param>
-        /// <param name="refresh">If the search listing should be refreshed to show updated values.</param>
-        /// <param name="fields">Optional array of field names. Field values corresponding to the given field names will be returned for each search result.</param>
-        /// <param name="formatFieldValues">Boolean for if field values should be formatted. Only applicable if Fields are specified.</param>
-        /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting.
-        /// <br/>            The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise
-        /// <br/>            culture will not be used for formatting.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, string repositoryId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the context hits associated with a search result entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="searchToken">The requested searchToken.</param>
-        /// <param name="rowNumber">The search result listing row number to get context hits for.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListSearchContextHitsForEachAsync(Func<SearchContextHitCollectionResponse, Task<bool>> callback, string repositoryId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListSearchContextHitsForEachAsync(Func<SearchContextHitCollectionResponse, Task<bool>> callback, ListSearchContextHitsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns a collection of search results using a nextlink.
@@ -76,28 +54,29 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class SearchesClient
     {
-        public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, string repositoryId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
-
+        public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListSearchResultsAsync(repositoryId, searchToken, groupByEntryType, refresh, fields, formatFieldValues, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListSearchResultsAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListSearchResultsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListSearchResultsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task ListSearchContextHitsForEachAsync(Func<SearchContextHitCollectionResponse, Task<bool>> callback, string repositoryId, string searchToken, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListSearchContextHitsForEachAsync(Func<SearchContextHitCollectionResponse, Task<bool>> callback, ListSearchContextHitsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListSearchContextHitsAsync(repositoryId, searchToken, rowNumber, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListSearchContextHitsAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 

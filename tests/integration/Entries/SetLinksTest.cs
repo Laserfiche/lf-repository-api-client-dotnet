@@ -24,8 +24,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 if (entry != null)
                 {
-                    StartDeleteEntryRequest body = new();
-                    await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                    await DeleteEntry(entry.Id).ConfigureAwait(false);
                 }
             }
         }
@@ -51,7 +50,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 }
             };
 
-            var result = await client.EntriesClient.SetLinksAsync(RepositoryId, sourceEntry.Id, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.SetLinksAsync(new SetLinksParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = sourceEntry.Id,
+                Request = request
+            }).ConfigureAwait(false);
             var links = result.Value;
 
             Assert.IsNotNull(links);

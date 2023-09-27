@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laserfiche.Api.Client;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,10 +12,11 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns the repository resource list that current user has access to given the API server base URL. Only available in Laserfiche Self-Hosted.
         /// </summary>
         /// <param name="baseUrl">API server base URL e.g., https://{APIServerName}/LFRepositoryAPI.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get the respository resource list successfully.</returns>
+        /// <returns>A collection of respositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public static async Task<RepositoryCollectionResponse> GetSelfHostedRepositoryListAsync(string baseUrl, CancellationToken cancellationToken = default)
+        public static async Task<RepositoryCollectionResponse> ListSelfHostedRepositoriesAsync(string baseUrl, ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default)
         {
             using (HttpClient client_ = new HttpClient())
             {
@@ -22,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client
                     baseUrl = baseUrl.TrimEnd('/') + "/";
                 client_.BaseAddress = new Uri(baseUrl);
                 RepositoriesClient repositoriesClient = new RepositoriesClient(client_);
-                return await repositoriesClient.ListRepositoriesAsync(cancellationToken).ConfigureAwait(false);
+                return await repositoriesClient.ListRepositoriesAsync(parameters, cancellationToken).ConfigureAwait(false);
             }
         }
     }

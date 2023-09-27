@@ -22,15 +22,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             if (entry != null)
             {
-                StartDeleteEntryRequest body = new();
-                await client.EntriesClient.StartDeleteEntryAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                await DeleteEntry(entry.Id).ConfigureAwait(false);
             }
         }
 
         [TestMethod]
         public async Task SetAndReturnTags()
         {
-            var tagDefinitionsResult = await client.TagDefinitionsClient.ListTagDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var tagDefinitionsResult = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId
+            }).ConfigureAwait(false);
             var tagDefinitions = tagDefinitionsResult.Value;
             
             Assert.IsNotNull(tagDefinitions);
@@ -43,7 +45,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             };
             entry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net SetTags").ConfigureAwait(false);
 
-            var result = await client.EntriesClient.SetTagsAsync(RepositoryId, entry.Id, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.SetTagsAsync(new SetTagsParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = entry.Id,
+                Request = request
+            }).ConfigureAwait(false);
             var tags = result.Value;
             
             Assert.IsNotNull(tags);

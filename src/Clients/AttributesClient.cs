@@ -14,18 +14,11 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns the attribute key value pairs associated with the authenticated user using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="repositoryId">The requested repository ID.</param>
-        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListAttributesForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, string repositoryId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default);
+        Task ListAttributesForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, ListAttributesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the attribute key value pairs associated with the authenticated user using a nextlink.
@@ -40,15 +33,16 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class AttributesClient
     {
-        public async Task ListAttributesForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, string repositoryId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
+        public async Task ListAttributesForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, ListAttributesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await ListAttributesAsync(repositoryId, everyone, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
+            var response = await ListAttributesAsync(parameters, cancellationToken).ConfigureAwait(false);
 
             // Further requests
             while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), ListAttributesSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListAttributesSendAsync, cancellationToken).ConfigureAwait(false);
             }
         }
 

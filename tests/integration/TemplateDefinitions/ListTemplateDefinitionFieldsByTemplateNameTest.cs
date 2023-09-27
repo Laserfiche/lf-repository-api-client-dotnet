@@ -16,12 +16,19 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         [TestMethod]
         public async Task ReturnTemplateFields()
         {
-            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
             
             Assert.IsNotNull(firstTemplateDefinition);
 
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name).ConfigureAwait(false);
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(new ListTemplateFieldDefinitionsByTemplateNameParameters()
+            {
+                RepositoryId = RepositoryId,
+                TemplateName = firstTemplateDefinition.Name
+            }).ConfigureAwait(false);
             var templateFieldDefinitions = templateDefinitionCollectionResponse.Value;
 
             Assert.IsNotNull(templateFieldDefinitions);
@@ -33,7 +40,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         {
             int maxPageSize = 10;
 
-            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
 
             AssertCollectionResponse(allTemplateDefinitions);
@@ -54,14 +64,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }
             }
 
-            await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, RepositoryId, firstTemplateDefinition.Name, maxPageSize: maxPageSize).ConfigureAwait(false);
+            await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameForEachAsync(PagingCallback, new ListTemplateFieldDefinitionsByTemplateNameParameters()
+            {
+                RepositoryId = RepositoryId,
+                TemplateName = firstTemplateDefinition.Name
+            }, maxPageSize: maxPageSize).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
         }
 
         [TestMethod]
         public async Task SimplePaging()
         {
-            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(RepositoryId).ConfigureAwait(false);
+            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
             var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
             
             Assert.IsNotNull(firstTemplateDefinition);
@@ -69,7 +86,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var templateDeifnitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(RepositoryId, firstTemplateDefinition.Name, prefer: $"maxpagesize={maxPageSize}").ConfigureAwait(false);
+            var templateDeifnitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(new ListTemplateFieldDefinitionsByTemplateNameParameters()
+            {
+                RepositoryId = RepositoryId,
+                TemplateName = firstTemplateDefinition.Name,
+                Prefer = $"maxpagesize={maxPageSize}"
+            }).ConfigureAwait(false);
             
             Assert.IsNotNull(templateDeifnitionCollectionResponse);
             
