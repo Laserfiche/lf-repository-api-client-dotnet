@@ -71,6 +71,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Template Definitions API client.
+    /// </summary>
     partial class TemplateDefinitionsClient
     {
         public async Task ListTemplateDefinitionsForEachAsync(Func<TemplateDefinitionCollectionResponse, Task<bool>> callback, ListTemplateDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

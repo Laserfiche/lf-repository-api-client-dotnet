@@ -32,6 +32,9 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Field Definitions API client.
+    /// </summary>
     partial class FieldDefinitionsClient
     {
         public async Task ListFieldDefinitionsForEachAsync(Func<FieldDefinitionCollectionResponse, Task<bool>> callback, ListFieldDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

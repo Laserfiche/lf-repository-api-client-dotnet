@@ -31,6 +31,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<TagDefinitionCollectionResponse> ListTagDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Tag Definitions API client.
+    /// </summary>
     partial class TagDefinitionsClient
     {
         public async Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, ListTagDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

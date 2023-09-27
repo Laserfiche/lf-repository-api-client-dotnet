@@ -52,6 +52,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<SearchContextHitCollectionResponse> ListSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Searches API client.
+    /// </summary>
     partial class SearchesClient
     {
         public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository Repositories API client.
+    /// </summary>
+    partial interface IRepositoriesClient { }
+
+    /// <summary>
+    /// The Laserfiche Repository Repositories API client.
+    /// </summary>
     public partial class RepositoriesClient
     {
         /// <summary>

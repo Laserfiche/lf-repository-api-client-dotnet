@@ -101,6 +101,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Entries API client.
+    /// </summary>
     partial class EntriesClient
     {
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)

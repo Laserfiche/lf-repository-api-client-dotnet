@@ -32,6 +32,9 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Link Definitions API client.
+    /// </summary>
     partial class LinkDefinitionsClient
     {
         public async Task ListLinkDefinitionsForEachAsync(Func<LinkDefinitionCollectionResponse, Task<bool>> callback, ListLinkDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

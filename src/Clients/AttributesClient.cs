@@ -31,6 +31,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<AttributeCollectionResponse> ListAttributesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Attributes API client.
+    /// </summary>
     partial class AttributesClient
     {
         public async Task ListAttributesForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, ListAttributesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
