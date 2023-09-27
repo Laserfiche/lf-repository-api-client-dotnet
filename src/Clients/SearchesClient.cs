@@ -37,7 +37,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get search result successfully.</returns>
+        /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> ListSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -47,7 +47,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get search context hits successfully.</returns>
+        /// <returns>A collection of context hits for a search result.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<SearchContextHitCollectionResponse> ListSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }

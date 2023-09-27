@@ -17,7 +17,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="uriString">Uri string.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get entry successfully.</returns>
+        /// <returns>A single entry.</returns>
         Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get the children entries of a Folder successfully.</returns>
+        /// <returns>A collection of children entries of a folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> ListEntriesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -76,7 +76,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get field values successfully.</returns>
+        /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldCollectionResponse> ListFieldsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -86,7 +86,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get links successfully.</returns>
+        /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkCollectionResponse> ListLinksNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
@@ -96,7 +96,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get entry tags successfully.</returns>
+        /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }

@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get trustee attribute key value pairs successfully.</returns>
+        /// <returns>A collection of attributes associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<AttributeCollectionResponse> ListAttributesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }

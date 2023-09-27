@@ -26,7 +26,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get link definitions successfully.</returns>
+        /// <returns>A collection of link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
