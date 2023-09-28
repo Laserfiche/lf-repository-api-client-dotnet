@@ -18,6 +18,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AssemblyName>$(MSBuildProjectName).v2</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
