@@ -2,9 +2,11 @@ name: lf-repository-api-client-dotnet-CI
 
 on:
   push:
-    branches: [ '\d+.x' ]
+    branches:
+      - v1
   pull_request:
-    branches: [ '\d+.x' ]
+    branches:
+      - v1
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -57,7 +59,7 @@ jobs:
       run:
         dotnet test tests/integration/Laserfiche.Repository.Api.Client.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=integration-test-self-hosted-results.trx"
 
-    - name: Test Report
+    - name: Test report
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
       with:
@@ -98,7 +100,7 @@ jobs:
     - name: Generate doxygen docs
       run: doxygen ./doxygen/doxygen.conf
 
-    - name: Upload a Build Artifact
+    - name: Upload a build artifact
       uses: actions/upload-artifact@v3.1.0
       with:
         name: documentation-artifact
@@ -128,13 +130,13 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration release
 
-    - name: set PACKAGE_VERSION environment
+    - name: Set PACKAGE_VERSION environment
       run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-beta-${{ github.run_id }}" >> $GITHUB_ENV
 
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
-    - name: Publish to Nuget.org
+    - name: Publish to nuget.org
       run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
@@ -165,7 +167,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration release
 
-    - name: set PACKAGE_VERSION environment
+    - name: Set PACKAGE_VERSION environment
       run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
 
     - name: Packaging
@@ -219,7 +221,7 @@ jobs:
         name: documentation-artifact
         path: ./docs/${{ env.DOCUMENTATION_VERSION }}
 
-    - name: Create Pull Request
+    - name: Create pull request
       uses: peter-evans/create-pull-request@v4.2.3
       with:
         branch: ${{ env.GITHUB_PAGES_BRANCH }}-${{ env.DOCUMENTATION_VERSION }}-patch
