@@ -8,19 +8,6 @@ using System.Reflection;
 
 namespace Laserfiche.Repository.Api.Client
 {
-    partial class PostEntryWithEdocMetadataRequest : IFormattable
-    {
-        /// <inheritdoc/>
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (formatProvider is System.Globalization.CultureInfo cultureInfo)
-            {
-                return JsonConvert.SerializeObject(this, new JsonSerializerSettings() { Culture = cultureInfo });
-            }
-            return JsonConvert.SerializeObject(this);
-        }
-    }
-
     #region inheritance
     [JsonConverter(typeof(JsonInheritanceConverter), "entryType")]
     [JsonInheritance("Document", typeof(Document))]

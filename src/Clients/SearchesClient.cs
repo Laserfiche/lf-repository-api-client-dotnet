@@ -14,6 +14,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns a collection of search results using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListSearchResultsAsync(ListSearchResultsParameters, CancellationToken)">ListSearchResultsAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -24,6 +27,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns the context hits associated with a search result entry using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListSearchContextHitsAsync(ListSearchContextHitsParameters, CancellationToken)">ListSearchContextHitsAsync</see>
+        /// </remarks>
         /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
@@ -34,24 +40,33 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Returns a collection of search results using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListSearchResultsAsync(ListSearchResultsParameters, CancellationToken)">ListSearchResultsAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get search result successfully.</returns>
+        /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> ListSearchResultsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns the context hits associated with a search result entry using a nextlink.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListSearchContextHitsAsync(ListSearchContextHitsParameters, CancellationToken)">ListSearchContextHitsAsync</see>
+        /// </remarks>
         /// <param name="nextLink">A url that allows retrieving the next subset of the requested collection.</param>
         /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
         /// <param name="cancellationToken">Optional cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get search context hits successfully.</returns>
+        /// <returns>A collection of context hits for a search result.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<SearchContextHitCollectionResponse> ListSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// The Laserfiche Repository Searches API client.
+    /// </summary>
     partial class SearchesClient
     {
         public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)

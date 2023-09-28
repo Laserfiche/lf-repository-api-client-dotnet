@@ -9,6 +9,9 @@ using System.Runtime.Serialization;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The base class for each Laserfiche Repository resource API client.
+    /// </summary>
     public abstract class BaseClient
     {
         protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)

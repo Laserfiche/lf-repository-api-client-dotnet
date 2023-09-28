@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// The Laserfiche Repository Repositories API client.
+    /// </summary>
+    partial interface IRepositoriesClient { }
+
+    /// <summary>
+    /// The Laserfiche Repository Repositories API client.
+    /// </summary>
     public partial class RepositoriesClient
     {
         /// <summary>
         /// Returns the repository resource list that current user has access to given the API server base URL. Only available in Laserfiche Self-Hosted.
         /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListRepositoriesAsync(ListRepositoriesParameters, CancellationToken)">ListRepositoriesAsync</see>
+        /// </remarks>
         /// <param name="baseUrl">API server base URL e.g., https://{APIServerName}/LFRepositoryAPI.</param>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
