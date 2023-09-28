@@ -1,4 +1,4 @@
-name: Veracode scan
+name: veracode-scan
 
 on:
   pull_request:
@@ -27,7 +27,7 @@ jobs:
     - name: Publish solution
       run: dotnet publish src/Laserfiche.Repository.Api.Client.csproj --no-restore
 
-    - name: Veracode Upload And Scan (Static Application Security Testing)
+    - name: Veracode upload and scan (SAST)
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
         appname: 'lf-repository-api-client-dotnet'
@@ -36,7 +36,7 @@ jobs:
         vid: '${{ secrets.VERACODE_API_ID }}'
         vkey: '${{ secrets.VERACODE_API_KEY }}'
 
-    - name: Run Veracode Software Composition Analysis (SCA)
+    - name: Run Veracode software composition analysis (SCA)
       env:
         SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
       uses: veracode/veracode-sca@v2.1.6
