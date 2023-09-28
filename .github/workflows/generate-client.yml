@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       SWAGGER_URL:
-        description: 'The url to download the swagger schema.'
+        description: 'URL to download the swagger schema.'
         required: true
         type: string
         default: 'https://api.laserfiche.com/repository/swagger/v1/swagger.json'
