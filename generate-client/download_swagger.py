@@ -43,7 +43,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Downloads a swagger file')
     parser.add_argument('--swagger-url',
                         help='The url to download the swagger file.',
-                        default='https://api.laserfiche.com/repository/swagger/v1/swagger.json')
+                        default='https://api.laserfiche.com/repository/swagger/v2/swagger.json')
     parser.add_argument('--swagger-override-filepath',
                         help='Optional json file with override values to replace in the swagger file.')
     parser.add_argument('--output-filepath',

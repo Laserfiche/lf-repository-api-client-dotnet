@@ -32,6 +32,7 @@
         "System.Threading.Tasks"
       ],
       "excludedTypeNames": [
+        "FileParameter",
         "ProblemDetails"
       ],
       "generateClientInterfaces": true,
@@ -43,10 +44,8 @@
       "arrayType": "IList",
       "arrayInstanceType": "List",
       "templateDirectory": "nswag",
-      "wrapResponses": true,
-      "wrapResponseMethods": [
-        "EntriesClient.GetDocumentContentType"
-      ],
+      "wrapResponses": false,
+      "wrapResponseMethods": [],
       "responseClass": "HttpResponseHead"
     }
   }

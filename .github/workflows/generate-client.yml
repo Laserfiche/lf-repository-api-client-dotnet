@@ -8,7 +8,7 @@ on:
         description: 'URL to download the swagger schema.'
         required: true
         type: string
-        default: 'https://api.laserfiche.com/repository/swagger/v1/swagger.json'
+        default: 'https://api.laserfiche.com/repository/swagger/v2/swagger.json'
 
 jobs:
   generate-client:

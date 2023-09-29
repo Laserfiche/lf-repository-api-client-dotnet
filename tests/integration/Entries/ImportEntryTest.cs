@@ -35,7 +35,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         {
             string fileLocation = TempPath + "test.pdf";
             fileStream = File.OpenRead(fileLocation);
-            return new FileParameter(fileStream, "test", "application/pdf");
+            return new FileParameter(fileStream, "test.pdf", "application/pdf");
         }
 
         [TestMethod]
