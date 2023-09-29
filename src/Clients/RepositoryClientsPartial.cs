@@ -18,6 +18,15 @@ namespace Laserfiche.Repository.Api.Client
         /// Constructor for representing a file to be uploaded.
         /// </summary>
         /// <param name="data">The file data.</param>
+        /// <param name="fileName">The name of the file to be uploaded. The file extension in the name will be used as the file extension of the imported entry. For common file extensions, the mime type may be derived from the file extension.</param>
+        public FileParameter(Stream data, string fileName) : this(data, fileName, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructor for representing a file to be uploaded.
+        /// </summary>
+        /// <param name="data">The file data.</param>
         /// <param name="fileName">The name of the file to be uploaded. The file extension in the name will be used as the extension of the imported entry.</param>
         /// <param name="mimeType">The mime-type of the file to be uploaded.</param>
         public FileParameter(Stream data, string fileName, string mimeType)
