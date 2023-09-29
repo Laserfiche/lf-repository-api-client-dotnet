@@ -3,11 +3,51 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.CodeDom.Compiler;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// Represents a file to be uploaded.
+    /// </summary>
+    public partial class FileParameter
+    {
+        /// <summary>
+        /// Constructor for representing a file to be uploaded.
+        /// </summary>
+        /// <param name="data">The file data.</param>
+        /// <param name="fileName">The name of the file to be uploaded. The file extension in the name will be used as the extension of the imported entry.</param>
+        /// <param name="mimeType">The mime-type of the file to be uploaded.</param>
+        public FileParameter(Stream data, string fileName, string mimeType)
+        {
+            Data = data;
+            FileName = fileName;
+            MimeType = mimeType;
+        }
+
+        /// <summary>
+        /// The file data.
+        /// </summary>
+        public Stream Data { get; private set; }
+
+        /// <summary>
+        /// The name of the file to be uploaded. The file extension in the name will be used as the extension of the imported entry.
+        /// </summary>
+        public string FileName { get; private set; }
+
+        /// <summary>
+        /// The mime-type of the file to be uploaded.
+        /// </summary>
+        public string MimeType { get; private set; }
+
+        internal string ContentType
+        {
+            get { return MimeType; }
+        }
+    }
+
     #region inheritance
     [JsonConverter(typeof(JsonInheritanceConverter), "entryType")]
     [JsonInheritance("Document", typeof(Document))]

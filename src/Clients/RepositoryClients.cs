@@ -13897,61 +13897,6 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
-    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class FileParameter
-    {
-        public FileParameter(Stream data)
-            : this (data, null, null)
-        {
-        }
-
-        public FileParameter(Stream data, string fileName)
-            : this (data, fileName, null)
-        {
-        }
-
-        public FileParameter(Stream data, string fileName, string contentType)
-        {
-            Data = data;
-            FileName = fileName;
-            ContentType = contentType;
-        }
-
-        public Stream Data { get; private set; }
-
-        public string FileName { get; private set; }
-
-        public string ContentType { get; private set; }
-    }
-
-
-    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class HttpResponseHead
-    {
-        public int StatusCode { get; private set; }
-
-        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
-
-        public HttpResponseHead(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers)
-        {
-            StatusCode = statusCode;
-            Headers = headers;
-        }
-    }
-
-    [GeneratedCode("NSwag", "13.19.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class HttpResponseHead<TResult> : HttpResponseHead
-    {
-        public TResult Result { get; private set; }
-
-        public HttpResponseHead(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, TResult result)
-            : base(statusCode, headers)
-        {
-            Result = result;
-        }
-    }
-
-
 
 }
 
