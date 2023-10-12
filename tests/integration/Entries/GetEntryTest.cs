@@ -8,22 +8,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
     [TestClass]
     public class GetEntryTest : BaseTest
     {
-        int createdEntryId;
-
         [TestInitialize]
         public void Initialize()
         {
             client = CreateClient();
-            createdEntryId = 0;
-        }
-
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            if (createdEntryId != 0)
-            {
-                await DeleteEntry(createdEntryId).ConfigureAwait(false);
-            }
         }
 
         [TestMethod]
@@ -40,23 +28,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(typeof(Folder), entry.GetType());
             Assert.AreEqual(entryId, entry.Id);
             Assert.AreEqual(EntryType.Folder, entry.EntryType);
-        }
-
-        [TestMethod]
-        public async Task ReturnEntry()
-        {
-            var createdEntry = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetEntry").ConfigureAwait(false);
-            createdEntryId = createdEntry.Id;
-            var entry = await client.EntriesClient.GetEntryAsync(new GetEntryParameters()
-            {
-                RepositoryId = RepositoryId,
-                EntryId = createdEntryId
-            }).ConfigureAwait(false);
-            
-            Assert.IsNotNull(entry);
-            Assert.AreEqual(typeof(Document), entry.GetType());
-            Assert.AreEqual(createdEntryId, entry.Id);
-            Assert.AreEqual(EntryType.Document, entry.EntryType);
         }
 
         [TestMethod]

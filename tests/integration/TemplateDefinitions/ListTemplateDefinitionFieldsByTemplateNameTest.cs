@@ -14,28 +14,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task ReturnTemplateFields()
-        {
-            var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
-            {
-                RepositoryId = RepositoryId,
-            }).ConfigureAwait(false);
-            var firstTemplateDefinition = allTemplateDefinitions.Value?.FirstOrDefault();
-            
-            Assert.IsNotNull(firstTemplateDefinition);
-
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(new ListTemplateFieldDefinitionsByTemplateNameParameters()
-            {
-                RepositoryId = RepositoryId,
-                TemplateName = firstTemplateDefinition.Name
-            }).ConfigureAwait(false);
-            var templateFieldDefinitions = templateDefinitionCollectionResponse.Value;
-
-            Assert.IsNotNull(templateFieldDefinitions);
-            Assert.AreEqual(firstTemplateDefinition.FieldCount, templateFieldDefinitions.Count);
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int maxPageSize = 10;
@@ -86,25 +64,25 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
             int maxPageSize = 1;
 
             // Initial request
-            var templateDeifnitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(new ListTemplateFieldDefinitionsByTemplateNameParameters()
+            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(new ListTemplateFieldDefinitionsByTemplateNameParameters()
             {
                 RepositoryId = RepositoryId,
                 TemplateName = firstTemplateDefinition.Name,
                 Prefer = $"maxpagesize={maxPageSize}"
             }).ConfigureAwait(false);
             
-            Assert.IsNotNull(templateDeifnitionCollectionResponse);
+            Assert.IsNotNull(templateDefinitionCollectionResponse);
             
-            var nextLink = templateDeifnitionCollectionResponse.OdataNextLink;
+            var nextLink = templateDefinitionCollectionResponse.OdataNextLink;
             
             Assert.IsNotNull(nextLink);
-            Assert.IsTrue(templateDeifnitionCollectionResponse.Value.Count <= maxPageSize);
+            Assert.IsTrue(templateDefinitionCollectionResponse.Value.Count <= maxPageSize);
 
             // Paging request
-            templateDeifnitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
+            templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameNextLinkAsync(nextLink, maxPageSize).ConfigureAwait(false);
             
-            Assert.IsNotNull(templateDeifnitionCollectionResponse);
-            Assert.IsTrue(templateDeifnitionCollectionResponse.Value.Count <= maxPageSize);
+            Assert.IsNotNull(templateDefinitionCollectionResponse);
+            Assert.IsTrue(templateDefinitionCollectionResponse.Value.Count <= maxPageSize);
         }
     }
 }

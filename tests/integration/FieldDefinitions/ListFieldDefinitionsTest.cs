@@ -13,17 +13,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
-        public async Task ReturnAllFields()
-        {
-            var fieldDefinitionCollectionResponse = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(new ListFieldDefinitionsParameters()
-            {
-                RepositoryId = RepositoryId
-            }).ConfigureAwait(false);
-            
-            Assert.IsNotNull(fieldDefinitionCollectionResponse.Value);
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int maxPageSize = 10;

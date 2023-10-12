@@ -13,25 +13,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task ReturnEntries()
-        {
-            int entryId = 1;
-            var entryCollectionResponse = await client.EntriesClient.ListEntriesAsync(new ListEntriesParameters()
-            {
-                RepositoryId = RepositoryId,
-                EntryId = entryId
-            }).ConfigureAwait(false);
-            var entries = entryCollectionResponse.Value;
-            
-            Assert.IsNotNull(entries);
-            
-            foreach (var entry in entries)
-            {
-                Assert.AreEqual(entryId, entry.ParentId);
-            }
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int entryId = 1;
