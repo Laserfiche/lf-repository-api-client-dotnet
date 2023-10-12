@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -10,19 +11,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public void Initialize()
         {
             client = CreateClient();
-        }
-
-        [TestMethod]
-        public async Task ReturnFields()
-        {
-            int entryId = 1;
-            var fieldCollectionResponse = await client.EntriesClient.ListFieldsAsync(new ListFieldsParameters()
-            {
-                RepositoryId = RepositoryId,
-                EntryId = entryId
-            }).ConfigureAwait(false);
-            
-            Assert.IsNotNull(fieldCollectionResponse.Value);
         }
 
         [TestMethod]

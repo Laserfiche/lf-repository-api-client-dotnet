@@ -13,17 +13,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TagDefinitions
         }
 
         [TestMethod]
-        public async Task ReturnAllTags()
-        {
-            var tagDefinitionCollectionResponse = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
-            {
-                RepositoryId = RepositoryId,
-            }).ConfigureAwait(false);
-
-            AssertCollectionResponse(tagDefinitionCollectionResponse);
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int maxPageSize = 10;

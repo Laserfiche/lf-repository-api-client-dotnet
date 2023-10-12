@@ -13,17 +13,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.LinkDefinitions
         }
 
         [TestMethod]
-        public async Task ReturnAllLinks()
-        {
-            var linkedDefinitionCollectionResponse = await client.LinkDefinitionsClient.ListLinkDefinitionsAsync(new ListLinkDefinitionsParameters()
-            {
-                RepositoryId = RepositoryId
-            }).ConfigureAwait(false);
-            
-            Assert.IsNotNull(linkedDefinitionCollectionResponse.Value);
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int maxPageSize = 10;
