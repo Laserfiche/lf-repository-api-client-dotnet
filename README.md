@@ -1,7 +1,7 @@
 # Laserfiche Repository API Client .NET
-[![NuGet version (Laserfiche.Repository.Api.Client)](https://img.shields.io/nuget/v/Laserfiche.Repository.Api.Client.svg?style=flat-square)](https://www.nuget.org/packages/Laserfiche.Repository.Api.Client)
+[![NuGet version (Laserfiche.Repository.Api.Client.V2)](https://img.shields.io/nuget/v/Laserfiche.Repository.Api.Client.V2.svg?style=flat-square)](https://www.nuget.org/packages/Laserfiche.Repository.Api.Client.V2)
 
-Use the Laserfiche Repository API to access data in a Laserfiche repository. Import or export files, modify the repository folder structure, read and modify templates and field values, and more.
+Use the Laserfiche Repository API to access data in a Laserfiche repository. Import or export documents, modify the repository folder structure, read and modify templates and field values, and more.
 
 ## Documentation
 - [Laserfiche Developer Center](https://developer.laserfiche.com/)
