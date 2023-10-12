@@ -25,17 +25,5 @@ var namespaces_dup =
       [ "swagger_json", "download__swagger_8py.html#a40fef28122a2ee7c2f5438853f3f049f", null ],
       [ "swagger_override_json", "download__swagger_8py.html#aef9e9e466c332049e8661a4bd8daf6a2", null ]
     ] ],
-    [ "Laserfiche", "namespace_laserfiche.html", "namespace_laserfiche" ],
-    [ "sort", null, [
-      [ "download_file_to_json", "sort_8py.html#a8630baddc2726de22554498ee35446e6", null ],
-      [ "sort_schemas", "sort_8py.html#abbf7198966a4c21d4a5b95eab4351af9", null ],
-      [ "sort_status_codes", "sort_8py.html#ad56d1e6c0d22625879c9985ca5aac245", null ],
-      [ "args", "sort_8py.html#a8187411843a6284ffb964ef3fb9fcab3", null ],
-      [ "default", "sort_8py.html#affb1327b18bf08a379d19eef89cf1ed1", null ],
-      [ "help", "sort_8py.html#a81ae9faedaa69e3e28e2960a0548df8d", null ],
-      [ "indent", "sort_8py.html#a9eb11910ba74d4b59975a5784b130732", null ],
-      [ "json_file", "sort_8py.html#a09ca9f3e3190f553463ea4c63e0dd017", null ],
-      [ "parser", "sort_8py.html#a90eee7a4677ca8b1ed116364a24367f9", null ],
-      [ "swagger_json", "sort_8py.html#a40fef28122a2ee7c2f5438853f3f049f", null ]
-    ] ]
+    [ "Laserfiche", "namespace_laserfiche.html", "namespace_laserfiche" ]
 ];

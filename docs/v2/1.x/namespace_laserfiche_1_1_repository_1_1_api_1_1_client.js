@@ -45,7 +45,6 @@ var namespace_laserfiche_1_1_repository_1_1_api_1_1_client =
     [ "GetLinkDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters.html", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters" ],
     [ "GetTagDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_tag_definition_parameters.html", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_tag_definition_parameters" ],
     [ "GetTemplateDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_template_definition_parameters.html", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_template_definition_parameters" ],
-    [ "HttpResponseHead", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_http_response_head.html", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_http_response_head" ],
     [ "IAttributesClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client" ],
     [ "IAuditReasonsClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_audit_reasons_client.html", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_audit_reasons_client" ],
     [ "IEntriesClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client" ],

@@ -24,17 +24,19 @@
 */
 var NAVTREE =
 [
-  [ "lf-repository-api-client-dotnet", "index.html", [
+  [ "Laserfiche.Repository.Api.Client.V2", "index.html", [
     [ "Laserfiche Repository API Client .NET", "index.html", [
       [ "Documentation", "index.html#autotoc_md29", null ],
-      [ "Change Log", "index.html#autotoc_md30", null ],
+      [ "Changelog", "index.html#autotoc_md30", null ],
       [ "How to contribute", "index.html#autotoc_md31", [
         [ "Generate the repository client", "index.html#autotoc_md32", null ],
-        [ "Build, Test, and Package", "index.html#autotoc_md33", null ]
+        [ "Build, test, and package", "index.html#autotoc_md33", [
+          [ "Branches", "index.html#autotoc_md34", null ]
+        ] ]
       ] ]
     ] ],
     [ "Changelog", "md__c_h_a_n_g_e_l_o_g.html", [
-      [ "1.0.0 [Pre-release]", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
+      [ "1.0.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ]
       ] ]
     ] ],
@@ -76,10 +78,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_field_definition_parameters.html#a972d81153a40382184f092bf01912c72",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#a528711f044f1f995f2b40c14d06f8d06",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tag.html#adb59d1044fe46ad2ddd774ccbc267db1",
-"interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_template_definitions_client.html#a5f7d30c680ad0b8a0c81c8e00539a926"
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_field_definition_parameters.html#ae624665afe91e27137740d63aea42442",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_search_context_hits_parameters.html",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tag_definition.html#a34409fed9d39281ada2d7ec172a52f9b",
+"md__c_h_a_n_g_e_l_o_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
