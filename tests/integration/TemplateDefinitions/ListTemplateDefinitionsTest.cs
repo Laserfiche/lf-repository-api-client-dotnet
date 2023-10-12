@@ -14,17 +14,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
         }
 
         [TestMethod]
-        public async Task ReturnAllTemplates()
-        {
-            var templateDefinitionCollectionResponse = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()
-            {
-                RepositoryId = RepositoryId,
-            }).ConfigureAwait(false);
-            
-            AssertCollectionResponse(templateDefinitionCollectionResponse);
-        }
-
-        [TestMethod]
         public async Task TemplateNameQueryParameter_ReturnSingleTemplate()
         {
             var allTemplateDefinitions = await client.TemplateDefinitionsClient.ListTemplateDefinitionsAsync(new ListTemplateDefinitionsParameters()

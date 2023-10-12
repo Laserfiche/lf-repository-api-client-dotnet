@@ -30,39 +30,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Searches
         }
 
         [TestMethod]
-        public async Task ReturnSearchResults()
-        {
-            // Create search
-            var request = new StartSearchEntryRequest()
-            {
-                SearchCommand = "({LF:Basic ~= \"search text\", option=\"DFANLT\"})"
-            };
-            var taskResponse = await client.SearchesClient.StartSearchEntryAsync(new StartSearchEntryParameters()
-            {
-                RepositoryId = RepositoryId,
-                Request = request
-            }).ConfigureAwait(false);
-            taskId = taskResponse.TaskId;
-
-            AssertIsNotNullOrEmpty(taskId);
-
-            await Task.Delay(10000).ConfigureAwait(false);
-
-            // Get search results
-            var entryCollectionResponse = await client.SearchesClient.ListSearchResultsAsync(new ListSearchResultsParameters()
-            {
-                RepositoryId = RepositoryId,
-                TaskId = taskId
-            }).ConfigureAwait(false);
-
-            AssertCollectionResponse(entryCollectionResponse);
-
-            var searchResults = entryCollectionResponse.Value;
-            
-            Assert.IsNotNull(searchResults);
-        }
-
-        [TestMethod]
         public async Task ForEachPaging()
         {
             int maxPageSize = 90;

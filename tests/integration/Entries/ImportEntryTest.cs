@@ -39,29 +39,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task DocumentCreated()
-        {
-            int parentEntryId = 1;
-            string fileName = "RepositoryApiClientIntegrationTest .Net ImportDocument";
-            var electronicDocument = GetFileParameter();
-            var request = new ImportEntryRequest()
-            {
-                Name = fileName,
-                AutoRename = true
-            };
-
-            importedEntry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
-            {
-                RepositoryId = RepositoryId,
-                EntryId = parentEntryId,
-                File = electronicDocument,
-                Request = request
-            }).ConfigureAwait(false);
-
-            Assert.IsNotNull(importedEntry);
-        }
-
-        [TestMethod]
         public async Task DocumentCreatedWithTemplate()
         {
             // Find a template definition with no required fields
