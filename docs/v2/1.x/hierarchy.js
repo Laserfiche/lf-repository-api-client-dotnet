@@ -58,9 +58,6 @@ var hierarchy =
     [ "GetLinkDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters.html", null ],
     [ "GetTagDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_tag_definition_parameters.html", null ],
     [ "GetTemplateDefinitionParameters", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_template_definition_parameters.html", null ],
-    [ "HttpResponseHead", null, [
-      [ "HttpResponseHead< TResult >", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_http_response_head.html", null ]
-    ] ],
     [ "IAttributesClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html", [
       [ "AttributesClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attributes_client.html", null ]
     ] ],
