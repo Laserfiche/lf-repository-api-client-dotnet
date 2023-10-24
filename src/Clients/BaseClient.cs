@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
