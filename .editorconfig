@@ -1,6 +1,8 @@
 [*.{cs,vb}]
 dotnet_diagnostic.CA2007.severity = error
 dotnet_code_quality.CA2007.exclude_async_void_methods = true
+file_header_template = Copyright (c) Laserfiche.\nLicensed under the MIT License. See LICENSE in the project root for license information.
+
 [*.{cs,vb}]
 #### Naming styles ####
 
