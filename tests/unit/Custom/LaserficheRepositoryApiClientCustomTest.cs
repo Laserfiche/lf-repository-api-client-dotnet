@@ -1,4 +1,6 @@
-﻿using Moq;
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using System;
