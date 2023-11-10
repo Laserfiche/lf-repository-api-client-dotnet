@@ -14,7 +14,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 
-$client_filename = 'RepositoryClients.cs'
+$client_filename = 'TableClients.cs'
 
 # Clean folder endings from input parameters
 $input_folder = $input_folder.TrimEnd("/", "\")

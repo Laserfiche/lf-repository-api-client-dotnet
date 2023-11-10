@@ -11,9 +11,8 @@
   "codeGenerators": {
     "openApiToCSharpClient": {
       "classname": "{controller}Client",
-      "clientBaseClass": "BaseClient",
-      "namespace": "Laserfiche.Repository.Api.Client",
-      "output": "RepositoryClients.cs",
+      "namespace": "Laserfiche.Table.Api.Client",
+      "output": "TableClients.cs",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
       "additionalNamespaceUsages": [
         "Laserfiche.Api.Client",
@@ -39,7 +38,7 @@
       "generateDataAnnotations": false,
       "generateExceptionClasses": false,
       "generateOptionalParameters": true,
-      "generateUpdateJsonSerializerSettingsMethod": false,
+      "generateUpdateJsonSerializerSettingsMethod": true,
       "useBaseUrl": false,
       "arrayType": "IList",
       "arrayInstanceType": "List",

@@ -37,8 +37,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         private const string BaseUrlVar = "APISERVER_REPOSITORY_API_BASE_URL";
         private const string AuthTypeVar = "AUTHORIZATION_TYPE";
 
-        private const string ApplicationNameHeaderKey = "X-LF-AppID";
-        private const string ApplicationNameHeaderValue = "RepositoryApiClientIntegrationTest .Net";
+        public const string ApplicationNameHeaderKey = "X-LF-AppID";
+        public const string ApplicationNameHeaderValue = "RepositoryApiClientIntegrationTest .Net";
         public static IRepositoryApiClient client = null;
 
         public BaseTest()
@@ -71,10 +71,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             string accessKeyString = Environment.GetEnvironmentVariable(AccessKeyVar);
             if (!string.IsNullOrEmpty(accessKeyString))
                 AccessKey = AccessKey.CreateFromBase64EncodedAccessKey(accessKeyString);
-            RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
-            AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
-            Username = Environment.GetEnvironmentVariable(UsernameVar);
-            Password = Environment.GetEnvironmentVariable(PasswordVar);
+            //RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
+            //AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
+            //Username = Environment.GetEnvironmentVariable(UsernameVar);
+            //Password = Environment.GetEnvironmentVariable(PasswordVar);
             BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
 
