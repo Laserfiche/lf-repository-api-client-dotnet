@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Chore & Maintenance
+- Update version of `dotnetenv` to `3.0.0`
+- Update version of `Laserfiche.Api.Client.Core` to `1.3.4`
+
 ## 1.0.0 
 
 ### Features
