@@ -4,7 +4,7 @@
 
 ### Chore & Maintenance
 
-- Update version of `dotnetenv` to `3.0.0`
+- Update versions of `Moq`, `dotenv`, `MSTest.TestAdapter`, and `MSTest.TestFramework` due to dependency vulnerabilities
 - Update version of `Laserfiche.Api.Client.Core` to `1.3.4`
 
 ## 1.0.0
