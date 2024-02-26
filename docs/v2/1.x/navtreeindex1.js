@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_field_definition_parameters.html#ae624665afe91e27137740d63aea42442":[5,0,0,0,0,0,41,1],
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters.html":[5,0,0,0,0,0,42],
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters.html#a38cb0ac374afddd119aa8ca52d158d1f":[5,0,0,0,0,0,42,0],
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_link_definition_parameters.html#a8582f762383b1e93e4118b9192c87aa1":[5,0,0,0,0,0,42,2],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#ab4695e204aa71a45a4dddc0ac137664c":[5,0,0,0,0,0,77,2],
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#ad1097aa5ed8e80db54fac5dda502107b":[5,0,0,0,0,0,77,0],
 "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#aebedee4b5f4907a906fa7ba17d99e684":[5,0,0,0,0,0,77,7],
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_repositories_parameters.html":[5,0,0,0,0,0,78]
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_repositories_parameters.html":[5,0,0,0,0,0,78],
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_search_context_hits_parameters.html":[5,0,0,0,0,0,79]
 };
