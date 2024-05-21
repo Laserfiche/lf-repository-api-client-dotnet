@@ -206,7 +206,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<AttributeCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -216,9 +216,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -226,9 +226,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -236,9 +236,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -246,9 +246,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -256,14 +256,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -357,7 +357,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -367,9 +367,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -377,9 +377,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -387,9 +387,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -397,9 +397,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -407,14 +407,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -457,7 +457,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -476,7 +476,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -748,7 +748,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<AuditReasonCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -758,9 +758,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -768,9 +768,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -778,9 +778,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -788,9 +788,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -798,14 +798,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -848,7 +848,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -867,7 +867,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -1112,7 +1112,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<FieldDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -1122,9 +1122,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1132,9 +1132,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1142,9 +1142,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1152,9 +1152,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1162,14 +1162,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1288,7 +1288,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<FieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -1298,9 +1298,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1308,9 +1308,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1318,9 +1318,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1328,9 +1328,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1338,14 +1338,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1388,7 +1388,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -1407,7 +1407,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -1699,7 +1699,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<LinkDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -1709,9 +1709,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1719,9 +1719,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1729,9 +1729,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1739,9 +1739,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1749,14 +1749,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1851,7 +1851,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<LinkDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -1861,9 +1861,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -1871,9 +1871,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -1881,9 +1881,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -1891,9 +1891,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -1901,14 +1901,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -1951,7 +1951,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -1970,7 +1970,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -2565,7 +2565,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<CreateMultipartUploadUrlsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -2575,9 +2575,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2585,9 +2585,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2595,9 +2595,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2605,9 +2605,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -2615,9 +2615,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2625,14 +2625,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2731,7 +2731,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -2741,9 +2741,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2751,9 +2751,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2761,9 +2761,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2771,9 +2771,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -2781,9 +2781,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2791,9 +2791,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 500)
@@ -2801,14 +2801,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -2910,7 +2910,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -2920,9 +2920,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -2930,9 +2930,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -2940,9 +2940,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -2950,9 +2950,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -2960,9 +2960,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -2970,9 +2970,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 500)
@@ -2980,14 +2980,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3091,7 +3091,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3101,9 +3101,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3111,9 +3111,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3121,9 +3121,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3131,9 +3131,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -3141,9 +3141,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3151,14 +3151,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3252,7 +3252,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3262,9 +3262,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3272,9 +3272,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3282,9 +3282,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3292,9 +3292,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -3302,9 +3302,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3312,14 +3312,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3415,7 +3415,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3425,9 +3425,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3435,9 +3435,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3445,9 +3445,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3455,9 +3455,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3465,14 +3465,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3575,7 +3575,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3585,9 +3585,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3595,9 +3595,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3605,9 +3605,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3615,9 +3615,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -3625,9 +3625,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -3635,9 +3635,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -3645,9 +3645,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3655,14 +3655,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3781,7 +3781,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3791,9 +3791,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3801,9 +3801,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3811,9 +3811,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -3821,9 +3821,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -3831,9 +3831,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -3841,9 +3841,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 500)
@@ -3851,14 +3851,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -3960,7 +3960,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ExportEntryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -3970,9 +3970,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -3980,9 +3980,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -3990,9 +3990,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4000,9 +4000,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -4010,9 +4010,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -4020,9 +4020,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4030,9 +4030,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 500)
@@ -4040,14 +4040,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4141,7 +4141,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<GetEntryByPathResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -4151,9 +4151,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4161,9 +4161,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4171,9 +4171,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4181,9 +4181,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4191,14 +4191,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4340,7 +4340,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -4350,9 +4350,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4360,9 +4360,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4370,9 +4370,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4380,9 +4380,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4390,14 +4390,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4499,7 +4499,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -4509,9 +4509,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4519,9 +4519,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4529,9 +4529,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4539,9 +4539,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -4549,9 +4549,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -4559,9 +4559,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4569,14 +4569,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4705,7 +4705,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -4715,9 +4715,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4725,9 +4725,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4735,9 +4735,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4745,9 +4745,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4755,14 +4755,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -4865,7 +4865,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -4875,9 +4875,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -4885,9 +4885,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -4895,9 +4895,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -4905,9 +4905,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -4915,9 +4915,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -4925,9 +4925,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -4935,14 +4935,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5061,7 +5061,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5071,9 +5071,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5081,9 +5081,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5091,9 +5091,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5101,9 +5101,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5111,14 +5111,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5215,7 +5215,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5225,9 +5225,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5235,9 +5235,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5245,9 +5245,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5255,9 +5255,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -5265,9 +5265,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -5275,9 +5275,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5285,14 +5285,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5389,7 +5389,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5399,9 +5399,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5409,9 +5409,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5419,9 +5419,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5429,9 +5429,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -5439,9 +5439,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -5449,9 +5449,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5459,14 +5459,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5585,7 +5585,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5595,9 +5595,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5605,9 +5605,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5615,9 +5615,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5625,9 +5625,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5635,14 +5635,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5744,7 +5744,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5754,9 +5754,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5764,9 +5764,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5774,9 +5774,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5784,9 +5784,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 409)
@@ -5794,9 +5794,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -5804,9 +5804,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5814,14 +5814,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -5908,7 +5908,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -5918,9 +5918,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -5928,9 +5928,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -5938,9 +5938,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -5948,9 +5948,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -5958,9 +5958,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -5968,14 +5968,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6069,7 +6069,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -6079,9 +6079,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6089,9 +6089,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6099,9 +6099,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6109,9 +6109,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -6119,9 +6119,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6129,14 +6129,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6233,7 +6233,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -6243,9 +6243,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6253,9 +6253,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6263,9 +6263,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6273,9 +6273,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -6283,9 +6283,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6293,14 +6293,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6389,7 +6389,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -6399,9 +6399,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6409,9 +6409,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6419,9 +6419,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6429,9 +6429,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -6439,9 +6439,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6449,14 +6449,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6559,7 +6559,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -6569,9 +6569,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -6579,9 +6579,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -6589,9 +6589,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -6599,9 +6599,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -6609,9 +6609,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 423)
@@ -6619,9 +6619,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -6629,14 +6629,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -6679,7 +6679,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -6698,7 +6698,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -7573,7 +7573,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<RepositoryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -7583,9 +7583,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7593,9 +7593,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7603,9 +7603,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7613,14 +7613,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -7663,7 +7663,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -7682,7 +7682,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -7902,7 +7902,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -7912,9 +7912,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -7922,9 +7922,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -7932,9 +7932,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -7942,9 +7942,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -7952,9 +7952,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -7962,14 +7962,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8116,7 +8116,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -8126,9 +8126,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8136,9 +8136,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8146,9 +8146,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8156,9 +8156,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8166,14 +8166,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8297,7 +8297,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<SearchContextHitCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -8307,9 +8307,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8317,9 +8317,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8327,9 +8327,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8337,9 +8337,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8347,14 +8347,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8397,7 +8397,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -8416,7 +8416,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -8772,7 +8772,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -8782,7 +8782,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -8792,9 +8792,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -8802,9 +8802,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -8812,9 +8812,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -8822,9 +8822,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 413)
@@ -8832,9 +8832,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -8842,14 +8842,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -8892,7 +8892,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -8911,7 +8911,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -9180,7 +9180,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TagDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -9190,9 +9190,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9200,9 +9200,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9210,9 +9210,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9220,9 +9220,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9230,14 +9230,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9337,7 +9337,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TagDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -9347,9 +9347,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9357,9 +9357,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9367,9 +9367,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9377,9 +9377,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9387,14 +9387,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9437,7 +9437,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -9456,7 +9456,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -9730,7 +9730,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TaskCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -9740,9 +9740,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9750,9 +9750,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9760,9 +9760,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9770,9 +9770,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9780,14 +9780,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9879,7 +9879,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<CancelTasksResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -9889,9 +9889,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -9899,9 +9899,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -9909,9 +9909,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -9919,9 +9919,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -9929,14 +9929,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -9979,7 +9979,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -9998,7 +9998,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
@@ -10290,7 +10290,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -10300,9 +10300,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -10310,9 +10310,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -10320,9 +10320,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -10330,9 +10330,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -10340,14 +10340,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -10447,7 +10447,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -10457,9 +10457,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -10467,9 +10467,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -10477,9 +10477,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -10487,9 +10487,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -10497,14 +10497,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -10628,7 +10628,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -10638,9 +10638,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -10648,9 +10648,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -10658,9 +10658,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -10668,9 +10668,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -10678,14 +10678,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -10809,7 +10809,7 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
                 }
@@ -10819,9 +10819,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 401)
@@ -10829,9 +10829,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 403)
@@ -10839,9 +10839,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 404)
@@ -10849,9 +10849,9 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 if (status_ == 429)
@@ -10859,14 +10859,14 @@ namespace Laserfiche.Repository.Api.Client
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                        throw ApiException.Create(status_, headers_, null);
                     }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                    throw ApiException.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                    throw ApiException.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
                 }
             }
             finally
@@ -10909,7 +10909,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
                 }
             }
             else
@@ -10928,7 +10928,7 @@ namespace Laserfiche.Repository.Api.Client
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                    throw ApiException.Create((int)response.StatusCode, headers, exception);
                 }
             }
         }
