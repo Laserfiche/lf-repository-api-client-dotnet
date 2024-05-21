@@ -17,23 +17,23 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
     {
         #region GetEntryAsync with url
         [Fact]
-        public void GetEntryAsync_InvalidEntryId()
+        public async Task GetEntryAsync_InvalidEntryId()
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/abc?$select=1";
 
             var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
-        public void GetEntryAsync_InvalidUri()
+        public async Task GetEntryAsync_InvalidUri()
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/456?$select=1";
 
             var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
         #endregion
     }
