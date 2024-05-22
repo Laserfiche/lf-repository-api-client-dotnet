@@ -15,6 +15,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
+        private const string DefaultBaseAddress = "https://dummy.example.com/repository/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
@@ -68,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
         /// <param name="baseUrlDebug">(optional) Override for the Laserfiche repository API base url.</param>
-        /// <returns>IRepositoryApiClient</returns>
+        /// <returns>IRepositoryApiClient</returns>     
         public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
             if (httpRequestHandler == null)
@@ -83,10 +84,12 @@ namespace Laserfiche.Repository.Api.Client
             else
             {
                 getApiBaseUri = (domain) => DomainUtils.GetRepositoryApiBaseUri(domain);
+                baseUrlDebug = DefaultBaseAddress;
             }
 
             var repositoryClientHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
             var httpClient = new HttpClient(repositoryClientHandler);
+            httpClient.BaseAddress = new Uri(baseUrlDebug);
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
         }
