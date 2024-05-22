@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche.
+﻿// Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using Newtonsoft.Json;

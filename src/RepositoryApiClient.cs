@@ -2,9 +2,11 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client.HttpHandlers;
 using Laserfiche.Api.Client.OAuth;
+using Laserfiche.Api.Client.Utils;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using static Laserfiche.Api.Client.HttpHandlers.ApiHttpMessageHandler;
 
 namespace Laserfiche.Repository.Api.Client
 {
@@ -67,27 +69,27 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
         /// <param name="baseUrlDebug">(optional) Override for the Laserfiche repository API base url.</param>
-        /// <returns>IRepositoryApiClient</returns>
+        /// <returns>IRepositoryApiClient</returns>     
         public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
         {
             if (httpRequestHandler == null)
                 throw new ArgumentNullException(nameof(httpRequestHandler));
 
+            GetApiBaseUri getApiBaseUri;
             if (!string.IsNullOrEmpty(baseUrlDebug))
-                baseUrlDebug = baseUrlDebug.TrimEnd('/') + "/";
-
-            var repositoryClientHandler = new RepositoryApiClientHandler(httpRequestHandler, baseUrlDebug);
-            var httpClient = new HttpClient(repositoryClientHandler);
-
-            if (httpRequestHandler is UsernamePasswordHandler)
             {
-                httpClient.BaseAddress = new Uri(baseUrlDebug);
+                baseUrlDebug = baseUrlDebug.TrimEnd('/') + "/";
+                getApiBaseUri = (_) => baseUrlDebug;
             }
             else
             {
-                httpClient.BaseAddress = new Uri(DefaultBaseAddress);
+                getApiBaseUri = (domain) => DomainUtils.GetRepositoryApiBaseUri(domain);
+                baseUrlDebug = DefaultBaseAddress;
             }
 
+            var repositoryClientHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
+            var httpClient = new HttpClient(repositoryClientHandler);
+            httpClient.BaseAddress = new Uri(baseUrlDebug);
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
         }
