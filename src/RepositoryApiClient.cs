@@ -67,7 +67,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Create a Laserfiche repository client.
         /// </summary>
-        /// <param name="httpRequestHandler">The http request handler for the Laserfiche repository client.</param>
+        /// <param name="httpRequestHandler">The http request handler for the Laserfiche APIs.</param>
         /// <param name="baseUrlDebug">(optional) Override for the Laserfiche repository API base url.</param>
         /// <returns>IRepositoryApiClient</returns>     
         public static IRepositoryApiClient CreateFromHttpRequestHandler(IHttpRequestHandler httpRequestHandler, string baseUrlDebug = null)
@@ -87,8 +87,8 @@ namespace Laserfiche.Repository.Api.Client
                 baseUrlDebug = DefaultBaseAddress;
             }
 
-            var repositoryClientHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
-            var httpClient = new HttpClient(repositoryClientHandler);
+            var apiHttpMessageHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
+            var httpClient = new HttpClient(apiHttpMessageHandler);
             httpClient.BaseAddress = new Uri(baseUrlDebug);
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
