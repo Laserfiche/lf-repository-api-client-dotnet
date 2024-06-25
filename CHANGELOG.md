@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+### Chore & Maintenance
+
+- Update version of `Laserfiche.Api.Client.Core` to `1.3.6`
+
 ## 1.0.1
 
 ### Chore & Maintenance

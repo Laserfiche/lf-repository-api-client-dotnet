@@ -16,6 +16,8 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public abstract class BaseClient
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)
         {
             settings.MaxDepth = 128;
@@ -76,7 +78,7 @@ namespace Laserfiche.Repository.Api.Client
                 if (name != null)
                 {
                     var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-                    if (field != null && 
+                    if (field != null &&
                         CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) is EnumMemberAttribute attribute)
                     {
                         return attribute.Value ?? name;
@@ -103,5 +105,7 @@ namespace Laserfiche.Repository.Api.Client
             var result = Convert.ToString(value, cultureInfo);
             return result ?? "";
         }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
