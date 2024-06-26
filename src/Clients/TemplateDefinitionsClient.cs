@@ -96,6 +96,8 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial class TemplateDefinitionsClient
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public async Task ListTemplateDefinitionsForEachAsync(Func<TemplateDefinitionCollectionResponse, Task<bool>> callback, ListTemplateDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
@@ -149,5 +151,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTemplateFieldDefinitionsByTemplateIdSendAsync, cancellationToken).ConfigureAwait(false);
         }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

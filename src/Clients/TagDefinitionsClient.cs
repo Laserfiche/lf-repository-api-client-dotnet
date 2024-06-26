@@ -44,6 +44,8 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial class TagDefinitionsClient
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public async Task ListTagDefinitionsForEachAsync(Func<TagDefinitionCollectionResponse, Task<bool>> callback, ListTagDefinitionsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
@@ -61,5 +63,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTagDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

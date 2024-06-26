@@ -12,7 +12,7 @@ on:
 
 env:
   API_VERSION: 'v2'
-  VERSION_PREFIX: '1.0.1'
+  VERSION_PREFIX: '1.0.2'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
@@ -20,14 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          3.1.x
-          6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -64,7 +62,7 @@ jobs:
     timeout-minutes: 10
     needs: [ build-n-test ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -90,7 +88,7 @@ jobs:
       run: doxygen ./doxygen/doxygen.conf
 
     - name: Upload a build artifact
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         path: ${{ github.workspace }}/generated_documentation/html
@@ -106,12 +104,12 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -143,12 +141,12 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -190,7 +188,7 @@ jobs:
     - name: Print DOCUMENTATION_VERSION environment variable
       run: |
         echo 'Publishing documentation to ${{ env.GITHUB_PAGES_BRANCH }} for ${{ env.API_VERSION }} ${{ env.DOCUMENTATION_VERSION }}.'
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ env.GITHUB_PAGES_BRANCH }}
 
@@ -201,13 +199,13 @@ jobs:
       run: mkdir -p ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
 
     - name: Download documentation build artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: documentation-artifact
         path: ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
 
     - name: Create a pull request
-      uses: peter-evans/create-pull-request@v4.2.3
+      uses: peter-evans/create-pull-request@v4
       with:
         branch: ${{ env.GITHUB_PAGES_BRANCH }}-${{ env.API_VERSION }}-${{ env.DOCUMENTATION_VERSION }}-patch
         delete-branch: true
