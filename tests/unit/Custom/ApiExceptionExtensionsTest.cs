@@ -12,7 +12,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
     {
         private const string OPERATION_ID_HEADER = "X-RequestId";
 
-        private void AssertApiExceptionAreEqual(ApiException expected, ApiException actual)
+        private static void AssertApiExceptionAreEqual(ApiException expected, ApiException actual)
         {
             Assert.Equal(expected.StatusCode, actual.StatusCode);
             Assert.Equal(expected.Message, actual.Message);

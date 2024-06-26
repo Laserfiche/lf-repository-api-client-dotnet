@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -71,6 +70,8 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial class SearchesClient
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
@@ -106,5 +107,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
         }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
