@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        private const string DefaultBaseAddress = "https://dummy.example.com/repository/";
+        private const string DummyBaseAddress = "http://example.com/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
@@ -84,7 +84,7 @@ namespace Laserfiche.Repository.Api.Client
             else
             {
                 getApiBaseUri = (domain) => DomainUtils.GetRepositoryApiBaseUri(domain);
-                baseUrlDebug = DefaultBaseAddress;
+                baseUrlDebug = DummyBaseAddress;
             }
 
             var apiHttpMessageHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
