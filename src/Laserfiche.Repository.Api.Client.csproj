@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.3.6-beta-9671684005" />
+    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.3.6" />
   </ItemGroup>
 
   <ItemGroup>
