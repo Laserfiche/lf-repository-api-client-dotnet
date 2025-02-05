@@ -37,9 +37,4 @@ jobs:
     - name: Run Veracode Software Composition Analysis (SCA)
       env:
         SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-      uses: veracode/veracode-sca@v2.1.6
-      with:
-        create-issues: false
-        allow-dirty: true
-        recursive: true
-
+      run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh | sh -s -- scan ./ --update-advisor --allow-dirty
