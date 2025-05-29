@@ -13,7 +13,7 @@
       "classname": "{controller}Client",
       "clientBaseClass": "BaseClient",
       "namespace": "Laserfiche.Repository.Api.Client",
-      "output": "RepositoryClients.cs",
+      "output": "src/Clients/RepositoryClients.cs",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndOperationId",
       "additionalNamespaceUsages": [
         "Laserfiche.Api.Client",
