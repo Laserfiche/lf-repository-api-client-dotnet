@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.3.3" />
+    <PackageReference Include="Laserfiche.Api.Client.Core" Version="1.3.6-beta-15355133390" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +35,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
