@@ -49,7 +49,6 @@ jobs:
         dotnet test tests/integration/Laserfiche.Repository.Api.Client.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Run integration tests on API Server
-      continue-on-error: true
       env:
         REPOSITORY_ID:  ${{ secrets.APISERVER_REPOSITORY_ID }}
         APISERVER_USERNAME: ${{ secrets.APISERVER_USERNAME }}
