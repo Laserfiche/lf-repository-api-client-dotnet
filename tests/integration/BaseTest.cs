@@ -123,8 +123,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         {
             var operation = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entryId, auditReason).ConfigureAwait(false);
             Assert.IsNotNull(operation.Token);
+            int taskTries = 0;
             var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token).ConfigureAwait(false);
-            Assert.IsTrue(progress.Status == OperationStatus.InProgress || progress.Status == OperationStatus.Completed);
+            while (progress.Status == OperationStatus.InProgress && taskTries < 100)
+            {
+                taskTries++;
+                progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token).ConfigureAwait(false);
+            }
+            Assert.IsTrue(progress.Status == OperationStatus.Completed);
         }
 
         protected async Task<int> CreateDocument(string name)
