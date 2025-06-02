@@ -27,7 +27,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 if (entry != null)
                 {
                     DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
-                    await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
+                    // await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, entry.Id, body).ConfigureAwait(false);
                 }
             }
         }
