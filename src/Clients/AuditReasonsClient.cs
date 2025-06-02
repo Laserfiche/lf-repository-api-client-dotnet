@@ -11,19 +11,6 @@ namespace Laserfiche.Repository.Api.Client
     partial interface IAuditReasonsClient
     {
         /// <summary>
-        /// Returns the attribute key value pairs associated with the authenticated user using paging. Page results are returned to the <paramref name="callback"/>.
-        /// </summary>
-        /// <remarks>
-        /// - Related: <see cref="ListAuditReasonsAsync(ListAuditReasonsParameters, CancellationToken)">ListAttributesAsync</see>
-        /// </remarks>
-        /// <param name="callback">A delegate that will be called each time new data is retrieved. Returns false to stop receiving more data; returns true to be called again if there's more data.</param>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="maxPageSize">Optionally specify the maximum number of items to retrieve.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task ListAuditReasonsForEachAsync(Func<AttributeCollectionResponse, Task<bool>> callback, ListAttributesParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Returns the attribute key value pairs associated with the authenticated user using a nextlink.
         /// </summary>
         /// <remarks>
