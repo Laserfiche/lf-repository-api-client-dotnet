@@ -130,7 +130,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 taskTries++;
                 progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, operation.Token).ConfigureAwait(false);
             }
-            Assert.IsTrue(progress.Status == OperationStatus.Completed);
+            Assert.AreEqual(progress.Status, OperationStatus.Completed);
         }
 
         protected async Task<int> CreateDocument(string name)
