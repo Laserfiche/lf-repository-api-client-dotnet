@@ -15,6 +15,7 @@
     private System.Lazy<{{ JsonSerializerSettingsType }}> _settings;
 {% endif -%}
 
+{% assign constructorParameters = "" -%}
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
@@ -42,10 +43,10 @@
 {% else -%}
         _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings);
 {% endif -%}
-        {% template Client.Class.Constructor %}
+    {% template Client.Class.Constructor %}
     }
 
-    private {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
@@ -64,7 +65,12 @@
     public string BaseUrl
     {
         get { return _baseUrl; }
-        set { _baseUrl = value; }
+        set
+        {
+            _baseUrl = value;
+            if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
+                _baseUrl += '/';
+        }
     }
 
 {% endif -%}
@@ -82,12 +88,13 @@
 
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
 {%     if UseRequestAndResponseSerializationSettings -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
 {%     else -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
 {%     endif -%}
 {% endif -%}
 
+    partial void Initialize();
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
@@ -113,6 +120,7 @@
     }
 
 {%     endif -%}
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
     {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters parameters{% unless operation.Parameters.first.IsRequired %} = null{% endunless %}, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
@@ -328,84 +336,86 @@
 
     protected virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}SendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
-        var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-        var disposeResponse_ = true;
-        try
-        {
-            var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-            if (response_.Content != null && response_.Content.Headers != null)
-            {
-                foreach (var item_ in response_.Content.Headers)
-                    headers_[item_.Key] = item_.Value;
-            }
+                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                var disposeResponse_ = true;
+                try
+                {
+                    var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                    foreach (var item_ in response_.Headers)
+                        headers_[item_.Key] = item_.Value;
+                    if (response_.Content != null && response_.Content.Headers != null)
+                    {
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+                    }
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
-            await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
+                    await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
 {% else %}
-            ProcessResponse(client_, response_);
+                    ProcessResponse(client_, response_);
 {% endif %}
 
-            var status_ = (int)response_.StatusCode;
+                    var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
-            if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
-            {
-                {% template Client.Class.ProcessResponse %}
-            }
-            else
+                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+                    {
+                        {% template Client.Class.ProcessResponse %}
+                    }
+                    else
 {%     endfor -%}
 {%     if operation.HasDefaultResponse -%}
 {%         if operation.DefaultResponse.HasType -%}
-            {
+                    {
 {%             assign response = operation.DefaultResponse -%}
-                {% template Client.Class.ProcessResponse %}
-            }
+                        {% template Client.Class.ProcessResponse %}
+                    }
 {%         elsif operation.HasSuccessResponse -%}
-            {
-                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
-            }
+                    {
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+                    }
 {%        elsif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-            return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
-            return {{ operation.UnwrappedResultDefaultValue }};
+                    return {{ operation.UnwrappedResultDefaultValue }};
 {%             endif -%}
 {%         elsif operation.WrapResponse -%}
-            return new {{ ResponseClass }}(status_, headers_);
+                    return new {{ ResponseClass }}(status_, headers_);
 {%         endif -%}
 {%     else -%}
 {%         if operation.HasSuccessResponse == false -%}
 {% comment -%}
-If the success response has already been explicitely declared, there is no need for this default code (because handled above).
-Otherwise, return default values on success because we don't want to throw on "unknown status code".
-Success is always expected
+    If the success response has already been explicitely declared, there is no need for this default code (because handled above).
+    Otherwise, return default values on success because we don't want to throw on "unknown status code".
+    Success is always expected
 {%- endcomment %}
-            if (status_ == 200 || status_ == 204)
-            {
+                    if (status_ == 200 || status_ == 204)
+                    {
 {%             if operation.HasResultType -%}
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
-                return {{ operation.UnwrappedResultDefaultValue }};
+                        return {{ operation.UnwrappedResultDefaultValue }};
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
-                return new {{ ResponseClass }}(status_, headers_);
+                        return new {{ ResponseClass }}(status_, headers_);
 {%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
-                return;
+                        return;
 {%             endif -%}
-            }
-            else
+                    }
+                    else
 {%         endif -%}
-            {
-                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    {
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                 throw {{ ExceptionClass }}Extensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-            }
+                    }
 {%     endif -%}
-        }
-        finally
-        {
-            if (disposeResponse_)
-                response_.Dispose();
+                }
+                finally
+                {
+                    if (disposeResponse_)
+                        response_.Dispose();
         }
     }
 
