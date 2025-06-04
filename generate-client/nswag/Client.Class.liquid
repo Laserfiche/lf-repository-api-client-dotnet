@@ -15,19 +15,6 @@
     private System.Lazy<{{ JsonSerializerSettingsType }}> _settings;
 {% endif -%}
 
-{% assign constructorParameters = "" -%}
-{% if HasConfigurationClass -%}
-{%     assign constructorParameters = ConfigurationClass | append: " configuration" -%}
-{% endif -%}
-{% if UseBaseUrl and HasBaseUrl == false and HasConfigurationClass == false -%}
-{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
-{%     assign constructorParameters = constructorParameters | append: "string baseUrl" -%}
-{% endif -%}
-{% if InjectHttpClient -%}
-{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
-{%     assign constructorParameters = constructorParameters | append: HttpClientType | append: " httpClient" -%}
-{% endif -%}
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
