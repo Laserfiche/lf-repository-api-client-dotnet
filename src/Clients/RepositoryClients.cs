@@ -134,32 +134,36 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (everyone != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Attributes"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Attributes");
+                    urlBuilder_.Append('?');
+                    if (everyone != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -307,13 +311,17 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes/{attributeKey}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(attributeKey, CultureInfo.InvariantCulture)));
-            if (everyone != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Attributes/{attributeKey}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Attributes/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(attributeKey, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (everyone != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -690,28 +698,32 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/AuditReasons?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/AuditReasons"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AuditReasons");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -1078,17 +1090,21 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -1236,32 +1252,36 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -1661,28 +1681,32 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/LinkDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/LinkDefinitions");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -1831,13 +1855,17 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(linkDefinitionId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/LinkDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(linkDefinitionId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -2558,7 +2586,10 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/CreateMultipartUploadUrls");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -2718,13 +2749,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/ImportUploadedParts");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -2897,13 +2933,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (pageRange != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/ExportAsync");
+                    urlBuilder_.Append('?');
+                    if (pageRange != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3078,13 +3119,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/CopyAsync");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3244,8 +3290,11 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3407,13 +3456,17 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3563,13 +3616,17 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3750,13 +3807,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/Import");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -3948,13 +4010,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Export?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (pageRange != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Export"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Export");
+                    urlBuilder_.Append('?');
+                    if (pageRange != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -4133,13 +4200,17 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/ByPath?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString("fullPath")).Append('=').Append(Uri.EscapeDataString(ConvertToString(fullPath, CultureInfo.InvariantCulture))).Append('&');
-            if (fallbackToClosestAncestor != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("fallbackToClosestAncestor")).Append('=').Append(Uri.EscapeDataString(ConvertToString(fallbackToClosestAncestor, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/ByPath"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/ByPath");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("fullPath")).Append('=').Append(Uri.EscapeDataString(ConvertToString(fullPath, CultureInfo.InvariantCulture))).Append('&');
+                    if (fallbackToClosestAncestor != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("fallbackToClosestAncestor")).Append('=').Append(Uri.EscapeDataString(ConvertToString(fallbackToClosestAncestor, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -4297,45 +4368,50 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (groupByEntryType != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType")).Append('=').Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (fields != null)
-            {
-                    foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
-            }
-            if (formatFieldValues != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/Children");
+                    urlBuilder_.Append('?');
+                    if (groupByEntryType != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType")).Append('=').Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (fields != null)
+                    {
+                            foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    if (formatFieldValues != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -4487,13 +4563,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/Children");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -4670,37 +4751,42 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (formatFieldValues != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields");
+                    urlBuilder_.Append('?');
+                    if (formatFieldValues != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -4853,13 +4939,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5034,29 +5125,34 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Tags"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tags");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5208,8 +5304,12 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Tags"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tags");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5382,8 +5482,12 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Links"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Links");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5558,29 +5662,34 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Links"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Links");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5732,13 +5841,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Folder/Copy");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -5905,8 +6019,12 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Edoc");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6061,13 +6179,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (pageRange != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+                    urlBuilder_.Append('?');
+                    if (pageRange != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6226,8 +6349,12 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields/GetDynamicFieldLogicValue");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6386,8 +6513,12 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Template"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Template");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6547,13 +6678,18 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Template"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Template");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -7582,6 +7718,8 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories");
+                    // Operation Path: "v2/Repositories"
+                    urlBuilder_.Append("v2/Repositories");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -7919,7 +8057,10 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/SearchAsync");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    // Operation Path: "v2/Repositories/{repositoryId}/Searches/SearchAsync"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Searches/SearchAsync");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -8093,49 +8234,54 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(taskId, CultureInfo.InvariantCulture)));
-            if (groupByEntryType != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType")).Append('=').Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (refresh != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("refresh")).Append('=').Append(Uri.EscapeDataString(ConvertToString(refresh, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (fields != null)
-            {
-                    foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
-            }
-            if (formatFieldValues != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Searches/{taskId}/Results"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Searches/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(taskId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Results");
+                    urlBuilder_.Append('?');
+                    if (groupByEntryType != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("groupByEntryType")).Append('=').Append(Uri.EscapeDataString(ConvertToString(groupByEntryType, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (refresh != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("refresh")).Append('=').Append(Uri.EscapeDataString(ConvertToString(refresh, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (fields != null)
+                    {
+                            foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    if (formatFieldValues != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -8293,30 +8439,36 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(taskId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(rowNumber, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Searches/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(taskId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Results/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(rowNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/ContextHits");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -8779,32 +8931,36 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/SimpleSearches?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (fields != null)
-            {
-                    foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
-            }
-            if (formatFieldValues != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/SimpleSearches"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/SimpleSearches");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (fields != null)
+                    {
+                            foreach (var item_ in fields) { urlBuilder_.Append(Uri.EscapeDataString("fields")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    if (formatFieldValues != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("formatFieldValues")).Append('=').Append(Uri.EscapeDataString(ConvertToString(formatFieldValues, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -9198,32 +9354,36 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TagDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TagDefinitions");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -9373,17 +9533,21 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions/{tagId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(tagId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TagDefinitions/{tagId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TagDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(tagId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -9781,12 +9945,16 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (taskIds != null)
-            {
-                    foreach (var item_ in taskIds) { urlBuilder_.Append(Uri.EscapeDataString("taskIds")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Tasks"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tasks");
+                    urlBuilder_.Append('?');
+                    if (taskIds != null)
+                    {
+                            foreach (var item_ in taskIds) { urlBuilder_.Append(Uri.EscapeDataString("taskIds")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -9930,12 +10098,16 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (taskIds != null)
-            {
-                    foreach (var item_ in taskIds) { urlBuilder_.Append(Uri.EscapeDataString("taskIds")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/Tasks"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tasks");
+                    urlBuilder_.Append('?');
+                    if (taskIds != null)
+                    {
+                            foreach (var item_ in taskIds) { urlBuilder_.Append(Uri.EscapeDataString("taskIds")).Append('=').Append(Uri.EscapeDataString(ConvertToString(item_, CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -10324,36 +10496,40 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            if (templateName != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("templateName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(templateName, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions");
+                    urlBuilder_.Append('?');
+                    if (templateName != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("templateName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(templateName, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -10503,17 +10679,21 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -10665,33 +10845,38 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -10846,33 +11031,37 @@ namespace Laserfiche.Repository.Api.Client
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions?");
-            urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-            urlBuilder_.Append(Uri.EscapeDataString("templateName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(templateName, CultureInfo.InvariantCulture))).Append('&');
-            if (culture != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (select != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (orderby != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (top != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (skip != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-            }
-            if (count != null)
-            {
-                urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-            }
-            urlBuilder_.Length--;
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/FieldDefinitions");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("templateName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(templateName, CultureInfo.InvariantCulture))).Append('&');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
