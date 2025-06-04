@@ -79,25 +79,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class AttributesClient : BaseClient, IAttributesClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public AttributesClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -120,10 +119,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of attributes associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<AttributeCollectionResponse> ListAttributesAsync(string repositoryId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<AttributeCollectionResponse> ListAttributesAsync(ListAttributesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var everyone = parameters.Everyone;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes?");
@@ -206,13 +217,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AttributeCollectionResponse> ListAttributesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -292,13 +314,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -314,13 +329,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single attribute associated with the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Attribute> GetAttributeAsync(string repositoryId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Attribute> GetAttributeAsync(GetAttributeParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var attributeKey = parameters.AttributeKey;
+            var everyone = parameters.Everyone;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (attributeKey == null)
-                throw new ArgumentNullException("attributeKey");
+                throw new ArgumentNullException("parameters.AttributeKey");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes/{attributeKey}?");
@@ -362,13 +384,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetAttributeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Attribute> GetAttributeSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -448,13 +481,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -569,6 +595,77 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IAttributesClient.ListAttributesAsync(ListAttributesParameters, CancellationToken)">ListAttributes</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListAttributesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.
+        /// </summary>
+        public bool? Everyone { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IAttributesClient.GetAttributeAsync(GetAttributeParameters, CancellationToken)">GetAttribute</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetAttributeParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested attribute key.
+        /// </summary>
+        public string AttributeKey { get; set; }
+
+        /// <summary>
+        /// Indicates if attributes associated with the "Everyone" group or the currently authenticated user is returned. The default value is false.
+        /// </summary>
+        public bool? Everyone { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IAuditReasonsClient
     {
@@ -594,25 +691,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class AuditReasonsClient : BaseClient, IAuditReasonsClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public AuditReasonsClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -634,10 +730,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of audit reasons.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(ListAuditReasonsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/AuditReasons?");
@@ -712,13 +819,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -798,13 +916,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -919,6 +1030,49 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IAuditReasonsClient.ListAuditReasonsAsync(ListAuditReasonsParameters, CancellationToken)">ListAuditReasons</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListAuditReasonsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IFieldDefinitionsClient
     {
@@ -959,25 +1113,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class FieldDefinitionsClient : BaseClient, IFieldDefinitionsClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public FieldDefinitionsClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -999,13 +1152,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single field definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldDefinition> GetFieldDefinitionAsync(string repositoryId, int fieldId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldDefinition> GetFieldDefinitionAsync(GetFieldDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (fieldId == null)
-                throw new ArgumentNullException("fieldId");
+                throw new ArgumentNullException("parameters.FieldId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}?");
@@ -1055,13 +1216,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetFieldDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldDefinition> GetFieldDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -1141,13 +1313,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1164,10 +1329,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(ListFieldDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions?");
@@ -1250,13 +1427,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -1336,13 +1524,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -1457,6 +1638,82 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetFieldDefinitionAsync(GetFieldDefinitionParameters, CancellationToken)">GetFieldDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFieldDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested field definition ID.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.ListFieldDefinitionsAsync(ListFieldDefinitionsParameters, CancellationToken)">ListFieldDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListFieldDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ILinkDefinitionsClient
     {
@@ -1497,25 +1754,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public LinkDefinitionsClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -1537,10 +1793,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(string repositoryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(ListLinkDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions?");
@@ -1615,13 +1882,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -1701,13 +1979,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1724,13 +1995,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single link definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkDefinition> GetLinkDefinitionAsync(string repositoryId, int linkDefinitionId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkDefinition> GetLinkDefinitionAsync(GetLinkDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var linkDefinitionId = parameters.LinkDefinitionId;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (linkDefinitionId == null)
-                throw new ArgumentNullException("linkDefinitionId");
+                throw new ArgumentNullException("parameters.LinkDefinitionId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}?");
@@ -1772,13 +2050,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetLinkDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LinkDefinition> GetLinkDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -1858,13 +2147,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -1977,6 +2259,72 @@ namespace Laserfiche.Repository.Api.Client
             var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ILinkDefinitionsClient.ListLinkDefinitionsAsync(ListLinkDefinitionsParameters, CancellationToken)">ListLinkDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListLinkDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ILinkDefinitionsClient.GetLinkDefinitionAsync(GetLinkDefinitionParameters, CancellationToken)">GetLinkDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetLinkDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested link definition ID.
+        /// </summary>
+        public int LinkDefinitionId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2350,25 +2698,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class EntriesClient : BaseClient, IEntriesClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public EntriesClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -2395,13 +2742,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A response containing an upload id and an array of upload URLs.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(string repositoryId, CreateMultipartUploadUrlsRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls");
@@ -2413,7 +2766,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -2434,13 +2787,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await CreateMultipartUploadUrlsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -2530,13 +2894,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2552,13 +2909,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartImportUploadedPartsAsync(string repositoryId, int entryId, StartImportUploadedPartsRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartImportUploadedPartsAsync(StartImportUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts?");
@@ -2576,7 +2941,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -2605,13 +2970,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await StartImportUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> StartImportUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -2711,13 +3087,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2733,16 +3102,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartExportEntryAsync(string repositoryId, int entryId, StartExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartExportEntryAsync(StartExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync?");
@@ -2760,7 +3137,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -2789,13 +3166,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await StartExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> StartExportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -2895,13 +3283,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2919,16 +3300,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartCopyEntryAsync(string repositoryId, int entryId, StartCopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartCopyEntryAsync(StartCopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync?");
@@ -2946,7 +3335,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -2975,13 +3364,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await StartCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> StartCopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3071,13 +3471,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3094,13 +3487,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartDeleteEntryAsync(string repositoryId, int entryId, StartDeleteEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartDeleteEntryAsync(StartDeleteEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}");
@@ -3113,7 +3513,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -3135,13 +3535,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await StartDeleteEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> StartDeleteEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3231,13 +3642,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3256,13 +3660,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> GetEntryAsync(string repositoryId, int entryId, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> GetEntryAsync(GetEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3304,13 +3715,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> GetEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3390,13 +3812,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3413,16 +3828,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> UpdateEntryAsync(string repositoryId, int entryId, UpdateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> UpdateEntryAsync(UpdateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3440,7 +3863,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -3468,13 +3891,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> UpdateEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3584,13 +4018,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3606,13 +4033,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> ImportEntryAsync(string repositoryId, int entryId, string culture = null, FileParameter file = null, ImportEntryRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> ImportEntryAsync(ImportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var culture = parameters.Culture;
+            var file = parameters.File;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import?");
@@ -3636,7 +4072,7 @@ namespace Laserfiche.Repository.Api.Client
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
                     if (file == null)
-                        throw new ArgumentNullException("file");
+                        throw new ArgumentNullException("parameters.File");
                     else
                     {
                         var content_file_ = new StreamContent(file.Data);
@@ -3646,11 +4082,11 @@ namespace Laserfiche.Repository.Api.Client
                     }
 
                     if (request == null)
-                        throw new ArgumentNullException("request");
+                        throw new ArgumentNullException("parameters.Request");
                     else
                     {
-                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
-                        content_.Add(new StringContent(json_, Encoding.UTF8, "application/json"), "request");
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        content_.Add(new StringContent(json_), "request");
                     }
                     request_.Content = content_;
                     request_.Method = new HttpMethod("POST");
@@ -3678,13 +4114,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> ImportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3784,13 +4231,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3806,16 +4246,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A link to download the exported entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<ExportEntryResponse> ExportEntryAsync(string repositoryId, int entryId, ExportEntryRequest request, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Export?");
@@ -3833,7 +4281,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -3862,13 +4310,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<ExportEntryResponse> ExportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -3978,13 +4437,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4000,13 +4452,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The found entry or ancestor entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<GetEntryByPathResponse> GetEntryByPathAsync(string repositoryId, string fullPath, bool? fallbackToClosestAncestor = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<GetEntryByPathResponse> GetEntryByPathAsync(GetEntryByPathParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fullPath = parameters.FullPath;
+            var fallbackToClosestAncestor = parameters.FallbackToClosestAncestor;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (fullPath == null)
-                throw new ArgumentNullException("fullPath");
+                throw new ArgumentNullException("parameters.FullPath");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/ByPath?");
@@ -4048,13 +4507,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<GetEntryByPathResponse> GetEntryByPathSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -4134,13 +4604,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4160,13 +4623,29 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of children entries of a folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> ListEntriesAsync(string repositoryId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> ListEntriesAsync(ListEntriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var groupByEntryType = parameters.GroupByEntryType;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4276,13 +4755,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListEntriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<EntryCollectionResponse> ListEntriesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -4362,13 +4852,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4384,16 +4867,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> CreateEntryAsync(string repositoryId, int entryId, CreateEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4411,7 +4902,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -4440,13 +4931,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CreateEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -4546,13 +5048,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4569,13 +5064,27 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldCollectionResponse> ListFieldsAsync(string repositoryId, int entryId, string prefer = null, bool? formatFieldValues = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldCollectionResponse> ListFieldsAsync(ListFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -4669,13 +5178,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldCollectionResponse> ListFieldsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -4755,13 +5275,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4778,16 +5291,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<FieldCollectionResponse> SetFieldsAsync(string repositoryId, int entryId, SetFieldsRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -4805,7 +5326,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -4834,13 +5355,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldCollectionResponse> SetFieldsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -4940,13 +5472,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4963,13 +5488,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagCollectionResponse> ListTagsAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagCollectionResponse> ListTagsAsync(ListTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags?");
@@ -5047,13 +5584,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TagCollectionResponse> ListTagsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -5133,13 +5681,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5156,16 +5697,23 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagCollectionResponse> SetTagsAsync(string repositoryId, int entryId, SetTagsRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags");
@@ -5178,7 +5726,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -5201,13 +5749,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TagCollectionResponse> SetTagsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -5307,13 +5866,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5330,16 +5882,23 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkCollectionResponse> SetLinksAsync(string repositoryId, int entryId, SetLinksRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links");
@@ -5352,7 +5911,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -5375,13 +5934,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LinkCollectionResponse> SetLinksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -5481,13 +6051,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5504,13 +6067,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of links assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<LinkCollectionResponse> ListLinksAsync(string repositoryId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<LinkCollectionResponse> ListLinksAsync(ListLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links?");
@@ -5588,13 +6163,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LinkCollectionResponse> ListLinksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -5674,13 +6260,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5696,16 +6275,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The copied entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> CopyEntryAsync(string repositoryId, int entryId, CopyEntryRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy?");
@@ -5723,7 +6310,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -5752,13 +6339,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -5858,13 +6456,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5879,13 +6470,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> DeleteElectronicDocumentAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc");
@@ -5917,13 +6514,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> DeleteElectronicDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6013,13 +6621,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6035,13 +6636,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> DeletePagesAsync(string repositoryId, int entryId, string pageRange = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageRange = parameters.PageRange;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages?");
@@ -6084,13 +6692,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> DeletePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6180,13 +6799,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6203,16 +6815,23 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of dynamic field values.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(string repositoryId, int entryId, ListDynamicFieldValuesRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue");
@@ -6225,7 +6844,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -6248,13 +6867,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6344,13 +6974,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6367,13 +6990,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> RemoveTemplateAsync(string repositoryId, int entryId, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> RemoveTemplateAsync(RemoveTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template");
@@ -6405,13 +7034,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await RemoveTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> RemoveTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6501,13 +7141,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6524,16 +7157,24 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> SetTemplateAsync(string repositoryId, int entryId, SetTemplateRequest request, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("entryId");
+                throw new ArgumentNullException("parameters.EntryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template?");
@@ -6551,7 +7192,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -6580,13 +7221,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> SetTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6686,13 +7338,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -6807,6 +7452,722 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters, CancellationToken)">CreateMultipartUploadUrls</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateMultipartUploadUrlsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CreateMultipartUploadUrlsRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.StartImportUploadedPartsAsync(StartImportUploadedPartsParameters, CancellationToken)">StartImportUploadedParts</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartImportUploadedPartsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the folder that the document will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartImportUploadedPartsRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.StartExportEntryAsync(StartExportEntryParameters, CancellationToken)">StartExportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartExportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry to export.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartExportEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.StartCopyEntryAsync(StartCopyEntryParameters, CancellationToken)">StartCopyEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartCopyEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public StartCopyEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.StartDeleteEntryAsync(StartDeleteEntryParameters, CancellationToken)">StartDeleteEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartDeleteEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The submitted audit reason.
+        /// </summary>
+        public StartDeleteEntryRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryAsync(GetEntryParameters, CancellationToken)">GetEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateEntryAsync(UpdateEntryParameters, CancellationToken)">UpdateEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.
+        /// </summary>
+        public UpdateEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ImportEntryAsync(ImportEntryParameters, CancellationToken)">ImportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ImportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the folder that the document will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        public FileParameter File { get; set; } = null;
+
+        public ImportEntryRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ExportEntryAsync(ExportEntryParameters, CancellationToken)">ExportEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ExportEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry to export.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public ExportEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryByPathAsync(GetEntryByPathParameters, CancellationToken)">GetEntryByPath</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryByPathParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry path.
+        /// </summary>
+        public string FullPath { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate whether or not the closest ancestor in the path should be returned if the initial entry path is not found. The default value is false.
+        /// </summary>
+        public bool? FallbackToClosestAncestor { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListEntriesAsync(ListEntriesParameters, CancellationToken)">ListEntries</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListEntriesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Indicates if the result should be grouped by entry type or not. The default value is false.
+        /// </summary>
+        public bool? GroupByEntryType { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each entry.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CreateEntryAsync(CreateEntryParameters, CancellationToken)">CreateEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CreateEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListFieldsAsync(ListFieldsParameters, CancellationToken)">ListFields</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListFieldsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate if the field values should be formatted. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.SetFieldsAsync(SetFieldsParameters, CancellationToken)">SetFields</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetFieldsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the entry that will have its fields updated.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public SetFieldsRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListTagsAsync(ListTagsParameters, CancellationToken)">ListTags</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTagsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.SetTagsAsync(SetTagsParameters, CancellationToken)">SetTags</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTagsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The tags to add.
+        /// </summary>
+        public SetTagsRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.SetLinksAsync(SetLinksParameters, CancellationToken)">SetLinks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetLinksParameters
+    {
+        /// <summary>
+        /// The request repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public SetLinksRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListLinksAsync(ListLinksParameters, CancellationToken)">ListLinks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListLinksParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CopyEntryAsync(CopyEntryParameters, CancellationToken)">CopyEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CopyEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The folder ID that the entry will be created in.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public CopyEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters, CancellationToken)">DeleteElectronicDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeleteElectronicDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.DeletePagesAsync(DeletePagesParameters, CancellationToken)">DeletePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeletePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The pages to be deleted.
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters, CancellationToken)">ListDynamicFieldValues</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListDynamicFieldValuesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested entry ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public ListDynamicFieldValuesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.RemoveTemplateAsync(RemoveTemplateParameters, CancellationToken)">RemoveTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RemoveTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the entry that will have its template removed.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.SetTemplateAsync(SetTemplateParameters, CancellationToken)">SetTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of entry that will have its template updated.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The template and template fields that will be assigned to the entry.
+        /// </summary>
+        public SetTemplateRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IRepositoriesClient
     {
@@ -6830,25 +8191,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class RepositoriesClient : BaseClient, IRepositoriesClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public RepositoriesClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -6868,8 +8228,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of respositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<RepositoryCollectionResponse> ListRepositoriesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories");
 
@@ -6894,13 +8255,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListRepositoriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RepositoryCollectionResponse> ListRepositoriesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -6970,13 +8342,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -7091,6 +8456,14 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IRepositoriesClient.ListRepositoriesAsync(ListRepositoriesParameters, CancellationToken)">ListRepositories</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListRepositoriesParameters
+    {
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ISearchesClient
     {
@@ -7151,25 +8524,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SearchesClient : BaseClient, ISearchesClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public SearchesClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -7192,13 +8564,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<StartTaskResponse> StartSearchEntryAsync(string repositoryId, StartSearchEntryRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartSearchEntryAsync(StartSearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/SearchAsync");
@@ -7210,7 +8588,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -7231,13 +8609,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await StartSearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> StartSearchEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -7327,13 +8716,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7354,13 +8736,30 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> ListSearchResultsAsync(string repositoryId, string taskId, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> ListSearchResultsAsync(ListSearchResultsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskId = parameters.TaskId;
+            var groupByEntryType = parameters.GroupByEntryType;
+            var refresh = parameters.Refresh;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("taskId");
+                throw new ArgumentNullException("parameters.TaskId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results?");
@@ -7478,13 +8877,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<EntryCollectionResponse> ListSearchResultsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -7564,13 +8974,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7587,16 +8990,29 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of context hits for a search result.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(string repositoryId, string taskId, int rowNumber, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(ListSearchContextHitsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskId = parameters.TaskId;
+            var rowNumber = parameters.RowNumber;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("taskId");
+                throw new ArgumentNullException("parameters.TaskId");
 
             if (rowNumber == null)
-                throw new ArgumentNullException("rowNumber");
+                throw new ArgumentNullException("parameters.RowNumber");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits?");
@@ -7677,13 +9093,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -7763,13 +9190,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -7884,6 +9304,150 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="ISearchesClient.StartSearchEntryAsync(StartSearchEntryParameters, CancellationToken)">StartSearchEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartSearchEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The Laserfiche search command to run, optionally include fuzzy search settings.
+        /// </summary>
+        public StartSearchEntryRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ISearchesClient.ListSearchResultsAsync(ListSearchResultsParameters, CancellationToken)">ListSearchResults</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListSearchResultsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested task ID.
+        /// </summary>
+        public string TaskId { get; set; }
+
+        /// <summary>
+        /// Indicates if the result should be grouped by entry type or not. The default value is false.
+        /// </summary>
+        public bool? GroupByEntryType { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if the search listing should be refreshed to show updated values. The default value is false.
+        /// </summary>
+        public bool? Refresh { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each search result.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ISearchesClient.ListSearchContextHitsAsync(ListSearchContextHitsParameters, CancellationToken)">ListSearchContextHits</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListSearchContextHitsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested task ID.
+        /// </summary>
+        public string TaskId { get; set; }
+
+        /// <summary>
+        /// The search result listing row number to get context hits for.
+        /// </summary>
+        public int RowNumber { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ISimpleSearchesClient
     {
@@ -7912,25 +9476,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SimpleSearchesClient : BaseClient, ISimpleSearchesClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public SimpleSearchesClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -7955,13 +9518,25 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of entry search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EntryCollectionResponse> SearchEntryAsync(string repositoryId, SearchEntryRequest request, string select = null, string orderby = null, bool? count = null, IEnumerable<string> fields = null, bool? formatFieldValues = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryCollectionResponse> SearchEntryAsync(SearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var count = parameters.Count;
+            var fields = parameters.Fields;
+            var formatFieldValues = parameters.FormatFieldValues;
+            var culture = parameters.Culture;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/SimpleSearches?");
@@ -7998,7 +9573,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, JsonSerializerSettings);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new StringContent(json_);
                     content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -8045,13 +9620,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await SearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<EntryCollectionResponse> SearchEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -8151,13 +9737,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -8272,6 +9851,54 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="ISimpleSearchesClient.SearchEntryAsync(SearchEntryParameters, CancellationToken)">SearchEntry</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SearchEntryParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The Laserfiche search command to run.
+        /// </summary>
+        public SearchEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+        /// <summary>
+        /// Optional array of field names. Field values corresponding to the given field names will be returned for each search result.
+        /// </summary>
+        public IEnumerable<string> Fields { get; set; } = null;
+
+        /// <summary>
+        /// Indicates if field values should be formatted. Only applicable if Fields are specified. The default value is false.
+        /// </summary>
+        public bool? FormatFieldValues { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFieldValues query parameter must be set to true, otherwise culture will not be used for formatting.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITagDefinitionsClient
     {
@@ -8312,25 +9939,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TagDefinitionsClient : BaseClient, ITagDefinitionsClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public TagDefinitionsClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -8352,10 +9978,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tag definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(string repositoryId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(ListTagDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions?");
@@ -8438,13 +10076,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -8524,13 +10173,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -8547,13 +10189,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single tag definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TagDefinition> GetTagDefinitionAsync(string repositoryId, int tagId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TagDefinition> GetTagDefinitionAsync(GetTagDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var tagId = parameters.TagId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (tagId == null)
-                throw new ArgumentNullException("tagId");
+                throw new ArgumentNullException("parameters.TagId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions/{tagId}?");
@@ -8603,13 +10253,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetTagDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TagDefinition> GetTagDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -8689,13 +10350,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -8810,6 +10464,82 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITagDefinitionsClient.ListTagDefinitionsAsync(ListTagDefinitionsParameters, CancellationToken)">ListTagDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTagDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITagDefinitionsClient.GetTagDefinitionAsync(GetTagDefinitionParameters, CancellationToken)">GetTagDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTagDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested tag definition ID.
+        /// </summary>
+        public int TagId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITasksClient
     {
@@ -8854,25 +10584,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TasksClient : BaseClient, ITasksClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public TasksClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -8896,10 +10625,16 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task progresses.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TaskCollectionResponse> ListTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TaskCollectionResponse> ListTasksAsync(ListTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskIds = parameters.TaskIds;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -8939,13 +10674,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TaskCollectionResponse> ListTasksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -9025,13 +10771,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9050,10 +10789,16 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of task cancellation results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<CancelTasksResponse> CancelTasksAsync(string repositoryId, IEnumerable<string> taskIds = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var taskIds = parameters.TaskIds;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -9093,13 +10838,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await CancelTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<CancelTasksResponse> CancelTasksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -9179,13 +10935,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -9300,6 +11049,42 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITasksClient.ListTasksAsync(ListTasksParameters, CancellationToken)">ListTasks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTasksParameters
+    {
+        /// <summary>
+        /// The requested repository ID
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An array of task IDs. Leave this parameter empty to get the list of all the tasks associated with the current access token.
+        /// </summary>
+        public IEnumerable<string> TaskIds { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITasksClient.CancelTasksAsync(CancelTasksParameters, CancellationToken)">CancelTasks</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CancelTasksParameters
+    {
+        /// <summary>
+        /// The requested repository ID
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An array of task IDs. Leave this parameter empty to cancel the list of all the tasks associated with the current access token.
+        /// </summary>
+        public IEnumerable<string> TaskIds { get; set; } = null;
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITemplateDefinitionsClient
     {
@@ -9370,25 +11155,24 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TemplateDefinitionsClient : BaseClient, ITemplateDefinitionsClient
     {
         private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public TemplateDefinitionsClient(HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _httpClient = httpClient;
-            Initialize();
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
 
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void Initialize();
 
@@ -9410,10 +11194,23 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(string repositoryId, string templateName = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateName = parameters.TemplateName;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions?");
@@ -9504,13 +11301,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -9590,13 +11398,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9613,13 +11414,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A single template definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateDefinition> GetTemplateDefinitionAsync(string repositoryId, int templateId, string culture = null, string select = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("templateId");
+                throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}?");
@@ -9669,13 +11478,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await GetTemplateDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateDefinition> GetTemplateDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -9755,13 +11575,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9778,13 +11591,26 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(string repositoryId, int templateId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("templateId");
+                throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions?");
@@ -9870,13 +11696,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTemplateFieldDefinitionsByTemplateIdSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -9956,13 +11793,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9979,13 +11809,26 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of template field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(string repositoryId, string templateName, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateName = parameters.TemplateName;
+            var prefer = parameters.Prefer;
+            var culture = parameters.Culture;
+            var select = parameters.Select;
+            var orderby = parameters.Orderby;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
             if (repositoryId == null)
-                throw new ArgumentNullException("repositoryId");
+                throw new ArgumentNullException("parameters.RepositoryId");
 
             if (templateName == null)
-                throw new ArgumentNullException("templateName");
+                throw new ArgumentNullException("parameters.TemplateName");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions?");
@@ -10070,13 +11913,24 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
+                    return await ListTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -10156,13 +12010,6 @@ namespace Laserfiche.Repository.Api.Client
                         if (disposeResponse_)
                             response_.Dispose();
                     }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
         }
 
         protected struct ObjectResponseResult<T>
@@ -10275,6 +12122,193 @@ namespace Laserfiche.Repository.Api.Client
             var result = Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters, CancellationToken)">ListTemplateDefinitions</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateDefinitionsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter. Can be used to get a single template definition using the template name.
+        /// </summary>
+        public string TemplateName { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateDefinitionAsync(GetTemplateDefinitionParameters, CancellationToken)">GetTemplateDefinition</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplateDefinitionParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters, CancellationToken)">ListTemplateFieldDefinitionsByTemplateId</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateFieldDefinitionsByTemplateIdParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters, CancellationToken)">ListTemplateFieldDefinitionsByTemplateName</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListTemplateFieldDefinitionsByTemplateNameParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// A required query parameter for the requested template name.
+        /// </summary>
+        public string TemplateName { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// </summary>
+        public string Orderby { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
     }
 
     /// <summary>
