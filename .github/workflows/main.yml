@@ -102,7 +102,7 @@ jobs:
       run: doxygen ./doxygen/doxygen.conf
 
     - name: Upload a build artifact
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         path: ${{ github.workspace }}/generated_documentation/html
@@ -210,9 +210,9 @@ jobs:
 
     - name: Create documentation directory
       run: mkdir -p ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
-
+      
     - name: Download documentation build artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: documentation-artifact
         path: ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
