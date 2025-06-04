@@ -149,7 +149,6 @@
 
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
-        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
