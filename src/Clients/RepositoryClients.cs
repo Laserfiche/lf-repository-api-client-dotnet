@@ -87,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -650,7 +650,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1040,7 +1040,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1628,7 +1628,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -2527,7 +2527,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7652,7 +7652,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7975,7 +7975,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -8837,7 +8837,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9264,7 +9264,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9856,7 +9856,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -10399,7 +10399,7 @@ namespace Laserfiche.Repository.Api.Client
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
