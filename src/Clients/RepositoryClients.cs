@@ -85,8 +85,7 @@ namespace Laserfiche.Repository.Api.Client
         public AttributesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -649,8 +648,7 @@ namespace Laserfiche.Repository.Api.Client
         public AuditReasonsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -1040,8 +1038,7 @@ namespace Laserfiche.Repository.Api.Client
         public FieldDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -1629,8 +1626,7 @@ namespace Laserfiche.Repository.Api.Client
         public LinkDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -2529,8 +2525,7 @@ namespace Laserfiche.Repository.Api.Client
         public EntriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -7655,8 +7650,7 @@ namespace Laserfiche.Repository.Api.Client
         public RepositoriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -7979,8 +7973,7 @@ namespace Laserfiche.Repository.Api.Client
         public SearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -8842,8 +8835,7 @@ namespace Laserfiche.Repository.Api.Client
         public SimpleSearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -9270,8 +9262,7 @@ namespace Laserfiche.Repository.Api.Client
         public TagDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -9863,8 +9854,7 @@ namespace Laserfiche.Repository.Api.Client
         public TasksClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
@@ -10407,8 +10397,7 @@ namespace Laserfiche.Repository.Api.Client
         public TemplateDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
