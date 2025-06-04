@@ -28,7 +28,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Install NSwag
-      run: npm install nswag@13.19.0 -g
+      run: npm install nswag@14.4.0 -g
 
     - name: Setup environment variables
       run: |
