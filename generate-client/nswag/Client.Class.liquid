@@ -150,28 +150,63 @@
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
         urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
-{%     for parameter in operation.PathParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-            {% template Client.Class.PathParameter %}
-        else
-            urlBuilder_.Replace("/{{ "{" }}{{ parameter.Name }}}", string.Empty);
-{%         else -%}
-        {% template Client.Class.PathParameter %}
-{%         endif -%}
-{%     endfor -%}
-{%     for parameter in operation.QueryParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
-{%         else -%}
-        {% template Client.Class.QueryParameter %}
-{%         endif -%}
-{%     endfor -%}
+                // Operation Path: "{{ operation.Path }}"
+{%     if operation.Path contains "{" -%}
+{%        assign pathParts = operation.Path | split: "{" -%}
+{%        for pathPart in pathParts -%}
+{%            if pathPart contains "}" -%}
+{%                assign pathParameterParts = pathPart | split: "}" -%}
+{%                assign pathParameterFound = true -%}
+{%                for parameter in operation.PathParameters -%}
+{%                    if parameter.Name == pathParameterParts[0] -%}
+{%                        if parameter.IsOptional -%}
+{%                            assign pathParameterFound = false -%}
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.PathParameter %}
+                }
+                else
+                    urlBuilder_.Replace("/{{ "{" }}{{ parameter.Name }}}", string.Empty);
+{%                        else -%}
+                {% template Client.Class.PathParameter %}
+{%                        endif -%}
+{%                    endif -%}
+{%                endfor -%}
+{%                comment -%} >>> just in case {% endcomment -%}
+{%                unless pathParameterFound -%}
+                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
+{%                endunless -%}
+{%                comment -%} <<< just in case {% endcomment -%}
+{%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
+{%                if nonParameterPartLengh == 1 -%}
+                urlBuilder_.Append('{{ pathParameterParts[1] }}');
+{%                elsif nonParameterPartLengh > 0 -%}
+                urlBuilder_.Append("{{ pathParameterParts[1] }}");
+{%                endif -%}
+{%            else -%}
+{%                 unless pathPart == "" -%}
+                urlBuilder_.Append("{{ pathPart }}");
+{%                 endunless -%}
+{%            endif -%}
+{%        endfor -%}
+{%    else -%}
+{%        unless operation.Path == "" -%}
+                urlBuilder_.Append("{{ operation.Path }}");
+{%        endunless -%}
+{%    endif -%}
 {%     if operation.HasQueryParameters -%}
-        urlBuilder_.Length--;
+                urlBuilder_.Append('?');
+{%         for parameter in operation.QueryParameters -%}
+{%             if parameter.IsOptional -%}
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.QueryParameter %}
+                }
+{%             else -%}
+                {% template Client.Class.QueryParameter %}
+{%             endif -%}
+{%         endfor -%}
+                urlBuilder_.Length--;
 {%     endif -%}
 
 {%     if InjectHttpClient -%}
