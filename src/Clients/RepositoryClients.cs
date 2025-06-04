@@ -79,7 +79,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class AttributesClient : BaseClient, IAttributesClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public AttributesClient(HttpClient httpClient)
         {
@@ -132,7 +133,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes?");
@@ -279,6 +280,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -305,10 +313,10 @@ namespace Laserfiche.Repository.Api.Client
             var everyone = parameters.Everyone;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (attributeKey == null)
-                throw new ArgumentNullException("parameters.AttributeKey");
+                throw new ArgumentNullException("attributeKey");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes/{attributeKey}?");
@@ -433,6 +441,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -644,7 +659,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class AuditReasonsClient : BaseClient, IAuditReasonsClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public AuditReasonsClient(HttpClient httpClient)
         {
@@ -695,7 +711,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/AuditReasons?");
@@ -838,6 +854,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -1036,7 +1059,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class FieldDefinitionsClient : BaseClient, IFieldDefinitionsClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public FieldDefinitionsClient(HttpClient httpClient)
         {
@@ -1084,10 +1108,10 @@ namespace Laserfiche.Repository.Api.Client
             var select = parameters.Select;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (fieldId == null)
-                throw new ArgumentNullException("parameters.FieldId");
+                throw new ArgumentNullException("fieldId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}?");
@@ -1216,6 +1240,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -1248,7 +1279,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions?");
@@ -1395,6 +1426,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -1626,7 +1664,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class LinkDefinitionsClient : BaseClient, ILinkDefinitionsClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public LinkDefinitionsClient(HttpClient httpClient)
         {
@@ -1677,7 +1716,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions?");
@@ -1820,6 +1859,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -1847,10 +1893,10 @@ namespace Laserfiche.Repository.Api.Client
             var select = parameters.Select;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (linkDefinitionId == null)
-                throw new ArgumentNullException("parameters.LinkDefinitionId");
+                throw new ArgumentNullException("linkDefinitionId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}?");
@@ -1975,6 +2021,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -2527,7 +2580,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class EntriesClient : BaseClient, IEntriesClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public EntriesClient(HttpClient httpClient)
         {
@@ -2578,10 +2632,10 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls");
@@ -2714,6 +2768,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -2741,10 +2802,10 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts?");
@@ -2893,6 +2954,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -2920,13 +2988,13 @@ namespace Laserfiche.Repository.Api.Client
             var pageRange = parameters.PageRange;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync?");
@@ -3075,6 +3143,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3104,13 +3179,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync?");
@@ -3249,6 +3324,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3276,10 +3358,10 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}");
@@ -3413,6 +3495,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3442,10 +3531,10 @@ namespace Laserfiche.Repository.Api.Client
             var select = parameters.Select;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3570,6 +3659,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3598,13 +3694,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
@@ -3763,6 +3859,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3791,10 +3894,10 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import?");
@@ -3962,6 +4065,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -3989,13 +4099,13 @@ namespace Laserfiche.Repository.Api.Client
             var pageRange = parameters.PageRange;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Export?");
@@ -4154,6 +4264,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -4180,10 +4297,10 @@ namespace Laserfiche.Repository.Api.Client
             var fallbackToClosestAncestor = parameters.FallbackToClosestAncestor;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (fullPath == null)
-                throw new ArgumentNullException("parameters.FullPath");
+                throw new ArgumentNullException("fullPath");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/ByPath?");
@@ -4308,6 +4425,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -4347,10 +4471,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4510,6 +4634,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -4537,13 +4668,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
@@ -4692,6 +4823,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -4726,10 +4864,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -4881,6 +5019,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -4909,13 +5054,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
@@ -5064,6 +5209,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5096,10 +5248,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags?");
@@ -5243,6 +5395,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5270,13 +5429,13 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags");
@@ -5420,6 +5579,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5447,13 +5613,13 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links");
@@ -5597,6 +5763,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5629,10 +5802,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links?");
@@ -5776,6 +5949,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5803,13 +5983,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy?");
@@ -5958,6 +6138,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -5982,10 +6169,10 @@ namespace Laserfiche.Repository.Api.Client
             var entryId = parameters.EntryId;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc");
@@ -6115,6 +6302,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -6141,10 +6335,10 @@ namespace Laserfiche.Repository.Api.Client
             var pageRange = parameters.PageRange;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages?");
@@ -6279,6 +6473,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -6306,13 +6507,13 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue");
@@ -6446,6 +6647,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -6472,10 +6680,10 @@ namespace Laserfiche.Repository.Api.Client
             var entryId = parameters.EntryId;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template");
@@ -6605,6 +6813,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -6633,13 +6848,13 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
+                throw new ArgumentNullException("entryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template?");
@@ -6788,6 +7003,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -7642,7 +7864,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class RepositoriesClient : BaseClient, IRepositoriesClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public RepositoriesClient(HttpClient httpClient)
         {
@@ -7786,6 +8009,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -7969,7 +8199,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SearchesClient : BaseClient, ISearchesClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public SearchesClient(HttpClient httpClient)
         {
@@ -8016,10 +8247,10 @@ namespace Laserfiche.Repository.Api.Client
             var request = parameters.Request;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/SearchAsync");
@@ -8152,6 +8383,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -8193,10 +8431,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("parameters.TaskId");
+                throw new ArgumentNullException("taskId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results?");
@@ -8360,6 +8598,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -8393,13 +8638,13 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (taskId == null)
-                throw new ArgumentNullException("parameters.TaskId");
+                throw new ArgumentNullException("taskId");
 
             if (rowNumber == null)
-                throw new ArgumentNullException("parameters.RowNumber");
+                throw new ArgumentNullException("rowNumber");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits?");
@@ -8544,6 +8789,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -8831,7 +9083,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SimpleSearchesClient : BaseClient, ISimpleSearchesClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public SimpleSearchesClient(HttpClient httpClient)
         {
@@ -8886,10 +9139,10 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (request == null)
-                throw new ArgumentNullException("parameters.Request");
+                throw new ArgumentNullException("request");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/SimpleSearches?");
@@ -9057,6 +9310,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -9260,7 +9520,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TagDefinitionsClient : BaseClient, ITagDefinitionsClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TagDefinitionsClient(HttpClient httpClient)
         {
@@ -9312,7 +9573,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions?");
@@ -9459,6 +9720,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -9487,10 +9755,10 @@ namespace Laserfiche.Repository.Api.Client
             var select = parameters.Select;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (tagId == null)
-                throw new ArgumentNullException("parameters.TagId");
+                throw new ArgumentNullException("tagId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions/{tagId}?");
@@ -9619,6 +9887,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -9854,7 +10129,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TasksClient : BaseClient, ITasksClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TasksClient(HttpClient httpClient)
         {
@@ -9902,7 +10178,7 @@ namespace Laserfiche.Repository.Api.Client
             var taskIds = parameters.TaskIds;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -10026,6 +10302,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -10054,7 +10337,7 @@ namespace Laserfiche.Repository.Api.Client
             var taskIds = parameters.TaskIds;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
@@ -10178,6 +10461,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -10399,7 +10689,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class TemplateDefinitionsClient : BaseClient, ITemplateDefinitionsClient
     {
         private HttpClient _httpClient;
-        private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TemplateDefinitionsClient(HttpClient httpClient)
         {
@@ -10452,7 +10743,7 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions?");
@@ -10603,6 +10894,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -10631,10 +10929,10 @@ namespace Laserfiche.Repository.Api.Client
             var select = parameters.Select;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("parameters.TemplateId");
+                throw new ArgumentNullException("templateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}?");
@@ -10763,6 +11061,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -10796,10 +11101,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (templateId == null)
-                throw new ArgumentNullException("parameters.TemplateId");
+                throw new ArgumentNullException("templateId");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions?");
@@ -10947,6 +11252,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
@@ -10980,10 +11292,10 @@ namespace Laserfiche.Repository.Api.Client
             var count = parameters.Count;
 
             if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
+                throw new ArgumentNullException("repositoryId");
 
             if (templateName == null)
-                throw new ArgumentNullException("parameters.TemplateName");
+                throw new ArgumentNullException("templateName");
 
             var urlBuilder_ = new StringBuilder();
             urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions?");
@@ -11131,6 +11443,13 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         if (disposeResponse_)
                             response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
             }
         }
 
