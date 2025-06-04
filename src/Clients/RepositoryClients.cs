@@ -81,15 +81,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public AttributesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -98,10 +96,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the attribute key value pairs associated with the authenticated user.
         /// </summary>
@@ -193,92 +194,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<AttributeCollectionResponse> ListAttributesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<AttributeCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<AttributeCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns an attribute object associated with the authenticated user.
         /// </summary>
@@ -344,89 +348,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Attribute> GetAttributeSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -640,15 +646,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public AuditReasonsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -657,10 +661,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the audit reasons associated with the authenticated user.
         /// </summary>
@@ -746,89 +753,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<AuditReasonCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<AuditReasonCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -1029,15 +1038,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public FieldDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1046,10 +1053,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single field definition object.
         /// </summary>
@@ -1121,92 +1131,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<FieldDefinition> GetFieldDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<FieldDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<FieldDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the paged listing of the field definitions available in a repository.
         /// </summary>
@@ -1297,89 +1310,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<FieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<FieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -1613,15 +1628,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public LinkDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1630,10 +1643,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the link definitions associated with a repository.
         /// </summary>
@@ -1719,92 +1735,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<LinkDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<LinkDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single link definition object.
         /// </summary>
@@ -1871,89 +1890,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<LinkDefinition> GetLinkDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<LinkDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<LinkDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -2508,15 +2529,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public EntriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -2525,10 +2544,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Requests Upload URLs to upload a large file in chunks.
         /// </summary>
@@ -2597,102 +2619,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<CreateMultipartUploadUrlsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<CreateMultipartUploadUrlsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts an asynchronous import task to import a document into a folder.
         /// </summary>
@@ -2763,112 +2788,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<StartTaskResponse> StartImportUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 202)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 500)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts an asynchronous export task to export an entry.
         /// </summary>
@@ -2942,112 +2970,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<StartTaskResponse> StartExportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 202)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 500)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts an asynchronous copy task to copy an entry into a folder.
         /// </summary>
@@ -3123,102 +3154,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<StartTaskResponse> StartCopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 202)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts an asynchronous delete task to delete an entry.
         /// </summary>
@@ -3284,102 +3318,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<StartTaskResponse> StartDeleteEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 202)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single entry object.
         /// </summary>
@@ -3448,92 +3485,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> GetEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Update an entry. (Move and/or Rename)
         /// </summary>
@@ -3608,122 +3648,125 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> UpdateEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 409)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Imports a file into a folder (max length: 100 MB).
         /// </summary>
@@ -3814,112 +3857,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> ImportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 201)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 500)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 201)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Exports an entry.
         /// </summary>
@@ -3993,122 +4039,125 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<ExportEntryResponse> ExportEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ExportEntryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 500)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ExportEntryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single entry object using the entry path.
         /// </summary>
@@ -4174,92 +4223,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<GetEntryByPathResponse> GetEntryByPathSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<GetEntryByPathResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetEntryByPathResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the children entries of a folder.
         /// </summary>
@@ -4373,92 +4425,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<EntryCollectionResponse> ListEntriesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Creates a new child entry in a folder.
         /// </summary>
@@ -4532,112 +4587,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> CreateEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 201)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 409)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 201)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the fields assigned to an entry.
         /// </summary>
@@ -4738,92 +4796,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<FieldCollectionResponse> ListFieldsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Updates the field values assigned to an entry.
         /// </summary>
@@ -4898,112 +4959,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<FieldCollectionResponse> SetFieldsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<FieldCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the tags assigned to an entry.
         /// </summary>
@@ -5094,92 +5158,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TagCollectionResponse> ListTagsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns tags to an entry.
         /// </summary>
@@ -5248,112 +5315,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TagCollectionResponse> SetTagsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TagCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns links to an entry.
         /// </summary>
@@ -5422,112 +5492,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<LinkCollectionResponse> SetLinksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the links assigned to an entry.
         /// </summary>
@@ -5618,92 +5691,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<LinkCollectionResponse> ListLinksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<LinkCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Copies a new child entry in a folder.
         /// </summary>
@@ -5777,112 +5853,115 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> CopyEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 201)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 409)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 201)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deletes the edoc associated with an entry.
         /// </summary>
@@ -5941,102 +6020,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> DeleteElectronicDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deletes the pages associated with an entry.
         /// </summary>
@@ -6102,102 +6184,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> DeletePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
@@ -6266,102 +6351,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Removes the currently assigned template from an entry.
         /// </summary>
@@ -6422,102 +6510,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> RemoveTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns a template to an entry.
         /// </summary>
@@ -6592,109 +6683,111 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<Entry> SetTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 423)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 423)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -7551,15 +7644,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public RepositoriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7568,10 +7659,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the list of repositories accessible to the user.
         /// </summary>
@@ -7617,79 +7711,81 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<RepositoryCollectionResponse> ListRepositoriesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<RepositoryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<RepositoryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -7875,15 +7971,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public SearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7892,10 +7986,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts an asynchronous search task.
         /// </summary>
@@ -7960,102 +8057,105 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<StartTaskResponse> StartSearchEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 202)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the results listing associated with a search task.
         /// </summary>
@@ -8175,92 +8275,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<EntryCollectionResponse> ListSearchResultsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the context hits associated with a search result entry.
         /// </summary>
@@ -8356,89 +8459,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<SearchContextHitCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<SearchContextHitCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -8728,15 +8833,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public SimpleSearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -8745,10 +8848,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Runs a "simple" search operation.
         /// </summary>
@@ -8846,109 +8952,111 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<EntryCollectionResponse> SearchEntrySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 206)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 413)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 206)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<EntryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 413)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -9154,15 +9262,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public TagDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9171,10 +9277,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the tag definitions associated with a repository.
         /// </summary>
@@ -9265,92 +9374,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TagDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TagDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single tag definition object.
         /// </summary>
@@ -9422,89 +9534,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TagDefinition> GetTagDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TagDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TagDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -9742,15 +9856,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public TasksClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9759,10 +9871,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the status of a set of one or more tasks.
         /// </summary>
@@ -9826,92 +9941,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TaskCollectionResponse> ListTasksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TaskCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TaskCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts the cancellation for a set of one or more tasks.
         /// </summary>
@@ -9975,89 +10093,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<CancelTasksResponse> CancelTasksSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<CancelTasksResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<CancelTasksResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
@@ -10281,15 +10401,13 @@ namespace Laserfiche.Repository.Api.Client
         private HttpClient _httpClient;
         private Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public TemplateDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -10298,10 +10416,13 @@ namespace Laserfiche.Repository.Api.Client
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
+        partial void Initialize();
+
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the template definitions associated with a repository.
         /// </summary>
@@ -10397,92 +10518,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single template definition object.
         /// </summary>
@@ -10554,92 +10678,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TemplateDefinition> GetTemplateDefinitionSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition ID).
         /// </summary>
@@ -10735,92 +10862,95 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition name).
         /// </summary>
@@ -10916,89 +11046,91 @@ namespace Laserfiche.Repository.Api.Client
 
         protected virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
 
-                ProcessResponse(client_, response_);
+                        ProcessResponse(client_, response_);
 
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<TemplateFieldDefinitionCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
             }
         }
 
