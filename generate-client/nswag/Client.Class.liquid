@@ -15,7 +15,6 @@
     private {{ JsonSerializerSettingsType }} _instanceResponseSettings;
 {% else -%}
     private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
-    private {{ JsonSerializerSettingsType }} _instanceSettings;
 {% endif -%}
 {% assign constructorParameters = "" -%}
 {% if HasConfigurationClass -%}
@@ -40,13 +39,15 @@
     {
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} RequestJsonSerializerSettings { get { return _instanceRequestSettings ?? _requestSettings.Value; } }
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} ResponseJsonSerializerSettings { get { return _instanceResponseSettings ?? _responseSettings.Value; } }
+        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true));
+        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false));
 {% else -%}
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings);
 {% endif -%}
+        {% template Client.Class.Constructor %}
+    }
 
-    private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
