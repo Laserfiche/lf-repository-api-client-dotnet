@@ -1,9 +1,9 @@
 {
-  "x-generator": "NSwag v13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>7a428732f1bff8c4736af89a8d8f0ea745bde8fb_.20230919.1</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>8d2548b1db41bbeb444da80bc8943cbcbe5e0801_.20250304.5</p>",
     "version": "2"
   },
   "servers": [
@@ -1655,7 +1655,7 @@
           "Entries"
         ],
         "summary": "Returns a single entry object.",
-        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.\n- Allowed OData query options: Select.\n- Required OAuth scope: repository.Read",
+        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.\n- Allowed OData query options: Select.\n- When OData Select query option is used, 'entryType' is always included in the result.\n- Required OAuth scope: repository.Read",
         "operationId": "GetEntry",
         "parameters": [
           {
@@ -3764,7 +3764,7 @@
           "Entries"
         ],
         "summary": "Deletes the edoc associated with an entry.",
-        "description": "- Delete the edoc associated with the provided entry ID.\n- Required OAuth scope: repository.Write ",
+        "description": "- Delete the edoc associated with the provided entry ID.\n- Required OAuth scope: repository.Write",
         "operationId": "DeleteElectronicDocument",
         "parameters": [
           {
@@ -4444,7 +4444,7 @@
           "Searches"
         ],
         "summary": "Starts an asynchronous search task.",
-        "description": "- Runs a search operation on the repository.\n- The status for search operations must be checked via the Tasks route.\n- Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).\n- Required OAuth scope: repository.Read",
+        "description": "- Runs a search operation on the repository.\n- The status for search operations must be checked via the Tasks route.\n- For datetime search criteria that relate to time zone like CreateDate and ModifiedDate, the value should be in UTC time.\n- Optional body parameters: FuzzyType: (default none), which can be used to determine what is considered a match by number of letters or percentage. FuzzyFactor: integer value that determines the degree to which a search will be considered a match (integer value for NumberOfLetters, or int value representing a percentage).\n- Required OAuth scope: repository.Read",
         "operationId": "StartSearchEntry",
         "parameters": [
           {
@@ -4571,7 +4571,7 @@
           "Searches"
         ],
         "summary": "Returns the results listing associated with a search task.",
-        "description": "- Returns a search result listing if the search is completed.\n- Search results expire after 5 minutes, but can be refreshed by retrieving the results again.\n- Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.\n- Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\".\n- Required OAuth scope: repository.Read",
+        "description": "- Returns a search result listing if the search is completed.\n- Search results expire after 5 minutes, but can be refreshed by retrieving the results again.\n- Optional query parameter: groupByOrderType (default false). This query parameter decides whether or not results are returned in groups based on their entry type.\n- Optional query parameter: refresh (default false). If the search listing should be refreshed to show updated values.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- Default page size: 150. Allowed OData query options: Select | Count | OrderBy | Skip | Top | SkipToken | Prefer. OData $OrderBy syntax should follow: \"PropertyName direction,PropertyName2 direction\". sort order can be either \"asc\" or \"desc\".\n- When OData Select query option is used, 'entryType' is always included in the result.\n- Required OAuth scope: repository.Read",
         "operationId": "ListSearchResults",
         "parameters": [
           {
@@ -4946,7 +4946,7 @@
           "SimpleSearches"
         ],
         "summary": "Runs a \"simple\" search operation.",
-        "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- Required OAuth scope: repository.Read",
+        "description": "- Runs a \"simple\" search operation on the repository.\n- Returns a truncated search result listing.\n- Search result listing may be truncated, depending on number of results. Additionally, searches may time out if they take too long. Use the other search route to run full searches.\n- For datetime search criteria that relate to time zone like CreateDate and ModifiedDate, the value should be in UTC time.\n- Optionally returns field values for the entries in the folder. Each field name needs to be specified in the request. Maximum limit of 10 field names. If field values are requested, only the first value is returned if it is a multi value field. The remaining field values can be retrieved via the GET fields route. Null or Empty field values should not be used to determine if a field is assigned to the entry.\n- When OData Select query option is used, 'entryType' is always included in the result.\n- Required OAuth scope: repository.Read",
         "operationId": "SearchEntry",
         "parameters": [
           {
@@ -6226,6 +6226,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
             }
@@ -6330,6 +6331,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
             }
@@ -6538,6 +6540,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
             }
@@ -6562,6 +6565,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
             }
@@ -7407,378 +7411,6 @@
           }
         ]
       },
-      "IHeaderDictionary": {
-        "type": "object",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "Item": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentLength": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "Accept": {
-            "type": "array",
-            "items": {}
-          },
-          "AcceptCharset": {
-            "type": "array",
-            "items": {}
-          },
-          "AcceptEncoding": {
-            "type": "array",
-            "items": {}
-          },
-          "AcceptLanguage": {
-            "type": "array",
-            "items": {}
-          },
-          "AcceptRanges": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlAllowCredentials": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlAllowHeaders": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlAllowMethods": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlAllowOrigin": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlExposeHeaders": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlMaxAge": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlRequestHeaders": {
-            "type": "array",
-            "items": {}
-          },
-          "AccessControlRequestMethod": {
-            "type": "array",
-            "items": {}
-          },
-          "Age": {
-            "type": "array",
-            "items": {}
-          },
-          "Allow": {
-            "type": "array",
-            "items": {}
-          },
-          "AltSvc": {
-            "type": "array",
-            "items": {}
-          },
-          "Authorization": {
-            "type": "array",
-            "items": {}
-          },
-          "Baggage": {
-            "type": "array",
-            "items": {}
-          },
-          "CacheControl": {
-            "type": "array",
-            "items": {}
-          },
-          "Connection": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentDisposition": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentEncoding": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentLanguage": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentLocation": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentMD5": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentRange": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentSecurityPolicy": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentSecurityPolicyReportOnly": {
-            "type": "array",
-            "items": {}
-          },
-          "ContentType": {
-            "type": "array",
-            "items": {}
-          },
-          "CorrelationContext": {
-            "type": "array",
-            "items": {}
-          },
-          "Cookie": {
-            "type": "array",
-            "items": {}
-          },
-          "Date": {
-            "type": "array",
-            "items": {}
-          },
-          "ETag": {
-            "type": "array",
-            "items": {}
-          },
-          "Expires": {
-            "type": "array",
-            "items": {}
-          },
-          "Expect": {
-            "type": "array",
-            "items": {}
-          },
-          "From": {
-            "type": "array",
-            "items": {}
-          },
-          "GrpcAcceptEncoding": {
-            "type": "array",
-            "items": {}
-          },
-          "GrpcEncoding": {
-            "type": "array",
-            "items": {}
-          },
-          "GrpcMessage": {
-            "type": "array",
-            "items": {}
-          },
-          "GrpcStatus": {
-            "type": "array",
-            "items": {}
-          },
-          "GrpcTimeout": {
-            "type": "array",
-            "items": {}
-          },
-          "Host": {
-            "type": "array",
-            "items": {}
-          },
-          "KeepAlive": {
-            "type": "array",
-            "items": {}
-          },
-          "IfMatch": {
-            "type": "array",
-            "items": {}
-          },
-          "IfModifiedSince": {
-            "type": "array",
-            "items": {}
-          },
-          "IfNoneMatch": {
-            "type": "array",
-            "items": {}
-          },
-          "IfRange": {
-            "type": "array",
-            "items": {}
-          },
-          "IfUnmodifiedSince": {
-            "type": "array",
-            "items": {}
-          },
-          "LastModified": {
-            "type": "array",
-            "items": {}
-          },
-          "Link": {
-            "type": "array",
-            "items": {}
-          },
-          "Location": {
-            "type": "array",
-            "items": {}
-          },
-          "MaxForwards": {
-            "type": "array",
-            "items": {}
-          },
-          "Origin": {
-            "type": "array",
-            "items": {}
-          },
-          "Pragma": {
-            "type": "array",
-            "items": {}
-          },
-          "ProxyAuthenticate": {
-            "type": "array",
-            "items": {}
-          },
-          "ProxyAuthorization": {
-            "type": "array",
-            "items": {}
-          },
-          "ProxyConnection": {
-            "type": "array",
-            "items": {}
-          },
-          "Range": {
-            "type": "array",
-            "items": {}
-          },
-          "Referer": {
-            "type": "array",
-            "items": {}
-          },
-          "RetryAfter": {
-            "type": "array",
-            "items": {}
-          },
-          "RequestId": {
-            "type": "array",
-            "items": {}
-          },
-          "SecWebSocketAccept": {
-            "type": "array",
-            "items": {}
-          },
-          "SecWebSocketKey": {
-            "type": "array",
-            "items": {}
-          },
-          "SecWebSocketProtocol": {
-            "type": "array",
-            "items": {}
-          },
-          "SecWebSocketVersion": {
-            "type": "array",
-            "items": {}
-          },
-          "SecWebSocketExtensions": {
-            "type": "array",
-            "items": {}
-          },
-          "Server": {
-            "type": "array",
-            "items": {}
-          },
-          "SetCookie": {
-            "type": "array",
-            "items": {}
-          },
-          "StrictTransportSecurity": {
-            "type": "array",
-            "items": {}
-          },
-          "TE": {
-            "type": "array",
-            "items": {}
-          },
-          "Trailer": {
-            "type": "array",
-            "items": {}
-          },
-          "TransferEncoding": {
-            "type": "array",
-            "items": {}
-          },
-          "Translate": {
-            "type": "array",
-            "items": {}
-          },
-          "TraceParent": {
-            "type": "array",
-            "items": {}
-          },
-          "TraceState": {
-            "type": "array",
-            "items": {}
-          },
-          "Upgrade": {
-            "type": "array",
-            "items": {}
-          },
-          "UpgradeInsecureRequests": {
-            "type": "array",
-            "items": {}
-          },
-          "UserAgent": {
-            "type": "array",
-            "items": {}
-          },
-          "Vary": {
-            "type": "array",
-            "items": {}
-          },
-          "Via": {
-            "type": "array",
-            "items": {}
-          },
-          "Warning": {
-            "type": "array",
-            "items": {}
-          },
-          "WebSocketSubProtocols": {
-            "type": "array",
-            "items": {}
-          },
-          "WWWAuthenticate": {
-            "type": "array",
-            "items": {}
-          },
-          "XContentTypeOptions": {
-            "type": "array",
-            "items": {}
-          },
-          "XFrameOptions": {
-            "type": "array",
-            "items": {}
-          },
-          "XPoweredBy": {
-            "type": "array",
-            "items": {}
-          },
-          "XRequestedWith": {
-            "type": "array",
-            "items": {}
-          },
-          "XUACompatible": {
-            "type": "array",
-            "items": {}
-          },
-          "XXSSProtection": {
-            "type": "array",
-            "items": {}
-          }
-        }
-      },
       "ImportEntryRequest": {
         "type": "object",
         "description": "Request body for importing an entry.",
@@ -7832,7 +7464,8 @@
         "additionalProperties": false,
         "properties": {
           "value": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -7949,6 +7582,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
             }
@@ -7973,6 +7607,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
             }
@@ -8012,6 +7647,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
             }
@@ -8130,6 +7766,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
             }
@@ -8361,6 +7998,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
             }
@@ -8449,6 +8087,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
             }
@@ -8612,6 +8251,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
             }
@@ -8665,6 +8305,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
             }
@@ -8791,6 +8432,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
             }
@@ -8839,6 +8481,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
             }
@@ -8931,6 +8574,7 @@
           },
           "value": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
             }
@@ -9014,7 +8658,10 @@
       "Authorization": []
     },
     {
-      "OAuth2 Authorization Code Flow": []
+      "OAuth2 Authorization Code Flow": [
+        "repository.Read",
+        "repository.Write"
+      ]
     }
   ]
 }
