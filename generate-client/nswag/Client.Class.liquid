@@ -113,28 +113,36 @@
     }
 
 {%     endif -%}
-    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({{ operation.ActualOperationName }}Parameters parameters{% unless operation.Parameters.first.IsRequired %} = null{% endunless %}, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
+{%     if operation.Parameters.first.IsRequired -%}
+        if (parameters == null)
+            throw new System.ArgumentNullException("parameters");
+{%     endif -%}
+
+{%     for parameter in operation.Parameters -%}
+        var {{ parameter.VariableName }} = parameters.{{ parameter.VariableName | capitalize }};
+{%     endfor -%}
+
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
+            throw new System.ArgumentNullException("parameters.{{ operation.ContentParameter.VariableName | capitalize }}");
 
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
@@ -171,9 +179,9 @@
         var client_ = new {{ HttpClientType }}();
 {%     endif -%}
 {%     if InjectHttpClient == false and DisposeHttpClient -%}
-        var disposeClient_ = true;
+        bool[] disposeClient_ = new bool[]{ true };
 {%     else -%}
-        var disposeClient_ = false;
+        bool[] disposeClient_ = new bool[]{ false };
 {%     endif -%}
         try
         {
@@ -186,7 +194,7 @@
 {%     for parameter in operation.HeaderParameters %}
 {%         if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 {% template Client.Class.HeaderParameter %}
 {%         else -%}
                 if ({{ parameter.VariableName }} != null)
@@ -228,7 +236,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 else
 {%                     endif -%}
                     keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
@@ -244,7 +252,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new System.ArgumentNullException("parameters.{{ parameter.VariableName | capitalize }}");
                 else
 {%                     endif -%}
                 {
@@ -303,91 +311,101 @@
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
 
-                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                var disposeResponse_ = true;
-                try
-                {
-                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                    if (response_.Content != null && response_.Content.Headers != null)
-                    {
-                        foreach (var item_ in response_.Content.Headers)
-                            headers_[item_.Key] = item_.Value;
-                    }
-
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
-                    await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
-{% else %}
-                    ProcessResponse(client_, response_);
-{% endif %}
-
-                    var status_ = (int)response_.StatusCode;
-{%     for response in operation.Responses -%}
-                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
-                    {
-                        {% template Client.Class.ProcessResponse %}
-                    }
-                    else
-{%     endfor -%}
-{%     if operation.HasDefaultResponse -%}
-{%         if operation.DefaultResponse.HasType -%}
-                    {
-{%             assign response = operation.DefaultResponse -%}
-                        {% template Client.Class.ProcessResponse %}
-                    }
-{%         elsif operation.HasSuccessResponse -%}
-                    {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
-                    }
-{%        elsif operation.HasResultType -%}
-{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
-{%             else -%}
-                    return {{ operation.UnwrappedResultDefaultValue }};
-{%             endif -%}
-{%         elsif operation.WrapResponse -%}
-                    return new {{ ResponseClass }}(status_, headers_);
-{%         endif -%}
-{%     else -%}
-{%         if operation.HasSuccessResponse == false -%}
-{% comment -%}
-    If the success response has already been explicitely declared, there is no need for this default code (because handled above).
-    Otherwise, return default values on success because we don't want to throw on "unknown status code".
-    Success is always expected
-{%- endcomment %}
-                    if (status_ == 200 || status_ == 204)
-                    {
-{%             if operation.HasResultType -%}
-{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
-{%                 else -%}
-                        return {{ operation.UnwrappedResultDefaultValue }};
-{%                 endif -%}
-{%             elsif operation.WrapResponse -%}
-                        return new {{ ResponseClass }}(status_, headers_);
-{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
-                        return;
-{%             endif -%}
-                    }
-                    else
-{%         endif -%}
-                    {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                    }
-{%     endif -%}
-                }
-                finally
-                {
-                    if (disposeResponse_)
-                        response_.Dispose();
-                }
+{% if operation.HasResultType or operation.WrapResponse -%}
+                return await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
+{% else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
+                await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
+                return;
+{% endif -%}
             }
         }
         finally
         {
-            if (disposeClient_)
+            if (disposeClient_[0])
                 client_.Dispose();
+        }
+    }
+
+    protected virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}SendAsync(System.Net.Http.HttpRequestMessage request_, System.Net.Http.HttpClient client_, bool[] disposeClient_, System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {
+        var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+        var disposeResponse_ = true;
+        try
+        {
+            var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+            if (response_.Content != null && response_.Content.Headers != null)
+            {
+                foreach (var item_ in response_.Content.Headers)
+                    headers_[item_.Key] = item_.Value;
+            }
+
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
+            await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
+{% else %}
+            ProcessResponse(client_, response_);
+{% endif %}
+
+            var status_ = (int)response_.StatusCode;
+{%     for response in operation.Responses -%}
+            if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+            {
+                {% template Client.Class.ProcessResponse %}
+            }
+            else
+{%     endfor -%}
+{%     if operation.HasDefaultResponse -%}
+{%         if operation.DefaultResponse.HasType -%}
+            {
+{%             assign response = operation.DefaultResponse -%}
+                {% template Client.Class.ProcessResponse %}
+            }
+{%         elsif operation.HasSuccessResponse -%}
+            {
+                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+            }
+{%        elsif operation.HasResultType -%}
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
+            return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%             else -%}
+            return {{ operation.UnwrappedResultDefaultValue }};
+{%             endif -%}
+{%         elsif operation.WrapResponse -%}
+            return new {{ ResponseClass }}(status_, headers_);
+{%         endif -%}
+{%     else -%}
+{%         if operation.HasSuccessResponse == false -%}
+{% comment -%}
+If the success response has already been explicitely declared, there is no need for this default code (because handled above).
+Otherwise, return default values on success because we don't want to throw on "unknown status code".
+Success is always expected
+{%- endcomment %}
+            if (status_ == 200 || status_ == 204)
+            {
+{%             if operation.HasResultType -%}
+{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
+                return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%                 else -%}
+                return {{ operation.UnwrappedResultDefaultValue }};
+{%                 endif -%}
+{%             elsif operation.WrapResponse -%}
+                return new {{ ResponseClass }}(status_, headers_);
+{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
+                return;
+{%             endif -%}
+            }
+            else
+{%         endif -%}
+            {
+                var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                throw {{ ExceptionClass }}Extensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+            }
+{%     endif -%}
+        }
+        finally
+        {
+            if (disposeResponse_)
+                response_.Dispose();
         }
     }
 
@@ -410,3 +428,5 @@
     {% template Client.Class.ConvertToString %}
     {% template Client.Class.Body %}
 }
+
+{% template Client.Method.Parameters %}
