@@ -133,7 +133,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Attributes"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -310,7 +309,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.AttributeKey");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Attributes/{attributeKey}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Attributes/{attributeKey}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -697,7 +695,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/AuditReasons?");
                     // Operation Path: "v2/Repositories/{repositoryId}/AuditReasons"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -1089,7 +1086,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.FieldId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -1251,7 +1247,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/FieldDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -1680,7 +1675,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/LinkDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -1854,7 +1848,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.LinkDefinitionId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/LinkDefinitions/{linkDefinitionId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -2585,7 +2578,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/CreateMultipartUploadUrls"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -2748,7 +2740,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/ImportUploadedParts"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -2932,7 +2923,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/ExportAsync"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -3118,7 +3108,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/CopyAsync"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -3289,7 +3278,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -3455,7 +3443,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -3615,7 +3602,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -3806,7 +3792,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4009,7 +3994,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Export?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Export"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4199,7 +4183,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.FullPath");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/ByPath?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/ByPath"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4367,7 +4350,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4562,7 +4544,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4750,7 +4731,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -4938,7 +4918,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -5124,7 +5103,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Tags"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -5303,7 +5281,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Tags");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Tags"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -5481,7 +5458,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Links"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -5661,7 +5637,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Links?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Links"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -5840,7 +5815,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -6018,7 +5992,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -6178,7 +6151,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -6348,7 +6320,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -6512,7 +6483,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Template"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -6677,7 +6647,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Entries/{entryId}/Template?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Template"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -7717,7 +7686,6 @@ namespace Laserfiche.Repository.Api.Client
         {
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories");
                     // Operation Path: "v2/Repositories"
                     urlBuilder_.Append("v2/Repositories");
 
@@ -8056,7 +8024,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/SearchAsync");
                     // Operation Path: "v2/Repositories/{repositoryId}/Searches/SearchAsync"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -8233,7 +8200,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.TaskId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Searches/{taskId}/Results"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -8438,7 +8404,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RowNumber");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Searches/{taskId}/Results/{rowNumber}/ContextHits"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -8930,7 +8895,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.Request");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/SimpleSearches?");
                     // Operation Path: "v2/Repositories/{repositoryId}/SimpleSearches"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -9353,7 +9317,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TagDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -9532,7 +9495,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.TagId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TagDefinitions/{tagId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TagDefinitions/{tagId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -9944,7 +9906,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Tasks"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -10097,7 +10058,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/Tasks?");
                     // Operation Path: "v2/Repositories/{repositoryId}/Tasks"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -10495,7 +10455,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -10678,7 +10637,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -10844,7 +10802,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.TemplateId");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FieldDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -11030,7 +10987,6 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.TemplateName");
 
             var urlBuilder_ = new StringBuilder();
-            urlBuilder_.Append("v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions?");
                     // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/FieldDefinitions"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
