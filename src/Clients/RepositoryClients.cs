@@ -80,14 +80,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public AttributesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -643,14 +643,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public AuditReasonsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1033,14 +1033,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public FieldDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -1621,14 +1621,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public LinkDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -2520,14 +2520,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public EntriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7645,14 +7645,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public RepositoriesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -7968,14 +7968,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public SearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -8830,14 +8830,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public SimpleSearchesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9257,14 +9257,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TagDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -9849,14 +9849,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TasksClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
@@ -10392,14 +10392,14 @@ namespace Laserfiche.Repository.Api.Client
     {
         private HttpClient _httpClient;
         private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
         public TemplateDefinitionsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-         Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
 
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {
             var settings = new Newtonsoft.Json.JsonSerializerSettings();
             UpdateJsonSerializerSettings(settings);
