@@ -74,7 +74,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 AccessKey = AccessKey.CreateFromBase64EncodedAccessKey(accessKeyString);
             RepositoryId = Environment.GetEnvironmentVariable(RepoKeyVar);
             AuthorizationType = Enum.Parse<AuthorizationType>(Environment.GetEnvironmentVariable(AuthTypeVar), ignoreCase: true);
-            Username = "lfds-test";
+            Username = Environment.GetEnvironmentVariable(UsernameVar);
             Password = Environment.GetEnvironmentVariable(PasswordVar);
             BaseUrl = Environment.GetEnvironmentVariable(BaseUrlVar);
         }
