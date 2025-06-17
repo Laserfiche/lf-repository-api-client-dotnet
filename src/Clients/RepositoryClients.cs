@@ -40,6 +40,521 @@ namespace Laserfiche.Repository.Api.Client
     using System = global::System;
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial interface IAttributesClient
+    {
+
+        /// <summary>
+        /// Returns the attribute key value pairs associated with the authenticated user.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
+        /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
+        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
+        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get trustee attribute key value pairs successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns an attribute object associated with the authenticated user.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within "Everyone" group.<br/>
+        /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="attributeKey">The requested attribute key.</param>
+        /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get trustee attribute value successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken));
+
+    }
+
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AttributesClient : BaseClient, IAttributesClient
+    {
+        private HttpClient _httpClient;
+        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
+        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
+
+        public AttributesClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
+
+        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        {
+            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        }
+
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
+
+        partial void Initialize();
+
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the attribute key value pairs associated with the authenticated user.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
+        /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
+        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
+        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
+        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
+        /// <param name="select">Limits the properties returned in the result.</param>
+        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
+        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
+        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get trustee attribute key value pairs successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (repoId == null)
+                throw new ArgumentNullException("repoId");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+
+                    if (prefer != null)
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v1/Repositories/{repoId}/Attributes"
+                    urlBuilder_.Append("v1/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Attributes");
+                    urlBuilder_.Append('?');
+                    if (everyone != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (orderby != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    return await GetTrusteeAttributeKeyValuePairsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns an attribute object associated with the authenticated user.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within "Everyone" group.<br/>
+        /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="attributeKey">The requested attribute key.</param>
+        /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get trustee attribute value successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (repoId == null)
+                throw new ArgumentNullException("repoId");
+
+            if (attributeKey == null)
+                throw new ArgumentNullException("attributeKey");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v1/Repositories/{repoId}/Attributes/{attributeKey}"
+                    urlBuilder_.Append("v1/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Attributes/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(attributeKey, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (everyone != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    return await GetTrusteeAttributeValueByKeySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Attribute> GetTrusteeAttributeValueByKeySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+            }
+        }
+
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+
+            public T Object { get; }
+
+            public string Text { get; }
+        }
+
+        public bool ReadResponseAsString { get; set; }
+
+        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
+        {
+            if (response == null || response.Content == null)
+            {
+                return new ObjectResponseResult<T>(default(T), string.Empty);
+            }
+
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
+                }
+            }
+        }
+
+        private string ConvertToString(object value, CultureInfo cultureInfo)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            if (value is Enum)
+            {
+                var name = Enum.GetName(value.GetType(), value);
+                if (name != null)
+                {
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null)
+                    {
+                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
+                            as EnumMemberAttribute;
+                        if (attribute != null)
+                        {
+                            return attribute.Value != null ? attribute.Value : name;
+                        }
+                    }
+
+                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    return converted == null ? string.Empty : converted;
+                }
+            }
+            else if (value is bool) 
+            {
+                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+            }
+            else if (value is byte[])
+            {
+                return Convert.ToBase64String((byte[]) value);
+            }
+            else if (value is string[])
+            {
+                return string.Join(",", (string[])value);
+            }
+            else if (value.GetType().IsArray)
+            {
+                var valueArray = (Array)value;
+                var valueTextArray = new string[valueArray.Length];
+                for (var i = 0; i < valueArray.Length; i++)
+                {
+                    valueTextArray[i] = ConvertToString(valueArray.GetValue(i), cultureInfo);
+                }
+                return string.Join(",", valueTextArray);
+            }
+
+            var result = Convert.ToString(value, cultureInfo);
+            return result == null ? "" : result;
+        }
+    }
+
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IEntriesClient
     {
 
@@ -156,7 +671,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -199,7 +714,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -238,7 +753,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -293,7 +808,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1383,7 +1898,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1763,7 +2278,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatValue query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2127,7 +2642,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2648,7 +3163,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional odata header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4392,521 +4907,6 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial interface IAttributesClient
-    {
-
-        /// <summary>
-        /// Returns the attribute key value pairs associated with the authenticated user.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
-        /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
-        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
-        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get trustee attribute key value pairs successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Returns an attribute object associated with the authenticated user.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within "Everyone" group.<br/>
-        /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="attributeKey">The requested attribute key.</param>
-        /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get trustee attribute value successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken));
-
-    }
-
-    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class AttributesClient : BaseClient, IAttributesClient
-    {
-        private HttpClient _httpClient;
-        private static Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
-        private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
-
-        public AttributesClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-            _settings = new Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
-
-        private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
-        {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings();
-            UpdateJsonSerializerSettings(settings);
-            return settings;
-        }
-
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
-
-        partial void Initialize();
-
-        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
-        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
-        partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Returns the attribute key value pairs associated with the authenticated user.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the attribute key value pairs associated with the authenticated user. Alternatively, return only the attribute key value pairs that are associated with the "Everyone" group.<br/>
-        /// - Attribute keys can be used with subsequent calls to get specific attribute values.<br/>
-        /// - Optional query parameters: everyone (bool, default false). When true, this route does not return the attributes that are tied to the currently authenticated user, but rather the attributes assigned to the "Everyone" group. Note when this is true, the response does not include both the "Everyone" groups attribute and the currently authenticated user, but only the "Everyone" groups.<br/>
-        /// - Default page size: 100. Allowed OData query options: Select, Count, OrderBy, Skip, Top, SkipToken, Prefer.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="everyone">Boolean value that indicates whether to return attributes key value pairs associated with everyone or the currently authenticated user.</param>
-        /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
-        /// <param name="select">Limits the properties returned in the result.</param>
-        /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
-        /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
-        /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get trustee attribute key value pairs successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsAsync(string repoId, bool? everyone = null, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (repoId == null)
-                throw new ArgumentNullException("repoId");
-
-            var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
-            try
-            {
-                using (var request_ = new HttpRequestMessage())
-                {
-
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Attributes"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Attributes");
-                    urlBuilder_.Append('?');
-                    if (everyone != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (select != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (orderby != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (top != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (skip != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (count != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetTrusteeAttributeKeyValuePairsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
-            }
-            finally
-            {
-                if (disposeClient_[0])
-                    client_.Dispose();
-            }
-        }
-
-        protected virtual async Task<ODataValueContextOfListOfAttribute> GetTrusteeAttributeKeyValuePairsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
-        {
-                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ODataValueContextOfListOfAttribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-            }
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Returns an attribute object associated with the authenticated user.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the attribute associated with the key. Alternatively, return the attribute associated with the key within "Everyone" group.<br/>
-        /// - Optional query parameters: everyone (bool, default false). When true, the server only searches for the attribute value with the given key upon the authenticated users attributes. If false, only the authenticated users attributes will be queried.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="attributeKey">The requested attribute key.</param>
-        /// <param name="everyone">Boolean value that indicates whether to return attributes associated with everyone or the currently authenticated user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Get trustee attribute value successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Attribute> GetTrusteeAttributeValueByKeyAsync(string repoId, string attributeKey, bool? everyone = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (repoId == null)
-                throw new ArgumentNullException("repoId");
-
-            if (attributeKey == null)
-                throw new ArgumentNullException("attributeKey");
-
-            var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
-            try
-            {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Attributes/{attributeKey}"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Attributes/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(attributeKey, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append('?');
-                    if (everyone != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("everyone")).Append('=').Append(Uri.EscapeDataString(ConvertToString(everyone, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetTrusteeAttributeValueByKeySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
-            }
-            finally
-            {
-                if (disposeClient_[0])
-                    client_.Dispose();
-            }
-        }
-
-        protected virtual async Task<Attribute> GetTrusteeAttributeValueByKeySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
-        {
-                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new Dictionary<string, IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<Attribute>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 403)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 429)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-            }
-        }
-
-        protected struct ObjectResponseResult<T>
-        {
-            public ObjectResponseResult(T responseObject, string responseText)
-            {
-                this.Object = responseObject;
-                this.Text = responseText;
-            }
-
-            public T Object { get; }
-
-            public string Text { get; }
-        }
-
-        public bool ReadResponseAsString { get; set; }
-
-        protected virtual async Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(HttpResponseMessage response, IReadOnlyDictionary<string, IEnumerable<string>> headers, CancellationToken cancellationToken)
-        {
-            if (response == null || response.Content == null)
-            {
-                return new ObjectResponseResult<T>(default(T), string.Empty);
-            }
-
-            if (ReadResponseAsString)
-            {
-                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
-                    return new ObjectResponseResult<T>(typedBody, responseText);
-                }
-                catch (Newtonsoft.Json.JsonException exception)
-                {
-                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, responseText, JsonSerializerSettings, exception);
-                }
-            }
-            else
-            {
-                try
-                {
-                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
-                    {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
-                        return new ObjectResponseResult<T>(typedBody, string.Empty);
-                    }
-                }
-                catch (Newtonsoft.Json.JsonException exception)
-                {
-                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw ApiExceptionExtensions.Create((int)response.StatusCode, headers, exception);
-                }
-            }
-        }
-
-        private string ConvertToString(object value, CultureInfo cultureInfo)
-        {
-            if (value == null)
-            {
-                return "";
-            }
-
-            if (value is Enum)
-            {
-                var name = Enum.GetName(value.GetType(), value);
-                if (name != null)
-                {
-                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-                    if (field != null)
-                    {
-                        var attribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(EnumMemberAttribute)) 
-                            as EnumMemberAttribute;
-                        if (attribute != null)
-                        {
-                            return attribute.Value != null ? attribute.Value : name;
-                        }
-                    }
-
-                    var converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo));
-                    return converted == null ? string.Empty : converted;
-                }
-            }
-            else if (value is bool) 
-            {
-                return Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
-            }
-            else if (value is byte[])
-            {
-                return Convert.ToBase64String((byte[]) value);
-            }
-            else if (value is string[])
-            {
-                return string.Join(",", (string[])value);
-            }
-            else if (value.GetType().IsArray)
-            {
-                var valueArray = (Array)value;
-                var valueTextArray = new string[valueArray.Length];
-                for (var i = 0; i < valueArray.Length; i++)
-                {
-                    valueTextArray[i] = ConvertToString(valueArray.GetValue(i), cultureInfo);
-                }
-                return string.Join(",", valueTextArray);
-            }
-
-            var result = Convert.ToString(value, cultureInfo);
-            return result == null ? "" : result;
-        }
-    }
-
-    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IFieldDefinitionsClient
     {
 
@@ -4942,7 +4942,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5153,7 +5153,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5444,7 +5444,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -5513,7 +5513,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6594,7 +6594,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -6617,7 +6617,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7147,7 +7147,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag. The formatFields query parameter must be set to true, otherwise culture will not be used for formatting.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7346,7 +7346,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="prefer">An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -8597,7 +8597,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -8668,7 +8668,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9136,6 +9136,18 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task CancelOperationAsync(string repoId, string operationToken, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Starts a test operation that behaves according to specified parameters.
+        /// </summary>
+        /// <param name="repoId">The requested repository id.</param>
+        /// <param name="operationTime">The time the operation will take to complete.</param>
+        /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
+        /// <param name="hasError">If mock operation should return "failed" status.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Cancel operation successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -9473,6 +9485,154 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Starts a test operation that behaves according to specified parameters.
+        /// </summary>
+        /// <param name="repoId">The requested repository id.</param>
+        /// <param name="operationTime">The time the operation will take to complete.</param>
+        /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
+        /// <param name="hasError">If mock operation should return "failed" status.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Cancel operation successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (repoId == null)
+                throw new ArgumentNullException("repoId");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+
+                    var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v1/Repositories/{repoId}/Tasks/StartTestTaskAsync"
+                    urlBuilder_.Append("v1/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tasks/StartTestTaskAsync");
+                    urlBuilder_.Append('?');
+                    if (operationTime != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("operationTime")).Append('=').Append(Uri.EscapeDataString(ConvertToString(operationTime, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (hasRedirectUri != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("hasRedirectUri")).Append('=').Append(Uri.EscapeDataString(ConvertToString(hasRedirectUri, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (hasError != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("hasError")).Append('=').Append(Uri.EscapeDataString(ConvertToString(hasError, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new Dictionary<string, IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 204)
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 429)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -9604,7 +9764,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9645,7 +9805,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9668,7 +9828,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -9722,7 +9882,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -10062,7 +10222,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -10245,7 +10405,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used for formatting. The value should be a standard language tag.</param>
         /// <param name="select">Limits the properties returned in the result.</param>
         /// <param name="orderby">Specifies the order in which items are returned. The maximum number of expressions is 5.</param>
-        /// <param name="top">Limits the number of items returned from a collection.</param>
+        /// <param name="top">Limits the number of items returned from a collection. The maximum value is 150.</param>
         /// <param name="skip">Excludes the specified number of items of the queried collection from the result.</param>
         /// <param name="count">Indicates whether the total count of items within a collection are returned in the result.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -10520,6 +10680,45 @@ namespace Laserfiche.Repository.Api.Client
         }
     }
 
+    /// <summary>
+    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ODataValueContextOfListOfAttribute : ODataValueOfListOfAttribute
+    {
+        /// <summary>
+        /// It contains a URL that allows retrieving the next subset of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// It contains the count of a collection of entities or a collection of entity references.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int OdataCount { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ODataValueOfListOfAttribute
+    {
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ICollection<Attribute> Value { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Attribute
+    {
+        [Newtonsoft.Json.JsonProperty("key", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Key { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Value { get; set; }
+
+    }
+
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CreateEntryResult
     {
@@ -10791,45 +10990,6 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("links", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ICollection<LinkToUpdate> Links { get; set; }
-
-    }
-
-    /// <summary>
-    /// A wrapper around the ODataValue with extra odata.nextLink and odata.count.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ODataValueContextOfListOfAttribute : ODataValueOfListOfAttribute
-    {
-        /// <summary>
-        /// It contains a URL that allows retrieving the next subset of the requested collection.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OdataNextLink { get; set; }
-
-        /// <summary>
-        /// It contains the count of a collection of entities or a collection of entity references.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int OdataCount { get; set; }
-
-    }
-
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ODataValueOfListOfAttribute
-    {
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ICollection<Attribute> Value { get; set; }
-
-    }
-
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Attribute
-    {
-        [Newtonsoft.Json.JsonProperty("key", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Key { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Value { get; set; }
 
     }
 
