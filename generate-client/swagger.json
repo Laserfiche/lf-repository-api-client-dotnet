@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "https://api.a.clouddev.laserfiche.com/repository"
+      "url": "https://api.laserfiche.com/repository"
     }
   ],
   "paths": {
@@ -8743,11 +8743,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.a.clouddev.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.a.clouddev.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.a.clouddev.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
+            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."
