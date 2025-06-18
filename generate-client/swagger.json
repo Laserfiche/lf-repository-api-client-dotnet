@@ -3,12 +3,12 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>8741960f73deb8e394cfec26bdddb456b1ec5d85_.20250617.5+8741960f73deb8e394cfec26bdddb456b1ec5d85</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>5cbdabfc720ab0938b53ef04ea41b98fdc140c3b_.20250618.6+5cbdabfc720ab0938b53ef04ea41b98fdc140c3b</p>",
     "version": "1"
   },
   "servers": [
     {
-      "url": "https://api.laserfiche.com/repository"
+      "url": "https://api.a.clouddev.laserfiche.com/repository"
     }
   ],
   "paths": {
@@ -5600,8 +5600,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Cancel operation successfully."
+          "202": {
+            "description": "Started operation successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedOperation"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid or bad request.",
@@ -8369,11 +8376,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.a.clouddev.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.com/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.com/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."

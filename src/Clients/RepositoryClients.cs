@@ -9144,9 +9144,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
         /// <param name="hasError">If mock operation should return "failed" status.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Cancel operation successfully.</returns>
+        /// <returns>Started operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AcceptedOperation> StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -9494,9 +9494,9 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
         /// <param name="hasError">If mock operation should return "failed" status.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Cancel operation successfully.</returns>
+        /// <returns>Started operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<AcceptedOperation> StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (repoId == null)
                 throw new ArgumentNullException("repoId");
@@ -9509,6 +9509,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
                     request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new StringBuilder();
                     // Operation Path: "v1/Repositories/{repoId}/Tasks/StartTestTaskAsync"
@@ -9537,8 +9538,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
-                    return;
+                    return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -9548,7 +9548,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<AcceptedOperation> StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
                     var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                     var disposeResponse_ = true;
@@ -9566,9 +9566,14 @@ namespace Laserfiche.Repository.Api.Client
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 204)
+                        if (status_ == 202)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<AcceptedOperation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
