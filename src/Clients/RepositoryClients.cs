@@ -578,7 +578,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -976,7 +976,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -1564,7 +1564,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -2109,7 +2109,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -7211,7 +7211,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -7297,7 +7297,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -7373,7 +7373,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -7467,7 +7467,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -8732,7 +8732,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -8785,7 +8785,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -9760,7 +9760,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -9841,6 +9841,15 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>A collection of task cancellation results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Starts a test operation that behaves according to specified parameters.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Cancel operation successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -10173,6 +10182,156 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Starts a test operation that behaves according to specified parameters.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Cancel operation successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var operationTime = parameters.OperationTime;
+            var hasRedirectUri = parameters.HasRedirectUri;
+            var hasError = parameters.HasError;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Tasks/StartTestTaskAsync"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Tasks/StartTestTaskAsync");
+                    urlBuilder_.Append('?');
+                    if (operationTime != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("operationTime")).Append('=').Append(Uri.EscapeDataString(ConvertToString(operationTime, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (hasRedirectUri != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("hasRedirectUri")).Append('=').Append(Uri.EscapeDataString(ConvertToString(hasRedirectUri, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (hasError != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("hasError")).Append('=').Append(Uri.EscapeDataString(ConvertToString(hasError, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -10318,6 +10477,34 @@ namespace Laserfiche.Repository.Api.Client
         /// An array of task IDs. Leave this parameter empty to cancel the list of all the tasks associated with the current access token.
         /// </summary>
         public IEnumerable<string> TaskIds { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITasksClient.StartTestTaskAsync(StartTestTaskParameters, CancellationToken)">StartTestTask</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartTestTaskParameters
+    {
+        /// <summary>
+        /// The requested repository id.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The time the operation will take to complete.
+        /// </summary>
+        public int? OperationTime { get; set; } = null;
+
+        /// <summary>
+        /// If operation adds redirect uri.
+        /// </summary>
+        public bool? HasRedirectUri { get; set; } = null;
+
+        /// <summary>
+        /// If mock operation should return "failed" status.
+        /// </summary>
+        public bool? HasError { get; set; } = null;
 
     }
 
@@ -11274,7 +11461,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -11355,7 +11542,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
@@ -11408,7 +11595,7 @@ namespace Laserfiche.Repository.Api.Client
         public string Orderby { get; set; } = null;
 
         /// <summary>
-        /// Limits the number of items returned from a collection.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
         public int? Top { get; set; } = null;
 
