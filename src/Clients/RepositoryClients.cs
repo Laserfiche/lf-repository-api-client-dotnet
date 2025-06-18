@@ -9847,9 +9847,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Cancel operation successfully.</returns>
+        /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -10187,9 +10187,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Cancel operation successfully.</returns>
+        /// <returns>A long operation task id.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -10230,6 +10230,7 @@ namespace Laserfiche.Repository.Api.Client
                 {
                     request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
                     request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -10238,8 +10239,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
-                    return;
+                    return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10249,7 +10249,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<StartTaskResponse> StartTestTaskSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -10265,9 +10265,14 @@ namespace Laserfiche.Repository.Api.Client
                 ProcessResponse(client_, response_);
 
                 var status_ = (int)response_.StatusCode;
-                if (status_ == 204)
+                if (status_ == 202)
                 {
-                    return;
+                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
                 }
                 else
                 if (status_ == 400)

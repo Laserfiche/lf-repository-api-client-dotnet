@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>6a3d596496016c6cfff06a54da725864560539d5_.20250618.3+6a3d596496016c6cfff06a54da725864560539d5</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>5cbdabfc720ab0938b53ef04ea41b98fdc140c3b_.20250618.6+5cbdabfc720ab0938b53ef04ea41b98fdc140c3b</p>",
     "version": "2"
   },
   "servers": [
@@ -5641,8 +5641,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Cancel operation successfully."
+          "202": {
+            "description": "A long operation task id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartTaskResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid or bad request.",
