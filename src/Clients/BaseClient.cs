@@ -12,8 +12,7 @@ namespace Laserfiche.Repository.Api.Client
 {
     public abstract class BaseClient
     {
-        protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)
-        {
+        protected static void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)        {
             settings.MaxDepth = 128;
         }
 
