@@ -3,6 +3,7 @@
 using Laserfiche.Api.Client;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,14 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial interface ISearchesClient
     {
+        /// <summary>
+        /// Get search results with uri.
+        /// </summary>
+        /// <param name="searchResultsUri">Uri string.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get entry successfully.</returns>
+        Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Returns a collection of search results using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
@@ -78,6 +87,17 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class SearchesClient
     {
+        public async Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default)
+        {
+            using (var request = new HttpRequestMessage())
+            {
+                request.Method = new HttpMethod("GET");
+                request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                request.RequestUri = new Uri(searchResultsUri, UriKind.Absolute);
+                return await GetSearchResultsSendAsync(request, _httpClient, new bool[] { false }, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
         public async Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
 
         {
