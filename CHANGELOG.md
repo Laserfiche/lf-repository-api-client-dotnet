@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0
+
+### Features
+
+- Add `StartTestTaskAsync` to `TasksClient` to allow starting a "mock" operation with a specified duration and outcome.
+
+### Chore & Maintenance
+
+- Update major version of package to `2.0.0` to avoid confusion with existing package `Laserfiche.Repository.Api.Client`
+   - No breaking changes were included 
+- Re-generated client using updated swagger.json to include any changes from the last year
+
 ## 1.0.2
 
 ### Chore & Maintenance
