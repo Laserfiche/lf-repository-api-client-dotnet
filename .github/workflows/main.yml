@@ -21,8 +21,10 @@ jobs:
     timeout-minutes: 30
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
+      uses: actions/setup-dotnet@v4
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
@@ -75,6 +77,7 @@ jobs:
     needs: [ build-n-test ] # wait for build to finish
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -117,11 +120,13 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -154,11 +159,13 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
