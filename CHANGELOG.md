@@ -1,9 +1,14 @@
 # Changelog
 
-## 1.1.3 Pre-release
+## 1.1.3
 
 ### Features
 - Added the gzip compression header which will compress every API response to improve performance 
+- Add `StartTestTaskAsync` to `TasksClient` to allow starting a "mock" operation with a specified duration and outcome.
+
+### Chore & Maintenance
+
+- Re-generated client using updated swagger.json to include any changes from the last year
 
 ## 1.1.2
 
