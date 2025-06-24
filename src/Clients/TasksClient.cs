@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client
 {
+    /// <summary>
+    /// Repository API Client for dealing with Tasks
+    /// </summary>
     partial interface ITasksClient
     {
         /// <summary>
@@ -23,10 +26,10 @@ namespace Laserfiche.Repository.Api.Client
         Task<OperationProgress> WaitForTaskAsync(string repositoryId, string operationId, TimeSpan timeout, Action<OperationProgress> handleOperationProgress = null, OperationStatus expectedOperationStatus = OperationStatus.Completed, CancellationToken cancellationToken = default);
     }
 
-    partial class TasksClient : ITasksClient
-    {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+    partial class TasksClient : ITasksClient
+    {
         public async Task<OperationProgress> WaitForTaskAsync(string repositoryId, string operationId, TimeSpan timeout, Action<OperationProgress> handleOperationProgress = null, OperationStatus expectedOperationStatus = OperationStatus.Completed, CancellationToken cancellationToken = default)
         {
             Stopwatch sw = Stopwatch.StartNew();
