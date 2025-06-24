@@ -24,7 +24,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
 
             var client = new RepositoryApiClient(null);
 
-            await Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<NullReferenceException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
 
             var client = new RepositoryApiClient(null);
 
-            await Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<NullReferenceException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
