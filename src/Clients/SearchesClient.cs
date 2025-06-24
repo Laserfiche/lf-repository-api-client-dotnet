@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,17 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial interface ISearchesClient
     {
+        /// <summary>
+        /// Returns a collection of search results.
+        /// </summary>
+        /// <remarks>
+        /// - Related: <see cref="ListSearchResultsAsync(ListSearchResultsParameters, CancellationToken)">ListSearchResultsAsync</see>
+        /// </remarks>
+        /// <param name="searchResultsUri">Uri to retrieve search results.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<EntryCollectionResponse> ListSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Returns a collection of search results using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
@@ -71,6 +83,17 @@ namespace Laserfiche.Repository.Api.Client
     partial class SearchesClient
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+        public async Task<EntryCollectionResponse> ListSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default)
+        {
+            using (var request = new HttpRequestMessage())
+            {
+                request.Method = new HttpMethod("GET");
+                request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                request.RequestUri = new Uri(searchResultsUri, UriKind.Absolute);
+                return await ListSearchResultsSendAsync(request, _httpClient, new bool[] { false }, cancellationToken).ConfigureAwait(false);
+            }
+        }
 
         public async Task ListSearchResultsForEachAsync(Func<EntryCollectionResponse, Task<bool>> callback, ListSearchResultsParameters parameters, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {

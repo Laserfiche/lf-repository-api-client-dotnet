@@ -20,10 +20,15 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@v4
       with:
-        node-version: "16"
+        node-version: "18"
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
     - name: Install NSwag
-      run: npm install nswag@13.19.0 -g
+      run: npm install nswag@14.4.0 -g
 
     - name: Setup environment variables
       run: |
