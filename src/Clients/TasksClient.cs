@@ -41,7 +41,7 @@ namespace Laserfiche.Repository.Api.Client
                 }, cancellationToken).ConfigureAwait(false);
 
                 TaskProgress taskProgress = taskProgressList.Value.First(element => element.Id.Equals(taskId));
-                handleTaskProgress(taskProgress);
+                if (handleTaskProgress != null) handleTaskProgress(taskProgress);
 
                 if (taskProgress.Status == expectedTaskStatus)
                 {
