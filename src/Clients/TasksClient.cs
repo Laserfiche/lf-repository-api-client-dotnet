@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 var operationStatus = await GetOperationStatusAndProgressAsync(repositoryId, operationId, cancellationToken).ConfigureAwait(false);
 
-                handleOperationProgress(operationStatus);
+                if (handleOperationProgress != null) handleOperationProgress(operationStatus);
 
                 if (operationStatus.Status == expectedOperationStatus)
                 {
