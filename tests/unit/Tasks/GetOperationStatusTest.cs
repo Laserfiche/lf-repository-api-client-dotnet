@@ -58,7 +58,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken).ConfigureAwait(false);
+            var swaggerResponse = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
             Assert.Equal(operationProgress.OperationToken, swaggerResponse.OperationToken);
@@ -123,7 +123,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken).ConfigureAwait(false);
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationProgress.OperationToken);
 
             // ASSERT
             Assert.Equal(operationProgress.OperationToken, progress.OperationToken);
@@ -180,7 +180,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Tasks
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationToken).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TasksClient.GetOperationStatusAndProgressAsync(repoId, operationToken).ConfigureAwait(false));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Tasks/{operationToken}");

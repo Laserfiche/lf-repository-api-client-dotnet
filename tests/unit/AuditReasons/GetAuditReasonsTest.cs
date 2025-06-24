@@ -73,7 +73,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AuditReasons
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.AuditReasonsClient.GetAuditReasonsAsync(repoId).ConfigureAwait(false);
+            var result = await client.AuditReasonsClient.GetAuditReasonsAsync(repoId);
 
             // ASSERT
             Assert.NotNull(result);
@@ -142,7 +142,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AuditReasons
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AuditReasonsClient.GetAuditReasonsAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.AuditReasonsClient.GetAuditReasonsAsync(repoId).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

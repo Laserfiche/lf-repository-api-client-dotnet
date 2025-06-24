@@ -70,7 +70,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id).ConfigureAwait(false);
+            var result = await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id);
             Assert.Equal(fieldInfo1.Name, result.Name);
             Assert.Equal(fieldInfo1.Id, result.Id);
             Assert.Equal(fieldInfo1.Description, result.Description);
@@ -134,7 +134,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionByIdAsync(repoId, fieldDefinitionId: id).ConfigureAwait(false));
 
             // ASSERT
             // also check the 'http' call was like we expected it

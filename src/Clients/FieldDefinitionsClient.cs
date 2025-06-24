@@ -42,6 +42,8 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     partial class FieldDefinitionsClient
     {
         public async Task GetFieldDefinitionsForEachAsync(Func<ODataValueContextOfIListOfWFieldInfo, Task<bool>> callback, string repoId, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
@@ -61,4 +63,6 @@ namespace Laserfiche.Repository.Api.Client
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldDefinitionsSendAsync, cancellationToken).ConfigureAwait(false);
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
 }

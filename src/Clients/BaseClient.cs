@@ -10,10 +10,11 @@ using System;
 
 namespace Laserfiche.Repository.Api.Client
 {
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class BaseClient
     {
-        protected void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)
-        {
+        protected static void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)        {
             settings.MaxDepth = 128;
         }
 
@@ -100,4 +101,5 @@ namespace Laserfiche.Repository.Api.Client
             return result ?? "";
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

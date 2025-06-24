@@ -90,7 +90,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId).ConfigureAwait(false);
+            var response = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId);
             var result = response.Value;
             Assert.Equal(2, result.Count);
             for (int i = 0; i < 2; i++)
@@ -198,7 +198,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            _ = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderby", top:1, skip:2, count:true).ConfigureAwait(false);
+            _ = await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderby", top:1, skip:2, count:true);
 
             // ASSERT
             // also check the 'http' call was like we expected it
@@ -248,7 +248,7 @@ namespace Laserfiche.Repository.Api.Client.Test.FieldDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.FieldDefinitionsClient.GetFieldDefinitionsAsync(repoId).ConfigureAwait(false));
 
             // ASSERT
             // also check the 'http' call was like we expected it

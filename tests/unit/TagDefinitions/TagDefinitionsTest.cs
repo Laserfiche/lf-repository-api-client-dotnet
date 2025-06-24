@@ -84,7 +84,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId).ConfigureAwait(false);
+            var result = await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId);
             Assert.Equal(2, result.Value.Count);
             Assert.Equal(tagInfo.Id, result.Value.ElementAt(0).Id);
             Assert.Equal(tagInfo.Description, result.Value.ElementAt(0).Description);
@@ -155,7 +155,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId).ConfigureAwait(false));
 
             // ASSERT
             // also check the 'http' call was like we expected it
@@ -242,7 +242,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TagDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            _ = await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderBy",top:1, skip:1, count:true).ConfigureAwait(false);
+            _ = await client.TagDefinitionsClient.GetTagDefinitionsAsync(repoId, prefer:"Prefer", select:"select", orderby:"orderBy",top:1, skip:1, count:true);
 
             // ASSERT
             // also check the 'http' call was like we expected it

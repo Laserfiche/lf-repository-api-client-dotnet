@@ -91,7 +91,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request).ConfigureAwait(false);
+            var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -207,7 +207,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
 
             // ACT
             var result = await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, select: "select", orderby: "orderby",
-                count: true, fields: new List<string>() { "field1", "field2" }, formatFields: true, request: request, culture: "fr").ConfigureAwait(false);
+                count: true, fields: new List<string>() { "field1", "field2" }, formatFields: true, request: request, culture: "fr");
 
             // ASSERT
             Assert.NotNull(result);
@@ -284,7 +284,7 @@ namespace Laserfiche.Repository.Api.Client.Test.SimpleSearches
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.SimpleSearchesClient.CreateSimpleSearchOperationAsync(repoId, request: request).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

@@ -20,14 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          3.1.x
-          6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -76,7 +74,7 @@ jobs:
     timeout-minutes: 10
     needs: [ build-n-test ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -102,7 +100,7 @@ jobs:
       run: doxygen ./doxygen/doxygen.conf
 
     - name: Upload a build artifact
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         path: ${{ github.workspace }}/generated_documentation/html
@@ -118,12 +116,12 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -155,12 +153,12 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -210,9 +208,9 @@ jobs:
 
     - name: Create documentation directory
       run: mkdir -p ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
-
+      
     - name: Download documentation build artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: documentation-artifact
         path: ./docs/${{ env.API_VERSION }}/${{ env.DOCUMENTATION_VERSION }}
