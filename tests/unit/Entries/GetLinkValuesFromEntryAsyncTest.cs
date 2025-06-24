@@ -87,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId).ConfigureAwait(false);
+            var response = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId);
 
             var result = response.Value;
 
@@ -161,7 +161,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId).ConfigureAwait(false));
 
 
             // ASSERT
@@ -252,7 +252,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId, prefer: "Prefer", select: "select", orderby: "orderBy", top: 1, skip: 1, count: true).ConfigureAwait(false);
+            var result = await client.EntriesClient.GetLinkValuesFromEntryAsync(repoId, entryId, prefer: "Prefer", select: "select", orderby: "orderBy", top: 1, skip: 1, count: true);
 
             // ASSERT
             // also check the 'http' call was like we expected it

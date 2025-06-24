@@ -86,12 +86,12 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request).ConfigureAwait(false);
+            var result = await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request);
 
             // ASSERT
             Assert.NotNull(result);
             Assert.NotNull(result.TemplateFieldNames);
-            Assert.Equal(1, result.TemplateFieldNames.Count);
+            Assert.Single(result.TemplateFieldNames.Count);
             Assert.Equal("templateField", result.TemplateFieldNames.ElementAt(0));
 
             // also check the 'http' call was like we expected it
@@ -160,7 +160,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.WriteTemplateValueToEntryAsync(repoId, entryId, request:request).ConfigureAwait(false));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/template");

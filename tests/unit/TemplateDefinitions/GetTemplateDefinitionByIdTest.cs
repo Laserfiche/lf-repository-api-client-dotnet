@@ -62,7 +62,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinition.Id).ConfigureAwait(false);
+            var result = await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinition.Id);
 
             // ASSERT
             Assert.NotNull(result);
@@ -123,7 +123,7 @@ namespace Laserfiche.Repository.Api.Client.Test.TemplateDefinitions
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinitionId).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.TemplateDefinitionsClient.GetTemplateDefinitionByIdAsync(repoId, templateDefinitionId).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

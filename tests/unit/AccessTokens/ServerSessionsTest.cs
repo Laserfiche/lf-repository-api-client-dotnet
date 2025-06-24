@@ -53,7 +53,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.ServerSessionClient.InvalidateServerSessionAsync(repoId).ConfigureAwait(false);
+            var response = await client.ServerSessionClient.InvalidateServerSessionAsync(repoId);
             Assert.True(response.Value);
 
             // also check the 'http' call was like we expected it
@@ -103,7 +103,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.InvalidateServerSessionAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.InvalidateServerSessionAsync(repoId).ConfigureAwait(false));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/ServerSession/Invalidate");
@@ -157,7 +157,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await client.ServerSessionClient.RefreshServerSessionAsync(repoId).ConfigureAwait(false);
+            var response = await client.ServerSessionClient.RefreshServerSessionAsync(repoId);
             Assert.Equal(ret.Value, response.Value);
 
             // also check the 'http' call was like we expected it
@@ -207,7 +207,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.RefreshServerSessionAsync(repoId).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ApiException>(async () => await client.ServerSessionClient.RefreshServerSessionAsync(repoId).ConfigureAwait(false));
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/ServerSession/Refresh");

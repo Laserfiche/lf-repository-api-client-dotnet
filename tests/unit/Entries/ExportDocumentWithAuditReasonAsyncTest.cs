@@ -83,7 +83,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     {
                         AuditReasonId = 1,
                         Comment = "asdf"
-                    }, range: "bytes=0-200, 300-400").ConfigureAwait(false);
+                    }, range: "bytes=0-200, 300-400");
 
                     // ASSERT
                     string result = "";
@@ -167,7 +167,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     {
                         AuditReasonId = 1,
                         Comment = "asdf"
-                    }, range: "bytes=0-200, 300-400").ConfigureAwait(false);
+                    }, range: "bytes=0-200, 300-400");
 
                     // ASSERT
                     string result = "";
@@ -237,7 +237,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             {
                 AuditReasonId = 1,
                 Comment = "asdf"
-            }, range: "bytes=0-200, 300-400").ConfigureAwait(false)).ConfigureAwait(false);
+            }, range: "bytes=0-200, 300-400").ConfigureAwait(false));
 
             // ASSERT
             // also check the 'http' call was like we expected it
