@@ -91,7 +91,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ASSERT
             Assert.NotNull(result);
             Assert.NotNull(result.TemplateFieldNames);
-            Assert.Single(result.TemplateFieldNames.Count);
+            Assert.Single(result.TemplateFieldNames);
             Assert.Equal("templateField", result.TemplateFieldNames.ElementAt(0));
 
             // also check the 'http' call was like we expected it

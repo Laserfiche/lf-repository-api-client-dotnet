@@ -66,9 +66,9 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
 
             // ASSERT
             Assert.NotNull(response);
-            Assert.Single(response.Count);
+            Assert.Single(response);
             Assert.True(response.ElementAt(0).Value.Contains("additionalValue1"));
-            Assert.Single(response.ElementAt(0).Value.Count);
+            Assert.Single(response.ElementAt(0).Value);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue");
