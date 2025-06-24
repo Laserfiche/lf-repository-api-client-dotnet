@@ -21,7 +21,6 @@ jobs:
     timeout-minutes: 30
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -76,7 +75,6 @@ jobs:
     needs: [ build-n-test ] # wait for build to finish
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -119,7 +117,6 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v
@@ -156,7 +153,6 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     steps:
-    - uses: actions/checkout@v4
     - uses: actions/checkout@v4
 
     - name: Setup .NET
