@@ -1,7 +1,7 @@
 var interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client =
 [
-    [ "GetTrusteeAttributeKeyValuePairsAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#a8c758bdcb9ab4fe48ae68ee79c392d83", null ],
-    [ "GetTrusteeAttributeKeyValuePairsForEachAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#aca24527d1034d9317bd3c8960468bdde", null ],
-    [ "GetTrusteeAttributeKeyValuePairsNextLinkAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#a329751535c109dba25994ec2e0b8a282", null ],
-    [ "GetTrusteeAttributeValueByKeyAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#ae83b062e920497c2fabfc0cde46adb6d", null ]
+    [ "GetTrusteeAttributeKeyValuePairsAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#a86876a722daa615f08084c420070155d", null ],
+    [ "GetTrusteeAttributeKeyValuePairsForEachAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#ad56ff1fbad4b0c9f852bad85dc0b538c", null ],
+    [ "GetTrusteeAttributeKeyValuePairsNextLinkAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#a8db394220545ab1fe9495fb9bf289eae", null ],
+    [ "GetTrusteeAttributeValueByKeyAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_attributes_client.html#aed84a920700674f7ffc0eaf25ebb52f1", null ]
 ];
