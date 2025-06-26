@@ -22,6 +22,15 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
             var token = result.Token;
             Assert.IsTrue(!string.IsNullOrEmpty(token));
+            int taskTries = 0;
+            var progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, token).ConfigureAwait(false);
+            while (progress.Status == OperationStatus.InProgress && taskTries < 100)
+            {
+                taskTries++;
+                progress = await client.TasksClient.GetOperationStatusAndProgressAsync(RepositoryId, token).ConfigureAwait(false);
+            }
+            Assert.IsTrue(progress.Status == OperationStatus.Completed);
+
         }
     }
 }

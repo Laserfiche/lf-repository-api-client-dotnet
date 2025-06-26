@@ -3,6 +3,8 @@
 using Laserfiche.Api.Client;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +15,14 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial interface ISearchesClient
     {
+        /// <summary>
+        /// Get search results with uri.
+        /// </summary>
+        /// <param name="searchResultsUri">Uri string.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Get entry successfully.</returns>
+        Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Returns a collection of search results using paging. Page results are returned to the <paramref name="callback"/>.
         /// </summary>
@@ -74,10 +84,34 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Get search context hits successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfContextHit> GetSearchContextHitsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Waits for search to have expected status until timeout.
+        /// </summary>
+        /// <param name="repositoryId">Repository Id</param>
+        /// <param name="operationId">Operation Id</param>
+        /// <param name="timeout">Time to wait for operation to reach expected status</param>
+        /// <param name="handleOperationProgress">Action called for each task progress</param>
+        /// <param name="expectedOperationStatus">Expected OperationStatus, defaults to OperationStatus.Completed.</param>
+        /// <param name="cancellationToken">Optional cancellation token</param>
+        /// <returns></returns>
+        Task<OperationProgress> WaitForSearchAsync(string repositoryId, string operationId, TimeSpan timeout, Action<OperationProgress> handleOperationProgress = null, OperationStatus expectedOperationStatus = OperationStatus.Completed, CancellationToken cancellationToken = default);
     }
 
-    partial class SearchesClient
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    partial class SearchesClient : ISearchesClient
     {
+        public async Task<ODataValueContextOfIListOfEntry> GetSearchResultsAsync(string searchResultsUri, CancellationToken cancellationToken = default)
+        {
+            using (var request = new HttpRequestMessage())
+            {
+                request.Method = new HttpMethod("GET");
+                request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                request.RequestUri = new Uri(searchResultsUri, UriKind.Absolute);
+                return await GetSearchResultsSendAsync(request, _httpClient, new bool[] { false }, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
         public async Task GetSearchResultsForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, string searchToken, bool? groupByEntryType = null, bool? refresh = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
 
         {
@@ -112,5 +146,34 @@ namespace Laserfiche.Repository.Api.Client
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetSearchContextHitsSendAsync, cancellationToken).ConfigureAwait(false);
         }
+
+        public async Task<OperationProgress> WaitForSearchAsync(string repositoryId, string operationId, TimeSpan timeout, Action<OperationProgress> handleOperationProgress = null, OperationStatus expectedOperationStatus = OperationStatus.Completed, CancellationToken cancellationToken = default)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            while (true)
+            {
+                var operationStatus = await GetSearchStatusAsync(repositoryId, operationId, cancellationToken).ConfigureAwait(false);
+
+                if (handleOperationProgress != null) handleOperationProgress(operationStatus);
+
+                if (operationStatus.Status == expectedOperationStatus)
+                {
+                    return operationStatus;
+                }
+                else if (expectedOperationStatus == OperationStatus.Completed && operationStatus.Status == OperationStatus.Failed)
+                {
+                    throw new Exception($"Expected task to complete, but operation with id {operationId} failed after {sw.Elapsed}.");
+                }
+                else if (expectedOperationStatus == OperationStatus.Failed && operationStatus.Status == OperationStatus.Completed)
+                {
+                    throw new Exception($"Expected task to fail, but operation with id {operationId} completed successfully after {sw.Elapsed}.");
+                }
+                else if (sw.Elapsed > timeout)
+                {
+                    throw new Exception($"Waiting for task {operationStatus.OperationType} to be {expectedOperationStatus} timed out after {sw.Elapsed}.");
+                }
+            }
+        }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

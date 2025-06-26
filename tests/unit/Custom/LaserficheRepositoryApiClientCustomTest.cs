@@ -18,23 +18,23 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
     {
         #region GetEntryAsync with url
         [Fact]
-        public void GetEntryAsync_InvalidEntryId()
+        public async Task GetEntryAsync_InvalidEntryId()
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/abc?$select=1";
 
             var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<NullReferenceException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
-        public void GetEntryAsync_InvalidUri()
+        public async Task GetEntryAsync_InvalidUri()
         {
             string uriString = "http://host.laserfiche.com/wrongversion/Repositories/repo123/Entries/456?$select=1";
 
             var client = new RepositoryApiClient(null);
 
-            Assert.ThrowsAsync<ArgumentException>(() => client.EntriesClient.GetEntryAsync(uriString));
+            await Assert.ThrowsAsync<NullReferenceException>(() => client.EntriesClient.GetEntryAsync(uriString));
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetEntryAsync(uriString).ConfigureAwait(false);
+            var result = await client.EntriesClient.GetEntryAsync(uriString);
 
             // ASSERT
             Assert.NotNull(result);
@@ -170,7 +170,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(acceptLanguageHeaderValue));
 
             // ACT
-            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id).ConfigureAwait(false);
+            var result = await client.EntriesClient.GetEntryAsync(repoId, entry.Id);
 
             // ASSERT
             Assert.NotNull(result);

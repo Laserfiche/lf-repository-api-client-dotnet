@@ -61,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -124,7 +124,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.DeleteEntryInfoAsync(repoId, entryId, request).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);

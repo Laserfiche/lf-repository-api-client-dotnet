@@ -62,13 +62,13 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                     TemplateId = 1,
                     FieldValues = fieldValsDict
             }
-            ).ConfigureAwait(false);
+            );
 
             // ASSERT
             Assert.NotNull(response);
-            Assert.Equal(1, response.Count);
+            Assert.Single(response);
             Assert.True(response.ElementAt(0).Value.Contains("additionalValue1"));
-            Assert.Equal(1, response.ElementAt(0).Value.Count);
+            Assert.Single(response.ElementAt(0).Value);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue");
@@ -128,7 +128,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
                 TemplateId = 1,
                 FieldValues = new Dictionary<string, string>() { ["1"] = "2" }
             }
-            ).ConfigureAwait(false)).ConfigureAwait(false);
+            ).ConfigureAwait(false));
 
             // ASSERT
             // also check the 'http' call was like we expected it

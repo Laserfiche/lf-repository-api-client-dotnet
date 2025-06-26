@@ -72,7 +72,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request).ConfigureAwait(false);
+            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request);
 
             // ASSERT
             Assert.NotNull(result);
@@ -148,7 +148,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entryId, request).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entryId, request).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -225,7 +225,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request, autoRename: true).ConfigureAwait(false);
+            var result = await client.EntriesClient.MoveOrRenameEntryAsync(repoId, entry.Id, request, autoRename: true);
 
             // ASSERT
             Assert.NotNull(result);

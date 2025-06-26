@@ -144,6 +144,8 @@ namespace Laserfiche.Repository.Api.Client
 
     partial class EntriesClient
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             using (var request = new HttpRequestMessage())
@@ -222,5 +224,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagsAssignedToEntrySendAsync, cancellationToken).ConfigureAwait(false);
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
     }
 }

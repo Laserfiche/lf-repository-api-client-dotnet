@@ -69,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetEntryByPathAsync(repoId, rootPath, fallBackToClosestAncestor).ConfigureAwait(false);
+            var result = await client.EntriesClient.GetEntryByPathAsync(repoId, rootPath, fallBackToClosestAncestor);
 
             // ASSERT   
             Assert.NotNull(result);
@@ -157,7 +157,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var result = await client.EntriesClient.GetEntryByPathAsync(repoId, nonExistingPath, fallBackToClosestAncestor).ConfigureAwait(false);
+            var result = await client.EntriesClient.GetEntryByPathAsync(repoId, nonExistingPath, fallBackToClosestAncestor);
 
             // ASSERT   
             Assert.NotNull(result);
@@ -228,7 +228,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryByPathAsync(repoId, rootPath, fallBackToClosestAncestor).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryByPathAsync(repoId, rootPath, fallBackToClosestAncestor).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
@@ -283,7 +283,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             var client = new RepositoryApiClient(httpClient);
 
             // ACT
-            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryByPathAsync(repoId, nonExistingPath, fallBackToClosestAncestor).ConfigureAwait(false)).ConfigureAwait(false);
+            var response = await Assert.ThrowsAsync<ApiException>(async () => await client.EntriesClient.GetEntryByPathAsync(repoId, nonExistingPath, fallBackToClosestAncestor).ConfigureAwait(false));
 
             // ASSERT
             Assert.Equal((int)statusCode, response.StatusCode);
