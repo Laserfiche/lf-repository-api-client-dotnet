@@ -10,7 +10,6 @@ var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit =
     [ "Highlight2Length", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#ae3ffd86717e750d773fc53aed52c50d0", null ],
     [ "Highlight2Offset", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#af4185f5e14a647d0c0f83047ee3daa5b", null ],
     [ "HitNumber", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#ad95834ef52a5d0cf9af0bf1b09cac0d1", null ],
-    [ "HitType", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a0b3f20c34fe4b5910d65b409af6f3122", null ],
     [ "HitWidth", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a3f47ea6b6779852f9f2fddf5a5779bd5", null ],
     [ "IsAnnotationHit", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a011a3865103d547220395985c9b054d4", null ],
     [ "PageNumber", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a8cb80307e591610ff75fd38b4550cc30", null ],

@@ -62,7 +62,6 @@ var hierarchy =
     [ "IFormattable", null, [
       [ "PostEntryWithEdocMetadataRequest", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_post_entry_with_edoc_metadata_request.html", null ]
     ] ],
-    [ "IHeaderDictionary", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_header_dictionary.html", null ],
     [ "ILinkDefinitionsClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_link_definitions_client.html", [
       [ "LinkDefinitionsClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_link_definitions_client.html", null ]
     ] ],
@@ -73,6 +72,7 @@ var hierarchy =
       [ "RepositoryApiClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html", null ]
     ] ],
     [ "ISearchesClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_searches_client.html", [
+      [ "SearchesClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_searches_client.html", null ],
       [ "SearchesClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_searches_client.html", null ]
     ] ],
     [ "IServerSessionClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_server_session_client.html", [
@@ -85,6 +85,7 @@ var hierarchy =
       [ "TagDefinitionsClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tag_definitions_client.html", null ]
     ] ],
     [ "ITasksClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_tasks_client.html", [
+      [ "TasksClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html", null ],
       [ "TasksClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html", null ]
     ] ],
     [ "ITemplateDefinitionsClient", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_template_definitions_client.html", [

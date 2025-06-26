@@ -1,10 +1,7 @@
 var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client =
 [
-    [ "FieldDefinitionsClient", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a8c7cae51726cfd8b43cd2896bbd1d676", null ],
-    [ "GetFieldDefinitionByIdAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a822c96144e5a4ab268a1d448f6539641", null ],
-    [ "GetFieldDefinitionsAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#ad625bce9543c830bc2963319c2262b71", null ],
-    [ "GetFieldDefinitionsForEachAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a85389c054d5ab4e14d572c37761b05e9", null ],
-    [ "GetFieldDefinitionsNextLinkAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#aed0a334c96778926315bf8e8cba3e1d9", null ],
-    [ "JsonSerializerSettings", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a4370387096cc161f609b4fb82fb1c2a6", null ],
-    [ "ReadResponseAsString", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#af23696a86b169e0602f5041d05833c5e", null ]
+    [ "GetFieldDefinitionByIdAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a97e310f381b877b6b2bce97563ebe9ab", null ],
+    [ "GetFieldDefinitionsAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#af7fd69bd5ff13efc41375418d372570d", null ],
+    [ "GetFieldDefinitionsForEachAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#acc87dc8d226d4663b46aa19491e75c62", null ],
+    [ "GetFieldDefinitionsNextLinkAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#ac9d76b70e987ab90b9480d1a144199fc", null ]
 ];
