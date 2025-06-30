@@ -23,6 +23,13 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <inheritdoc/>
+        public TimeSpan HttpClientTimeout
+        {
+            get { return _httpClient.Timeout; }
+            set { _httpClient.Timeout = value; }
+        }
+
+        /// <inheritdoc/>
         public IAttributesClient AttributesClient { get; }
         /// <inheritdoc/>
         public IAuditReasonsClient AuditReasonsClient { get; }
