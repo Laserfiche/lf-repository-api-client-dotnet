@@ -16,6 +16,7 @@ namespace Laserfiche.Repository.Api.Client
     {
         protected static void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings)        {
             settings.MaxDepth = 128;
+            settings.DateParseHandling = Newtonsoft.Json.DateParseHandling.None;
         }
 
         protected async Task<T> GetNextLinkAsync<T>(HttpClient httpClient, string nextLink, string prefer, Func<HttpRequestMessage, HttpClient, bool[], CancellationToken, Task<T>> sendAndProcessResponseAsync, CancellationToken cancellationToken) where T : new()
