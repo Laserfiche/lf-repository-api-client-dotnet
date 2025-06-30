@@ -25,6 +25,13 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <inheritdoc/>
+        public TimeSpan HttpClientTimeout
+        {
+            get { return _httpClient.Timeout; }
+            set { _httpClient.Timeout = value; }
+        }
+
+        /// <inheritdoc/>
         public IAttributesClient AttributesClient { get; }
         /// <inheritdoc/>
         public IAuditReasonsClient AuditReasonsClient { get; }
@@ -90,6 +97,7 @@ namespace Laserfiche.Repository.Api.Client
             var apiHttpMessageHandler = new ApiHttpMessageHandler(httpRequestHandler, getApiBaseUri);
             var httpClient = new HttpClient(apiHttpMessageHandler);
             httpClient.BaseAddress = new Uri(baseUrlDebug);
+            httpClient.Timeout = TimeSpan.FromSeconds(180);
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
         }
