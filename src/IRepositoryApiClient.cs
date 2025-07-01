@@ -1,5 +1,6 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using System;
 using System.Net.Http.Headers;
 
 namespace Laserfiche.Repository.Api.Client
@@ -13,6 +14,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The headers which will be sent with each request.
         /// </summary>
         HttpRequestHeaders DefaultRequestHeaders { get; }
+
+        /// <summary>
+        /// The configured HttpClient timeout
+        /// </summary>
+        TimeSpan HttpClientTimeout { get; set; }
 
         /// <summary>
         /// The Laserfiche Repository Attributes API client.
