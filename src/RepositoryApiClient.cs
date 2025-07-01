@@ -100,7 +100,7 @@ namespace Laserfiche.Repository.Api.Client
             {
                 httpClient.BaseAddress = new Uri(DefaultBaseAddress);
             }
-
+            httpClient.Timeout = TimeSpan.FromSeconds(180);
             var repositoryClient = new RepositoryApiClient(httpClient);
             return repositoryClient;
         }
