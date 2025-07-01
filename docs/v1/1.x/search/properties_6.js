@@ -6,5 +6,6 @@ var searchData=
   ['highlight2length_3',['Highlight2Length',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#ae3ffd86717e750d773fc53aed52c50d0',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
   ['highlight2offset_4',['Highlight2Offset',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#af4185f5e14a647d0c0f83047ee3daa5b',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
   ['hitnumber_5',['HitNumber',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#ad95834ef52a5d0cf9af0bf1b09cac0d1',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
-  ['hitwidth_6',['HitWidth',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a3f47ea6b6779852f9f2fddf5a5779bd5',1,'Laserfiche::Repository::Api::Client::ContextHit']]]
+  ['hitwidth_6',['HitWidth',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a3f47ea6b6779852f9f2fddf5a5779bd5',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
+  ['httpclienttimeout_7',['httpclienttimeout',['../interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_repository_api_client.html#aa711975993bbea3c19337640ad6d8144',1,'Laserfiche.Repository.Api.Client.IRepositoryApiClient.HttpClientTimeout'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html#aa711975993bbea3c19337640ad6d8144',1,'Laserfiche.Repository.Api.Client.RepositoryApiClient.HttpClientTimeout']]]
 ];
