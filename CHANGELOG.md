@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.4
+
+### Features
+- Add ability to update HttpClient timeout as needed. Increased default timeout to 180 seconds.
+
 ## 1.1.3
 
 ### Features

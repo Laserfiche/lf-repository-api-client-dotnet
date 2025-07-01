@@ -142,10 +142,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
     }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class EntriesClient
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             using (var request = new HttpRequestMessage())
