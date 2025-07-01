@@ -70,7 +70,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Entries
             // ASSERT
             Assert.NotNull(result);
             Assert.True(string.IsNullOrEmpty(result.TemplateName));
-            Assert.Equal(0, (result.TemplateId));
+            Assert.Equal(0, result.TemplateId);
 
             // also check the 'http' call was like we expected it
             var expectedUri = new Uri(baseAddress + $"v1/Repositories/{repoId}/Entries/{entryId}/template");
