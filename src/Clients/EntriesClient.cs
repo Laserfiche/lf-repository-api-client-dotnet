@@ -143,7 +143,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of fields assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Assigns tags to an entry. Can retry if entry is locked.
@@ -159,7 +159,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Assigns a template to an entry. Can retry if entry is locked.
@@ -175,7 +175,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
@@ -268,60 +268,33 @@ namespace Laserfiche.Repository.Api.Client
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        public async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default)
         {
             Func<Task<Entry>> setTemplateResponse = async () =>
             {
                 return await SetTemplateAsync(parameters, cancellationToken);
             };
-            Entry entryAfterSetTemplate = null;
-            if (retryIfLockedFor != null)
-            {
-                entryAfterSetTemplate = await RetryEntryOperationIfLocked(setTemplateResponse, (TimeSpan)retryIfLockedFor);
-                return entryAfterSetTemplate;
-            }
-            else
-            {
-                entryAfterSetTemplate = await setTemplateResponse();
-            }
+            Entry entryAfterSetTemplate = await RetryEntryOperationIfLocked(setTemplateResponse, (TimeSpan)retryIfLockedFor);
             return entryAfterSetTemplate;
         }
 
-        public async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        public async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default)
         {
             Func<Task<FieldCollectionResponse>> trySetFields = async () =>
             {
                 return await SetFieldsAsync(parameters, cancellationToken);
             };
-            FieldCollectionResponse setFieldsResponse = null;
-            if (retryIfLockedFor != null)
-            {
-                setFieldsResponse = await RetryEntryOperationIfLocked(trySetFields, (TimeSpan)retryIfLockedFor);
-                return setFieldsResponse;
-            }
-            else
-            {
-                setFieldsResponse = await trySetFields();
-            }
+            FieldCollectionResponse setFieldsResponse = await RetryEntryOperationIfLocked(trySetFields, (TimeSpan)retryIfLockedFor);
             return setFieldsResponse;
         }
 
-        public async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        public async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default)
         {
             Func<Task<TagCollectionResponse>> trySetTags = async () =>
             {
                 return await SetTagsAsync(parameters, cancellationToken);
             };
-            TagCollectionResponse setTagsResponse = null;
-            if (retryIfLockedFor != null)
-            {
-                setTagsResponse = await RetryEntryOperationIfLocked(trySetTags, (TimeSpan)retryIfLockedFor);
-                return setTagsResponse;
-            }
-            else
-            {
-                setTagsResponse = await trySetTags();
-            }
+            TagCollectionResponse setTagsResponse = await RetryEntryOperationIfLocked(trySetTags, (TimeSpan)retryIfLockedFor);
             return setTagsResponse;
         }
 
