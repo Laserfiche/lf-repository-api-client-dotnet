@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -128,6 +128,54 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>A collection of tags assigned to the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Updates the field values assigned to an entry. Can retry if entry is locked.
+        /// </summary>
+        /// <remarks>
+        /// - Update the field values assigned to an entry.<br/>
+        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
+        /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A collection of fields assigned to the entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Assigns tags to an entry. Can retry if entry is locked.
+        /// </summary>
+        /// <remarks>
+        /// - Assign tags to an entry.<br/>
+        /// - Provide an entry ID and a list of tags to assign to that entry.<br/>
+        /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A collection of tags assigned to the entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Assigns a template to an entry. Can retry if entry is locked.
+        /// </summary>
+        /// <remarks>
+        /// - Assign a template to an entry.<br/>
+        /// - Provide an entry ID, template name, and a list of template fields to assign to that entry.<br/>
+        /// - Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
@@ -218,6 +266,86 @@ namespace Laserfiche.Repository.Api.Client
         public async Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        {
+            Func<Task<Entry>> setTemplateResponse = async () =>
+            {
+                return await SetTemplateAsync(parameters, cancellationToken);
+            };
+            Entry entryAfterSetTemplate = null;
+            if (retryIfLockedFor != null)
+            {
+                entryAfterSetTemplate = await RetryEntryOperationIfLocked(setTemplateResponse, (TimeSpan)retryIfLockedFor);
+                return entryAfterSetTemplate;
+            }
+            else
+            {
+                entryAfterSetTemplate = await setTemplateResponse();
+            }
+            return entryAfterSetTemplate;
+        }
+
+        public async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        {
+            Func<Task<FieldCollectionResponse>> trySetFields = async () =>
+            {
+                return await SetFieldsAsync(parameters, cancellationToken);
+            };
+            FieldCollectionResponse setFieldsResponse = null;
+            if (retryIfLockedFor != null)
+            {
+                setFieldsResponse = await RetryEntryOperationIfLocked(trySetFields, (TimeSpan)retryIfLockedFor);
+                return setFieldsResponse;
+            }
+            else
+            {
+                setFieldsResponse = await trySetFields();
+            }
+            return setFieldsResponse;
+        }
+
+        public async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, TimeSpan? retryIfLockedFor = null, CancellationToken cancellationToken = default)
+        {
+            Func<Task<TagCollectionResponse>> trySetTags = async () =>
+            {
+                return await SetTagsAsync(parameters, cancellationToken);
+            };
+            TagCollectionResponse setTagsResponse = null;
+            if (retryIfLockedFor != null)
+            {
+                setTagsResponse = await RetryEntryOperationIfLocked(trySetTags, (TimeSpan)retryIfLockedFor);
+                return setTagsResponse;
+            }
+            else
+            {
+                setTagsResponse = await trySetTags();
+            }
+            return setTagsResponse;
+        }
+
+        private static async Task<T> RetryEntryOperationIfLocked<T>(Func<Task<T>> performAction, TimeSpan retryIfLockedFor)
+        {
+            bool retryCall = true;
+            Stopwatch sw = Stopwatch.StartNew();
+            T entry = default(T);
+            while (sw.Elapsed < retryIfLockedFor && retryCall)
+            {
+                try
+                {
+                    entry = await performAction();
+                    retryCall = false;
+                }
+                catch (ApiException ex)
+                {
+                    if (ex.StatusCode != 423)
+                    {
+                        throw;
+                    }
+                }
+            }
+            return entry;
         }
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
