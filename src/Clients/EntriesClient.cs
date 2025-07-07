@@ -237,10 +237,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class EntriesClient
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             using (var request = new HttpRequestMessage())

@@ -178,7 +178,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             Assert.Equal(expectedMessage, exception.ProblemDetails.Title);
             Assert.Equal(statusCode, exception.ProblemDetails.Status);
             Assert.Equal(operationId, exception.ProblemDetails.OperationId);
-            Assert.Equal(1, exception.ProblemDetails.Extensions.Count);
+            Assert.Single(exception.ProblemDetails.Extensions);
             Assert.Equal(createEntryResult, exception.ProblemDetails.Extensions[typeof(CreateEntryResult).Name]);
             Assert.Equal(exception.ProblemDetails.Status, exception.StatusCode);
             Assert.Equal(exception.ProblemDetails.Title, exception.Message);
@@ -209,7 +209,7 @@ namespace Laserfiche.Repository.Api.Client.Test.Custom
             Assert.Equal($"HTTP status code {statusCode}.", exception.ProblemDetails.Title);
             Assert.Equal(statusCode, exception.ProblemDetails.Status);
             Assert.Equal(operationId, exception.ProblemDetails.OperationId);
-            Assert.Equal(0, exception.ProblemDetails.Extensions.Count);
+            Assert.Empty(exception.ProblemDetails.Extensions);
             Assert.Equal(exception.ProblemDetails.Status, exception.StatusCode);
             Assert.Equal(exception.ProblemDetails.Title, exception.Message);
             Assert.Equal(headers, exception.Headers);

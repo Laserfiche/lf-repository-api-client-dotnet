@@ -112,7 +112,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the attribute key value pairs associated with the authenticated user.
         /// </summary>
@@ -290,7 +289,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns an attribute object associated with the authenticated user.
         /// </summary>
@@ -999,7 +997,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Creates a new document in a folder.
         /// </summary>
@@ -1218,7 +1215,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single entry object.
         /// </summary>
@@ -1373,7 +1369,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deletes an entry asynchronously.
         /// </summary>
@@ -1534,7 +1529,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Moves and/or renames an entry.
         /// </summary>
@@ -1727,7 +1721,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single entry object using the entry path.
         /// </summary>
@@ -1876,7 +1869,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the children entries of a folder.
         /// </summary>
@@ -2077,7 +2069,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Creates/copies a new child entry in a folder.
         /// </summary>
@@ -2261,7 +2252,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the fields assigned to an entry.
         /// </summary>
@@ -2449,7 +2439,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Updates the field values assigned to an entry.
         /// </summary>
@@ -2627,7 +2616,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the tags assigned to an entry.
         /// </summary>
@@ -2805,7 +2793,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns tags to an entry.
         /// </summary>
@@ -2977,7 +2964,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns links to an entry.
         /// </summary>
@@ -3148,7 +3134,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the links assigned to an entry.
         /// </summary>
@@ -3326,7 +3311,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Copies an entry into a folder asynchronously.
         /// </summary>
@@ -3502,7 +3486,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deletes the edoc associated with an entry.
         /// </summary>
@@ -3657,7 +3640,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns information about the edoc content of an entry.
         /// </summary>
@@ -3785,7 +3767,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns an entry's edoc resource in a stream format.
         /// </summary>
@@ -3952,7 +3933,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deletes the pages associated with an entry.
         /// </summary>
@@ -4115,7 +4095,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns an entry's edoc resource in a stream format, including an audit reason.
         /// </summary>
@@ -4297,7 +4276,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
@@ -4458,7 +4436,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Removes the currently assigned template from an entry.
         /// </summary>
@@ -4615,7 +4592,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Assigns a template to an entry.
         /// </summary>
@@ -4980,7 +4956,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single field definition object.
         /// </summary>
@@ -5138,7 +5113,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the paged listing of the field definitions available in a repository.
         /// </summary>
@@ -5499,7 +5473,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the link definitions associated with a repository.
         /// </summary>
@@ -5671,7 +5644,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single link definition object.
         /// </summary>
@@ -5982,7 +5954,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the list of repositories accessible to the user.
         /// </summary>
@@ -6266,7 +6237,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the audit reasons associated with the authenticated user.
         /// </summary>
@@ -6655,7 +6625,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Runs a search in the specified repository.
         /// </summary>
@@ -6812,7 +6781,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the status of a search operation.
         /// </summary>
@@ -6978,7 +6946,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Cancels or closes a search operation.
         /// </summary>
@@ -7123,7 +7090,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the results listing associated with a search operation.
         /// </summary>
@@ -7330,7 +7296,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the context hits associated with a search result entry.
         /// </summary>
@@ -7699,7 +7664,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deprecated. Do not call this api.
         /// </summary>
@@ -7839,7 +7803,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deprecated. Do not call this api.
         /// </summary>
@@ -7979,7 +7942,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Deprecated. Do not call this api.
         /// </summary>
@@ -8260,7 +8222,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Runs a "simple" search operation.
         /// </summary>
@@ -8653,7 +8614,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the tag definitions associated with a repository.
         /// </summary>
@@ -8830,7 +8790,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single tag definition object.
         /// </summary>
@@ -9144,7 +9103,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
         /// <param name="hasError">If mock operation should return "failed" status.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Started operation successfully.</returns>
+        /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<AcceptedOperation> StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -9178,7 +9137,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the status of an operation.
         /// </summary>
@@ -9344,7 +9302,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Cancels an operation.
         /// </summary>
@@ -9485,7 +9442,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts a test operation that behaves according to specified parameters.
         /// </summary>
@@ -9494,7 +9450,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="hasRedirectUri">If operation adds redirect uri.</param>
         /// <param name="hasError">If mock operation should return "failed" status.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Started operation successfully.</returns>
+        /// <returns>Copy entry operation is started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<AcceptedOperation> StartTestTaskAsync(string repoId, int? operationTime = null, bool? hasRedirectUri = null, bool? hasError = null, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -9871,7 +9827,6 @@ namespace Laserfiche.Repository.Api.Client
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder);
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response);
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the template definitions associated with a repository.
         /// </summary>
@@ -10053,7 +10008,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a single template definition object.
         /// </summary>
@@ -10211,7 +10165,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition ID).
         /// </summary>
@@ -10394,7 +10347,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition name).
         /// </summary>
