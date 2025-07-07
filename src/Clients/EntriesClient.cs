@@ -192,6 +192,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Assigns links to an entry. Can retry if entry is locked.
+        /// </summary>
+        /// <remarks>
+        /// - Assign links to an entry.<br/>
+        /// - Provide an entry ID and a list of links to assign to that entry.<br/>
+        /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A collection of links assigned to the entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     /// <summary>
@@ -312,6 +327,16 @@ namespace Laserfiche.Repository.Api.Client
             };
             TagCollectionResponse setTagsResponse = await RetryEntryOperationIfLocked(trySetTags, (TimeSpan)retryIfLockedFor);
             return setTagsResponse;
+        }
+
+        public async Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            Func<Task<LinkCollectionResponse>> trySetLinks = async () =>
+            {
+                return await SetLinksAsync(parameters, cancellationToken);
+            };
+            LinkCollectionResponse setLinksResponse = await RetryEntryOperationIfLocked(trySetLinks, (TimeSpan)retryIfLockedFor);
+            return setLinksResponse;
         }
 
         public async Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default)
