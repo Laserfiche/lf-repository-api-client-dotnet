@@ -105,7 +105,8 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         // TODO how to add multiple
                         var firstProblemDetails = taskProgress.Errors.First();
-                        throw new ApiException(firstProblemDetails.Title, firstProblemDetails.Status, null, taskProgress.Errors.First(), null);
+                        var fullErrorMessage = string.Join(",", taskProgress.Errors.Select(e => e.Title));
+                        throw new ApiException(fullErrorMessage, firstProblemDetails.Status, null, taskProgress.Errors.First(), null);
                     }
 
                 }

@@ -312,7 +312,9 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 catch (ApiException ex)
                 {
-                    if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains("[9059]"))
+                    string LockErrorCode = "[9014]";
+                    string EntrySharingErrorCode = "[9059]";
+                    if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                     {
                         throw;
                     }
