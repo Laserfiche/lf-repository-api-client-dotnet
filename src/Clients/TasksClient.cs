@@ -89,7 +89,7 @@ namespace Laserfiche.Repository.Api.Client
                 if (handleTaskProgressFunc != null)
                 {
                     var taskHandled = await handleTaskProgressFunc(taskProgress);
-                    if (!taskHandled)
+                    if (taskHandled)
                     {
                         return taskProgress;
                     }
