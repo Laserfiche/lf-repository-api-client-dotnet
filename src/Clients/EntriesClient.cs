@@ -176,6 +176,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Creates a new child entry in a folder. Can retry if entry is locked.
+        /// </summary>
+        /// <remarks>
+        /// - Create a new child entry in the designated folder.<br/>
+        /// - Provide the parent folder ID, and based on the request body, create a folder/shortcut as a child entry of the designated folder.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The created entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     /// <summary>
@@ -296,6 +312,16 @@ namespace Laserfiche.Repository.Api.Client
             };
             TagCollectionResponse setTagsResponse = await RetryEntryOperationIfLocked(trySetTags, (TimeSpan)retryIfLockedFor);
             return setTagsResponse;
+        }
+
+        public async Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, TimeSpan retryIfLockedFor, CancellationToken cancellationToken = default)
+        {
+            Func<Task<Entry>> tryCreateEntry = async () =>
+            {
+                return await CreateEntryAsync(parameters, cancellationToken);
+            };
+            Entry createEntryResponse = await RetryEntryOperationIfLocked(tryCreateEntry, (TimeSpan)retryIfLockedFor);
+            return createEntryResponse;
         }
 
         private static async Task<T> RetryEntryOperationIfLocked<T>(Func<Task<T>> performAction, TimeSpan retryIfLockedFor)
