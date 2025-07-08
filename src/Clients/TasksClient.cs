@@ -101,12 +101,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else if (taskProgress.Status == TaskStatus.Failed)
                 {
-                    if (taskProgress.Errors.Count > 0)
+                    if (taskProgress.Errors.Count == 1)
                     {
-                        // TODO how to add multiple
                         var firstProblemDetails = taskProgress.Errors.First();
-                        var fullErrorMessage = string.Join(",", taskProgress.Errors.Select(e => e.Title));
-                        throw new ApiException(fullErrorMessage, firstProblemDetails.Status, null, taskProgress.Errors.First(), null);
+                        throw new ApiException(firstProblemDetails.Title, firstProblemDetails.Status, null, taskProgress.Errors.First(), null);
+                    }
+                    else if (taskProgress.Errors.Count > 0)
+                    {
+                        var errors = taskProgress.Errors.Select(r => new ApiException(r.Title, r.Status, null, r, null));
+
+                        throw new AggregateException("Multiple errors occurred", errors);
                     }
 
                 }
