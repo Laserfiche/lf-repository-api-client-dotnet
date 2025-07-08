@@ -176,6 +176,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repoId">The requested repository ID.</param>
         /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
         /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="fieldsToUpdate">Fields to update on entry</param>
         /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Update field values successfully.</returns>
