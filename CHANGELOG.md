@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.1
+
+### Features
+
+- Add ability to update HttpClient timeout. Increased default timeout to 180 seconds.
+
+### Chore & Maintenance
+
+- Remove DateTime JSON serialization. Date/DateTime strings will not be converted by client.
+
 ## 2.0.0
 
 ### Features
