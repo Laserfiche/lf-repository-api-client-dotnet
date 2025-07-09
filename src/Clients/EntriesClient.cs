@@ -236,6 +236,27 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Assign a template successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Moves and/or renames an entry.
+        /// </summary>
+        /// <remarks>
+        /// - Moves and/or renames an entry.<br/>
+        /// - Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body.<br/>
+        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="repoId">The requested repository ID.</param>
+        /// <param name="entryId">The requested entry ID.</param>
+        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
+        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
+        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically renamed if another entry already exists with the same name in the folder. The default value is false.</param>
+        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Moves and/or renames an entry successfully.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -362,7 +383,6 @@ namespace Laserfiche.Repository.Api.Client
             return assignLinksResponse;
         }
 
-
         public async Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Func<Task<Entry>> tryWriteTemplate = async () =>
@@ -371,6 +391,16 @@ namespace Laserfiche.Repository.Api.Client
             };
             Entry writeTemplateResponse = await RetryEntryOperationIfLocked(tryWriteTemplate, (TimeSpan)retryIfLockedFor);
             return writeTemplateResponse;
+        }
+
+        public async Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            Func<Task<Entry>> tryMoveOrRename = async () =>
+            {
+                return await MoveOrRenameEntryAsync(repoId, entryId, request, autoRename, culture, cancellationToken);
+            };
+            Entry moveOrRenameResponse = await RetryEntryOperationIfLocked(tryMoveOrRename, (TimeSpan)retryIfLockedFor);
+            return moveOrRenameResponse;
         }
 
         private static async Task<T> RetryEntryOperationIfLocked<T>(Func<Task<T>> performAction, TimeSpan retryIfLockedFor)
