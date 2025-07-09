@@ -31,7 +31,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="repositoryId">Repository Id</param>
         /// <param name="taskId">Operation Id</param>
         /// <param name="timeout">Time to wait for operation to reach completed.</param>
-        /// <param name="handleTaskProgressFunc">Fucntion called for each task progress. If this returns true, the function will return current TaskProgress.</param>
+        /// <param name="handleTaskProgressFunc">Fumction called for each task progress. If this returns true, the function will stop polling and return current TaskProgress.</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns></returns>
         Task<TaskProgress> WaitForTaskAsync(string repositoryId, string taskId, TimeSpan timeout, Func<TaskProgress, Task<bool>> handleTaskProgressFunc = null, CancellationToken cancellationToken = default);
@@ -85,11 +85,11 @@ namespace Laserfiche.Repository.Api.Client
                     TaskIds = new List<string> { taskId }
                 }, cancellationToken);
 
-                TaskProgress taskProgress = taskProgressList.Value.First(element => element.Id.Equals(taskId));
+                TaskProgress taskProgress = taskProgressList.Value.First(element => element.Id == taskId);
                 if (handleTaskProgressFunc != null)
                 {
-                    var taskHandled = await handleTaskProgressFunc(taskProgress);
-                    if (taskHandled)
+                    var stopPolling = await handleTaskProgressFunc(taskProgress);
+                    if (stopPolling)
                     {
                         return taskProgress;
                     }
@@ -101,22 +101,19 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else if (taskProgress.Status == TaskStatus.Failed)
                 {
-                    if (taskProgress.Errors.Count == 1)
+                    if (taskProgress.Errors.Count > 0)
                     {
-                        var firstProblemDetails = taskProgress.Errors.First();
-                        throw new ApiException(firstProblemDetails.Title, firstProblemDetails.Status, null, taskProgress.Errors.First(), null);
+                        throw ApiException.Create(taskProgress.Errors);
                     }
-                    else if (taskProgress.Errors.Count > 0)
+                    else
                     {
-                        var errors = taskProgress.Errors.Select(r => new ApiException(r.Title, r.Status, null, r, null));
-
-                        throw new AggregateException("Multiple errors occurred", errors);
+                        // This is unexpected and a bug in server or RA/RWS
+                        throw new Exception($"Task with id {taskProgress.Id} failed, unknown error occurred.");
                     }
-
                 }
                 else if (sw.Elapsed > timeout)
                 {
-                    throw new Exception($"Waiting for task {taskProgress.TaskType} to be Completed timed out after {sw.Elapsed}.");
+                    throw new TimeoutException($"Waiting for {taskProgress.TaskType} task with id {taskProgress.Id} to be Completed timed out after {sw.Elapsed}.");
                 }
             }
         }
