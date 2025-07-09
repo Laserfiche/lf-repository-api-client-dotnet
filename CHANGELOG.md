@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.5
+
+### Features
+
+- Add ability to retry when entry is locked for CreateOrCopyEntryAsync and metadata operations. 
+
 ## 1.1.4
 
 ### Features
