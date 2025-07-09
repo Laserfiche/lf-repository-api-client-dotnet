@@ -22,7 +22,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
                 return;
             }
 
-            var result = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId).ConfigureAwait(false);
+#pragma warning disable CS0612
+            var result = await client.ServerSessionClient.InvalidateServerSessionAsync(RepositoryId);
+#pragma warning restore CS0612
             Assert.AreEqual(true, result.Value);
         }
     }
