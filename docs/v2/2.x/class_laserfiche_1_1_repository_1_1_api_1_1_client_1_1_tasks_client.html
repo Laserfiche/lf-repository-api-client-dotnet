@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.1</span>
+                                &#160;<span id="projectnumber">2.0.2</span>
                             </div>
                         </td>
                     </tr>
@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0a60dcca6e03afcd02ee0e87112b666f" id="r_a0a60dcca6e03afcd02ee0e87112b666f"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html#a0a60dcca6e03afcd02ee0e87112b666f">WaitForTaskAsync</a> (string repositoryId, string taskId, TimeSpan timeout, Action&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a> &gt; handleTaskProgress=null, <a class="el" href="namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#aacda182df7dba8ce63a50654d7232ba8">TaskStatus</a> expectedTaskStatus=TaskStatus.Completed, CancellationToken cancellationToken=default)</td></tr>
 <tr class="memdesc:a0a60dcca6e03afcd02ee0e87112b666f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for task to have expected status until timeout.  <br /></td></tr>
 <tr class="separator:a0a60dcca6e03afcd02ee0e87112b666f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe5032e489c1bebcae4c67371b8d9c1" id="r_aebe5032e489c1bebcae4c67371b8d9c1"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html#aebe5032e489c1bebcae4c67371b8d9c1">WaitForTaskAsync</a> (string repositoryId, string taskId, TimeSpan timeout, Func&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a>, Task&lt; bool &gt; &gt; handleTaskProgressFunc=null, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:aebe5032e489c1bebcae4c67371b8d9c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for task to complete. Calls handleTaskProgressFunc each time TaskProgress is retrieved. Returns current taskProgress if handleTaskProgressFunc returns true.  <br /></td></tr>
+<tr class="separator:aebe5032e489c1bebcae4c67371b8d9c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -315,7 +318,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadResponseAsString<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A long operation task id.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Start test task operation successfully.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">ApiException</td><td>A server side error occurred.</td></tr>
@@ -328,7 +331,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadResponseAsString<
 </div>
 </div>
 <a id="a0a60dcca6e03afcd02ee0e87112b666f" name="a0a60dcca6e03afcd02ee0e87112b666f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a60dcca6e03afcd02ee0e87112b666f">&#9670;&#160;</a></span>WaitForTaskAsync()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a60dcca6e03afcd02ee0e87112b666f">&#9670;&#160;</a></span>WaitForTaskAsync() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -400,6 +403,75 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadResponseAsString<
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_tasks_client.html#a012f7f7b647a36410902c1b3526d4c5a">ITasksClient</a>.</p>
+
+</div>
+</div>
+<a id="aebe5032e489c1bebcae4c67371b8d9c1" name="aebe5032e489c1bebcae4c67371b8d9c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebe5032e489c1bebcae4c67371b8d9c1">&#9670;&#160;</a></span>WaitForTaskAsync() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">async Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a> &gt; WaitForTaskAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>repositoryId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>taskId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TimeSpan&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_task_progress.html">TaskProgress</a>, Task&lt; bool &gt; &gt;&#160;</td>
+          <td class="paramname"><em>handleTaskProgressFunc</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em> = <code>default</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Waits for task to complete. Calls handleTaskProgressFunc each time TaskProgress is retrieved. Returns current taskProgress if handleTaskProgressFunc returns true. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repositoryId</td><td>Repository Id</td></tr>
+    <tr><td class="paramname">taskId</td><td>Operation Id</td></tr>
+    <tr><td class="paramname">timeout</td><td>Time to wait for operation to reach completed.</td></tr>
+    <tr><td class="paramname">handleTaskProgressFunc</td><td>Fumction called for each task progress. If this returns true, the function will stop polling and return current TaskProgress.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>Optional cancellation token</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_tasks_client.html#af0c0aa6cd36b6c03ec2512e6d26665e1">ITasksClient</a>.</p>
 
 </div>
 </div>

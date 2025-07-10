@@ -32,5 +32,6 @@ var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client =
     [ "StartDeleteEntryAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#ac3aef2863666ee4edd67158b8405b56a", null ],
     [ "StartExportEntryAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a084e5955bd0a2f2471b688032e63c000", null ],
     [ "StartImportUploadedPartsAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a0dd832400c50f7cba2dbbf7584088e54", null ],
-    [ "UpdateEntryAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a7ef0c95fbc8f8afee2f32d8d9d831345", null ]
+    [ "UpdateEntryAsync", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a7ef0c95fbc8f8afee2f32d8d9d831345", null ],
+    [ "RetryIfLockedForTimeout", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836", null ]
 ];

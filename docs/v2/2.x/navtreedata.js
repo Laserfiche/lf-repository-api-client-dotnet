@@ -27,37 +27,40 @@ var NAVTREE =
   [ "Laserfiche.Repository.Api.Client.V2", "index.html", [
     [ "Laserfiche Repository API Client .NET", "index.html", "index" ],
     [ "Changelog", "md__c_h_a_n_g_e_l_o_g.html", [
-      [ "2.0.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ],
-        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", null ]
+      [ "2.0.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ]
       ] ],
-      [ "2.0.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md4", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", null ],
-        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md6", null ]
+      [ "2.0.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md4", null ],
+        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", null ]
       ] ],
-      [ "1.0.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", [
+      [ "2.0.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md6", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", null ],
         [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md8", null ]
       ] ],
-      [ "1.0.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md9", [
+      [ "1.0.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md9", [
         [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md10", null ]
       ] ],
-      [ "1.0.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", null ]
+      [ "1.0.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", [
+        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", null ]
+      ] ],
+      [ "1.0.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md13", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md14", null ]
       ] ]
     ] ],
     [ "Contributor Covenant Code of Conduct", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html", [
-      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md14", null ],
-      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md15", null ],
-      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md16", null ],
-      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md17", null ],
-      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md18", null ],
-      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19", [
-        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md20", null ],
-        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", null ],
-        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", null ],
-        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ]
+      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md16", null ],
+      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md17", null ],
+      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md18", null ],
+      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19", null ],
+      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md20", null ],
+      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", [
+        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", null ],
+        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ],
+        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", null ],
+        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md25", null ]
       ] ],
-      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", null ]
+      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md26", null ]
     ] ],
     [ "Migration Guide", "md__m_i_g_r_a_t_i_o_n___g_u_i_d_e.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -83,13 +86,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html#a8721ead8d1f6de261577eee2eb5c1aba",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_import_entry_request.html",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#a528711f044f1f995f2b40c14d06f8d06",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_search_context_hit.html#ae3ffd86717e750d773fc53aed52c50d0",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tag_collection_response.html#af8ad2b953e5b70463900e4304974270a",
-"interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a6695501f681ffa9d2be40747a09ae94c",
-"namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#aa01498a3ceb2fa74dc9536c16caef1daae8016c85ada38bdc5fac616ec1318047"
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html#a7ee9065718e6628dc7791b756fa6c0f9",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_import_entry_parameters.html#a972d81153a40382184f092bf01912c72",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_list_links_parameters.html#a0f82188384ff8a00a9742d15d8aff2ec",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_search_context_hit.html#ae236af8618f9b2b8f5eebab62b6b486b",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tag_collection_response.html#ae95e257c129a51d19a170aba2b21e490",
+"interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a50c8285c2d87075ec97038942af55916",
+"namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#a9ed8d16c9ae7fae285dd2146c3159023ab0f2b97dc5d2b76b26e040408bb1d8af"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

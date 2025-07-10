@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.1</span>
+                                &#160;<span id="projectnumber">2.0.2</span>
                             </div>
                         </td>
                     </tr>
@@ -96,6 +96,7 @@ $(document).ready(function(){initNavTree('interface_laserfiche_1_1_repository_1_
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">IEntriesClient Interface Reference</div></div>
 </div><!--header-->
@@ -214,6 +215,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a2526eedb620e823c62a14806971c8c" id="r_a7a2526eedb620e823c62a14806971c8c"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html">Entry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a7a2526eedb620e823c62a14806971c8c">UpdateEntryAsync</a> (<a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_update_entry_parameters.html">UpdateEntryParameters</a> parameters, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
 <tr class="memdesc:a7a2526eedb620e823c62a14806971c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update an entry. (Move and/or Rename)  <br /></td></tr>
 <tr class="separator:a7a2526eedb620e823c62a14806971c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a3fa4b8ecedf3db3ea685d4066c6c2836" id="r_a3fa4b8ecedf3db3ea685d4066c6c2836"><td class="memItemLeft" align="right" valign="top">TimeSpan?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836">RetryIfLockedForTimeout</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a3fa4b8ecedf3db3ea685d4066c6c2836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of time request will retry for if entry is locked. Defaults to 30 seconds. If set to null, no retries will be made.  <br /></td></tr>
+<tr class="separator:a3fa4b8ecedf3db3ea685d4066c6c2836"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Laserfiche Repository Entries API client. </p>
@@ -2052,6 +2059,33 @@ Public Member Functions</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a7ef0c95fbc8f8afee2f32d8d9d831345">EntriesClient</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a3fa4b8ecedf3db3ea685d4066c6c2836" name="a3fa4b8ecedf3db3ea685d4066c6c2836"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fa4b8ecedf3db3ea685d4066c6c2836">&#9670;&#160;</a></span>RetryIfLockedForTimeout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeSpan? RetryIfLockedForTimeout</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Amount of time request will retry for if entry is locked. Defaults to 30 seconds. If set to null, no retries will be made. </p>
+
+<p>Implemented in <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836">EntriesClient</a>.</p>
 
 </div>
 </div>
