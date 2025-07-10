@@ -14,7 +14,7 @@
             if (sw.Elapsed > timeLimit) {
                 throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
             }
-            {% template Client.Method.Body %}
+            {% template Client.Method.Request %}
         }
         catch (ApiException ex) {
             string LockErrorCode = "[9014]";
@@ -26,5 +26,5 @@
         }
     }
 {% else -%}
-    {% template Client.Method.Body %}
+    {% template Client.Method.Request %}
 {% endif %}
