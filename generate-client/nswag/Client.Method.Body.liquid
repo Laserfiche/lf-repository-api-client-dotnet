@@ -1,9 +1,6 @@
 // DEBUG: Tags = {{ operation.Tags }}
 {% if 
-    operation.Path contains "Entries" and
-    operation.HttpMethod == "PATCH" or
-    operation.Path contains "Entries" and
-    operation.HttpMethod == "PATCH"
+    operation.Tags contains "Entries"
 -%}
     Stopwatch sw = Stopwatch.StartNew();
     TimeSpan timeLimit = TimeSpan.FromSeconds(30);
