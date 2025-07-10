@@ -15,6 +15,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
 {
     public class ServerSessionsTest
     {
+#pragma warning disable CS0612 // Function is obsolete
         [Fact]
         public async Task InvalidateServerSessionAsync_200()
         {
@@ -222,5 +223,7 @@ namespace Laserfiche.Repository.Api.Client.Test.AccessTokens
                ItExpr.IsAny<CancellationToken>()
             );
         }
+#pragma warning restore CS0612 // Function is obsolete
+
     }
 }
