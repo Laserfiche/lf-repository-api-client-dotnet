@@ -5,17 +5,11 @@
         operation.HttpMethod == "put"
     -%}
         {% template Client.Method.RetryRequest %}
-    {% else -%}
-        {% template Client.Method.Request %}
-    {% endif %}
-    {% if 
+    {% elsif 
         operation.HttpMethod == "delete"
     -%}
         {% template Client.Method.RetryRequest %}
-    {% else -%}
-        {% template Client.Method.Request %}
-    {% endif %}
-    {% if 
+    {% elsif 
         operation.HttpMethod == "patch"
     -%}
         {% template Client.Method.RetryRequest %}
