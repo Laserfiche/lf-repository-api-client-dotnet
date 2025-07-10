@@ -17,7 +17,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds.
         /// </summary>
-        TimeSpan RetryIfLockedForTimeout { get; set; }
+        TimeSpan? RetryIfLockedForTimeout { get; set; }
 
         /// <summary>
         /// Get entry with uri.
@@ -142,9 +142,9 @@ namespace Laserfiche.Repository.Api.Client
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        private TimeSpan _retryIfLockedFor = TimeSpan.FromSeconds(30);
+        private TimeSpan? _retryIfLockedFor = TimeSpan.FromSeconds(30);
 
-        public TimeSpan RetryIfLockedForTimeout
+        public TimeSpan? RetryIfLockedForTimeout
         {
             get { return _retryIfLockedFor; }
             set { _retryIfLockedFor = value; }
