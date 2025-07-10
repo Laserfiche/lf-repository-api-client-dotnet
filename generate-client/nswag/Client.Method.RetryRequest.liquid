@@ -6,9 +6,6 @@ else {
     TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
     while (true) {
         try {
-            if (sw.Elapsed > timeLimit) {
-                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-            }
             {% template Client.Method.Request %}
         }
         catch (ApiException ex) {
