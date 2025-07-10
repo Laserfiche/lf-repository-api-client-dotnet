@@ -8,7 +8,13 @@
     {% elsif 
         operation.HttpMethod == "delete"
     -%}
-        {% template Client.Method.RetryRequest %}
+        {% if 
+            operation.Path contains "Document"
+        -%}
+            {% template Client.Method.RetryRequest %}
+        {% else -%}
+            {% template Client.Method.Request %}
+        {% endif %}
     {% elsif 
         operation.HttpMethod == "patch"
     -%}
