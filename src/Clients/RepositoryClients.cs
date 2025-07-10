@@ -1593,20 +1593,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -2515,20 +2520,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -2880,20 +2890,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -3067,20 +3082,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -3600,20 +3620,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -4072,20 +4097,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -4754,20 +4784,25 @@ namespace Laserfiche.Repository.Api.Client
                     PrepareRequest(client_, request_, url_);
 
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = RetryIfLockedForTimeout;
-                    while (true) {
-                        try {
-                            if (sw.Elapsed > timeLimit) {
-                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                    if (RetryIfLockedForTimeout == null) {
+                        return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                    else {
+                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        while (true) {
+                            try {
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+                                }
+                                return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                        }
-                        catch (ApiException ex) {
-                            string LockErrorCode = "[9014]";
-                            string EntrySharingErrorCode = "[9059]";
-                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                            {
-                                throw;
+                            catch (ApiException ex) {
+                                string LockErrorCode = "[9014]";
+                                string EntrySharingErrorCode = "[9059]";
+                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
