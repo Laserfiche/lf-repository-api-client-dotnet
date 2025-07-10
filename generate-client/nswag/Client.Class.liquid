@@ -346,29 +346,7 @@
                 PrepareRequest(client_, request_, url_);
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
-                Stopwatch sw = Stopwatch.StartNew();
-                TimeSpan timeLimit = TimeSpan.FromSeconds(30);
-                while (true) {
-                    try {
-                        if (sw.Elapsed < timeLimit) {
-                            throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                        }
-{% if operation.HasResultType or operation.WrapResponse -%}
-                        return await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
-{% else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
-                        await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
-                        return;
-{% endif -%}
-                    }
-                    catch (ApiException ex) {
-                        string LockErrorCode = "[9014]";
-                        string EntrySharingErrorCode = "[9059]";
-                        if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                        {
-                            throw;
-                        }
-                    }
-                }
+                {% template Client.Method.Body %}
             }
         }
         finally

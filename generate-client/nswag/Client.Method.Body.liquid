@@ -1,0 +1,21 @@
+{{ if operation.Tags | array.contains "Entries" && operation.Path | string.starts_with "/v2/Repositories/" && operation.Path | string.contains "/Entries" }}
+    Stopwatch sw = Stopwatch.StartNew();
+    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+    while (true) {
+        try {
+            if (sw.Elapsed < timeLimit) {
+                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
+            }
+            {% template Client.Method.Body %}
+        }
+        catch (ApiException ex) {
+            string LockErrorCode = "[9014]";
+            string EntrySharingErrorCode = "[9059]";
+            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+            {
+                throw;
+            }
+        }
+    }
+{{ else }}
+    {% template Client.Method.Body %}
