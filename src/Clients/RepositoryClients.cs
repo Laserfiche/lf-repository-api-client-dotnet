@@ -3617,7 +3617,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -4944,7 +4944,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -5316,7 +5316,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -5509,7 +5509,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -6053,7 +6053,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -6234,7 +6234,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
@@ -6748,7 +6748,7 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
                     Stopwatch sw = Stopwatch.StartNew();
-                    TimeSpan timeLimit = TimeSpan.FromSeconds(30);
+                    TimeSpan timeLimit = RetryIfLockedForTimeout;
                     while (true) {
                         try {
                             if (sw.Elapsed > timeLimit) {
