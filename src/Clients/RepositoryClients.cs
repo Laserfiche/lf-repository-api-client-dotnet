@@ -186,7 +186,7 @@ namespace Laserfiche.Repository.Api.Client
                     TimeSpan timeLimit = TimeSpan.FromSeconds(30);
                     while (true) {
                         try {
-                            if (sw.Elapsed < timeLimit) {
+                            if (sw.Elapsed > timeLimit) {
                                 throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
                             }
                             return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
