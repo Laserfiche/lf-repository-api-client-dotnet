@@ -153,9 +153,9 @@ namespace Laserfiche.Repository.Api.Client
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class EntriesClient
     {
-        private TimeSpan _retryIfLockedFor = TimeSpan.FromSeconds(30);
+        private TimeSpan? _retryIfLockedFor = TimeSpan.FromSeconds(30);
 
-        public TimeSpan RetryIfLockedForTimeout
+        public TimeSpan? RetryIfLockedForTimeout
         {
             get { return _retryIfLockedFor; }
             set { _retryIfLockedFor = value; }
