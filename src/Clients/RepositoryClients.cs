@@ -3636,6 +3636,9 @@ namespace Laserfiche.Repository.Api.Client
                                 {
                                     throw;
                                 }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                                }
                             }
                         }
                     }
@@ -4968,6 +4971,9 @@ namespace Laserfiche.Repository.Api.Client
                                 {
                                     throw;
                                 }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                                }
                             }
                         }
                     }
@@ -5345,6 +5351,9 @@ namespace Laserfiche.Repository.Api.Client
                                 {
                                     throw;
                                 }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                                }
                             }
                         }
                     }
@@ -5542,6 +5551,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -6092,6 +6104,9 @@ namespace Laserfiche.Repository.Api.Client
                                 {
                                     throw;
                                 }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                                }
                             }
                         }
                     }
@@ -6277,6 +6292,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -6796,6 +6814,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
