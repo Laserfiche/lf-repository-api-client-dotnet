@@ -1,11 +1,11 @@
 {% if 
-    (operation.OperationId == "UpdateEntry") or
-    (operation.OperationId == "DeleteElectronicDocument") or
-    (operation.OperationId == "DeletePages") or
-    (operation.OperationId == "SetFields") or
-    (operation.OperationId == "SetLinks") or
-    (operation.OperationId == "SetTags") or
-    (operation.OperationId == "SetTemplate") 
+    operation.OperationId == "UpdateEntry" or
+    operation.OperationId == "DeleteElectronicDocument" or
+    operation.OperationId == "DeletePages" or
+    operation.OperationId == "SetFields" or
+    operation.OperationId == "SetLinks" or
+    operation.OperationId == "SetTags" or
+    operation.OperationId == "SetTemplate" 
 &}
     Stopwatch sw = Stopwatch.StartNew();
     TimeSpan timeLimit = TimeSpan.FromSeconds(30);
