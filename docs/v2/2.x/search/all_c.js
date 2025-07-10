@@ -10,6 +10,6 @@ var searchData=
   ['hitnumber_7',['HitNumber',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_search_context_hit.html#ad95834ef52a5d0cf9af0bf1b09cac0d1',1,'Laserfiche::Repository::Api::Client::SearchContextHit']]],
   ['hittype_8',['hittype',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_search_context_hit.html#a0b3f20c34fe4b5910d65b409af6f3122',1,'Laserfiche.Repository.Api.Client.SearchContextHit.HitType'],['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#ae44f100e04e667fcd1c9a7dedcae5386',1,'Laserfiche.Repository.Api.Client.HitType']]],
   ['hitwidth_9',['HitWidth',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_search_context_hit.html#a3f47ea6b6779852f9f2fddf5a5779bd5',1,'Laserfiche::Repository::Api::Client::SearchContextHit']]],
-  ['how_20to_20contribute_10',['How to contribute',['../index.html#autotoc_md41',1,'']]],
+  ['how_20to_20contribute_10',['How to contribute',['../index.html#autotoc_md43',1,'']]],
   ['httpclienttimeout_11',['httpclienttimeout',['../interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_repository_api_client.html#aa711975993bbea3c19337640ad6d8144',1,'Laserfiche.Repository.Api.Client.IRepositoryApiClient.HttpClientTimeout'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html#aa711975993bbea3c19337640ad6d8144',1,'Laserfiche.Repository.Api.Client.RepositoryApiClient.HttpClientTimeout']]]
 ];

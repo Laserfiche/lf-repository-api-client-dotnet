@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.1</span>
+                                &#160;<span id="projectnumber">2.0.2</span>
                             </div>
                         </td>
                     </tr>
@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('class_laserfiche_1_1_repository_1_1_ap
   <tr class="odd"><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html#aea59b52d40a36fe2aab23f45a32d279c">StartTestTaskAsync</a>(StartTestTaskParameters parameters, CancellationToken cancellationToken=default(CancellationToken))</td><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html">TasksClient</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>TasksClient</b>(HttpClient httpClient) (defined in <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html">TasksClient</a>)</td><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html">TasksClient</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html#a0a60dcca6e03afcd02ee0e87112b666f">WaitForTaskAsync</a>(string repositoryId, string taskId, TimeSpan timeout, Action&lt; TaskProgress &gt; handleTaskProgress=null, TaskStatus expectedTaskStatus=TaskStatus.Completed, CancellationToken cancellationToken=default)</td><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html">TasksClient</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html#aebe5032e489c1bebcae4c67371b8d9c1">WaitForTaskAsync</a>(string repositoryId, string taskId, TimeSpan timeout, Func&lt; TaskProgress, Task&lt; bool &gt; &gt; handleTaskProgressFunc=null, CancellationToken cancellationToken=default)</td><td class="entry"><a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_tasks_client.html">TasksClient</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
