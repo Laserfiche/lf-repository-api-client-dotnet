@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +14,11 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     partial interface IEntriesClient
     {
+        /// <summary>
+        /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds.
+        /// </summary>
+        TimeSpan RetryIfLockedForTimeout { get; set; }
+
         /// <summary>
         /// Get entry with uri.
         /// </summary>
@@ -137,6 +142,14 @@ namespace Laserfiche.Repository.Api.Client
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+        private TimeSpan _retryIfLockedFor = TimeSpan.FromSeconds(30);
+
+        public TimeSpan RetryIfLockedForTimeout
+        {
+            get { return _retryIfLockedFor; }
+            set { _retryIfLockedFor = value; }
+        }
+
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             using (var request = new HttpRequestMessage())
@@ -144,7 +157,7 @@ namespace Laserfiche.Repository.Api.Client
                 request.Method = new HttpMethod("GET");
                 request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
                 request.RequestUri = new Uri(uriString, UriKind.Absolute);
-                return await GetEntrySendAsync(request, _httpClient, new bool[] { false }, cancellationToken).ConfigureAwait(false);
+                return await GetEntrySendAsync(request, _httpClient, new bool[] { false }, cancellationToken);
             }
         }
 
@@ -152,12 +165,12 @@ namespace Laserfiche.Repository.Api.Client
         {
             // Initial request
             parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
-            var response = await ListEntriesAsync(parameters, cancellationToken).ConfigureAwait(false);
+            var response = await ListEntriesAsync(parameters, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListEntriesSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListEntriesSendAsync, cancellationToken);
             }
         }
 
@@ -165,12 +178,12 @@ namespace Laserfiche.Repository.Api.Client
         {
             // Initial request
             parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
-            var response = await ListFieldsAsync(parameters, cancellationToken).ConfigureAwait(false);
+            var response = await ListFieldsAsync(parameters, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListFieldsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListFieldsSendAsync, cancellationToken);
             }
         }
 
@@ -178,12 +191,12 @@ namespace Laserfiche.Repository.Api.Client
         {
             // Initial request
             parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
-            var response = await ListLinksAsync(parameters, cancellationToken).ConfigureAwait(false);
+            var response = await ListLinksAsync(parameters, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListLinksSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListLinksSendAsync, cancellationToken);
             }
         }
 
@@ -191,33 +204,33 @@ namespace Laserfiche.Repository.Api.Client
         {
             // Initial request
             parameters.Prefer = MergeMaxSizeIntoPrefer(maxPageSize, parameters.Prefer);
-            var response = await ListTagsAsync(parameters, cancellationToken).ConfigureAwait(false);
+            var response = await ListTagsAsync(parameters, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, parameters.Prefer, ListTagsSendAsync, cancellationToken);
             }
         }
 
         public async Task<EntryCollectionResponse> ListEntriesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListEntriesSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListEntriesSendAsync, cancellationToken);
         }
 
         public async Task<FieldCollectionResponse> ListFieldsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListFieldsSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListFieldsSendAsync, cancellationToken);
         }
 
         public async Task<LinkCollectionResponse> ListLinksNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListLinksSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListLinksSendAsync, cancellationToken);
         }
 
         public async Task<TagCollectionResponse> ListTagsNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTagsSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), ListTagsSendAsync, cancellationToken);
         }
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
