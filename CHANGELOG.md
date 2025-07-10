@@ -4,7 +4,7 @@
 
 ### Features
 
-- Add ability to retry when entry is locked for CreateOrCopyEntryAsync and metadata operations. 
+- Add retry when entry is locked. Defaults to 30 seconds. Allows setting by `EntriesClient.RetryIfLockedForTimeout`
 
 ## 1.1.4
 

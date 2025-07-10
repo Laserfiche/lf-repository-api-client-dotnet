@@ -18,6 +18,11 @@ namespace Laserfiche.Repository.Api.Client
     partial interface IEntriesClient
     {
         /// <summary>
+        /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds.
+        /// </summary>
+        TimeSpan RetryIfLockedForTimeout { get; set; }
+
+        /// <summary>
         /// Get entry with uri.
         /// </summary>
         /// <param name="uriString">Uri string.</param>
@@ -143,125 +148,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Get entry tags successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Creates/copies a new child entry in a folder. Allows retry if entry is locked
-        /// </summary>
-        /// <remarks>
-        /// - Create/copy a new child entry in the designated folder.<br/>
-        /// - Provide the parent folder ID, and based on the request body, copy or create a folder/shortcut as a child entry of the designated folder.<br/>
-        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="entryId">The folder ID that the entry will be created in.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="request">The entry to create.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the new entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created a new child entry successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Updates the field values assigned to an entry. Allows retry if entry is locked
-        /// </summary>
-        /// <remarks>
-        /// - Update the field values assigned to an entry.<br/>
-        /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
-        /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="entryId">The entry ID of the entry that will have its fields updated.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="fieldsToUpdate">Fields to update on entry</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Update field values successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <summary>
-        /// Assigns tags to an entry. Allows retry if entry is locked
-        /// </summary>
-        /// <remarks>
-        /// - Assign tags to an entry.<br/>
-        /// - Provide an entry ID and a list of tags to assign to that entry.<br/>
-        /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="tagsToAdd">The tags to add.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Assign tags to an entry successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTagRequest tagsToAdd = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Assigns links to an entry. Allows retry if entry is locked
-        /// </summary>
-        /// <remarks>
-        /// - Assign links to an entry.<br/>
-        /// - Provide an entry ID and a list of links to assign to that entry.<br/>
-        /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The request repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="linksToAdd">Links to add</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Assign links to an entry successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, IEnumerable<PutLinksRequest> linksToAdd = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Assigns a template to an entry. Allows retry if entry is locked
-        /// </summary>
-        /// <remarks>
-        /// - Assign a template to an entry.<br/>
-        /// - Provide an entry ID, template name, and a list of template fields to assign to that entry.<br/>
-        /// - Only template values will be modified. Any existing independent fields on the entry will not be modified, nor will they be added if included in the request. The only modification to fields will only occur on templated fields. If the previously assigned template includes common template fields as the newly assigned template, the common field values will not be modified.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="entryId">The ID of entry that will have its template updated.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="request">The template and template fields that will be assigned to the entry.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Assign a template successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Moves and/or renames an entry.
-        /// </summary>
-        /// <remarks>
-        /// - Moves and/or renames an entry.<br/>
-        /// - Move and/or rename an entry by passing in the new parent folder ID or name in the JSON body.<br/>
-        /// - Optional parameter: autoRename (default false). If an entry already exists with the given name, the entry will be automatically renamed.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="repoId">The requested repository ID.</param>
-        /// <param name="entryId">The requested entry ID.</param>
-        /// <param name="retryIfLockedFor">If passed, the client will retry if the entry is locked, until it is no longer locked or the timeout is reached.</param>
-        /// <param name="request">The request containing the folder ID that the entry will be moved to and the new name the entry will be renamed to.</param>
-        /// <param name="autoRename">An optional query parameter used to indicate if the entry should be automatically renamed if another entry already exists with the same name in the folder. The default value is false.</param>
-        /// <param name="culture">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Moves and/or renames an entry successfully.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken));
-
     }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class EntriesClient
     {
+        private TimeSpan _retryIfLockedFor = TimeSpan.FromSeconds(30);
+
+        public TimeSpan RetryIfLockedForTimeout
+        {
+            get { return _retryIfLockedFor; }
+            set { _retryIfLockedFor = value; }
+        }
+
         public async Task<Entry> GetEntryAsync(string uriString, CancellationToken cancellationToken = default)
         {
             using (var request = new HttpRequestMessage())
@@ -269,163 +168,76 @@ namespace Laserfiche.Repository.Api.Client
                 request.Method = new HttpMethod("GET");
                 request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
                 request.RequestUri = new Uri(uriString, UriKind.Absolute);
-                return await GetEntrySendAsync(request, _httpClient, new bool[] { false }, cancellationToken).ConfigureAwait(false);
+                return await GetEntrySendAsync(request, _httpClient, new bool[] { false }, cancellationToken);
             }
         }
 
         public async Task GetEntryListingForEachAsync(Func<ODataValueContextOfIListOfEntry, Task<bool>> callback, string repoId, int entryId, bool? groupByEntryType = null, IEnumerable<string> fields = null, bool? formatFields = null, string prefer = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            var response = await GetEntryListingAsync(repoId, entryId, groupByEntryType, fields, formatFields, MergeMaxSizeIntoPrefer(maxPageSize, prefer), culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetEntryListingSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetEntryListingSendAsync, cancellationToken);
             }
         }
 
         public async Task GetFieldValuesForEachAsync(Func<ODataValueContextOfIListOfFieldValue, Task<bool>> callback, string repoId, int entryId, string prefer = null, bool? formatValue = null, string culture = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetFieldValuesAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), formatValue, culture, select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            var response = await GetFieldValuesAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), formatValue, culture, select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldValuesSendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetFieldValuesSendAsync, cancellationToken);
             }
         }
 
         public async Task GetLinkValuesFromEntryForEachAsync(Func<ODataValueContextOfIListOfWEntryLinkInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetLinkValuesFromEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            var response = await GetLinkValuesFromEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkValuesFromEntrySendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetLinkValuesFromEntrySendAsync, cancellationToken);
             }
         }
 
         public async Task GetTagsAssignedToEntryForEachAsync(Func<ODataValueContextOfIListOfWTagInfo, Task<bool>> callback, string repoId, int entryId, string prefer = null, string select = null, string orderby = null, int? top = null, int? skip = null, bool? count = null, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
             // Initial request
-            var response = await GetTagsAssignedToEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken).ConfigureAwait(false);
+            var response = await GetTagsAssignedToEntryAsync(repoId, entryId, MergeMaxSizeIntoPrefer(maxPageSize, prefer), select, orderby, top, skip, count, cancellationToken);
 
             // Further requests
-            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response).ConfigureAwait(false))
+            while (!cancellationToken.IsCancellationRequested && response != null && await callback(response))
             {
-                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagsAssignedToEntrySendAsync, cancellationToken).ConfigureAwait(false);
+                response = await GetNextLinkAsync(_httpClient, response.OdataNextLink, MergeMaxSizeIntoPrefer(maxPageSize, prefer), GetTagsAssignedToEntrySendAsync, cancellationToken);
             }
         }
 
         public async Task<ODataValueContextOfIListOfEntry> GetEntryListingNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetEntryListingSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetEntryListingSendAsync, cancellationToken);
         }
 
         public async Task<ODataValueContextOfIListOfFieldValue> GetFieldValuesNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldValuesSendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetFieldValuesSendAsync, cancellationToken);
         }
 
         public async Task<ODataValueContextOfIListOfWEntryLinkInfo> GetLinkValuesFromEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetLinkValuesFromEntrySendAsync, cancellationToken).ConfigureAwait(false);
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetLinkValuesFromEntrySendAsync, cancellationToken);
         }
 
         public async Task<ODataValueContextOfIListOfWTagInfo> GetTagsAssignedToEntryNextLinkAsync(string nextLink, int? maxPageSize = null, CancellationToken cancellationToken = default)
         {
-            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagsAssignedToEntrySendAsync, cancellationToken).ConfigureAwait(false);
-        }
-
-        public async Task<Entry> CreateOrCopyEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PostEntryChildrenRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<Entry>> tryCreateEntry = async () =>
-            {
-                return await CreateOrCopyEntryAsync(repoId, entryId, request, autoRename, culture, cancellationToken);
-            };
-            Entry createEntryResponse = await RetryEntryOperationIfLocked(tryCreateEntry, (TimeSpan)retryIfLockedFor);
-            return createEntryResponse;
-        }
-
-        public async Task<ODataValueOfIListOfFieldValue> AssignFieldValuesAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, IDictionary<string, FieldToUpdate> fieldsToUpdate = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<ODataValueOfIListOfFieldValue>> tryAssignFields = async () =>
-            {
-                return await AssignFieldValuesAsync(repoId, entryId, fieldsToUpdate, culture, cancellationToken);
-            };
-            ODataValueOfIListOfFieldValue assignFieldValuesResponse = await RetryEntryOperationIfLocked(tryAssignFields, (TimeSpan)retryIfLockedFor);
-            return assignFieldValuesResponse;
-        }
-
-
-        public async Task<ODataValueOfIListOfWTagInfo> AssignTagsAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTagRequest tagsToAdd = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<ODataValueOfIListOfWTagInfo>> tryAssignTags = async () =>
-            {
-                return await AssignTagsAsync(repoId, entryId, tagsToAdd, cancellationToken);
-            };
-            ODataValueOfIListOfWTagInfo assignTagsResponse = await RetryEntryOperationIfLocked(tryAssignTags, (TimeSpan)retryIfLockedFor);
-            return assignTagsResponse;
-        }
-
-
-        public async Task<ODataValueOfIListOfWEntryLinkInfo> AssignEntryLinksAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, IEnumerable<PutLinksRequest> linksToAdd = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<ODataValueOfIListOfWEntryLinkInfo>> tryAssignLinks = async () =>
-            {
-                return await AssignEntryLinksAsync(repoId, entryId, linksToAdd, cancellationToken);
-            };
-            ODataValueOfIListOfWEntryLinkInfo assignLinksResponse = await RetryEntryOperationIfLocked(tryAssignLinks, (TimeSpan)retryIfLockedFor);
-            return assignLinksResponse;
-        }
-
-        public async Task<Entry> WriteTemplateValueToEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PutTemplateRequest request = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<Entry>> tryWriteTemplate = async () =>
-            {
-                return await WriteTemplateValueToEntryAsync(repoId, entryId, request, culture, cancellationToken);
-            };
-            Entry writeTemplateResponse = await RetryEntryOperationIfLocked(tryWriteTemplate, (TimeSpan)retryIfLockedFor);
-            return writeTemplateResponse;
-        }
-
-        public async Task<Entry> MoveOrRenameEntryAsync(string repoId, int entryId, TimeSpan retryIfLockedFor, PatchEntryRequest request = null, bool? autoRename = null, string culture = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Func<Task<Entry>> tryMoveOrRename = async () =>
-            {
-                return await MoveOrRenameEntryAsync(repoId, entryId, request, autoRename, culture, cancellationToken);
-            };
-            Entry moveOrRenameResponse = await RetryEntryOperationIfLocked(tryMoveOrRename, (TimeSpan)retryIfLockedFor);
-            return moveOrRenameResponse;
-        }
-
-        private static async Task<T> RetryEntryOperationIfLocked<T>(Func<Task<T>> performAction, TimeSpan retryIfLockedFor)
-        {
-            bool retryCall = true;
-            Stopwatch sw = Stopwatch.StartNew();
-            T entry = default(T);
-            while (sw.Elapsed < retryIfLockedFor && retryCall)
-            {
-                try
-                {
-                    entry = await performAction();
-                    retryCall = false;
-                }
-                catch (ApiException ex)
-                {
-                    string LockErrorCode = "[9014]";
-                    string EntrySharingErrorCode = "[9059]";
-                    if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                    {
-                        throw;
-                    }
-                }
-            }
-            return entry;
+            return await GetNextLinkAsync(_httpClient, nextLink, MergeMaxSizeIntoPrefer(maxPageSize, null), GetTagsAssignedToEntrySendAsync, cancellationToken);
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
