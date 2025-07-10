@@ -358,6 +358,7 @@
 {% else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
                         await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
                         return;
+{% endif -%}
                     }
                     catch (ApiException ex) {
                         string LockErrorCode = "[9014]";
@@ -368,7 +369,6 @@
                         }
                     }
                 }
-{% endif -%}
             }
         }
         finally
