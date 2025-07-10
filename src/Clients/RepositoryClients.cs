@@ -3624,9 +3624,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -3635,6 +3632,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -4956,9 +4956,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -4967,6 +4964,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -5333,9 +5333,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -5344,6 +5341,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -5531,9 +5531,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -5542,6 +5539,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -6080,9 +6080,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -6091,6 +6088,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -6266,9 +6266,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -6277,6 +6274,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
@@ -6785,9 +6785,6 @@ namespace Laserfiche.Repository.Api.Client
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                                }
                                 return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                             catch (ApiException ex) {
@@ -6796,6 +6793,9 @@ namespace Laserfiche.Repository.Api.Client
                                 if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
                                 {
                                     throw;
+                                }
+                                if (sw.Elapsed > timeLimit) {
+                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                                 }
                             }
                         }
