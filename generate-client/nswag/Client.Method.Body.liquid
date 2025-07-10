@@ -1,8 +1,7 @@
-
-// DEBUG: HttpMethod = {{ operation.HttpMethod }}
+// DEBUG: All = {{ operation | json }}
 // DEBUG: Tags = {{ operation.Tags }}
 {% if 
-    (operation.Tags | array.contains "Entries") and
+    (operation.Path contains "Entries") and
     (operation.HttpMethod == "PATCH" or
     operation.HttpMethod == "POST")
 -%}
