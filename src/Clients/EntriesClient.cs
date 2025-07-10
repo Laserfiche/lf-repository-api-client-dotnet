@@ -18,7 +18,7 @@ namespace Laserfiche.Repository.Api.Client
     partial interface IEntriesClient
     {
         /// <summary>
-        /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds.
+        /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds. If null, won't retry if locked.
         /// </summary>
         TimeSpan? RetryIfLockedForTimeout { get; set; }
 

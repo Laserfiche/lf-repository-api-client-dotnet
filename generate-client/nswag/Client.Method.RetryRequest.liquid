@@ -18,6 +18,9 @@ else {
             {
                 throw;
             }
+            if (sw.Elapsed > timeLimit) {
+                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+            }
         }
     }
 }
