@@ -1592,12 +1592,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -2519,12 +2519,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -2889,12 +2889,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -3081,12 +3081,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -3619,12 +3619,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -4096,12 +4096,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
@@ -4783,12 +4783,12 @@ namespace Laserfiche.Repository.Api.Client
 
                     PrepareRequest(client_, request_, url_);
 
-                    Stopwatch sw = Stopwatch.StartNew();
                     if (RetryIfLockedForTimeout == null) {
                         return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
-                        TimeSpan timeLimit = RetryIfLockedForTimeout;
+                        Stopwatch sw = Stopwatch.StartNew();
+                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
                                 if (sw.Elapsed > timeLimit) {
