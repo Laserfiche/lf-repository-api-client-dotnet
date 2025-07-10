@@ -182,7 +182,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -335,7 +335,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetAttributeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetAttributeSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -737,7 +737,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -1112,7 +1112,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetFieldDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetFieldDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -1290,7 +1290,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -1712,7 +1712,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -1866,7 +1866,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetLinkDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetLinkDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -2591,7 +2591,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await CreateMultipartUploadUrlsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await CreateMultipartUploadUrlsSendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -2760,7 +2762,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartImportUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await StartImportUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -2942,7 +2946,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await StartExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -3126,7 +3132,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await StartCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -3288,7 +3296,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartDeleteEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await StartDeleteEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -3454,7 +3464,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -3616,7 +3627,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                        if (RetryIfLockedForTimeout == null) {
                         return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -3639,6 +3650,7 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+    
                 }
             }
             finally
@@ -3847,7 +3859,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -4029,7 +4043,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -4212,7 +4228,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -4414,7 +4431,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListEntriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListEntriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -4576,7 +4594,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -4785,7 +4805,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -4948,7 +4969,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                        if (RetryIfLockedForTimeout == null) {
                         return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -4971,6 +4992,7 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+    
                 }
             }
             finally
@@ -5169,7 +5191,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -5325,7 +5348,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                        if (RetryIfLockedForTimeout == null) {
                         return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -5348,6 +5371,7 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+    
                 }
             }
             finally
@@ -5523,7 +5547,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                        if (RetryIfLockedForTimeout == null) {
                         return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -5546,6 +5570,7 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+    
                 }
             }
             finally
@@ -5744,7 +5769,8 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+    
                 }
             }
             finally
@@ -5906,7 +5932,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -6072,7 +6100,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                                if (RetryIfLockedForTimeout == null) {
                         return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -6095,6 +6123,8 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+        
+    
                 }
             }
             finally
@@ -6258,7 +6288,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                                if (RetryIfLockedForTimeout == null) {
                         return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -6281,6 +6311,8 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+        
+    
                 }
             }
             finally
@@ -6446,7 +6478,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -6604,7 +6638,9 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await RemoveTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await RemoveTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+        
+    
                 }
             }
             finally
@@ -6777,7 +6813,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    if (RetryIfLockedForTimeout == null) {
+                        if (RetryIfLockedForTimeout == null) {
                         return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                     else {
@@ -6800,6 +6836,7 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
+    
                 }
             }
             finally
@@ -7822,7 +7859,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListRepositoriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListRepositoriesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -8164,7 +8201,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartSearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await StartSearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -8382,7 +8419,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -8567,7 +8604,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -9057,7 +9094,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await SearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await SearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -9476,7 +9513,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -9635,7 +9672,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetTagDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetTagDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10048,7 +10085,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10199,7 +10236,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await CancelTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await CancelTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10353,7 +10390,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10803,7 +10840,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -10962,7 +10999,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetTemplateDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await GetTemplateDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -11146,7 +11183,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTemplateFieldDefinitionsByTemplateIdSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTemplateFieldDefinitionsByTemplateIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -11329,7 +11366,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await ListTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await ListTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
