@@ -9847,7 +9847,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Start test task operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10187,7 +10187,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Start test task operation successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
