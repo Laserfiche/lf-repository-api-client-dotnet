@@ -1,5 +1,5 @@
 [*.{cs,vb}]
-dotnet_diagnostic.CA2007.severity = error
+dotnet_diagnostic.CA2007.severity = none
 dotnet_code_quality.CA2007.exclude_async_void_methods = true
 file_header_template = Copyright (c) Laserfiche.\nLicensed under the MIT License. See LICENSE in the project root for license information.
 
@@ -91,3 +91,5 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_index_operator = true:suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion

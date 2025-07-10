@@ -6,6 +6,8 @@ using System.Net.Http;
 
 namespace Laserfiche.Repository.Api.Client
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     public partial class RepositoriesClient
     {
         /// <summary>
@@ -26,4 +28,6 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
 }

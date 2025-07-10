@@ -24,7 +24,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.AccessTokens
             }
 
             var currentTime = DateTime.UtcNow;
-            var refreshResult = await client.ServerSessionClient.RefreshServerSessionAsync(RepositoryId).ConfigureAwait(false);
+#pragma warning disable CS0612
+            var refreshResult = await client.ServerSessionClient.RefreshServerSessionAsync(RepositoryId);
+#pragma warning restore CS0612
             var expireTime = refreshResult?.Value;
             Assert.IsNotNull(expireTime);
             Assert.IsTrue(currentTime < expireTime.Value.UtcDateTime);
