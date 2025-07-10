@@ -4,24 +4,24 @@
     {% if 
         operation.HttpMethod == "put"
     -%}
-    {% template Client.Method.RetryRequest %}
+{% template Client.Method.RetryRequest %}
     {% elsif 
         operation.HttpMethod == "delete"
     -%}
         {% if 
             operation.Path contains "Document"
         -%}
-    {% template Client.Method.RetryRequest %}
+{% template Client.Method.RetryRequest %}
         {% else -%}
-    {% template Client.Method.Request %}
+{% template Client.Method.Request %}
         {% endif %}
     {% elsif 
         operation.HttpMethod == "patch"
     -%}
-    {% template Client.Method.RetryRequest %}
+{% template Client.Method.RetryRequest %}
     {% else -%}
-    {% template Client.Method.Request %}
+{% template Client.Method.Request %}
     {% endif %}
 {% else -%}
-    {% template Client.Method.Request %}
+{% template Client.Method.Request %}
 {% endif %}
