@@ -4,7 +4,6 @@ public async {{operation.ReturnType}} {{operation.ActualOperationName}}Async({{o
 {
     {{operation.Parameters | parameter.null_checks}}
 
-    {{ if operation.Tags | array.contains "Entries" && operation.Path | string.starts_with "/v2/Repositories/" && operation.Path | string.contains "/Entries" }}
     Stopwatch sw = Stopwatch.StartNew();
     TimeSpan timeLimit = TimeSpan.FromSeconds(30);
     while (true)
@@ -27,8 +26,5 @@ public async {{operation.ReturnType}} {{operation.ActualOperationName}}Async({{o
             }
         }
     }
-    {{ else }}
-    {{operation.HttpRequestCode}}
-    return {{operation.ResultReturnValue}};
     {{ end }}
 }
