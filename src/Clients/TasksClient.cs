@@ -37,10 +37,9 @@ namespace Laserfiche.Repository.Api.Client
         Task<TaskProgress> WaitForTaskAsync(string repositoryId, string taskId, TimeSpan timeout, Func<TaskProgress, Task<bool>> handleTaskProgressFunc = null, CancellationToken cancellationToken = default);
     }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class TasksClient : ITasksClient
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         public async Task<TaskProgress> WaitForTaskAsync(string repositoryId, string taskId, TimeSpan timeout, Action<TaskProgress> handleTaskProgress = null, TaskStatus expectedTaskStatus = TaskStatus.Completed, CancellationToken cancellationToken = default)
         {
             Stopwatch sw = Stopwatch.StartNew();
