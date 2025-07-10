@@ -1,28 +1,24 @@
-// DEBUG: HttpMethod = {{ operation.HttpMethod }}
 {% if 
     operation.Tags contains "Entries"
 -%}
     {% if 
-        operation.HttpMethod == "POST"
+        operation.HttpMethod == "put"
     -%}
-        Stopwatch sw = Stopwatch.StartNew();
-        TimeSpan timeLimit = TimeSpan.FromSeconds(30);
-        while (true) {
-            try {
-                if (sw.Elapsed > timeLimit) {
-                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}");
-                }
-                {% template Client.Method.Request %}
-            }
-            catch (ApiException ex) {
-                string LockErrorCode = "[9014]";
-                string EntrySharingErrorCode = "[9059]";
-                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                {
-                    throw;
-                }
-            }
-        }
+        {% template Client.Method.RetryRequest %}
+    {% else -%}
+        {% template Client.Method.Request %}
+    {% endif %}
+    {% if 
+        operation.HttpMethod == "delete"
+    -%}
+        {% template Client.Method.RetryRequest %}
+    {% else -%}
+        {% template Client.Method.Request %}
+    {% endif %}
+    {% if 
+        operation.HttpMethod == "patch"
+    -%}
+        {% template Client.Method.RetryRequest %}
     {% else -%}
         {% template Client.Method.Request %}
     {% endif %}
