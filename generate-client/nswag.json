@@ -29,7 +29,8 @@
         "System.Runtime.Serialization",
         "System.Text",
         "System.Threading",
-        "System.Threading.Tasks"
+        "System.Threading.Tasks",
+        "System.Diagnostics"
       ],
       "excludedTypeNames": [
         "ProblemDetails"

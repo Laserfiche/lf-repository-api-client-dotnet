@@ -1,0 +1,23 @@
+if (RetryIfLockedForTimeout == null) {
+    {% template Client.Method.Request %}
+}
+else {
+    Stopwatch sw = Stopwatch.StartNew();
+    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+    while (true) {
+        try {
+            {% template Client.Method.Request %}
+        }
+        catch (ApiException ex) {
+            string LockErrorCode = "[9014]";
+            string EntrySharingErrorCode = "[9059]";
+            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+            {
+                throw;
+            }
+            if (sw.Elapsed > timeLimit) {
+                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+            }
+        }
+    }
+}
