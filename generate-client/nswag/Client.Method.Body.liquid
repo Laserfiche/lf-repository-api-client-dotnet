@@ -1,53 +1,34 @@
+// Path: {{operation.Path}}
 {% if 
 operation.Tags contains "Entries"
 -%}
-    {% if 
-        operation.HttpMethod == "put"
-        -%}
+{%    if operation.HttpMethod == "put"-%}
 {% template Client.Method.RetryRequest %}
-    {% elsif 
-    operation.HttpMethod == "delete"
-    -%}
-        {% if 
-        operation.Path contains "Document"
-        -%}
+{%    elsif operation.HttpMethod == "delete" -%}
+{%      if operation.Path contains "Document" -%}
 {% template Client.Method.RetryRequest %}
-        {% else -%}
+{%      else -%}
 {% template Client.Method.Request %}
-        {% endif %}
-    {% elsif 
-    operation.HttpMethod == "patch"
-    -%}
+{%      endif %}
+{%   elsif operation.HttpMethod == "patch" -%}
 {% template Client.Method.RetryRequest %}
-    {% elsif 
-    operation.HttpMethod == "post"
-    -%}
-        {% if 
-        operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import"
-        -%}
+{%   elsif operation.HttpMethod == "post" -%}
+{%      if operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import" -%}
 {% template Client.Method.RetryRequest %}
-        {% elsif 
-        operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy"
-        -%}
+{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy" -%}
 {% template Client.Method.RetryRequest %}
-        {% elsif 
-        operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Export"
-        -%}
+{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Export" -%}
 {% template Client.Method.RetryRequest %}
-        {% elsif 
-        operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue"
-        -%}
+{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue" -%}
 {% template Client.Method.RetryRequest %}
-        {% elsif 
-        operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children"
-        -%}
+{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children" -%}
 {% template Client.Method.RetryRequest %}
-        {% else -%}
+{%      else -%}
 {% template Client.Method.Request %}
-        {% endif %}
-    {% else -%}
+{%      endif %}
+{%    else -%}
 {% template Client.Method.Request %}
-    {% endif %}
+{%    endif %}
 {% else -%}
-    {% template Client.Method.Request %}
+{% template Client.Method.Request %}
 {% endif %}
