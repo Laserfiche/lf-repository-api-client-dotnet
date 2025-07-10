@@ -1,4 +1,3 @@
-// Path: {{operation.Path}}
 {% if 
 operation.Tags contains "Entries"
 -%}
@@ -13,15 +12,15 @@ operation.Tags contains "Entries"
 {%   elsif operation.HttpMethod == "patch" -%}
 {% template Client.Method.RetryRequest %}
 {%   elsif operation.HttpMethod == "post" -%}
-{%      if operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import" -%}
+{%      if operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Import" -%}
 {% template Client.Method.RetryRequest %}
-{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy" -%}
+{%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Copy" -%}
 {% template Client.Method.RetryRequest %}
-{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Export" -%}
+{%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Export" -%}
 {% template Client.Method.RetryRequest %}
-{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue" -%}
+{%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue" -%}
 {% template Client.Method.RetryRequest %}
-{%      elsif operation.Path == "/v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children" -%}
+{%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children" -%}
 {% template Client.Method.RetryRequest %}
 {%      else -%}
 {% template Client.Method.Request %}
