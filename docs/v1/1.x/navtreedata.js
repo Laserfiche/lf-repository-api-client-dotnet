@@ -27,39 +27,42 @@ var NAVTREE =
   [ "Laserfiche.Repository.Api.Client", "index.html", [
     [ "Laserfiche Repository API Client .NET", "index.html", "index" ],
     [ "Changelog", "md__c_h_a_n_g_e_l_o_g.html", [
-      [ "1.1.4", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
+      [ "1.1.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ]
       ] ],
-      [ "1.1.3", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md4", null ],
-        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", null ]
+      [ "1.1.4", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md4", null ]
       ] ],
-      [ "1.1.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md6", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", null ]
+      [ "1.1.3", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md6", null ],
+        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", null ]
       ] ],
-      [ "1.1.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md8", [
+      [ "1.1.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md8", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md9", null ]
       ] ],
-      [ "1.1.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md10", [
-        [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", null ]
+      [ "1.1.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md10", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", null ]
       ] ],
-      [ "1.0.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", [
+      [ "1.1.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", [
         [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md13", null ]
+      ] ],
+      [ "1.0.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md14", [
+        [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md15", null ]
       ] ]
     ] ],
     [ "Contributor Covenant Code of Conduct", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html", [
-      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md15", null ],
-      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md16", null ],
-      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md17", null ],
-      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md18", null ],
-      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19", null ],
-      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md20", [
-        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", null ],
-        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", null ],
-        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ],
-        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", null ]
+      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md17", null ],
+      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md18", null ],
+      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19", null ],
+      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md20", null ],
+      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", null ],
+      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", [
+        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ],
+        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", null ],
+        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md25", null ],
+        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md26", null ]
       ] ],
-      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md25", null ]
+      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md27", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -84,10 +87,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#ac9d76b70e987ab90b9480d1a144199fc",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html#a5c288e5f6a29a35bf09c800739da924e",
-"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_w_template_info.html",
-"interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_tag_definitions_client.html#a726d8ff16890a0df0278114c12594cfc"
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definitions_client.html#a97e310f381b877b6b2bce97563ebe9ab",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html#a5a325b8ac4fd4c9e9442e080009b0abf",
+"class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_w_tag_info.html#afe0b47b3c92f2f69ea3da50cb72553eb",
+"interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_tag_definitions_client.html#a2dc8206817cc09132e1bc3b7249df8f7"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

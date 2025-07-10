@@ -30,5 +30,6 @@ var interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client 
     [ "GetTagsAssignedToEntryNextLinkAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#aacd268c675336c873a2b5551212407b1", null ],
     [ "ImportDocumentAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#ace13c925253c23218a52812f49b67383", null ],
     [ "MoveOrRenameEntryAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a775105d4f2df641cd381c906d4740600", null ],
-    [ "WriteTemplateValueToEntryAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#aadecaf7afceb1239d7f88bd8dbc0864e", null ]
+    [ "WriteTemplateValueToEntryAsync", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#aadecaf7afceb1239d7f88bd8dbc0864e", null ],
+    [ "RetryIfLockedForTimeout", "interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836", null ]
 ];
