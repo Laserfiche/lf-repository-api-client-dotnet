@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.6
+
+### Features
+
+- Add additional methods that retry when entry is locked.
+
 ## 1.1.5
 
 ### Features
