@@ -1,9 +1,9 @@
 {
-  "x-generator": "NSwag v14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0c066c0747aa9d61224841e09a97b8b03472fbc3_.20250618.9+0c066c0747aa9d61224841e09a97b8b03472fbc3</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>7684f8c8342ff02487fd31f2610fa3f020b75f5d_.20250702.7+7684f8c8342ff02487fd31f2610fa3f020b75f5d</p>",
     "version": "2"
   },
   "servers": [
@@ -5642,7 +5642,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A long operation task id.",
+            "description": "Start test task operation successfully.",
             "content": {
               "application/json": {
                 "schema": {
