@@ -3,9 +3,7 @@
     operation.Tags contains "Entries"
 -%}
     {% if 
-        operation.HttpMethod == "POST" or
-        operation.HttpMethod == "PATCH" or
-        operation.HttpMethod == "DELETE" or
+        operation.HttpMethod == "POST"
     -%}
         Stopwatch sw = Stopwatch.StartNew();
         TimeSpan timeLimit = TimeSpan.FromSeconds(30);
