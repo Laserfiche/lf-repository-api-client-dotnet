@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+
+### Features
+
+- Add retry when entry is locked. Defaults to 30 seconds. Allows setting by `EntriesClient.RetryIfLockedForTimeout`
+
 ## 2.0.1
 
 ### Features

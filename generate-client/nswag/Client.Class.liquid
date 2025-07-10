@@ -346,13 +346,7 @@
                 PrepareRequest(client_, request_, url_);
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
-
-{% if operation.HasResultType or operation.WrapResponse -%}
-                return await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
-{% else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
-                await {{ operation.ActualOperationName }}SendAsync(request_, client_, disposeClient_, cancellationToken);
-                return;
-{% endif -%}
+                {% template Client.Method.Body %}
             }
         }
         finally
