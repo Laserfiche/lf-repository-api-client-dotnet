@@ -1,11 +1,14 @@
+
+// DEBUG: OperationId = {{ operation.OperationId }}
+// DEBUG: Path = {{ operation.Path }}
 {% if 
-    operation.OperationId == "UpdateEntry" or
-    operation.OperationId == "DeleteElectronicDocument" or
-    operation.OperationId == "DeletePages" or
-    operation.OperationId == "SetFields" or
-    operation.OperationId == "SetLinks" or
-    operation.OperationId == "SetTags" or
-    operation.OperationId == "SetTemplate" 
+    operation.operationId == "UpdateEntry" or
+    operation.operationId == "DeleteElectronicDocument" or
+    operation.operationId == "DeletePages" or
+    operation.operationId == "SetFields" or
+    operation.operationId == "SetLinks" or
+    operation.operationId == "SetTags" or
+    operation.operationId == "SetTemplate" 
 -%}
     Stopwatch sw = Stopwatch.StartNew();
     TimeSpan timeLimit = TimeSpan.FromSeconds(30);
