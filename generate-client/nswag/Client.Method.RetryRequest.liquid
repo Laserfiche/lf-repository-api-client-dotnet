@@ -1,9 +1,9 @@
-Stopwatch sw = Stopwatch.StartNew();
 if (RetryIfLockedForTimeout == null) {
     {% template Client.Method.Request %}
 }
 else {
-    TimeSpan timeLimit = RetryIfLockedForTimeout;
+    Stopwatch sw = Stopwatch.StartNew();
+    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
     while (true) {
         try {
             if (sw.Elapsed > timeLimit) {

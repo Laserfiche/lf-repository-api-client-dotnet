@@ -20,7 +20,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Amount of time request will retry for if entry is locked. Defaults to 30 seconds.
         /// </summary>
-        TimeSpan RetryIfLockedForTimeout { get; set; }
+        TimeSpan? RetryIfLockedForTimeout { get; set; }
 
         /// <summary>
         /// Get entry with uri.
