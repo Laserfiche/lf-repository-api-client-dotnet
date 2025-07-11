@@ -27,45 +27,48 @@ var NAVTREE =
   [ "Laserfiche.Repository.Api.Client", "index.html", [
     [ "Laserfiche Repository API Client .NET", "index.html", "index" ],
     [ "Changelog", "md__c_h_a_n_g_e_l_o_g.html", [
-      [ "1.1.6", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ]
+      [ "1.1.7", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md1", [
+        [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md2", null ]
       ] ],
-      [ "1.1.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", [
+      [ "1.1.6", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md3", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md4", null ]
       ] ],
-      [ "1.1.4", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", [
+      [ "1.1.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md5", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md6", null ]
       ] ],
-      [ "1.1.3", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md8", null ],
-        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md9", null ]
+      [ "1.1.4", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md7", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md8", null ]
       ] ],
-      [ "1.1.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md10", [
-        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", null ]
+      [ "1.1.3", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md9", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md10", null ],
+        [ "Chore & Maintenance", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md11", null ]
       ] ],
-      [ "1.1.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", [
+      [ "1.1.2", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md12", [
         [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md13", null ]
       ] ],
-      [ "1.1.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md14", [
-        [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md15", null ]
+      [ "1.1.1", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md14", [
+        [ "Features", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md15", null ]
       ] ],
-      [ "1.0.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md16", [
+      [ "1.1.0", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md16", [
         [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md17", null ]
+      ] ],
+      [ "1.0.5", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md18", [
+        [ "Fixes", "md__c_h_a_n_g_e_l_o_g.html#autotoc_md19", null ]
       ] ]
     ] ],
     [ "Contributor Covenant Code of Conduct", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html", [
-      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19", null ],
-      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md20", null ],
-      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", null ],
-      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", null ],
-      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ],
-      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", [
-        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md25", null ],
-        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md26", null ],
-        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md27", null ],
-        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md28", null ]
+      [ "Our Pledge", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md21", null ],
+      [ "Our Standards", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md22", null ],
+      [ "Enforcement Responsibilities", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23", null ],
+      [ "Scope", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24", null ],
+      [ "Enforcement", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md25", null ],
+      [ "Enforcement Guidelines", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md26", [
+        [ "1. Correction", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md27", null ],
+        [ "2. Warning", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md28", null ],
+        [ "3. Temporary Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md29", null ],
+        [ "4. Permanent Ban", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md30", null ]
       ] ],
-      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md29", null ]
+      [ "Attribution", "md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md31", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
