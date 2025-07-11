@@ -168,23 +168,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListAttributesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -325,20 +324,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetAttributeSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetAttributeSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -725,23 +723,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -1104,20 +1101,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetFieldDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetFieldDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -1280,23 +1276,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -1703,23 +1698,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -1861,20 +1855,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetLinkDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetLinkDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -2583,24 +2576,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await CreateMultipartUploadUrlsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await CreateMultipartUploadUrlsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -2753,24 +2745,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartImportUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartImportUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -2936,24 +2927,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -3121,24 +3111,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -3284,24 +3273,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("DELETE");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartDeleteEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartDeleteEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -3455,20 +3443,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -3614,31 +3601,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PATCH");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("PATCH");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("PATCH");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await UpdateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -3653,7 +3656,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -3827,50 +3829,85 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var boundary_ = Guid.NewGuid().ToString();
-                    var content_ = new MultipartFormDataContent(boundary_);
-                    content_.Headers.Remove("Content-Type");
-                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
-
-                    if (file == null)
-                        throw new ArgumentNullException("parameters.File");
-                    else
-                    {
-                        var content_file_ = new StreamContent(file.Data);
-                        if (!string.IsNullOrEmpty(file.ContentType))
-                            content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
-                        content_.Add(content_file_, "file", file.FileName ?? "file");
-                    }
-
-                    if (request == null)
-                        throw new ArgumentNullException("parameters.Request");
-                    else
-                    {
-                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                        content_.Add(new StringContent(json_), "request");
-                    }
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var boundary_ = Guid.NewGuid().ToString();
+                                        var content_ = new MultipartFormDataContent(boundary_);
+                                        content_.Headers.Remove("Content-Type");
+                                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                        if (file == null)
+                                            throw new ArgumentNullException("parameters.File");
+                                        else
+                                        {
+                                            var content_file_ = new StreamContent(file.Data);
+                                            if (!string.IsNullOrEmpty(file.ContentType))
+                                                content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                            content_.Add(content_file_, "file", file.FileName ?? "file");
+                                        }
+
+                                        if (request == null)
+                                            throw new ArgumentNullException("parameters.Request");
+                                        else
+                                        {
+                                            var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                            content_.Add(new StringContent(json_), "request");
+                                        }
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("POST");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var boundary_ = Guid.NewGuid().ToString();
+                                                var content_ = new MultipartFormDataContent(boundary_);
+                                                content_.Headers.Remove("Content-Type");
+                                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                                if (file == null)
+                                                    throw new ArgumentNullException("parameters.File");
+                                                else
+                                                {
+                                                    var content_file_ = new StreamContent(file.Data);
+                                                    if (!string.IsNullOrEmpty(file.ContentType))
+                                                        content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                                    content_.Add(content_file_, "file", file.FileName ?? "file");
+                                                }
+
+                                                if (request == null)
+                                                    throw new ArgumentNullException("parameters.Request");
+                                                else
+                                                {
+                                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                    content_.Add(new StringContent(json_), "request");
+                                                }
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("POST");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await ImportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -3885,7 +3922,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -4051,31 +4087,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("POST");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("POST");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await ExportEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -4090,7 +4142,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -4261,20 +4312,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -4461,23 +4511,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListEntriesSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListEntriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -4623,31 +4672,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("POST");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("POST");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await CreateEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -4662,7 +4727,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -4856,23 +4920,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -5019,31 +5082,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("PUT");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("PUT");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await SetFieldsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -5058,7 +5137,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -5242,23 +5320,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -5398,31 +5475,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("PUT");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("PUT");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await SetTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -5437,7 +5530,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -5597,31 +5689,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("PUT");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("PUT");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await SetLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -5636,7 +5744,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -5820,23 +5927,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -5982,31 +6088,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("POST");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("POST");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -6021,7 +6143,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -6175,27 +6296,39 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        request_.Method = new HttpMethod("DELETE");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                request_.Method = new HttpMethod("DELETE");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await DeleteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -6210,7 +6343,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -6362,27 +6494,39 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        request_.Method = new HttpMethod("DELETE");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                request_.Method = new HttpMethod("DELETE");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -6397,7 +6541,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -6547,31 +6690,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("POST");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("POST");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await ListDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -6586,7 +6745,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -6732,20 +6890,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("DELETE");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await RemoveTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await RemoveTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -6902,31 +7059,47 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
                     if (RetryIfLockedForTimeout == null) {
-                        return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                    using (var request_ = new HttpRequestMessage())
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        var content_ = new StringContent(json_);
+                                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                        request_.Content = content_;
+                                        request_.Method = new HttpMethod("PUT");
+                                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                        PrepareRequest(client_, request_, urlBuilder_);
+
+                                        var url_ = urlBuilder_.ToString();
+                                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                        PrepareRequest(client_, request_, url_);
+                                        return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        }
                     }
                     else {
                         Stopwatch sw = Stopwatch.StartNew();
                         TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
                         while (true) {
                             try {
-                                return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                            using (var request_ = new HttpRequestMessage())
+                                            {
+                                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                                var content_ = new StringContent(json_);
+                                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                                request_.Content = content_;
+                                                request_.Method = new HttpMethod("PUT");
+                                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                                var url_ = urlBuilder_.ToString();
+                                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                                PrepareRequest(client_, request_, url_);
+                                                return await SetTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                }
                             }
                             catch (ApiException ex) {
                                 string LockErrorCode = "[9014]";
@@ -6941,7 +7114,6 @@ namespace Laserfiche.Repository.Api.Client
                             }
                         }
                     }
-                }
             }
             finally
             {
@@ -7952,20 +8124,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListRepositoriesSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListRepositoriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -8291,24 +8462,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartSearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartSearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -8511,23 +8681,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -8697,23 +8866,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -9187,24 +9355,23 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    var content_ = new StringContent(json_);
+                                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                    request_.Content = content_;
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await SearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await SearchEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -9608,23 +9775,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -9771,20 +9937,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetTagDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetTagDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -10185,20 +10350,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -10337,20 +10501,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("DELETE");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await CancelTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await CancelTasksSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -10491,21 +10654,20 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                                    request_.Method = new HttpMethod("POST");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -10940,23 +11102,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -11103,20 +11264,19 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                using (var request_ = new HttpRequestMessage())
+                                {
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await GetTemplateDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await GetTemplateDefinitionSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -11285,23 +11445,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTemplateFieldDefinitionsByTemplateIdSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTemplateFieldDefinitionsByTemplateIdSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
@@ -11469,23 +11628,22 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                                using (var request_ = new HttpRequestMessage())
+                                {
 
-                    if (prefer != null)
-                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                                    if (prefer != null)
+                                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                                    request_.Method = new HttpMethod("GET");
+                                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                                    PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                    var url_ = urlBuilder_.ToString();
+                                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    return await ListTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
+                                    PrepareRequest(client_, request_, url_);
+                                    return await ListTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
             }
             finally
             {
