@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4
+
+### Fixes
+
+- Fix retry when locked
+
 ## 2.0.3
 
 ### Features
