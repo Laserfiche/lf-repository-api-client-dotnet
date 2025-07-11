@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.7
+
+### Fixes
+
+- Fix retry when locked
+
 ## 1.1.6
 
 ### Features
