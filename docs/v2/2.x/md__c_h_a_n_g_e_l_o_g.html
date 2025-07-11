@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.3</span>
+                                &#160;<span id="projectnumber">2.0.4</span>
                             </div>
                         </td>
                     </tr>
@@ -99,39 +99,46 @@ $(document).ready(function(){initNavTree('md__c_h_a_n_g_e_l_o_g.html',''); initR
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> </p>
 <h1><a class="anchor" id="autotoc_md1"></a>
-2.0.3</h1>
+2.0.4</h1>
 <h2><a class="anchor" id="autotoc_md2"></a>
+Fixes</h2>
+<ul>
+<li>Fix retry when locked</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md3"></a>
+2.0.3</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Features</h2>
 <ul>
 <li>Add additional methods that retry when entry is locked.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 2.0.2</h1>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Features</h2>
 <ul>
 <li>Add retry when entry is locked. Defaults to 30 seconds. Allows setting by <code>EntriesClient.RetryIfLockedForTimeout</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 2.0.1</h1>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Features</h2>
 <ul>
 <li>Add ability to update HttpClient timeout. Increased default timeout to 180 seconds.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Remove DateTime JSON serialization. Date/DateTime strings will not be converted by client.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 2.0.0</h1>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Features</h2>
 <ul>
 <li>Add <code>StartTestTaskAsync</code> to <code>TasksClient</code> to allow starting a "mock" operation with a specified duration and outcome.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update major version of package to <code>2.0.0</code> to avoid confusion with existing package <code>Laserfiche.Repository.Api.Client</code><ul>
@@ -140,24 +147,24 @@ Chore &amp; Maintenance</h2>
 </li>
 <li>Re-generated client using updated swagger.json to include any changes from the last year</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 1.0.2</h1>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update version of <code>Laserfiche.Api.Client.Core</code> to <code>1.3.6</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 1.0.1</h1>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update the versions of <code>Moq</code>, <code>dotenv</code>, <code>MSTest.TestAdapter</code>, and <code>MSTest.TestFramework</code> due to dependency vulnerabilities</li>
 <li>Update version of <code>Laserfiche.Api.Client.Core</code> to <code>1.3.4</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 1.0.0</h1>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Features</h2>
 <ul>
 <li>Initial release of the <a href="https://www.nuget.org/packages/Laserfiche.Repository.Api.Client.V2">Laserfiche.Repository.Api.Client.V2</a> NuGet package. See the <a href="https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/HEAD/MIGRATION_GUIDE.md">migration guide</a> for details on upgrading from the <a href="https://www.nuget.org/packages/Laserfiche.Repository.Api.Client">Laserfiche.Repository.Api.Client</a> NuGet package. </li>
