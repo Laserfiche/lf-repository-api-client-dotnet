@@ -189,7 +189,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTrusteeAttributeKeyValuePairsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -340,7 +339,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTrusteeAttributeValueByKeySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -1032,80 +1030,133 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var boundary_ = Guid.NewGuid().ToString();
-                    var content_ = new MultipartFormDataContent(boundary_);
-                    content_.Headers.Remove("Content-Type");
-                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
-
-                    if (electronicDocument == null)
-                        throw new ArgumentNullException("electronicDocument");
-                    else
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
-                        if (!string.IsNullOrEmpty(electronicDocument.ContentType))
-                            content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
-                        content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
-                    }
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                    if (request == null)
-                        throw new ArgumentNullException("request");
-                    else
-                    {
-                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                        content_.Add(new StringContent(json_), "request");
-                    }
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                        if (electronicDocument == null)
+                            throw new ArgumentNullException("electronicDocument");
+                        else
+                        {
+                            var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
+                            if (!string.IsNullOrEmpty(electronicDocument.ContentType))
+                                content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
+                            content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                        }
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{parentEntryId}/{fileName}"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(parentEntryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append('/');
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fileName, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append('?');
-                    if (autoRename != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (culture != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        if (request == null)
+                            throw new ArgumentNullException("request");
+                        else
+                        {
+                            var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                            content_.Add(new StringContent(json_), "request");
+                        }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{parentEntryId}/{fileName}"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(parentEntryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append('/');
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fileName, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append('?');
+                        if (autoRename != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        if (culture != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await ImportDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (electronicDocument == null)
+                                    throw new ArgumentNullException("electronicDocument");
+                                else
+                                {
+                                    var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
+                                    if (!string.IsNullOrEmpty(electronicDocument.ContentType))
+                                        content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
+                                    content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                                }
+
+                                if (request == null)
+                                    throw new ArgumentNullException("request");
+                                else
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    content_.Add(new StringContent(json_), "request");
+                                }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{parentEntryId}/{fileName}"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(parentEntryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append('/');
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fileName, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append('?');
+                                if (autoRename != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                if (culture != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await ImportDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -1291,7 +1342,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -1441,7 +1491,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await DeleteEntryInfoSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -1581,59 +1630,91 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PATCH");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append('?');
-                    if (autoRename != null)
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (culture != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PATCH");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append('?');
+                        if (autoRename != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        if (culture != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PATCH");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append('?');
+                                if (autoRename != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                if (culture != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await MoveOrRenameEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -1813,7 +1894,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetEntryByPathSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -2013,7 +2093,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetEntryListingSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -2143,60 +2222,93 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Laserfiche.Repository.Folder/children");
-                    urlBuilder_.Append('?');
-                    if (autoRename != null)
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (culture != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Laserfiche.Repository.Folder/children");
+                        urlBuilder_.Append('?');
+                        if (autoRename != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        if (culture != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await CreateOrCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Folder/children"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Laserfiche.Repository.Folder/children");
+                                urlBuilder_.Append('?');
+                                if (autoRename != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("autoRename")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoRename, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                if (culture != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await CreateOrCopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -2405,7 +2517,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -2533,56 +2644,85 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(fieldsToUpdate, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/fields");
-                    urlBuilder_.Append('?');
-                    if (culture != null)
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(fieldsToUpdate, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/fields");
+                        urlBuilder_.Append('?');
+                        if (culture != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(fieldsToUpdate, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/fields");
+                                urlBuilder_.Append('?');
+                                if (culture != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await AssignFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -2781,7 +2921,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTagsAssignedToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -2909,50 +3048,73 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(tagsToAdd, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(tagsToAdd, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/tags"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/tags");
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/tags"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/tags");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(tagsToAdd, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/tags"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/tags");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await AssignTagsSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -3101,50 +3263,73 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(linksToAdd, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(linksToAdd, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/links"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/links");
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/links"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/links");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(linksToAdd, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/links"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/links");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await AssignEntryLinksSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -3343,7 +3528,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetLinkValuesFromEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -3508,7 +3692,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await CopyEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -3643,46 +3826,65 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        request_.Method = new HttpMethod("DELETE");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Laserfiche.Repository.Document/edoc");
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Laserfiche.Repository.Document/edoc");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                request_.Method = new HttpMethod("DELETE");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/edoc"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Laserfiche.Repository.Document/edoc");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await DeleteDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -3840,7 +4042,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetDocumentContentTypeSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -3971,7 +4172,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await ExportDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -4114,52 +4314,77 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/pages"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Laserfiche.Repository.Document/pages");
-                    urlBuilder_.Append('?');
-                    if (pageRange != null)
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        request_.Method = new HttpMethod("DELETE");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/pages"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Laserfiche.Repository.Document/pages");
+                        urlBuilder_.Append('?');
+                        if (pageRange != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                request_.Method = new HttpMethod("DELETE");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/pages"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Laserfiche.Repository.Document/pages");
+                                urlBuilder_.Append('?');
+                                if (pageRange != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await DeletePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -4300,53 +4525,79 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
 
-                    if (range != null)
-                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                        if (range != null)
+                            request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/GetEdocWithAuditReason"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Laserfiche.Repository.Document/GetEdocWithAuditReason");
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/GetEdocWithAuditReason"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Laserfiche.Repository.Document/GetEdocWithAuditReason");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await ExportDocumentWithAuditReasonSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+
+                                if (range != null)
+                                    request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/Laserfiche.Repository.Document/GetEdocWithAuditReason"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Laserfiche.Repository.Document/GetEdocWithAuditReason");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await ExportDocumentWithAuditReasonSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -4501,50 +4752,73 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("POST");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/fields/GetDynamicFieldLogicValue");
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/fields/GetDynamicFieldLogicValue");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    PrepareRequest(client_, request_, url_);
-
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await GetDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/fields/GetDynamicFieldLogicValue"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/fields/GetDynamicFieldLogicValue");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await GetDynamicFieldValuesSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -4702,7 +4976,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await DeleteAssignedTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -4841,56 +5114,85 @@ namespace Laserfiche.Repository.Api.Client
             bool[] disposeClient_ = new bool[]{ false };
             try
             {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new StringContent(json_);
-                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new HttpMethod("PUT");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/template"
-                    urlBuilder_.Append("v1/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/template");
-                    urlBuilder_.Append('?');
-                    if (culture != null)
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        var urlBuilder_ = new StringBuilder();
+                        // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/template"
+                        urlBuilder_.Append("v1/Repositories/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/Entries/");
+                        urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append("/template");
+                        urlBuilder_.Append('?');
+                        if (culture != null)
+                        {
+                            urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                        }
+                        urlBuilder_.Length--;
 
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    PrepareRequest(client_, request_, url_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-                    if (RetryIfLockedForTimeout == null) {
+                        PrepareRequest(client_, request_, url_);
                         return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
-                    else {
-                        Stopwatch sw = Stopwatch.StartNew();
-                        TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
-                        while (true) {
-                            try {
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                var urlBuilder_ = new StringBuilder();
+                                // Operation Path: "v1/Repositories/{repoId}/Entries/{entryId}/template"
+                                urlBuilder_.Append("v1/Repositories/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repoId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/Entries/");
+                                urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                                urlBuilder_.Append("/template");
+                                urlBuilder_.Append('?');
+                                if (culture != null)
+                                {
+                                    urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                                }
+                                urlBuilder_.Length--;
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
                                 return await WriteTemplateValueToEntrySendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
-                            catch (ApiException ex) {
-                                string LockErrorCode = "[9014]";
-                                string EntrySharingErrorCode = "[9059]";
-                                if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
-                                {
-                                    throw;
-                                }
-                                if (sw.Elapsed > timeLimit) {
-                                    throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
-                                }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
                             }
                         }
                     }
@@ -5255,7 +5557,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetFieldDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -5431,7 +5732,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -5786,7 +6086,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetLinkDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -5938,7 +6237,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetLinkDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -6228,7 +6526,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetRepositoryListSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -6519,7 +6816,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetAuditReasonsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -6913,7 +7209,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await CreateSearchOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -7068,7 +7363,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetSearchStatusSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -7232,7 +7526,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await CancelOrCloseSearchSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -7438,7 +7731,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetSearchResultsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -7621,7 +7913,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetSearchContextHitsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -7945,7 +8236,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await InvalidateServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -8084,7 +8374,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await RefreshServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -8223,7 +8512,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await CreateServerSessionSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -8544,7 +8832,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await CreateSimpleSearchOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -8932,7 +9219,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTagDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -9089,7 +9375,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTagDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -9424,7 +9709,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetOperationStatusAndProgressSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -9736,7 +10020,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await StartTestTaskSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -10150,7 +10433,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTemplateDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -10307,7 +10589,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTemplateDefinitionByIdSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -10489,7 +10770,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTemplateFieldDefinitionsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
@@ -10667,7 +10947,6 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-
                     return await GetTemplateFieldDefinitionsByTemplateNameSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }

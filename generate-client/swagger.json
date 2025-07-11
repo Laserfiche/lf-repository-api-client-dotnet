@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>7684f8c8342ff02487fd31f2610fa3f020b75f5d_.20250702.7+7684f8c8342ff02487fd31f2610fa3f020b75f5d</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v1/changelog\">/repository/v1/changelog</a></p><p><strong>Build# : </strong>cc5de9a9debb39d97b138757fbed17647d0cb1c1_.20250711.5</p>",
     "version": "1"
   },
   "servers": [
