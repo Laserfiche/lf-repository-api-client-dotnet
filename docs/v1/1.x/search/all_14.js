@@ -1,17 +1,19 @@
 var searchData=
 [
-  ['recordseries_0',['RecordSeries',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_record_series.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['redirecturi_1',['RedirectUri',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_operation_progress.html#ad89855f91675cad23100107c4107c38d',1,'Laserfiche::Repository::Api::Client::OperationProgress']]],
-  ['refreshserversessionasync_2',['refreshserversessionasync',['../interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_server_session_client.html#af689764fd816f470a3cb1f1dafdc5219',1,'Laserfiche.Repository.Api.Client.IServerSessionClient.RefreshServerSessionAsync()'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_server_session_client.html#acb293373eca9f4e1f2acababcdb28563',1,'Laserfiche.Repository.Api.Client.ServerSessionClient.RefreshServerSessionAsync()']]],
-  ['repoid_3',['RepoId',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_info.html#a79a102afc32f271285762c5959d12359',1,'Laserfiche::Repository::Api::Client::RepositoryInfo']]],
-  ['reponame_4',['RepoName',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_info.html#af6d1b49fd263e3c215d2e521a8f7de67',1,'Laserfiche::Repository::Api::Client::RepositoryInfo']]],
-  ['repositoriesclient_5',['repositoriesclient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repositories_client.html',1,'RepositoriesClient'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html#a53c1bc07a00db99507b27f304dbe97c6',1,'Laserfiche.Repository.Api.Client.RepositoryApiClient.RepositoriesClient'],['../interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_repository_api_client.html#a53c1bc07a00db99507b27f304dbe97c6',1,'Laserfiche.Repository.Api.Client.IRepositoryApiClient.RepositoriesClient']]],
-  ['repository_20api_20client_20net_6',['Laserfiche Repository API Client .NET',['../index.html',1,'']]],
-  ['repository_20client_7',['Generate the repository client',['../index.html#autotoc_md32',1,'']]],
-  ['repositoryapiclient_8',['RepositoryApiClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_api_client.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['repositoryinfo_9',['RepositoryInfo',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_repository_info.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['responsibilities_10',['Enforcement Responsibilities',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19',1,'']]],
-  ['retryiflockedfortimeout_11',['retryiflockedfortimeout',['../interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836',1,'Laserfiche.Repository.Api.Client.IEntriesClient.RetryIfLockedForTimeout'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entries_client.html#a3fa4b8ecedf3db3ea685d4066c6c2836',1,'Laserfiche.Repository.Api.Client.EntriesClient.RetryIfLockedForTimeout']]],
-  ['rownumber_12',['RowNumber',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html#a50c73b4dd19d244fe786481cef90f284',1,'Laserfiche::Repository::Api::Client::Entry']]],
-  ['rule_13',['rule',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_rule.html',1,'Rule'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_field_info.html#a20869156a8c1eee843086cef91e0c464',1,'Laserfiche.Repository.Api.Client.TemplateFieldInfo.Rule']]]
+  ['package_0',['Build, test, and package',['../index.html#autotoc_md35',1,'']]],
+  ['pagecount_1',['PageCount',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_document.html#af6a59f4853453fc96bec2a97f225fb3a',1,'Laserfiche::Repository::Api::Client::Document']]],
+  ['pagenumber_2',['PageNumber',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#a8cb80307e591610ff75fd38b4550cc30',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
+  ['pageoffset_3',['PageOffset',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_context_hit.html#afe69d8d3f44899e1c9ba3ba663fb967b',1,'Laserfiche::Repository::Api::Client::ContextHit']]],
+  ['parentid_4',['parentid',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html#a3023db19fb6b02b2b784cbe97203bf94',1,'Laserfiche.Repository.Api.Client.Entry.ParentId'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_patch_entry_request.html#a3023db19fb6b02b2b784cbe97203bf94',1,'Laserfiche.Repository.Api.Client.PatchEntryRequest.ParentId']]],
+  ['patchentryrequest_5',['PatchEntryRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_patch_entry_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['percentcomplete_6',['PercentComplete',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_operation_progress.html#a4327c8d19ece825644a2e58b546a1f9f',1,'Laserfiche::Repository::Api::Client::OperationProgress']]],
+  ['permanent_20ban_7',['4. Permanent Ban',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md28',1,'']]],
+  ['pledge_8',['Our Pledge',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md19',1,'']]],
+  ['position_9',['Position',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_value_to_update.html#a6fc9a79cf6fd7e927d2a20bd664f1619',1,'Laserfiche::Repository::Api::Client::ValueToUpdate']]],
+  ['postentrychildrenrequest_10',['PostEntryChildrenRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_post_entry_children_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['postentrywithedocmetadatarequest_11',['PostEntryWithEdocMetadataRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_post_entry_with_edoc_metadata_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['putfieldvalsrequest_12',['PutFieldValsRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_put_field_vals_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['putlinksrequest_13',['PutLinksRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_put_links_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['puttagrequest_14',['PutTagRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_put_tag_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['puttemplaterequest_15',['PutTemplateRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_put_template_request.html',1,'Laserfiche::Repository::Api::Client']]]
 ];
