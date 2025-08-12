@@ -15,7 +15,7 @@ namespace Laserfiche.Repository.Api.Client
     /// </summary>
     public class RepositoryApiClient : IRepositoryApiClient
     {
-        private const string DummyBaseAddress = "https://dummy.example.com/repository/";
+        private const string DummyBaseAddress = "http://example.com/";
         private readonly HttpClient _httpClient;
 
         /// <inheritdoc/>
