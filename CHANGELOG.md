@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.8
+
+### Features
+
+- Allow setting base url when using `CreateFromHttpRequestHandler`
+
 ## 1.1.7
 
 ### Fixes
