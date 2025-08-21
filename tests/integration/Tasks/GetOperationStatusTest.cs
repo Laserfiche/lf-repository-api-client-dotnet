@@ -1,6 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
@@ -19,7 +20,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net GetOperationStatus").ConfigureAwait(false);
 
+            Client.AuditReasons auditReasons = await client.AuditReasonsClient.GetAuditReasonsAsync(RepositoryId);
+            Client.WAuditReason deleteReason = auditReasons.DeleteEntry.FirstOrDefault();
             DeleteEntryWithAuditReason body = new DeleteEntryWithAuditReason();
+            if (deleteReason != null)
+            {
+                body.AuditReasonId = deleteReason.Id;
+                body.Comment = "test comment";
+            }
             var result = await client.EntriesClient.DeleteEntryInfoAsync(RepositoryId, deleteEntry.Id, body).ConfigureAwait(false);
             var token = result.Token;
             Assert.IsFalse(string.IsNullOrEmpty(token));
