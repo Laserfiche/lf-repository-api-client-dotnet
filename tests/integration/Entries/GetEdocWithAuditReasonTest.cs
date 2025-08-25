@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -38,7 +39,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task Export_document_with_audit_reasonAsync_ReturnDocument()
         {
             createdEntryId = await CreateDocument("RepositoryApiClientIntegrationTest .Net GetDocumentContent AuditReason").ConfigureAwait(false);
+
+            var auditReasons = await client.AuditReasonsClient.GetAuditReasonsAsync(RepositoryId);
+            var exportReason = auditReasons.ExportDocument.FirstOrDefault();
+
             var request = new GetEdocWithAuditReasonRequest();
+            if (exportReason != null)
+            {
+                request.AuditReasonId = exportReason.Id;
+                request.Comment = "testcomment";
+            }
 
             using (var response = await client.EntriesClient.ExportDocumentWithAuditReasonAsync(RepositoryId, createdEntryId, request).ConfigureAwait(false))
             {
