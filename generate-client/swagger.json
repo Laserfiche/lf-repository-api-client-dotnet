@@ -3978,6 +3978,301 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Append": {
+      "post": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Appends an image page to the end of a document.",
+        "description": "- Appends a new image page to the end of the specified document.\n- Required OAuth scope: repository.Write",
+        "operationId": "AppendImagePage",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": { "type": "string" },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry ID of the document.",
+            "schema": { "type": "integer", "format": "int32" },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageFile": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file to append as a new page."
+                  }
+                },
+                "required": ["imageFile"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully appended an image page to the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Insert": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Inserts an image page into a document.",
+        "description": "- Inserts a new image page into the specified document at the given page number.\n- Required OAuth scope: repository.Write",
+        "operationId": "InsertImagePage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number at which to insert the image page.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageFile": { "type": "string", "format": "binary", "description": "The image file to insert as a new page." }
+                },
+                "required": ["imageFile"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully inserted an image page into the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Text/Insert": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Inserts a text page into a document.",
+        "description": "- Inserts a new text page into the specified document at the given page number.\n- Required OAuth scope: repository.Write",
+        "operationId": "InsertTextPage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number at which to insert the text page.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InsertTextPageRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully inserted a text page into the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Replace": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Replaces the image content of a page.",
+        "description": "- Replaces the image content of the specified page in a document.\n- Required OAuth scope: repository.Write",
+        "operationId": "ReplaceImagePage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number of the page to replace.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageFile": { "type": "string", "format": "binary", "description": "The replacement image file." }
+                },
+                "required": ["imageFile"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully replaced the image content of the specified page. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Text/Replace": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Replaces the text content of a page.",
+        "description": "- Replaces the text content of the specified page in a document.\n- Required OAuth scope: repository.Write",
+        "operationId": "ReplaceTextPage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number of the page to replace.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ReplaceTextPageRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully replaced the text content of the specified page. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Move": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Moves pages within a document.",
+        "description": "- Moves pages within the specified document to a new position.\n- Required OAuth scope: repository.Write",
+        "operationId": "MovePages",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MovePagesRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully moved pages within the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Transfer": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Transfers pages between documents.",
+        "description": "- Transfers pages from the source document to a destination document.\n- Required OAuth scope: repository.Write",
+        "operationId": "TransferPages",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the source document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TransferPagesRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully transferred pages from the source document to the destination document. Returned the updated source entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Rotate": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Rotates an image page.",
+        "description": "- Rotates the specified image page by the given angle.\n- Required OAuth scope: repository.Write",
+        "operationId": "RotateImagePage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number of the image page to rotate.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RotateImagePageRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully rotated the image page. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Text/Append": {
+      "post": {
+        "tags": [ "Entries" ],
+        "summary": "Appends a text page to a document.",
+        "description": "- Appends a new text page to the end of the specified document.\n- Required OAuth scope: repository.Write",
+        "operationId": "AppendTextPage",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AppendTextPageRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successfully appended a text page to the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "423": { "description": "Entry is locked.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/Entries/{entryId}/Fields/GetDynamicFieldLogicValue": {
       "post": {
         "tags": [
@@ -8738,6 +9033,94 @@
               "type": "integer",
               "format": "int32"
             }
+          }
+        }
+      },
+      "InsertTextPageRequest": {
+        "type": "object",
+        "description": "Request body for inserting a text page.",
+        "additionalProperties": false,
+        "required": [ "text" ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text content for the new page."
+          }
+        }
+      },
+      "AppendTextPageRequest": {
+        "type": "object",
+        "description": "Request body for appending a text page.",
+        "additionalProperties": false,
+        "required": [ "text" ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text content for the new page."
+          }
+        }
+      },
+      "ReplaceTextPageRequest": {
+        "type": "object",
+        "description": "Request body for replacing the text content of a page.",
+        "additionalProperties": false,
+        "required": [ "text" ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The replacement text content for the page."
+          }
+        }
+      },
+      "MovePagesRequest": {
+        "type": "object",
+        "description": "Request body for moving pages within a document.",
+        "additionalProperties": false,
+        "required": [ "pageRange", "destinationPageNumber" ],
+        "properties": {
+          "pageRange": {
+            "type": "string",
+            "description": "The range of pages to move. Format: '1-3' or '2,4,6' (1-based)."
+          },
+          "destinationPageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The 1-based page number before which the pages will be moved."
+          }
+        }
+      },
+      "TransferPagesRequest": {
+        "type": "object",
+        "description": "Request body for transferring pages between documents.",
+        "additionalProperties": false,
+        "required": [ "pageRange", "destinationEntryId", "destinationPageNumber" ],
+        "properties": {
+          "pageRange": {
+            "type": "string",
+            "description": "The range of pages to transfer. Format: '1-3' or '2,4,6' (1-based)."
+          },
+          "destinationEntryId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The entry ID of the destination document."
+          },
+          "destinationPageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The 1-based page number in the destination document before which the pages will be inserted."
+          }
+        }
+      },
+      "RotateImagePageRequest": {
+        "type": "object",
+        "description": "Request body for rotating an image page.",
+        "additionalProperties": false,
+        "required": [ "rotationAngle" ],
+        "properties": {
+          "rotationAngle": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The rotation angle in degrees. Accepted values: 0, 90, 180, 270."
           }
         }
       }

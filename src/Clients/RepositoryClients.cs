@@ -2463,6 +2463,123 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Appends an image page to the end of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Appends a new image page to the end of the specified document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> AppendImagePageAsync(AppendImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Inserts an image page into a document.
+        /// </summary>
+        /// <remarks>
+        /// - Inserts a new image page into the specified document at the given page number.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> InsertImagePageAsync(InsertImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Inserts a text page into a document.
+        /// </summary>
+        /// <remarks>
+        /// - Inserts a new text page into the specified document at the given page number.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> InsertTextPageAsync(InsertTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the image content of a page.
+        /// </summary>
+        /// <remarks>
+        /// - Replaces the image content of the specified page in a document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> ReplaceImagePageAsync(ReplaceImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the text content of a page.
+        /// </summary>
+        /// <remarks>
+        /// - Replaces the text content of the specified page in a document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> ReplaceTextPageAsync(ReplaceTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Moves pages within a document.
+        /// </summary>
+        /// <remarks>
+        /// - Moves pages within the specified document to a new position.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> MovePagesAsync(MovePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Transfers pages between documents.
+        /// </summary>
+        /// <remarks>
+        /// - Transfers pages from the source document to a destination document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> TransferPagesAsync(TransferPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Rotates an image page.
+        /// </summary>
+        /// <remarks>
+        /// - Rotates the specified image page by the given angle.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> RotateImagePageAsync(RotateImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Appends a text page to a document.
+        /// </summary>
+        /// <remarks>
+        /// - Appends a new text page to the end of the specified document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> AppendTextPageAsync(AppendTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
         /// <remarks>
@@ -6648,6 +6765,545 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Appends an image page to the end of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Appends a new image page to the end of the specified document.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> AppendImagePageAsync(AppendImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var imageFile = parameters.ImageFile;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Append"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/Image/Append");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (imageFile == null)
+                            throw new ArgumentNullException("parameters.ImageFile");
+                        else
+                        {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (imageFile == null)
+                                    throw new ArgumentNullException("parameters.ImageFile");
+                                else
+                                {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> AppendImagePageSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400 || status_ == 401 || status_ == 403 || status_ == 404 || status_ == 423 || status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Inserts an image page into a document.
+        /// </summary>
+        public virtual async Task<Entry> InsertImagePageAsync(InsertImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var imageFile = parameters.ImageFile;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/Image/Insert");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture))).Append('&');
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (imageFile == null)
+                            throw new ArgumentNullException("parameters.ImageFile");
+                        else
+                        {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, url_);
+                        return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (imageFile == null)
+                                    throw new ArgumentNullException("parameters.ImageFile");
+                                else
+                                {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                PrepareRequest(client_, request_, url_);
+                                return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the image content of a page.
+        /// </summary>
+        public virtual async Task<Entry> ReplaceImagePageAsync(ReplaceImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var imageFile = parameters.ImageFile;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/Image/Replace");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture))).Append('&');
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (imageFile == null)
+                            throw new ArgumentNullException("parameters.ImageFile");
+                        else
+                        {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, url_);
+                        return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (imageFile == null)
+                                    throw new ArgumentNullException("parameters.ImageFile");
+                                else
+                                {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                PrepareRequest(client_, request_, url_);
+                                return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        private async Task<Entry> JsonBodyPageOperationAsync(string operationPath, string repositoryId, int entryId, int? pageNumber, object requestBody, CancellationToken cancellationToken)
+        {
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(operationPath);
+                    if (pageNumber != null)
+                    {
+                        urlBuilder_.Append('?');
+                        urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    }
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                        PrepareRequest(client_, request_, url_);
+                        return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                                PrepareRequest(client_, request_, url_);
+                                return await AppendImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Inserts a text page into a document.
+        /// </summary>
+        public virtual async Task<Entry> InsertTextPageAsync(InsertTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Text/Insert", parameters.RepositoryId, parameters.EntryId, parameters.PageNumber, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
+        /// Replaces the text content of a page.
+        /// </summary>
+        public virtual async Task<Entry> ReplaceTextPageAsync(ReplaceTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Text/Replace", parameters.RepositoryId, parameters.EntryId, parameters.PageNumber, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
+        /// Moves pages within a document.
+        /// </summary>
+        public virtual async Task<Entry> MovePagesAsync(MovePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Move", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
+        /// Transfers pages between documents.
+        /// </summary>
+        public virtual async Task<Entry> TransferPagesAsync(TransferPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Transfer", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
+        /// Rotates an image page.
+        /// </summary>
+        public virtual async Task<Entry> RotateImagePageAsync(RotateImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Image/Rotate", parameters.RepositoryId, parameters.EntryId, parameters.PageNumber, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
+        /// Appends a text page to a document.
+        /// </summary>
+        public virtual async Task<Entry> AppendTextPageAsync(AppendTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            return await JsonBodyPageOperationAsync("/Document/Pages/Text/Append", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken);
+        }
+
+        /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
         /// <remarks>
@@ -7986,6 +8642,340 @@ namespace Laserfiche.Repository.Api.Client
         /// The pages to be deleted.
         /// </summary>
         public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.AppendImagePageAsync(AppendImagePageParameters, CancellationToken)">AppendImagePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AppendImagePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The image file to append as a new page.
+        /// </summary>
+        public FileParameter ImageFile { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.InsertImagePageAsync(InsertImagePageParameters, CancellationToken)">InsertImagePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class InsertImagePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number at which to insert the image page.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The image file to insert as a new page.
+        /// </summary>
+        public FileParameter ImageFile { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.InsertTextPageAsync(InsertTextPageParameters, CancellationToken)">InsertTextPage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class InsertTextPageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number at which to insert the text page.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public InsertTextPageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ReplaceImagePageAsync(ReplaceImagePageParameters, CancellationToken)">ReplaceImagePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ReplaceImagePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to replace.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The replacement image file.
+        /// </summary>
+        public FileParameter ImageFile { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ReplaceTextPageAsync(ReplaceTextPageParameters, CancellationToken)">ReplaceTextPage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ReplaceTextPageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to replace.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public ReplaceTextPageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.MovePagesAsync(MovePagesParameters, CancellationToken)">MovePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MovePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public MovePagesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.TransferPagesAsync(TransferPagesParameters, CancellationToken)">TransferPages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TransferPagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the source document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public TransferPagesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.RotateImagePageAsync(RotateImagePageParameters, CancellationToken)">RotateImagePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RotateImagePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the image page to rotate.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public RotateImagePageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.AppendTextPageAsync(AppendTextPageParameters, CancellationToken)">AppendTextPage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AppendTextPageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public AppendTextPageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for inserting a text page.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class InsertTextPageRequest
+    {
+        /// <summary>
+        /// The text content for the new page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
+        public string Text { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for appending a text page.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AppendTextPageRequest
+    {
+        /// <summary>
+        /// The text content for the new page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
+        public string Text { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for replacing the text content of a page.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ReplaceTextPageRequest
+    {
+        /// <summary>
+        /// The replacement text content for the page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
+        public string Text { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for moving pages within a document.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MovePagesRequest
+    {
+        /// <summary>
+        /// The range of pages to move. Format: '1-3' or '2,4,6' (1-based).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pageRange", Required = Newtonsoft.Json.Required.Always)]
+        public string PageRange { get; set; }
+
+        /// <summary>
+        /// The 1-based page number before which the pages will be moved.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationPageNumber", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationPageNumber { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for transferring pages between documents.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TransferPagesRequest
+    {
+        /// <summary>
+        /// The range of pages to transfer. Format: '1-3' or '2,4,6' (1-based).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pageRange", Required = Newtonsoft.Json.Required.Always)]
+        public string PageRange { get; set; }
+
+        /// <summary>
+        /// The entry ID of the destination document.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationEntryId", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationEntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number in the destination document before which the pages will be inserted.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationPageNumber", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationPageNumber { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for rotating an image page.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RotateImagePageRequest
+    {
+        /// <summary>
+        /// The rotation angle in degrees. Accepted values: 0, 90, 180, 270.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rotationAngle", Required = Newtonsoft.Json.Required.Always)]
+        public int RotationAngle { get; set; }
 
     }
 
