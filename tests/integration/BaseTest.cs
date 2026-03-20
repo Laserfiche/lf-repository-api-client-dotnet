@@ -86,7 +86,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
-                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey, "repository.ReadWrite");
+                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey, "repository.ReadWrite", BaseUrl);
                 }
                 else if (AuthorizationType == AuthorizationType.API_SERVER_USERNAME_PASSWORD)
                 {

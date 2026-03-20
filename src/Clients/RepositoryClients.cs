@@ -2580,6 +2580,24 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> AppendTextPageAsync(AppendTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Returns information about a specific page in a document.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Page information.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageInfoResponse> GetPageInfoAsync(GetPageInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns information about all pages in a document.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A list of page information.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
         /// <remarks>
@@ -7304,6 +7322,183 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Returns information about a specific page in a document.
+        /// </summary>
+        public virtual async Task<PageInfoResponse> GetPageInfoAsync(GetPageInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Info"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    // no trailing path segment — GET .../Pages/{pageNumber} returns page info
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<PageInfoResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns information about all pages in a document.
+        /// </summary>
+        public virtual async Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<IList<PageInfoResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
         /// <remarks>
@@ -8977,6 +9172,94 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("rotationAngle", Required = Newtonsoft.Json.Required.Always)]
         public int RotationAngle { get; set; }
 
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageInfoAsync(GetPageInfoParameters, CancellationToken)">GetPageInfo</see>.
+    /// </summary>
+    public partial class GetPageInfoParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve information for.
+        /// </summary>
+        public int PageNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListPageInfosAsync(ListPageInfosParameters, CancellationToken)">ListPageInfos</see>.
+    /// </summary>
+    public partial class ListPageInfosParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+    }
+
+    /// <summary>
+    /// Response containing page information.
+    /// </summary>
+    public partial class PageInfoResponse
+    {
+        [Newtonsoft.Json.JsonProperty("pageNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int PageNumber { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pageId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long PageId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("entryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EntryId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasImage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasImage { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasText { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasThumbnail", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasThumbnail { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageRotationAngle", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageRotationAngle { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageRotation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageRotation { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageWidth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageWidth { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageHeight", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageHeight { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageDepth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageDepth { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageXResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageXResolution { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageYResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageYResolution { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long ImageDataSize { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("textDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long TextDataSize { get; set; }
     }
 
     /// <summary>
