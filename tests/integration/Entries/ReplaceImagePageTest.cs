@@ -31,10 +31,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ReplaceImagePage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ReplaceImagePage";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            var originalPageCount = ((Document)createdEntry).PageCount;
-            Assert.IsTrue(originalPageCount > 0);
+
+            // Add an initial image page to replace
+            var originalPngBytes = new byte[] {
+                0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
+                0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+                0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE, 0x00, 0x00, 0x00,
+                0x0C, 0x49, 0x44, 0x41, 0x54, 0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00,
+                0x00, 0x00, 0x02, 0x00, 0x01, 0xE2, 0x21, 0xBC, 0x33, 0x00, 0x00, 0x00,
+                0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
+            };
+            await client.EntriesClient.AppendImagePageAsync(new AppendImagePageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                ImageFile = new FileParameter(new MemoryStream(originalPngBytes), "original.png", "image/png")
+            }).ConfigureAwait(false);
 
             var pngBytes = new byte[] {
                 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
@@ -55,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result);
             Assert.AreEqual(createdEntryId, result.Id);
-            Assert.AreEqual(originalPageCount, ((Document)result).PageCount);
+            Assert.AreEqual(1, ((Document)result).PageCount);
 
             // Verify the replaced page via GetPageInfo
             var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()

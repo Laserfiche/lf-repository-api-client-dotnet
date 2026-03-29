@@ -167,6 +167,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             return entry;
         }
 
+        protected async Task<Entry> CreateEmptyDocument(string name)
+        {
+            int parentEntryId = 1;
+            var request = new ImportEntryRequest()
+            {
+                AutoRename = true,
+                Name = name,
+            };
+
+            using var emptyStream = new MemoryStream();
+            var electronicDocument = new FileParameter(emptyStream, name, "application/octet-stream");
+            var entry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                File = electronicDocument,
+                Request = request
+            }).ConfigureAwait(false);
+
+            Assert.IsNotNull(entry);
+            Assert.IsNotNull(entry.Id);
+
+            return entry;
+        }
+
         protected static void AssertCollectionResponse(AttributeCollectionResponse response)
         {
             Assert.IsNotNull(response);

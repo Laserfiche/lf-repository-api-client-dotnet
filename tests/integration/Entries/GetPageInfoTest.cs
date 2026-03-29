@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,9 +33,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetPageInfo()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net GetPageInfo";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            Assert.IsTrue(((Document)createdEntry).PageCount > 0);
+
+            // Add a text page
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Page info test content" }
+            }).ConfigureAwait(false);
 
             var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()
             {
@@ -54,9 +62,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task GetPageInfo_ImagePage_HasImageProperties()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net GetPageInfo Image";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            Assert.IsTrue(((Document)createdEntry).PageCount > 0);
+
+            // Add an image page
+            var pngBytes = new byte[] {
+                0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
+                0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+                0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE, 0x00, 0x00, 0x00,
+                0x0C, 0x49, 0x44, 0x41, 0x54, 0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00,
+                0x00, 0x00, 0x02, 0x00, 0x01, 0xE2, 0x21, 0xBC, 0x33, 0x00, 0x00, 0x00,
+                0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
+            };
+            await client.EntriesClient.AppendImagePageAsync(new AppendImagePageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                ImageFile = new FileParameter(new MemoryStream(pngBytes), "test.png", "image/png")
+            }).ConfigureAwait(false);
 
             var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()
             {
@@ -66,19 +89,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(pageInfo);
-            if (pageInfo.HasImage)
-            {
-                Assert.IsTrue(pageInfo.ImageWidth > 0, "Image page should have width > 0");
-                Assert.IsTrue(pageInfo.ImageHeight > 0, "Image page should have height > 0");
-                Assert.IsTrue(pageInfo.ImageDataSize > 0, "Image page should have data size > 0");
-            }
+            Assert.IsTrue(pageInfo.HasImage, "Page should have image content");
+            Assert.IsTrue(pageInfo.ImageWidth > 0, "Image page should have width > 0");
+            Assert.IsTrue(pageInfo.ImageHeight > 0, "Image page should have height > 0");
+            Assert.IsTrue(pageInfo.ImageDataSize > 0, "Image page should have data size > 0");
         }
 
         [TestMethod]
         public async Task GetPageInfo_InvalidPageNumber_Returns404()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net GetPageInfo NotFound";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
             var ex = await Assert.ThrowsExceptionAsync<ApiException>(async () =>
@@ -132,10 +153,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ListPageInfos()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            var expectedPageCount = ((Document)createdEntry).PageCount;
-            Assert.IsTrue(expectedPageCount > 0);
+
+            // Add 2 text pages
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Page 1 content" }
+            }).ConfigureAwait(false);
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Page 2 content" }
+            }).ConfigureAwait(false);
 
             var pages = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {
@@ -144,7 +177,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(pages);
-            Assert.AreEqual(expectedPageCount, pages.Count);
+            Assert.AreEqual(2, pages.Count);
 
             for (int i = 0; i < pages.Count; i++)
             {
@@ -158,8 +191,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ListPageInfos_AllPagesHaveContent()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos Content";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
+
+            // Add a text page and an image page
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Text page content" }
+            }).ConfigureAwait(false);
 
             var pages = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {
@@ -179,8 +220,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ListPageInfos_ConsistentWithGetPageInfo()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos Consistent";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
+
+            // Add a text page
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Consistency test content" }
+            }).ConfigureAwait(false);
 
             var pages = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {

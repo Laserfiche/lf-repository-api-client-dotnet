@@ -30,10 +30,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task ReplaceTextPage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ReplaceTextPage";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            var originalPageCount = ((Document)createdEntry).PageCount;
-            Assert.IsTrue(originalPageCount > 0);
+
+            // Add an initial text page to replace
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Original text content" }
+            }).ConfigureAwait(false);
 
             var result = await client.EntriesClient.ReplaceTextPageAsync(new ReplaceTextPageParameters()
             {
@@ -45,7 +51,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result);
             Assert.AreEqual(createdEntryId, result.Id);
-            Assert.AreEqual(originalPageCount, ((Document)result).PageCount);
+            Assert.AreEqual(1, ((Document)result).PageCount);
 
             // Verify the replaced page via GetPageInfo
             var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()

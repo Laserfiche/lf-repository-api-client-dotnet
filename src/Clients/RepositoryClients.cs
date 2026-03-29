@@ -2598,6 +2598,33 @@ namespace Laserfiche.Repository.Api.Client
         Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Returns the image content of a specific page in a document.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The page image as a stream. The caller is responsible for disposing the stream.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Stream> GetPageImageAsync(GetPageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the text content of a specific page in a document.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The page text content.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageTextResponse> GetPageTextAsync(GetPageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Triggers server-side text generation for a document.
+        /// </summary>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
         /// </summary>
         /// <remarks>
@@ -6815,6 +6842,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Document/Pages/Image/Append");
+                    if (parameters.GenerateText == true)
+                    {
+                        urlBuilder_.Append("?generateText=true");
+                    }
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6980,6 +7011,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("/Document/Pages/Image/Insert");
                     urlBuilder_.Append('?');
                     urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture))).Append('&');
+                    if (parameters.GenerateText == true)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("generateText")).Append('=').Append("true").Append('&');
+                    }
                     urlBuilder_.Length--;
 
             var client_ = _httpClient;
@@ -7094,6 +7129,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("/Document/Pages/Image/Replace");
                     urlBuilder_.Append('?');
                     urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture))).Append('&');
+                    if (parameters.GenerateText == true)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("generateText")).Append('=').Append("true").Append('&');
+                    }
                     urlBuilder_.Length--;
 
             var client_ = _httpClient;
@@ -7340,14 +7379,14 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Info"
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages({pageNumber})/Info"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append("/Document/Pages(");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
-                    // no trailing path segment — GET .../Pages/{pageNumber} returns page info
+                    urlBuilder_.Append(")/Info");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -7467,6 +7506,265 @@ namespace Laserfiche.Repository.Api.Client
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<IList<PageInfoResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the image content of a specific page in a document.
+        /// </summary>
+        public virtual async Task<Stream> GetPageImageAsync(GetPageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages(");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(")/Image");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    catch
+                    {
+                        response_.Dispose();
+                        throw;
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the text content of a specific page in a document.
+        /// </summary>
+        public virtual async Task<PageTextResponse> GetPageTextAsync(GetPageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages(");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(")/Text");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<PageTextResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Triggers server-side text generation for a document.
+        /// </summary>
+        public virtual async Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/GenerateText");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty);
+                    request_.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -8861,6 +9159,11 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public FileParameter ImageFile { get; set; }
 
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) after appending the image page. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; }
+
     }
 
     /// <summary>
@@ -8888,6 +9191,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The image file to insert as a new page.
         /// </summary>
         public FileParameter ImageFile { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) after inserting the image page. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; }
 
     }
 
@@ -8944,6 +9252,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The replacement image file.
         /// </summary>
         public FileParameter ImageFile { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) after replacing the image page. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; }
 
     }
 
@@ -9260,6 +9573,73 @@ namespace Laserfiche.Repository.Api.Client
 
         [Newtonsoft.Json.JsonProperty("textDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long TextDataSize { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageImageAsync(GetPageImageParameters, CancellationToken)">GetPageImage</see>.
+    /// </summary>
+    public partial class GetPageImageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve the image for.
+        /// </summary>
+        public int PageNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageTextAsync(GetPageTextParameters, CancellationToken)">GetPageText</see>.
+    /// </summary>
+    public partial class GetPageTextParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve the text for.
+        /// </summary>
+        public int PageNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Response containing the text content of a page.
+    /// </summary>
+    public partial class PageTextResponse
+    {
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Text { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GenerateTextAsync(GenerateTextParameters, CancellationToken)">GenerateText</see>.
+    /// </summary>
+    public partial class GenerateTextParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
     }
 
     /// <summary>

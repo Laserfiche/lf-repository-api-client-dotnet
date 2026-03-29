@@ -31,10 +31,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         public async Task InsertImagePage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net InsertImagePage";
-            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            var originalPageCount = ((Document)createdEntry).PageCount;
-            Assert.IsTrue(originalPageCount > 0);
+
+            // Add an initial text page
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new AppendTextPageRequest() { Text = "Original page content" }
+            }).ConfigureAwait(false);
 
             var pngBytes = new byte[] {
                 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
@@ -55,7 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result);
             Assert.AreEqual(createdEntryId, result.Id);
-            Assert.AreEqual(originalPageCount + 1, ((Document)result).PageCount);
+            Assert.AreEqual(2, ((Document)result).PageCount);
 
             // Verify the inserted page via GetPageInfo
             var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()

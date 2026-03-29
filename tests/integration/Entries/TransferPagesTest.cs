@@ -35,12 +35,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task TransferPages()
         {
-            var sourceEntry = await CreateDocument("RepositoryApiClientIntegrationTest .Net TransferPages Source").ConfigureAwait(false);
+            var sourceEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net TransferPages Source").ConfigureAwait(false);
             sourceEntryId = sourceEntry.Id;
-            var sourcePageCount = ((Document)sourceEntry).PageCount;
-            Assert.IsTrue(sourcePageCount >= 2, "Source document must have at least 2 pages for TransferPages test.");
 
-            var destEntry = await CreateDocument("RepositoryApiClientIntegrationTest .Net TransferPages Dest").ConfigureAwait(false);
+            // Add 2 text pages to source
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = sourceEntryId,
+                Request = new AppendTextPageRequest() { Text = "Source page 1" }
+            }).ConfigureAwait(false);
+            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = sourceEntryId,
+                Request = new AppendTextPageRequest() { Text = "Source page 2" }
+            }).ConfigureAwait(false);
+
+            var destEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net TransferPages Dest").ConfigureAwait(false);
             destEntryId = destEntry.Id;
 
             var result = await client.EntriesClient.TransferPagesAsync(new TransferPagesParameters()
@@ -57,7 +69,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result);
             Assert.AreEqual(sourceEntryId, result.Id);
-            Assert.AreEqual(sourcePageCount - 1, ((Document)result).PageCount);
+            Assert.AreEqual(1, ((Document)result).PageCount);
         }
     }
 }
