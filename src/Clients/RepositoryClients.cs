@@ -2436,6 +2436,48 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Writes or replaces the electronic document (edoc) on an existing document entry.
+        /// </summary>
+        /// <remarks>
+        /// - Write or replace the electronic document component of the specified document entry.<br/>
+        /// - Supports an optional generateText parameter to trigger server-side text extraction.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> WriteElectronicDocumentAsync(WriteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the electronic document (edoc) associated with an entry as a binary stream.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the electronic document content as a binary stream.<br/>
+        /// - The entry must be a document with an electronic document component.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The electronic document as a stream. The caller is responsible for disposing the stream.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Stream> GetElectronicDocumentAsync(GetElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Writes the electronic document on an existing document entry from previously uploaded parts.
+        /// </summary>
+        /// <remarks>
+        /// - Assembles previously uploaded file chunks and writes them as the edoc on the specified document entry.<br/>
+        /// - Use this endpoint for files that exceed the upload size limit of the WriteElectronicDocument (PUT) endpoint.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A task ID for polling the operation progress.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Deletes the edoc associated with an entry.
         /// </summary>
         /// <remarks>
@@ -6422,6 +6464,377 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Writes or replaces the electronic document (edoc) on an existing document entry.
+        /// </summary>
+        /// <remarks>
+        /// - Write or replace the electronic document component of the specified document entry.<br/>
+        /// - Supports an optional generateText parameter to trigger server-side text extraction.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> WriteElectronicDocumentAsync(WriteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var electronicDocument = parameters.ElectronicDocument;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Edoc");
+                    if (parameters.GenerateText == true)
+                    {
+                        urlBuilder_.Append("?generateText=true");
+                    }
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (electronicDocument == null)
+                            throw new ArgumentNullException("parameters.ElectronicDocument");
+                        else
+                        {
+                            var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
+                            if (!string.IsNullOrEmpty(electronicDocument.ContentType))
+                                content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
+                            content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                        }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await WriteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (electronicDocument == null)
+                                    throw new ArgumentNullException("parameters.ElectronicDocument");
+                                else
+                                {
+                                    var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
+                                    if (!string.IsNullOrEmpty(electronicDocument.ContentType))
+                                        content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
+                                    content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                                }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await WriteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> WriteElectronicDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400 || status_ == 401 || status_ == 403 || status_ == 404 || status_ == 423 || status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the electronic document (edoc) associated with an entry as a binary stream.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the electronic document content as a binary stream.<br/>
+        /// - The entry must be a document with an electronic document component.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The electronic document as a stream. The caller is responsible for disposing the stream.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Stream> GetElectronicDocumentAsync(GetElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Edoc");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object != null)
+                            {
+                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                            }
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                        }
+                    }
+                    catch
+                    {
+                        response_.Dispose();
+                        throw;
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Writes the electronic document on an existing document entry from previously uploaded parts.
+        /// </summary>
+        public virtual async Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc/WriteUploadedParts"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Edoc/WriteUploadedParts");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await WriteElectronicDocumentUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 202)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400 || status_ == 401 || status_ == 403 || status_ == 404 || status_ == 413 || status_ == 423 || status_ == 429 || status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Deletes the edoc associated with an entry.
         /// </summary>
         /// <remarks>
@@ -9095,6 +9508,93 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public string Culture { get; set; } = null;
 
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.WriteElectronicDocumentAsync(WriteElectronicDocumentParameters, CancellationToken)">WriteElectronicDocument</see>.
+    /// </summary>
+    public partial class WriteElectronicDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The electronic document file to upload.
+        /// </summary>
+        public FileParameter ElectronicDocument { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text extraction from the uploaded edoc. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetElectronicDocumentAsync(GetElectronicDocumentParameters, CancellationToken)">GetElectronicDocument</see>.
+    /// </summary>
+    public partial class GetElectronicDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters, CancellationToken)">WriteElectronicDocumentUploadedParts</see>.
+    /// </summary>
+    public partial class WriteElectronicDocumentUploadedPartsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry ID of the document.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body.
+        /// </summary>
+        public WriteEdocUploadedPartsRequest Request { get; set; }
+    }
+
+    /// <summary>
+    /// Request body for writing an electronic document from previously uploaded parts.
+    /// </summary>
+    public partial class WriteEdocUploadedPartsRequest
+    {
+        /// <summary>
+        /// The UploadId received when calling the CreateMultipartUploadUrls API.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("uploadId")]
+        public string UploadId { get; set; }
+
+        /// <summary>
+        /// The array of ETag values received when writing file chunks into the upload URLs, in order.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("partETags")]
+        public string[] PartETags { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text extraction from the uploaded edoc. Default is false.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateText")]
+        public bool GenerateText { get; set; } = false;
     }
 
     /// <summary>
