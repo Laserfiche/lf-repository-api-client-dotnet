@@ -2436,21 +2436,22 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Writes or replaces the electronic document (edoc) on an existing document entry.
+        /// Updates a document entry's electronic document and/or metadata.
         /// </summary>
         /// <remarks>
-        /// - Write or replace the electronic document component of the specified document entry.<br/>
-        /// - Supports an optional generateText parameter to trigger server-side text extraction.<br/>
+        /// - Update the electronic document and/or metadata of the specified document entry.<br/>
+        /// - At least one of file or metadata must be provided.<br/>
+        /// - Metadata updates are additive — existing values not mentioned in the request are preserved.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> WriteElectronicDocumentAsync(WriteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> UpdateDocumentAsync(UpdateDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Returns the electronic document (edoc) associated with an entry as a binary stream.
+        /// Returns the electronic document associated with a document entry as a binary stream.
         /// </summary>
         /// <remarks>
         /// - Returns the electronic document content as a binary stream.<br/>
@@ -2461,7 +2462,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The electronic document as a stream. The caller is responsible for disposing the stream.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Stream> GetElectronicDocumentAsync(GetElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Stream> GetDocumentAsync(GetDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Writes the electronic document on an existing document entry from previously uploaded parts.
@@ -2475,7 +2476,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A task ID for polling the operation progress.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StartTaskResponse> UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Deletes the edoc associated with an entry.
@@ -6464,25 +6465,18 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Writes or replaces the electronic document (edoc) on an existing document entry.
+        /// Updates a document entry's electronic document and/or metadata.
         /// </summary>
-        /// <remarks>
-        /// - Write or replace the electronic document component of the specified document entry.<br/>
-        /// - Supports an optional generateText parameter to trigger server-side text extraction.<br/>
-        /// - Required OAuth scope: repository.Write
-        /// </remarks>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Entry> WriteElectronicDocumentAsync(WriteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> UpdateDocumentAsync(UpdateDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
-            var electronicDocument = parameters.ElectronicDocument;
+            var file = parameters.File;
+            var request = parameters.Request;
 
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
@@ -6491,16 +6485,18 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Document/Edoc");
-                    if (parameters.GenerateText == true)
+                    urlBuilder_.Append("/Document");
+                    urlBuilder_.Append('?');
+                    if (parameters.Culture != null)
                     {
-                        urlBuilder_.Append("?generateText=true");
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(parameters.Culture, CultureInfo.InvariantCulture))).Append('&');
                     }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6514,17 +6510,21 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (electronicDocument == null)
-                            throw new ArgumentNullException("parameters.ElectronicDocument");
-                        else
+                        if (file != null)
                         {
-                            var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
-                            if (!string.IsNullOrEmpty(electronicDocument.ContentType))
-                                content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
-                            content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                            var content_file_ = new StreamContent(file.Data);
+                            if (!string.IsNullOrEmpty(file.ContentType))
+                                content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                            content_.Add(content_file_, "file", file.FileName ?? "file");
+                        }
+
+                        if (request != null)
+                        {
+                            var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                            content_.Add(new StringContent(json_), "request");
                         }
                         request_.Content = content_;
-                        request_.Method = new HttpMethod("PUT");
+                        request_.Method = new HttpMethod("PATCH");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                         PrepareRequest(client_, request_, urlBuilder_);
@@ -6533,7 +6533,7 @@ namespace Laserfiche.Repository.Api.Client
                         request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                         PrepareRequest(client_, request_, url_);
-                        return await WriteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return await UpdateDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                     }
                 }
                 else {
@@ -6548,17 +6548,21 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (electronicDocument == null)
-                                    throw new ArgumentNullException("parameters.ElectronicDocument");
-                                else
+                                if (file != null)
                                 {
-                                    var content_electronicDocument_ = new StreamContent(electronicDocument.Data);
-                                    if (!string.IsNullOrEmpty(electronicDocument.ContentType))
-                                        content_electronicDocument_.Headers.ContentType = MediaTypeHeaderValue.Parse(electronicDocument.ContentType);
-                                    content_.Add(content_electronicDocument_, "electronicDocument", electronicDocument.FileName ?? "electronicDocument");
+                                    var content_file_ = new StreamContent(file.Data);
+                                    if (!string.IsNullOrEmpty(file.ContentType))
+                                        content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                    content_.Add(content_file_, "file", file.FileName ?? "file");
+                                }
+
+                                if (request != null)
+                                {
+                                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                    content_.Add(new StringContent(json_), "request");
                                 }
                                 request_.Content = content_;
-                                request_.Method = new HttpMethod("PUT");
+                                request_.Method = new HttpMethod("PATCH");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                                 PrepareRequest(client_, request_, urlBuilder_);
@@ -6567,7 +6571,7 @@ namespace Laserfiche.Repository.Api.Client
                                 request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                                 PrepareRequest(client_, request_, url_);
-                                return await WriteElectronicDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return await UpdateDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
                             }
                         }
                         catch (ApiException ex) {
@@ -6591,7 +6595,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task<Entry> WriteElectronicDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<Entry> UpdateDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6640,18 +6644,10 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Returns the electronic document (edoc) associated with an entry as a binary stream.
+        /// Returns the electronic document associated with a document entry as a binary stream.
         /// </summary>
-        /// <remarks>
-        /// - Returns the electronic document content as a binary stream.<br/>
-        /// - The entry must be a document with an electronic document component.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The electronic document as a stream. The caller is responsible for disposing the stream.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<Stream> GetElectronicDocumentAsync(GetElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Stream> GetDocumentAsync(GetDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -6666,12 +6662,12 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Document/Edoc");
+                    urlBuilder_.Append("/Document");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6731,7 +6727,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// Writes the electronic document on an existing document entry from previously uploaded parts.
         /// </summary>
-        public virtual async Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<StartTaskResponse> UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -6755,7 +6751,7 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Document/Edoc/WriteUploadedParts");
+                    urlBuilder_.Append("/Document/UpdateUploadedParts");
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -6776,7 +6772,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await WriteElectronicDocumentUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return await UpdateDocumentUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -6786,7 +6782,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task<StartTaskResponse> WriteElectronicDocumentUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<StartTaskResponse> UpdateDocumentUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -9511,9 +9507,9 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.WriteElectronicDocumentAsync(WriteElectronicDocumentParameters, CancellationToken)">WriteElectronicDocument</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateDocumentAsync(UpdateDocumentParameters, CancellationToken)">UpdateDocument</see>.
     /// </summary>
-    public partial class WriteElectronicDocumentParameters
+    public partial class UpdateDocumentParameters
     {
         /// <summary>
         /// The requested repository ID.
@@ -9526,20 +9522,25 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The electronic document file to upload.
+        /// The electronic document file to upload. Optional — if omitted, only metadata is updated.
         /// </summary>
-        public FileParameter ElectronicDocument { get; set; }
+        public FileParameter File { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text extraction from the uploaded edoc. Default is false.
+        /// The request body containing metadata and PDF options.
         /// </summary>
-        public bool? GenerateText { get; set; }
+        public UpdateDocumentRequest Request { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used.
+        /// </summary>
+        public string Culture { get; set; } = null;
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.GetElectronicDocumentAsync(GetElectronicDocumentParameters, CancellationToken)">GetElectronicDocument</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.GetDocumentAsync(GetDocumentParameters, CancellationToken)">GetDocument</see>.
     /// </summary>
-    public partial class GetElectronicDocumentParameters
+    public partial class GetDocumentParameters
     {
         /// <summary>
         /// The requested repository ID.
@@ -9553,9 +9554,9 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.WriteElectronicDocumentUploadedPartsAsync(WriteElectronicDocumentUploadedPartsParameters, CancellationToken)">WriteElectronicDocumentUploadedParts</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters, CancellationToken)">UpdateDocumentUploadedParts</see>.
     /// </summary>
-    public partial class WriteElectronicDocumentUploadedPartsParameters
+    public partial class UpdateDocumentUploadedPartsParameters
     {
         /// <summary>
         /// The requested repository ID.
@@ -9570,13 +9571,13 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// The request body.
         /// </summary>
-        public WriteEdocUploadedPartsRequest Request { get; set; }
+        public UpdateDocumentUploadedPartsRequest Request { get; set; }
     }
 
     /// <summary>
-    /// Request body for writing an electronic document from previously uploaded parts.
+    /// Request body for updating a document's electronic document and/or metadata from previously uploaded parts.
     /// </summary>
-    public partial class WriteEdocUploadedPartsRequest
+    public partial class UpdateDocumentUploadedPartsRequest
     {
         /// <summary>
         /// The UploadId received when calling the CreateMultipartUploadUrls API.
@@ -9591,10 +9592,22 @@ namespace Laserfiche.Repository.Api.Client
         public string[] PartETags { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text extraction from the uploaded edoc. Default is false.
+        /// Indicates if the document should be imported as an electronic document (true) or as image pages (false). The default value is false.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("generateText")]
-        public bool GenerateText { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry. Metadata updates are additive.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// The options applied when importing a PDF.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
     }
 
     /// <summary>
@@ -15347,6 +15360,30 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("isUnderVersionControl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsUnderVersionControl { get; set; }
 
+        /// <summary>
+        /// A boolean indicating if the represented document has a persistent lock.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isLocked", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsLocked { get; set; }
+
+        /// <summary>
+        /// The account name of the persistent lock holder. Null if the document is not locked.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lockedBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LockedBy { get; set; }
+
+        /// <summary>
+        /// The version number of the document. 0 if the document is not under version control.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("currentVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int CurrentVersion { get; set; }
+
+        /// <summary>
+        /// The account name of the user who checked out the document. Null if the document is not checked out.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("checkedOutBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CheckedOutBy { get; set; }
+
     }
 
     /// <summary>
@@ -15438,6 +15475,37 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string VolumeName { get; set; }
 
+    }
+
+    /// <summary>
+    /// Request body for updating a document's electronic document and/or metadata.
+    /// </summary>
+    public partial class UpdateDocumentRequest
+    {
+        /// <summary>
+        /// Indicates if the document should be imported as an electronic document (true) or as image pages (false). The default value is false.
+        /// Only applicable when a file is provided.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry. Metadata updates are additive.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// The options applied when importing a PDF.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+        /// <summary>
+        /// Whether to create a new version when updating the document with a file. Default is false.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("createVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CreateVersion { get; set; } = false;
     }
 
     /// <summary>
