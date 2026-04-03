@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class GetElectronicDocumentTest : BaseTest
+    public class GetDocumentTest : BaseTest
     {
         int createdEntryId;
 
@@ -29,23 +29,23 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetElectronicDocument_ReturnsEdocStream()
+        public async Task GetDocument_ReturnsEdocStream()
         {
-            var entryName = "RepositoryApiClientIntegrationTest .Net GetEdoc";
+            var entryName = "RepositoryApiClientIntegrationTest .Net GetDocument";
             var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
             // Write an edoc first
             var pdfBytes = new byte[] { 0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34 };
-            await client.EntriesClient.WriteElectronicDocumentAsync(new WriteElectronicDocumentParameters()
+            await client.EntriesClient.UpdateDocumentAsync(new UpdateDocumentParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                ElectronicDocument = new FileParameter(new MemoryStream(pdfBytes), "test.pdf", "application/pdf")
+                File = new FileParameter(new MemoryStream(pdfBytes), "test.pdf", "application/pdf")
             }).ConfigureAwait(false);
 
             // Download the edoc
-            using var edocStream = await client.EntriesClient.GetElectronicDocumentAsync(new GetElectronicDocumentParameters()
+            using var edocStream = await client.EntriesClient.GetDocumentAsync(new GetDocumentParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId
@@ -58,14 +58,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task GetElectronicDocument_NoEdoc_ThrowsApiException()
+        public async Task GetDocument_NoEdoc_ThrowsApiException()
         {
-            var entryName = "RepositoryApiClientIntegrationTest .Net GetEdocNoEdoc";
+            var entryName = "RepositoryApiClientIntegrationTest .Net GetDocumentNoEdoc";
             var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
             await Assert.ThrowsExceptionAsync<ApiException>(async () =>
-                await client.EntriesClient.GetElectronicDocumentAsync(new GetElectronicDocumentParameters()
+                await client.EntriesClient.GetDocumentAsync(new GetDocumentParameters()
                 {
                     RepositoryId = RepositoryId,
                     EntryId = createdEntryId
