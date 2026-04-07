@@ -45,13 +45,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(createdEntryId, result.Id);
             Assert.AreEqual(1, ((Document)result).PageCount);
 
-            // Verify the appended page via GetPageInfo
-            var pageInfo = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()
+            // Verify the appended page via ListPageInfos
+            var pageInfoList = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                PageNumber = 1
+                PageRange = "1"
             }).ConfigureAwait(false);
+            var pageInfo = pageInfoList[0];
 
             Assert.IsNotNull(pageInfo);
             Assert.AreEqual(1, pageInfo.PageNumber);

@@ -2584,17 +2584,17 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> MovePagesAsync(MovePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Transfers pages between documents.
+        /// Copies pages between documents.
         /// </summary>
         /// <remarks>
-        /// - Transfers pages from the source document to a destination document.<br/>
+        /// - Copies pages from the source document to a destination document. The source document retains its pages.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> TransferPagesAsync(TransferPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> CopyPagesAsync(CopyPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Rotates an image page.
@@ -2623,16 +2623,7 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> AppendTextPageAsync(AppendTextPageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Returns information about a specific page in a document.
-        /// </summary>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Page information.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<PageInfoResponse> GetPageInfoAsync(GetPageInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Returns information about all pages in a document.
+        /// Returns page information for pages in a document. Optional pageRange filters to specific pages.
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -7740,13 +7731,13 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Transfers pages between documents.
+        /// Copies pages between documents.
         /// </summary>
-        public virtual async Task<Entry> TransferPagesAsync(TransferPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> CopyPagesAsync(CopyPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
-            return await JsonBodyPageOperationAsync("/Document/Pages/Transfer", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken);
+            return await JsonBodyPageOperationAsync("/Document/Pages/Copy", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken);
         }
 
         /// <summary>
@@ -7770,97 +7761,7 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Returns information about a specific page in a document.
-        /// </summary>
-        public virtual async Task<PageInfoResponse> GetPageInfoAsync(GetPageInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (parameters == null)
-                throw new ArgumentNullException("parameters");
-
-            var repositoryId = parameters.RepositoryId;
-            var entryId = parameters.EntryId;
-            var pageNumber = parameters.PageNumber;
-
-            if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
-
-            if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
-
-            var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages({pageNumber})/Info"
-                    urlBuilder_.Append("v2/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Document/Pages(");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append(")/Info");
-
-            var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
-            try
-            {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<PageInfoResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object != null)
-                            {
-                                throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                            }
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_[0])
-                    client_.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Returns information about all pages in a document.
+        /// Returns page information for pages in a document. Optional pageRange filters to specific pages.
         /// </summary>
         public virtual async Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -7883,6 +7784,12 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Document/Pages");
+                    urlBuilder_.Append("?");
+                    if (!string.IsNullOrEmpty(parameters.PageRange))
+                    {
+                        urlBuilder_.Append("pageRange=").Append(Uri.EscapeDataString(parameters.PageRange)).Append("&");
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -9825,10 +9732,10 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.TransferPagesAsync(TransferPagesParameters, CancellationToken)">TransferPages</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.CopyPagesAsync(CopyPagesParameters, CancellationToken)">CopyPages</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class TransferPagesParameters
+    public partial class CopyPagesParameters
     {
         /// <summary>
         /// The requested repository ID.
@@ -9843,7 +9750,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// The request body.
         /// </summary>
-        public TransferPagesRequest Request { get; set; }
+        public CopyPagesRequest Request { get; set; }
 
     }
 
@@ -9961,13 +9868,13 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Request body for transferring pages between documents.
+    /// Request body for copying pages between documents.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class TransferPagesRequest
+    public partial class CopyPagesRequest
     {
         /// <summary>
-        /// The range of pages to transfer. Format: '1-3' or '2,4,6' (1-based).
+        /// The range of pages to copy. Format: '1-3' or '2,4,6' (1-based).
         /// </summary>
         [Newtonsoft.Json.JsonProperty("pageRange", Required = Newtonsoft.Json.Required.Always)]
         public string PageRange { get; set; }
@@ -10001,27 +9908,6 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.GetPageInfoAsync(GetPageInfoParameters, CancellationToken)">GetPageInfo</see>.
-    /// </summary>
-    public partial class GetPageInfoParameters
-    {
-        /// <summary>
-        /// The requested repository ID.
-        /// </summary>
-        public string RepositoryId { get; set; }
-
-        /// <summary>
-        /// The entry ID of the document.
-        /// </summary>
-        public int EntryId { get; set; }
-
-        /// <summary>
-        /// The 1-based page number of the page to retrieve information for.
-        /// </summary>
-        public int PageNumber { get; set; }
-    }
-
-    /// <summary>
     /// Represents the request parameters for <see cref="IEntriesClient.ListPageInfosAsync(ListPageInfosParameters, CancellationToken)">ListPageInfos</see>.
     /// </summary>
     public partial class ListPageInfosParameters
@@ -10035,6 +9921,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The entry ID of the document.
         /// </summary>
         public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional page range filter (e.g., "1-3" or "2,4,6"). If not specified, all pages are returned.
+        /// </summary>
+        public string PageRange { get; set; }
     }
 
     /// <summary>

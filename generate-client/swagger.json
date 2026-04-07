@@ -3864,6 +3864,25 @@
       }
     },
     "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages": {
+      "get": {
+        "tags": [ "Entries" ],
+        "summary": "Returns page information for pages in a document.",
+        "description": "- Returns a list of page properties including image dimensions, rotation angle, and content flags.\n- Optional parameter: pageRange (default empty). If no pageRange is specified, information for all pages is returned. The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"\n- Required OAuth scope: repository.Read",
+        "operationId": "ListPageInfos",
+        "parameters": [
+          { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
+          { "name": "entryId", "in": "path", "required": true, "description": "The requested document ID.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
+          { "name": "pageRange", "in": "query", "description": "The pages to retrieve information for. If not specified, all pages are returned.", "schema": { "type": "string", "nullable": true }, "x-position": 3 }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved page information for the specified pages in the document.", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/PageInfoResponse" } } } } },
+          "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "404": { "description": "Entry with requested ID was not found.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
+          "429": { "description": "Rate limit is reached.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } }
+        }
+      },
       "delete": {
         "tags": [
           "Entries"
@@ -4188,12 +4207,12 @@
         }
       }
     },
-    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Transfer": {
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Copy": {
       "post": {
         "tags": [ "Entries" ],
-        "summary": "Transfers pages between documents.",
-        "description": "- Transfers pages from the source document to a destination document.\n- Required OAuth scope: repository.Write",
-        "operationId": "TransferPages",
+        "summary": "Copies pages between documents.",
+        "description": "- Copies pages from the source document to a destination document. The source document retains its pages.\n- Required OAuth scope: repository.Write",
+        "operationId": "CopyPages",
         "parameters": [
           { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
           { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the source document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 }
@@ -4201,12 +4220,12 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/TransferPagesRequest" }
+              "schema": { "$ref": "#/components/schemas/CopyPagesRequest" }
             }
           }
         },
         "responses": {
-          "200": { "description": "Successfully transferred pages from the source document to the destination document. Returned the updated source entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "200": { "description": "Successfully copied pages from the source document to the destination document. The source document retains its pages. Returned the updated source entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
           "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
@@ -9089,15 +9108,15 @@
           }
         }
       },
-      "TransferPagesRequest": {
+      "CopyPagesRequest": {
         "type": "object",
-        "description": "Request body for transferring pages between documents.",
+        "description": "Request body for copying pages between documents.",
         "additionalProperties": false,
         "required": [ "pageRange", "destinationEntryId", "destinationPageNumber" ],
         "properties": {
           "pageRange": {
             "type": "string",
-            "description": "The range of pages to transfer. Format: '1-3' or '2,4,6' (1-based)."
+            "description": "The range of pages to copy. Format: '1-3' or '2,4,6' (1-based)."
           },
           "destinationEntryId": {
             "type": "integer",

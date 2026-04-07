@@ -55,12 +55,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(1, ((Document)appendResult).PageCount);
 
             // Verify initial rotation is zero
-            var pageInfoBefore = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()
+            var pageInfoBeforeList = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                PageNumber = 1
+                PageRange = "1"
             }).ConfigureAwait(false);
+            var pageInfoBefore = pageInfoBeforeList[0];
 
             Assert.IsNotNull(pageInfoBefore);
             Assert.AreEqual(0, pageInfoBefore.ImageRotation, "Initial image rotation should be zero");
@@ -79,12 +80,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(1, ((Document)result).PageCount);
 
             // Verify page still exists after rotation
-            var pageInfoAfter = await client.EntriesClient.GetPageInfoAsync(new GetPageInfoParameters()
+            var pageInfoAfterList = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                PageNumber = 1
+                PageRange = "1"
             }).ConfigureAwait(false);
+            var pageInfoAfter = pageInfoAfterList[0];
 
             Assert.IsNotNull(pageInfoAfter);
             Assert.IsTrue(pageInfoAfter.HasImage, "Page should still have image content after rotation");

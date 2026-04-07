@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class TransferPagesTest : BaseTest
+    public class CopyPagesTest : BaseTest
     {
         int sourceEntryId;
         int destEntryId;
@@ -33,9 +33,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task TransferPages()
+        public async Task CopyPages()
         {
-            var sourceEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net TransferPages Source").ConfigureAwait(false);
+            var sourceEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net CopyPages Source").ConfigureAwait(false);
             sourceEntryId = sourceEntry.Id;
 
             // Add 2 text pages to source
@@ -52,14 +52,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Request = new AppendTextPageRequest() { Text = "Source page 2" }
             }).ConfigureAwait(false);
 
-            var destEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net TransferPages Dest").ConfigureAwait(false);
+            var destEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net CopyPages Dest").ConfigureAwait(false);
             destEntryId = destEntry.Id;
 
-            var result = await client.EntriesClient.TransferPagesAsync(new TransferPagesParameters()
+            var result = await client.EntriesClient.CopyPagesAsync(new CopyPagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = sourceEntryId,
-                Request = new TransferPagesRequest()
+                Request = new CopyPagesRequest()
                 {
                     PageRange = "1",
                     DestinationEntryId = destEntryId,
@@ -69,7 +69,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result);
             Assert.AreEqual(sourceEntryId, result.Id);
-            Assert.AreEqual(1, ((Document)result).PageCount);
+            // Source retains all pages (copy, not move)
+            Assert.AreEqual(2, ((Document)result).PageCount);
         }
     }
 }
