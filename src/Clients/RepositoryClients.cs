@@ -3999,6 +3999,7 @@ namespace Laserfiche.Repository.Api.Client
             var entryId = parameters.EntryId;
             var culture = parameters.Culture;
             var file = parameters.File;
+            var imageFiles = parameters.ImageFiles;
             var request = parameters.Request;
 
             if (repositoryId == null)
@@ -4050,6 +4051,16 @@ namespace Laserfiche.Repository.Api.Client
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
+                        if (imageFiles != null)
+                        {
+                            foreach (var imageFile in imageFiles)
+                            {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFile");
+                            }
+                        }
                         request_.Content = content_;
                         request_.Method = new HttpMethod("POST");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -4092,6 +4103,16 @@ namespace Laserfiche.Repository.Api.Client
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
+                                if (imageFiles != null)
+                                {
+                                    foreach (var imageFile in imageFiles)
+                                    {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFile");
+                                    }
+                                }
                                 request_.Content = content_;
                                 request_.Method = new HttpMethod("POST");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -6467,6 +6488,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var file = parameters.File;
+            var imageFiles = parameters.ImageFiles;
             var request = parameters.Request;
 
             if (repositoryId == null)
@@ -6483,6 +6505,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Document");
                     urlBuilder_.Append('?');
+                    if (parameters.OverwriteContent)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("overwriteContent")).Append('=').Append(Uri.EscapeDataString("true")).Append('&');
+                    }
                     if (parameters.Culture != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(parameters.Culture, CultureInfo.InvariantCulture))).Append('&');
@@ -6513,6 +6539,16 @@ namespace Laserfiche.Repository.Api.Client
                         {
                             var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                             content_.Add(new StringContent(json_), "request");
+                        }
+                        if (imageFiles != null)
+                        {
+                            foreach (var imageFile in imageFiles)
+                            {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFile");
+                            }
                         }
                         request_.Content = content_;
                         request_.Method = new HttpMethod("PATCH");
@@ -9006,6 +9042,11 @@ namespace Laserfiche.Repository.Api.Client
 
         public FileParameter File { get; set; } = null;
 
+        /// <summary>
+        /// Optional image files (TIFF, JPG, PNG) to append as pages after import. Maximum 10 files, 100 MB aggregate.
+        /// </summary>
+        public List<FileParameter> ImageFiles { get; set; } = null;
+
         public ImportEntryRequest Request { get; set; } = null;
 
     }
@@ -9429,14 +9470,24 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The electronic document file to upload. Optional — if omitted, only metadata is updated.
+        /// The electronic document file to upload. Optional. A non-zero file replaces the edoc. A zero-length file deletes the edoc.
         /// </summary>
         public FileParameter File { get; set; }
 
         /// <summary>
-        /// The request body containing metadata and PDF options.
+        /// Optional image files (TIFF, JPG, PNG) to append as pages. Maximum 10 files, 100 MB aggregate.
+        /// </summary>
+        public List<FileParameter> ImageFiles { get; set; } = null;
+
+        /// <summary>
+        /// The request body containing metadata, PDF options, and generateImagePagesText.
         /// </summary>
         public UpdateDocumentRequest Request { get; set; }
+
+        /// <summary>
+        /// When false (default), metadata is additive and imageFiles are appended. When true, metadata replaces existing values and existing pages are deleted before imageFiles are appended.
+        /// </summary>
+        public bool OverwriteContent { get; set; } = false;
 
         /// <summary>
         /// An optional query parameter used to indicate the locale that should be used.
@@ -15366,6 +15417,12 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string VolumeName { get; set; }
 
+        /// <summary>
+        /// Whether to generate text (OCR) for image pages added via imageFiles after import. The default value is false.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = false;
+
     }
 
     /// <summary>
@@ -15397,6 +15454,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("createVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool CreateVersion { get; set; } = false;
+
+        /// <summary>
+        /// Whether to generate text (OCR) for image pages added via imageFiles after update. The default value is false.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = false;
     }
 
     /// <summary>

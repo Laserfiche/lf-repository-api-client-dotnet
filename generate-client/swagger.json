@@ -1933,7 +1933,7 @@
           "Entries"
         ],
         "summary": "Imports a file into a folder (max length: 100 MB).",
-        "description": "- Import a new document in the specified folder, and optionally assigns metadata.\n- The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.\n- Required OAuth scope: repository.Write",
+        "description": "- Import a new document in the specified folder, and optionally assigns metadata.\n- Optional imageFiles: up to 10 image files (TIFF, JPG, PNG) appended as pages after import. Total size must not exceed 100 MB.\n- Optional generateImagePagesText in request body: when true, triggers OCR for image pages added via imageFiles.\n- The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.\n- Required OAuth scope: repository.Write",
         "operationId": "ImportEntry",
         "parameters": [
           {
@@ -1982,6 +1982,14 @@
                   "file": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "imageFiles": {
+                    "type": "array",
+                    "description": "Optional image files (TIFF, JPG, PNG) to append as pages after import. Maximum 10 files, 100 MB aggregate.",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
                   },
                   "request": {
                     "$ref": "#/components/schemas/ImportEntryRequest"
@@ -7880,6 +7888,11 @@
             "type": "string",
             "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
             "nullable": true
+          },
+          "generateImagePagesText": {
+            "type": "boolean",
+            "description": "Whether to generate text (OCR) for image pages added via imageFiles after import. The default value is false.",
+            "default": false
           }
         }
       },
