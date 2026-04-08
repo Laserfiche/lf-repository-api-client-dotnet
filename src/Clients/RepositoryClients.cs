@@ -6588,6 +6588,16 @@ namespace Laserfiche.Repository.Api.Client
                                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                     content_.Add(new StringContent(json_), "request");
                                 }
+                                if (imageFiles != null)
+                                {
+                                    foreach (var imageFile in imageFiles)
+                                    {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFile");
+                                    }
+                                }
                                 request_.Content = content_;
                                 request_.Method = new HttpMethod("PATCH");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
