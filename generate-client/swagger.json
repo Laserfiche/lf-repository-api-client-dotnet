@@ -1933,7 +1933,7 @@
           "Entries"
         ],
         "summary": "Imports a file into a folder (max length: 100 MB).",
-        "description": "- Import a new document in the specified folder, and optionally assigns metadata.\n- Optional imageFiles: up to 10 image files (TIFF, JPG, PNG) appended as pages after import. Total size must not exceed 100 MB.\n- Optional generateImagePagesText in request body: when true, triggers OCR for image pages added via imageFiles.\n- The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.\n- Required OAuth scope: repository.Write",
+        "description": "- Import a new document in the specified folder, and optionally assigns metadata.\n- Optional imageFiles: up to 10 image files appended as pages after import. Total size must not exceed 100 MB.\n- Optional generateImagePagesText in request body: when true, triggers OCR for image pages added via imageFiles.\n- The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.\n- Required OAuth scope: repository.Write",
         "operationId": "ImportEntry",
         "parameters": [
           {
@@ -1985,7 +1985,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional image files (TIFF, JPG, PNG) to append as pages after import. Maximum 10 files, 100 MB aggregate.",
+                    "description": "Optional image files to append as pages after import. Maximum 10 files, 100 MB aggregate.",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -4010,8 +4010,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Appends an image page to the end of a document.",
-        "description": "- Appends a new image page to the end of the specified document.\n- Required OAuth scope: repository.Write",
+        "summary": "Appends image pages to the end of a document.",
+        "description": "- Appends new image pages to the end of the specified document.\n- Provide image files in the imageFiles form field. Maximum 10 files, 100 MB aggregate size.\n- Required OAuth scope: repository.Write",
         "operationId": "AppendImagePage",
         "parameters": [
           {
@@ -4037,19 +4037,19 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "imageFile": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "The image file to append as a new page."
+                  "imageFiles": {
+                    "type": "array",
+                    "description": "The image files to append as new pages. Maximum 10 files, 100 MB aggregate size.",
+                    "items": { "type": "string", "format": "binary" }
                   }
                 },
-                "required": ["imageFile"]
+                "required": ["imageFiles"]
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Successfully appended an image page to the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "200": { "description": "Successfully appended image pages to the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
           "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
@@ -4062,13 +4062,13 @@
     "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Insert": {
       "post": {
         "tags": [ "Entries" ],
-        "summary": "Inserts an image page into a document.",
-        "description": "- Inserts a new image page into the specified document at the given page number.\n- Required OAuth scope: repository.Write",
+        "summary": "Inserts image pages into a document.",
+        "description": "- Inserts new image pages at the specified position in the document.\n- Provide image files in the imageFiles form field. Maximum 10 files, 100 MB aggregate size.\n- pageNumber is 1-based. Existing pages at and after this position are shifted down.\n- Required OAuth scope: repository.Write",
         "operationId": "InsertImagePage",
         "parameters": [
           { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
           { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
-          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number at which to insert the image page.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number at which to insert the image pages.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
         ],
         "requestBody": {
           "content": {
@@ -4076,15 +4076,15 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "imageFile": { "type": "string", "format": "binary", "description": "The image file to insert as a new page." }
+                  "imageFiles": { "type": "array", "description": "The image files to insert as new pages. Maximum 10 files, 100 MB aggregate size.", "items": { "type": "string", "format": "binary" } }
                 },
-                "required": ["imageFile"]
+                "required": ["imageFiles"]
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Successfully inserted an image page into the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
+          "200": { "description": "Successfully inserted image pages into the specified document. Returned the updated entry.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Entry" } } } },
           "400": { "description": "Invalid or bad request.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "401": { "description": "Access token is invalid or expired.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
           "403": { "description": "Access denied for the operation.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemDetails" } } } },
