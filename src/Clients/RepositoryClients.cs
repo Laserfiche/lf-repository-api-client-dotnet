@@ -7273,13 +7273,16 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
-            var imageFile = parameters.ImageFile;
+            var imageFiles = parameters.ImageFiles;
 
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
                 throw new ArgumentNullException("parameters.EntryId");
+
+            if (imageFiles == null || imageFiles.Count == 0)
+                throw new ArgumentNullException("parameters.ImageFiles");
 
             var urlBuilder_ = new StringBuilder();
                     // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Append"
@@ -7305,15 +7308,13 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (imageFile == null)
-                            throw new ArgumentNullException("parameters.ImageFile");
-                        else
+                        foreach (var imageFile in imageFiles)
                         {
-                                var content_imageFile_ = new StreamContent(imageFile.Data);
-                                if (!string.IsNullOrEmpty(imageFile.ContentType))
-                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                            }
+                            var content_imageFile_ = new StreamContent(imageFile.Data);
+                            if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                            content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                        }
                         request_.Content = content_;
                         request_.Method = new HttpMethod("POST");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -7339,15 +7340,13 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (imageFile == null)
-                                    throw new ArgumentNullException("parameters.ImageFile");
-                                else
+                                foreach (var imageFile in imageFiles)
                                 {
-                                        var content_imageFile_ = new StreamContent(imageFile.Data);
-                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
-                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                                    }
+                                    var content_imageFile_ = new StreamContent(imageFile.Data);
+                                    if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                        content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                    content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                                }
                                 request_.Content = content_;
                                 request_.Method = new HttpMethod("POST");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -7441,13 +7440,16 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var pageNumber = parameters.PageNumber;
-            var imageFile = parameters.ImageFile;
+            var imageFiles = parameters.ImageFiles;
 
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
 
             if (entryId == null)
                 throw new ArgumentNullException("parameters.EntryId");
+
+            if (imageFiles == null || imageFiles.Count == 0)
+                throw new ArgumentNullException("parameters.ImageFiles");
 
             var urlBuilder_ = new StringBuilder();
                     urlBuilder_.Append("v2/Repositories/");
@@ -7475,15 +7477,13 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (imageFile == null)
-                            throw new ArgumentNullException("parameters.ImageFile");
-                        else
+                        foreach (var imageFile in imageFiles)
                         {
-                                var content_imageFile_ = new StreamContent(imageFile.Data);
-                                if (!string.IsNullOrEmpty(imageFile.ContentType))
-                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                            }
+                            var content_imageFile_ = new StreamContent(imageFile.Data);
+                            if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                            content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                        }
                         request_.Content = content_;
                         request_.Method = new HttpMethod("POST");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -7507,15 +7507,13 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (imageFile == null)
-                                    throw new ArgumentNullException("parameters.ImageFile");
-                                else
+                                foreach (var imageFile in imageFiles)
                                 {
-                                        var content_imageFile_ = new StreamContent(imageFile.Data);
-                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
-                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                                    }
+                                    var content_imageFile_ = new StreamContent(imageFile.Data);
+                                    if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                        content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                    content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                                }
                                 request_.Content = content_;
                                 request_.Method = new HttpMethod("POST");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -9053,7 +9051,7 @@ namespace Laserfiche.Repository.Api.Client
         public FileParameter File { get; set; } = null;
 
         /// <summary>
-        /// Optional image files (TIFF, JPG, PNG) to append as pages after import. Maximum 10 files, 100 MB aggregate.
+        /// Optional image files to append as pages after import. Maximum 10 files, 100 MB aggregate.
         /// </summary>
         public List<FileParameter> ImageFiles { get; set; } = null;
 
@@ -9485,7 +9483,7 @@ namespace Laserfiche.Repository.Api.Client
         public FileParameter File { get; set; }
 
         /// <summary>
-        /// Optional image files (TIFF, JPG, PNG) to append as pages. Maximum 10 files, 100 MB aggregate.
+        /// Optional image files to append as pages. Maximum 10 files, 100 MB aggregate.
         /// </summary>
         public List<FileParameter> ImageFiles { get; set; } = null;
 
@@ -9636,12 +9634,12 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The image file to append as a new page.
+        /// The image files to append as new pages. Maximum 10 files, 100 MB aggregate size.
         /// </summary>
-        public FileParameter ImageFile { get; set; }
+        public List<FileParameter> ImageFiles { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text generation (OCR) after appending the image page. Default is false.
+        /// If true, triggers server-side text generation (OCR) after appending the image pages. Default is false.
         /// </summary>
         public bool? GenerateText { get; set; }
 
@@ -9664,17 +9662,17 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The 1-based page number at which to insert the image page.
+        /// The 1-based page number at which to insert the image pages.
         /// </summary>
         public int PageNumber { get; set; }
 
         /// <summary>
-        /// The image file to insert as a new page.
+        /// The image files to insert as new pages. Maximum 10 files, 100 MB aggregate size.
         /// </summary>
-        public FileParameter ImageFile { get; set; }
+        public List<FileParameter> ImageFiles { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text generation (OCR) after inserting the image page. Default is false.
+        /// If true, triggers server-side text generation (OCR) after inserting the image pages. Default is false.
         /// </summary>
         public bool? GenerateText { get; set; }
 

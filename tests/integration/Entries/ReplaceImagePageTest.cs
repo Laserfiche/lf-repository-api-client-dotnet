@@ -47,7 +47,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                ImageFile = new FileParameter(new MemoryStream(originalPngBytes), "original.png", "image/png")
+                ImageFiles = new System.Collections.Generic.List<FileParameter>
+                {
+                    new FileParameter(new MemoryStream(originalPngBytes), "original.png", "image/png")
+                }
             }).ConfigureAwait(false);
 
             var pngBytes = new byte[] {
