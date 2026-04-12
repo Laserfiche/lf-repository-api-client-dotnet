@@ -39,17 +39,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             sourceEntryId = sourceEntry.Id;
 
             // Add 2 text pages to source
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = sourceEntryId,
-                Request = new AppendTextPageRequest() { Text = "Source page 1" }
+                Request = new CreatePagesRequest() { Text = "Source page 1" }
             }).ConfigureAwait(false);
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = sourceEntryId,
-                Request = new AppendTextPageRequest() { Text = "Source page 2" }
+                Request = new CreatePagesRequest() { Text = "Source page 2" }
             }).ConfigureAwait(false);
 
             var destEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net CopyPages Dest").ConfigureAwait(false);

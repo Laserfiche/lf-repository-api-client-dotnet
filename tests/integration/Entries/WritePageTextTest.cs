@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    public class AppendTextPageTest : BaseTest
+    public class WritePageTextTest : BaseTest
     {
         int createdEntryId;
 
@@ -27,38 +27,44 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        public async Task AppendTextPage()
+        public async Task WritePageText_ReplacesText()
         {
-            var entryName = "RepositoryApiClientIntegrationTest .Net AppendTextPage";
+            var entryName = "RepositoryApiClientIntegrationTest .Net WritePageText";
             var createdEntry = await CreateEmptyDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
-            Assert.AreEqual(0, ((Document)createdEntry).PageCount);
 
-            var result = await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            // Create a text page first
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Integration test appended text page content." }
+                Request = new CreatePagesRequest() { Text = "Original text content" }
+            }).ConfigureAwait(false);
+
+            // Write (replace) the text on page 1
+            string replacementText = "Integration test replacement text content.";
+            var result = await client.EntriesClient.WritePageTextAsync(new WritePageTextParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                PageNumber = 1,
+                Request = new WritePageTextRequest() { Text = replacementText }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(createdEntryId, result.Id);
             Assert.AreEqual(1, ((Document)result).PageCount);
 
-            // Verify the appended page via ListPageInfos
-            var pageInfoList = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
+            // Verify the text was replaced
+            var pageText = await client.EntriesClient.GetPageTextAsync(new GetPageTextParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                PageRange = "1"
+                PageNumber = 1
             }).ConfigureAwait(false);
-            var pageInfo = pageInfoList[0];
 
-            Assert.IsNotNull(pageInfo);
-            Assert.AreEqual(1, pageInfo.PageNumber);
-            Assert.AreEqual(createdEntryId, pageInfo.EntryId);
-            Assert.IsTrue(pageInfo.HasText, "Appended page should have text content");
-            Assert.IsTrue(pageInfo.TextDataSize > 0, "Appended text page should have text data");
+            Assert.IsNotNull(pageText);
+            Assert.AreEqual(replacementText, pageText.Text);
         }
     }
 }

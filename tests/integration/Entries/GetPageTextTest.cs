@@ -35,11 +35,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntryId = createdEntry.Id;
 
             string expectedText = "Hello world integration test";
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = expectedText }
+                Request = new CreatePagesRequest() { Text = expectedText }
             }).ConfigureAwait(false);
 
             var result = await client.EntriesClient.GetPageTextAsync(new GetPageTextParameters()

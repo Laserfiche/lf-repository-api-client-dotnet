@@ -44,7 +44,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
             };
 
-            var appendResult = await client.EntriesClient.AppendImagePageAsync(new AppendImagePageParameters()
+            var appendResult = await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
@@ -67,7 +67,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var pageInfoBefore = pageInfoBeforeList[0];
 
             Assert.IsNotNull(pageInfoBefore);
-            Assert.AreEqual(0, pageInfoBefore.ImageRotation, "Initial image rotation should be zero");
+            Assert.AreEqual(0, pageInfoBefore.ImageRotationAngle, "Initial image rotation should be zero");
 
             // Rotate the page 90 degrees
             var result = await client.EntriesClient.RotateImagePageAsync(new RotateImagePageParameters()

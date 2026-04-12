@@ -4243,7 +4243,7 @@
         }
       }
     },
-    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Image/Rotate": {
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages({pageNumber})/Image/Rotate": {
       "post": {
         "tags": [ "Entries" ],
         "summary": "Rotates an image page.",
@@ -4252,7 +4252,7 @@
         "parameters": [
           { "name": "repositoryId", "in": "path", "required": true, "description": "The requested repository ID.", "schema": { "type": "string" }, "x-position": 1 },
           { "name": "entryId", "in": "path", "required": true, "description": "The entry ID of the document.", "schema": { "type": "integer", "format": "int32" }, "x-position": 2 },
-          { "name": "pageNumber", "in": "query", "required": true, "description": "The 1-based page number of the image page to rotate.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
+          { "name": "pageNumber", "in": "path", "required": true, "description": "The 1-based page number of the image page to rotate.", "schema": { "type": "integer", "format": "int32" }, "x-position": 3 }
         ],
         "requestBody": {
           "content": {

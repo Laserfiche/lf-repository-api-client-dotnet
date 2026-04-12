@@ -36,17 +36,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntryId = createdEntry.Id;
 
             // Add 2 text pages
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 1 content" }
+                Request = new CreatePagesRequest() { Text = "Page 1 content" }
             }).ConfigureAwait(false);
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 2 content" }
+                Request = new CreatePagesRequest() { Text = "Page 2 content" }
             }).ConfigureAwait(false);
 
             var pages = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
@@ -76,11 +76,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             // Add 3 text pages
             for (int i = 1; i <= 3; i++)
             {
-                await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+                await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
                 {
                     RepositoryId = RepositoryId,
                     EntryId = createdEntryId,
-                    Request = new AppendTextPageRequest() { Text = $"Page {i} content" }
+                    Request = new CreatePagesRequest() { Text = $"Page {i} content" }
                 }).ConfigureAwait(false);
             }
 
@@ -106,17 +106,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntryId = createdEntry.Id;
 
             // Add 2 text pages
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 1 content" }
+                Request = new CreatePagesRequest() { Text = "Page 1 content" }
             }).ConfigureAwait(false);
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 2 content" }
+                Request = new CreatePagesRequest() { Text = "Page 2 content" }
             }).ConfigureAwait(false);
 
             // Request only page 2

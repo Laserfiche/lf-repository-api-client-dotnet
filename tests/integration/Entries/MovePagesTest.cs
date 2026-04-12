@@ -34,17 +34,17 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             createdEntryId = createdEntry.Id;
 
             // Add 2 text pages
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 1 content" }
+                Request = new CreatePagesRequest() { Text = "Page 1 content" }
             }).ConfigureAwait(false);
-            await client.EntriesClient.AppendTextPageAsync(new AppendTextPageParameters()
+            await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new AppendTextPageRequest() { Text = "Page 2 content" }
+                Request = new CreatePagesRequest() { Text = "Page 2 content" }
             }).ConfigureAwait(false);
 
             var result = await client.EntriesClient.MovePagesAsync(new MovePagesParameters()
