@@ -179,5 +179,91 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(result);
             Assert.AreEqual(createdEntryId, result.Id);
         }
+
+        [Ignore("Temporarily ignored: cloud test server not yet updated with CheckIn unlock parameter")]
+        [TestMethod]
+        public async Task CheckIn_WithUnlockFalse_KeepsLock()
+        {
+            var entryName = "RepositoryApiClientIntegrationTest .Net CheckInKeepLock";
+            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            createdEntryId = createdEntry.Id;
+
+            await client.EntriesClient.PutUnderVersionControlAsync(new PutUnderVersionControlParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+
+            await client.EntriesClient.CheckOutDocumentAsync(new CheckOutDocumentParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new CheckOutDocumentRequest() { Lock = true }
+            }).ConfigureAwait(false);
+
+            // Check in with unlock=false
+            var checkInResult = await client.EntriesClient.CheckInDocumentAsync(new CheckInDocumentParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new CheckInDocumentRequest() { Unlock = false }
+            }).ConfigureAwait(false);
+
+            Assert.IsNotNull(checkInResult);
+            Assert.AreEqual(createdEntryId, checkInResult.Id);
+
+            // Verify lock is still active
+            var lockInfo = await client.EntriesClient.GetDocumentLockInfoAsync(new GetDocumentLockInfoParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+            Assert.IsTrue(lockInfo.IsActive, "Persistent lock should remain active when unlock=false");
+
+            // Cleanup — unlock manually
+            await client.EntriesClient.UnlockDocumentAsync(new UnlockDocumentParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task CheckIn_DefaultUnlock_ReleasesLock()
+        {
+            var entryName = "RepositoryApiClientIntegrationTest .Net CheckInDefaultUnlock";
+            var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
+            createdEntryId = createdEntry.Id;
+
+            await client.EntriesClient.PutUnderVersionControlAsync(new PutUnderVersionControlParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+
+            await client.EntriesClient.CheckOutDocumentAsync(new CheckOutDocumentParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId,
+                Request = new CheckOutDocumentRequest() { Lock = true }
+            }).ConfigureAwait(false);
+
+            // Check in with no request body (default behavior)
+            var checkInResult = await client.EntriesClient.CheckInDocumentAsync(new CheckInDocumentParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+
+            Assert.IsNotNull(checkInResult);
+
+            // Verify lock is released (backward-compatible default)
+            var lockInfo = await client.EntriesClient.GetDocumentLockInfoAsync(new GetDocumentLockInfoParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+            Assert.IsFalse(lockInfo.IsActive, "Persistent lock should be released with default check-in");
+        }
     }
 }

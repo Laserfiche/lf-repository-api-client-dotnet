@@ -15043,6 +15043,12 @@ namespace Laserfiche.Repository.Api.Client
         public string LockedBy { get; set; }
 
         /// <summary>
+        /// A boolean indicating if the document is locked by a user other than the authenticated user.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isLockedByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsLockedByAnotherUser { get; set; }
+
+        /// <summary>
         /// The version number of the document. 0 if the document is not under version control.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("currentVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -15053,6 +15059,12 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("checkedOutBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CheckedOutBy { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if the document is checked out by a user other than the authenticated user.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCheckedOutByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsCheckedOutByAnotherUser { get; set; }
 
     }
 

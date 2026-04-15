@@ -34,7 +34,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>Checks out a document.</summary>
         Task<Entry> CheckOutDocumentAsync(CheckOutDocumentParameters parameters, CancellationToken cancellationToken = default);
 
-        /// <summary>Checks in a document, creating a new version.</summary>
+        /// <summary>Checks in a document, creating a new version. By default releases the persistent lock.</summary>
         Task<Entry> CheckInDocumentAsync(CheckInDocumentParameters parameters, CancellationToken cancellationToken = default);
 
         /// <summary>Undoes a document check-out without creating a new version.</summary>
@@ -223,7 +223,7 @@ namespace Laserfiche.Repository.Api.Client
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
             if (parameters.RepositoryId == null) throw new ArgumentNullException("parameters.RepositoryId");
             var url = BuildDocumentUrl(parameters.RepositoryId, parameters.EntryId, "/Document/CheckIn");
-            return await PostJsonAsync<Entry>(url, null, cancellationToken);
+            return await PostJsonAsync<Entry>(url, parameters.Request, cancellationToken);
         }
 
         public async Task<Entry> UndoCheckOutAsync(UndoCheckOutParameters parameters, CancellationToken cancellationToken = default)
@@ -277,6 +277,7 @@ namespace Laserfiche.Repository.Api.Client
     {
         public string RepositoryId { get; set; }
         public int EntryId { get; set; }
+        public CheckInDocumentRequest Request { get; set; }
     }
 
     public partial class UndoCheckOutParameters
@@ -329,6 +330,12 @@ namespace Laserfiche.Repository.Api.Client
 
         [JsonProperty("comment", NullValueHandling = NullValueHandling.Ignore)]
         public string Comment { get; set; }
+    }
+
+    public partial class CheckInDocumentRequest
+    {
+        [JsonProperty("unlock")]
+        public bool Unlock { get; set; } = true;
     }
 
     #endregion
