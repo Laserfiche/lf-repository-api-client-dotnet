@@ -28,7 +28,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             }
         }
 
-        [Ignore("Temporarily ignored: cloud test server tag configuration issue — tag not found")]
         [TestMethod]
         public async Task SetAndReturnTags()
         {

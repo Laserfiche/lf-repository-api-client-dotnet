@@ -54,6 +54,21 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(checkOutResult);
             Assert.AreEqual(createdEntryId, checkOutResult.Id);
 
+            // Verify new fields while checked out
+            var whileCheckedOut = (Document)await client.EntriesClient.GetEntryAsync(new GetEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = createdEntryId
+            }).ConfigureAwait(false);
+            Assert.IsTrue(whileCheckedOut.IsCheckedOut);
+            Assert.IsNotNull(whileCheckedOut.CheckedOutBy, "CheckedOutBy should be populated");
+            Assert.IsFalse(whileCheckedOut.CheckedOutBy.StartsWith("S-1-"), "CheckedOutBy should be a display name, not a SID");
+            Assert.IsFalse(whileCheckedOut.IsCheckedOutByAnotherUser, "IsCheckedOutByAnotherUser should be false (same user)");
+            Assert.IsTrue(whileCheckedOut.IsLocked);
+            Assert.IsNotNull(whileCheckedOut.LockedBy, "LockedBy should be populated");
+            Assert.IsFalse(whileCheckedOut.LockedBy.StartsWith("S-1-"), "LockedBy should be a display name, not a SID");
+            Assert.IsFalse(whileCheckedOut.IsLockedByAnotherUser, "IsLockedByAnotherUser should be false (same user)");
+
             // Check in
             var checkInResult = await client.EntriesClient.CheckInDocumentAsync(new CheckInDocumentParameters()
             {
@@ -180,7 +195,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.AreEqual(createdEntryId, result.Id);
         }
 
-        [Ignore("Temporarily ignored: cloud test server not yet updated with CheckIn unlock parameter")]
         [TestMethod]
         public async Task CheckIn_WithUnlockFalse_KeepsLock()
         {
