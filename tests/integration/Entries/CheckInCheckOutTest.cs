@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored: cloud test server not yet updated with V2 endpoints")]
     [TestClass]
     public class CheckInCheckOutTest : BaseTest
     {

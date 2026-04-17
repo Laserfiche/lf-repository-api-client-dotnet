@@ -2522,30 +2522,30 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> CreatePagesAsync(CreatePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Writes the image content of an existing page.
+        /// Writes the image and/or text content of an existing page.
         /// </summary>
         /// <remarks>
-        /// - Overwrites the image part of the specified page in a document.<br/>
+        /// - Overwrites the image and/or text part of the specified page in a document.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> WritePageImageAsync(WritePageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> WritePageAsync(WritePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Writes the text content of an existing page.
+        /// Replaces all pages on the document with new pages.
         /// </summary>
         /// <remarks>
-        /// - Overwrites the text part of the specified page in a document.<br/>
+        /// - Replaces all pages in the specified document with new pages.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Entry> WritePageTextAsync(WritePageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Entry> ReplacePagesAsync(ReplacePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Moves pages within a document.
@@ -7407,9 +7407,9 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Writes the image content of an existing page.
+        /// Writes the image and/or text content of an existing page.
         /// </summary>
-        public virtual async Task<Entry> WritePageImageAsync(WritePageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<Entry> WritePageAsync(WritePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -7422,9 +7422,6 @@ namespace Laserfiche.Repository.Api.Client
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
 
-            if (imageFile == null)
-                throw new ArgumentNullException("parameters.ImageFile");
-
             var urlBuilder_ = new StringBuilder();
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
@@ -7432,7 +7429,7 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Document/Pages(");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append(")/Image");
+                    urlBuilder_.Append(")");
                     if (parameters.GenerateText == true)
                     {
                         urlBuilder_.Append("?generateText=true");
@@ -7445,16 +7442,29 @@ namespace Laserfiche.Repository.Api.Client
                 if (RetryIfLockedForTimeout == null) {
                     using (var request_ = new HttpRequestMessage())
                     {
-                        var boundary_ = Guid.NewGuid().ToString();
-                        var content_ = new MultipartFormDataContent(boundary_);
-                        content_.Headers.Remove("Content-Type");
-                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+                        bool hasImageFile = imageFile != null;
+                        bool hasText = parameters.Text != null;
+                        if (hasImageFile || hasText)
+                        {
+                            var boundary_ = Guid.NewGuid().ToString();
+                            var content_ = new MultipartFormDataContent(boundary_);
+                            content_.Headers.Remove("Content-Type");
+                            content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        var content_imageFile_ = new StreamContent(imageFile.Data);
-                        if (!string.IsNullOrEmpty(imageFile.ContentType))
-                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                        request_.Content = content_;
+                            if (hasImageFile)
+                            {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                            }
+                            if (hasText)
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(new { text = parameters.Text }, _settings.Value);
+                                content_.Add(new StringContent(json_, System.Text.Encoding.UTF8, "application/json"), "request");
+                            }
+                            request_.Content = content_;
+                        }
                         request_.Method = new HttpMethod("PUT");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -7474,16 +7484,166 @@ namespace Laserfiche.Repository.Api.Client
                         try {
                             using (var request_ = new HttpRequestMessage())
                             {
-                                var boundary_ = Guid.NewGuid().ToString();
-                                var content_ = new MultipartFormDataContent(boundary_);
-                                content_.Headers.Remove("Content-Type");
-                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+                                bool hasImageFile_ = imageFile != null;
+                                bool hasText_ = parameters.Text != null;
+                                if (hasImageFile_ || hasText_)
+                                {
+                                    var boundary_ = Guid.NewGuid().ToString();
+                                    var content_ = new MultipartFormDataContent(boundary_);
+                                    content_.Headers.Remove("Content-Type");
+                                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                var content_imageFile_ = new StreamContent(imageFile.Data);
-                                if (!string.IsNullOrEmpty(imageFile.ContentType))
-                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
-                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
-                                request_.Content = content_;
+                                    if (hasImageFile_)
+                                    {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                                    }
+                                    if (hasText_)
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(new { text = parameters.Text }, _settings.Value);
+                                        content_.Add(new StringContent(json_, System.Text.Encoding.UTF8, "application/json"), "request");
+                                    }
+                                    request_.Content = content_;
+                                }
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await PageOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces all pages on the document with new pages.
+        /// </summary>
+        public virtual async Task<Entry> ReplacePagesAsync(ReplacePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var imageFiles = parameters.ImageFiles;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+                    if (parameters.GenerateText == true)
+                    {
+                        urlBuilder_.Append("?generateText=true");
+                    }
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        bool hasImageFiles = imageFiles != null && imageFiles.Count > 0;
+                        bool hasRequest = parameters.Request != null;
+                        if (hasImageFiles || hasRequest)
+                        {
+                            var boundary_ = Guid.NewGuid().ToString();
+                            var content_ = new MultipartFormDataContent(boundary_);
+                            content_.Headers.Remove("Content-Type");
+                            content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                            if (hasImageFiles)
+                            {
+                                foreach (var imageFile in imageFiles)
+                                {
+                                    var content_imageFile_ = new StreamContent(imageFile.Data);
+                                    if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                        content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                    content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                                }
+                            }
+                            if (hasRequest)
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(parameters.Request, _settings.Value);
+                                content_.Add(new StringContent(json_, System.Text.Encoding.UTF8, "application/json"), "request");
+                            }
+                            request_.Content = content_;
+                        }
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await PageOperationSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                bool hasImageFiles_ = imageFiles != null && imageFiles.Count > 0;
+                                bool hasRequest_ = parameters.Request != null;
+                                if (hasImageFiles_ || hasRequest_)
+                                {
+                                    var boundary_ = Guid.NewGuid().ToString();
+                                    var content_ = new MultipartFormDataContent(boundary_);
+                                    content_.Headers.Remove("Content-Type");
+                                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                    if (hasImageFiles_)
+                                    {
+                                        foreach (var imageFile in imageFiles)
+                                        {
+                                            var content_imageFile_ = new StreamContent(imageFile.Data);
+                                            if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                                content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                            content_.Add(content_imageFile_, "imageFiles", imageFile.FileName ?? "imageFiles");
+                                        }
+                                    }
+                                    if (hasRequest_)
+                                    {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(parameters.Request, _settings.Value);
+                                        content_.Add(new StringContent(json_, System.Text.Encoding.UTF8, "application/json"), "request");
+                                    }
+                                    request_.Content = content_;
+                                }
                                 request_.Method = new HttpMethod("PUT");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -7595,16 +7755,6 @@ namespace Laserfiche.Repository.Api.Client
                 if (disposeClient_[0])
                     client_.Dispose();
             }
-        }
-
-        /// <summary>
-        /// Writes the text content of an existing page.
-        /// </summary>
-        public virtual async Task<Entry> WritePageTextAsync(WritePageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (parameters == null)
-                throw new ArgumentNullException("parameters");
-            return await JsonBodyPageOperationAsync("/Document/Pages(" + parameters.PageNumber + ")/Text", parameters.RepositoryId, parameters.EntryId, null, parameters.Request, cancellationToken, "PUT");
         }
 
         /// <summary>
@@ -9482,19 +9632,24 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.WritePageImageAsync(WritePageImageParameters, CancellationToken)">WritePageImage</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.WritePageAsync(WritePageParameters, CancellationToken)">WritePage</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WritePageImageParameters
+    public partial class WritePageParameters
     {
         public string RepositoryId { get; set; }
         public int EntryId { get; set; }
         public int PageNumber { get; set; }
 
         /// <summary>
-        /// The image file to write to the page.
+        /// Optional image file to write to the page.
         /// </summary>
         public FileParameter ImageFile { get; set; }
+
+        /// <summary>
+        /// Optional text content to write to the page.
+        /// </summary>
+        public string Text { get; set; }
 
         /// <summary>
         /// If true, triggers OCR after writing. Default is false.
@@ -9503,19 +9658,28 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.WritePageTextAsync(WritePageTextParameters, CancellationToken)">WritePageText</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.ReplacePagesAsync(ReplacePagesParameters, CancellationToken)">ReplacePages</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WritePageTextParameters
+    public partial class ReplacePagesParameters
     {
         public string RepositoryId { get; set; }
         public int EntryId { get; set; }
-        public int PageNumber { get; set; }
 
         /// <summary>
-        /// The request body with text content.
+        /// Optional image files for new pages. Maximum 10 files, 100 MB aggregate.
         /// </summary>
-        public WritePageTextRequest Request { get; set; }
+        public List<FileParameter> ImageFiles { get; set; }
+
+        /// <summary>
+        /// Optional request body with text content for pages.
+        /// </summary>
+        public CreatePagesRequest Request { get; set; }
+
+        /// <summary>
+        /// If true, triggers OCR for new pages. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; }
     }
 
     /// <summary>
