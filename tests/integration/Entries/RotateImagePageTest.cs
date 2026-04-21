@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class RotateImagePageTest : BaseTest
     {
