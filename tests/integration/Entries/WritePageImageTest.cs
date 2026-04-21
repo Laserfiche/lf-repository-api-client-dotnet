@@ -79,7 +79,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(imageStream);
             using var ms = new MemoryStream();
-            await imageStream.CopyToAsync(ms).ConfigureAwait(false);
+            await imageStream.Stream.CopyToAsync(ms).ConfigureAwait(false);
             Assert.IsTrue(ms.Length > 0, "Image stream should not be empty after replacement");
         }
 

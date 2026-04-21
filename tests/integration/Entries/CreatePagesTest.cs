@@ -168,7 +168,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var result = await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
-                EntryId = createdEntryId
+                EntryId = createdEntryId,
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "" } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);

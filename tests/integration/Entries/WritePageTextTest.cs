@@ -49,7 +49,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
                 PageNumber = 1,
-                Text = replacementText
+                Request = new WritePageTextRequest() { Text = replacementText }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);

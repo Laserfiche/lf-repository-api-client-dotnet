@@ -53,7 +53,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(edocStream);
             using var ms = new MemoryStream();
-            await edocStream.CopyToAsync(ms).ConfigureAwait(false);
+            await edocStream.Stream.CopyToAsync(ms).ConfigureAwait(false);
             Assert.IsTrue(ms.Length > 0, "Edoc stream should not be empty");
         }
 
