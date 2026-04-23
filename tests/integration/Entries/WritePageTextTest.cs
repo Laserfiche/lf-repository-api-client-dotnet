@@ -1,10 +1,12 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class WritePageTextTest : BaseTest
     {
@@ -38,12 +40,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { Text = "Original text content" }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Original text content" } }
             }).ConfigureAwait(false);
 
-            // Write (replace) the text on page 1
+            // Write (replace) the text on page 1 using merged WritePage endpoint
             string replacementText = "Integration test replacement text content.";
-            var result = await client.EntriesClient.WritePageTextAsync(new WritePageTextParameters()
+            var result = await client.EntriesClient.WritePageAsync(new WritePageParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,

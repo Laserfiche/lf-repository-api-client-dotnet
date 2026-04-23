@@ -22,6 +22,8 @@ operation.Tags contains "Entries"
 {% template Client.Method.RetryRequest %}
 {%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Folder/Children" -%}
 {% template Client.Method.RetryRequest %}
+{%      elsif operation.Path == "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages" -%}
+{% template Client.Method.RetryRequest %}
 {%      else -%}
 {% template Client.Method.Request %}
 {%      endif %}

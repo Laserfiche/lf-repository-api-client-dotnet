@@ -48,3 +48,8 @@ $client_filepath = "$input_folder/$client_filename"
 
 # Move the generated client to the output folder
 Move-Item -Path $client_filepath -Destination "$output_folder/$client_filename" -Force
+
+# Post-nswag: relax null-throw checks on multipart parameters that the swagger
+# marks as optional. See generate-client/patch_optional_multipart.py for the
+# rationale (nswag's C# generator ignores the `required` list for multipart).
+py "$input_folder/patch_optional_multipart.py"

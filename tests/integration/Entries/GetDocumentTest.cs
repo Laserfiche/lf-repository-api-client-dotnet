@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class GetDocumentTest : BaseTest
     {
@@ -53,7 +54,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(edocStream);
             using var ms = new MemoryStream();
-            await edocStream.CopyToAsync(ms).ConfigureAwait(false);
+            await edocStream.Stream.CopyToAsync(ms).ConfigureAwait(false);
             Assert.IsTrue(ms.Length > 0, "Edoc stream should not be empty");
         }
 

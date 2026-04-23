@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class CreatePagesTest : BaseTest
     {
@@ -108,7 +109,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { Text = "Integration test text page content." }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Integration test text page content." } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
@@ -128,7 +129,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { Text = "Original page content" }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Original page content" } }
             }).ConfigureAwait(false);
 
             // 1x1 white PNG
@@ -168,7 +169,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             var result = await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
-                EntryId = createdEntryId
+                EntryId = createdEntryId,
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "" } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
@@ -187,7 +189,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Count = 3
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "", "", "" } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
@@ -207,7 +209,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { Text = "Original page" }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Original page" } }
             }).ConfigureAwait(false);
 
             // Insert text page at position 1
@@ -216,7 +218,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
                 PageNumber = 1,
-                Request = new CreatePagesRequest() { Text = "Inserted page" }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Inserted page" } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
@@ -256,7 +258,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     new FileParameter(new MemoryStream(pngBytes), "test.png", "image/png")
                 },
-                Request = new CreatePagesRequest() { Text = "Page with both image and text" }
+                Request = new CreatePagesRequest() { TextPages = new List<string> { "Page with both image and text" } }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(result);

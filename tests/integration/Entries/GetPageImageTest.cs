@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
+    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class GetPageImageTest : BaseTest
     {
@@ -64,7 +65,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(imageStream);
             using var ms = new MemoryStream();
-            await imageStream.CopyToAsync(ms).ConfigureAwait(false);
+            await imageStream.Stream.CopyToAsync(ms).ConfigureAwait(false);
             Assert.IsTrue(ms.Length > 0, "Image stream should not be empty");
         }
 
