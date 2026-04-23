@@ -39,8 +39,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             
             Assert.IsNotNull(tagDefinitions);
             Assert.IsTrue(tagDefinitions.Count > 0, "No tag definitions exist in the repository.");
-            
-            string tag = tagDefinitions.First().Name;
+
+            // Pick an informational tag (IsSecure=false). Security tags need the user's trustee to
+            // have that specific security tag assigned; the test service principal (e.g. Test23)
+            // typically doesn't, so AssignTag would silently no-op server-side and this test would
+            // see 0 tags returned. Informational tags are applicable to anyone.
+            var informationalTag = tagDefinitions.FirstOrDefault(t => !t.IsSecure);
+            Assert.IsNotNull(informationalTag, "No informational tag definitions available in the repository to test.");
+            string tag = informationalTag.Name;
             var request = new SetTagsRequest()
             {
                 Tags = new List<string>() { tag }
