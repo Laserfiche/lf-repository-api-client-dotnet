@@ -7715,7 +7715,10 @@ namespace Laserfiche.Repository.Api.Client
                                     content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
                                 }
                             }
-                        request_.Content = content_;
+                        // Only send a body when there is at least one part. Otherwise the server receives
+                        // multipart/form-data with no parts, which MultipartReader rejects as malformed.
+                        if (request != null || (imageFiles != null && imageFiles.Any()))
+                            request_.Content = content_;
                         request_.Method = new HttpMethod("POST");
                         request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -7756,7 +7759,10 @@ namespace Laserfiche.Repository.Api.Client
                                             content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
                                         }
                                     }
-                                request_.Content = content_;
+                                // Only send a body when there is at least one part. Otherwise the server receives
+                                // multipart/form-data with no parts, which MultipartReader rejects as malformed.
+                                if (request != null || (imageFiles != null && imageFiles.Any()))
+                                    request_.Content = content_;
                                 request_.Method = new HttpMethod("POST");
                                 request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
