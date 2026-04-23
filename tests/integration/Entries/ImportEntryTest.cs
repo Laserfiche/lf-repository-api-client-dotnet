@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
-    [Ignore("Temporarily ignored until lf-repository-api-client-dotnet preview is published to Nuget.org after server deploys")]
     [TestClass]
     public class ImportEntryTest : BaseTest
     {
@@ -135,7 +134,9 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 Assert.IsNotNull(e.ProblemDetails.ErrorSource);
                 Assert.AreEqual(204, e.ProblemDetails.ErrorCode);
                 Assert.IsNotNull(e.ProblemDetails.TraceId);
-                Assert.AreEqual(0, e.ProblemDetails.Extensions.Count);
+                // ProblemDetails.Extensions may contain instanceDetail since the server-side
+                // error middleware was updated to propagate it on the sync error path.
+                Assert.IsNotNull(e.ProblemDetails.Extensions);
             }
         }
     }
