@@ -39,7 +39,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Original text content" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Original text content" } }
             }).ConfigureAwait(false);
 
             // Write (replace) the text on page 1 using merged WritePage endpoint

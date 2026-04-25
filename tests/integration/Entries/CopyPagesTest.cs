@@ -44,13 +44,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = sourceEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Source page 1" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Source page 1" } }
             }).ConfigureAwait(false);
             await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = sourceEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Source page 2" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Source page 2" } }
             }).ConfigureAwait(false);
 
             var destEntry = await CreateEmptyDocument("RepositoryApiClientIntegrationTest .Net CopyPages Dest").ConfigureAwait(false);

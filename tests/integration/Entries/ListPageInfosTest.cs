@@ -41,13 +41,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Page 1 content" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Page 1 content" } }
             }).ConfigureAwait(false);
             await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Page 2 content" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Page 2 content" } }
             }).ConfigureAwait(false);
 
             var pages = await client.EntriesClient.ListPageInfosAsync(new ListPageInfosParameters()
@@ -81,7 +81,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 {
                     RepositoryId = RepositoryId,
                     EntryId = createdEntryId,
-                    Request = new CreatePagesRequest() { TextPages = new List<string> { $"Page {i} content" } }
+                    Request = new PagesContentRequest() { TextPages = new List<string> { $"Page {i} content" } }
                 }).ConfigureAwait(false);
             }
 
@@ -111,13 +111,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Page 1 content" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Page 1 content" } }
             }).ConfigureAwait(false);
             await client.EntriesClient.CreatePagesAsync(new CreatePagesParameters()
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { "Page 2 content" } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { "Page 2 content" } }
             }).ConfigureAwait(false);
 
             // Request only page 2

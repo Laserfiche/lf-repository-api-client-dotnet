@@ -40,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { TextPages = new List<string> { expectedText } }
+                Request = new PagesContentRequest() { TextPages = new List<string> { expectedText } }
             }).ConfigureAwait(false);
 
             var result = await client.EntriesClient.GetPageTextAsync(new GetPageTextParameters()
