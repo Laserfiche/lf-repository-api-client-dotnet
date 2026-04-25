@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
@@ -39,7 +40,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new CreatePagesRequest() { Text = expectedText }
+                Request = new PagesContentRequest() { TextPages = new List<string> { expectedText } }
             }).ConfigureAwait(false);
 
             var result = await client.EntriesClient.GetPageTextAsync(new GetPageTextParameters()
