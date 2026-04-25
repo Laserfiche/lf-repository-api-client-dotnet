@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
+    [Ignore("PUT /Document/Pages/{n} requires the WritePage path-segment routing bridge (server middleware + NSwag processor). Re-enable once that change ships to the integration-test environment.")]
     public class WritePageTextTest : BaseTest
     {
         int createdEntryId;
