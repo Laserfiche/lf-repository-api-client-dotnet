@@ -81,8 +81,11 @@ NULL_CHECK = re.compile(
 # Match nswag-generated C# method signatures so we can attribute each null-check
 # to its enclosing method. Example:
 #     public virtual async System.Threading.Tasks.Task<Entry> ImportEntryAsync(
+# The char class includes `,` and space so the return type can contain nested
+# generics like Task<IDictionary<string, IList<string>>>. Newlines are not
+# included, so the return-type capture stays on a single line.
 METHOD_SIG = re.compile(
-    r"^\s+public virtual async [\w\.<>]+ (?P<name>[A-Z]\w+)Async\(",
+    r"^\s+public virtual async [\w\.<>, ]+ (?P<name>[A-Z]\w+)Async\(",
     re.MULTILINE,
 )
 

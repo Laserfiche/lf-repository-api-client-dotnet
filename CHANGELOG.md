@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.1.0
+
+### Features
+
+- Add electronic document methods: `GetDocumentAsync`, `UpdateDocumentAsync`, `UpdateDocumentUploadedPartsAsync`.
+- Add page manipulation methods: `CreatePagesAsync`, `ReplacePagesAsync`, `WritePageAsync`, `ListPageInfosAsync`, `MovePagesAsync`, `CopyPagesAsync`, `RotateImagePageAsync`, `GetPageImageAsync`, `GetPageTextAsync`, `GenerateTextAsync`.
+- Add check-in/check-out and lock methods: `LockDocumentAsync`, `UnlockDocumentAsync`, `GetDocumentLockInfoAsync`, `PutUnderVersionControlAsync`, `CheckOutDocumentAsync`, `CheckInDocumentAsync`, `UndoCheckOutAsync`.
+
+### Breaking changes
+
+- `ListDynamicFieldValuesAsync` return type narrowed from `Task<IDictionary<string, ICollection<string>>>` to `Task<IDictionary<string, IList<string>>>`. Compile-time only — runtime type is unchanged (`List<T>` underneath). Callers explicitly declaring the dictionary value as `ICollection<string>` need to update the declaration; callers using `var` or iterating with `foreach` are unaffected.
+
+  **Why kept:** The narrowing is a side effect of adding `"responseArrayType": "IList"` to `nswag.json`, which standardizes the entire client surface on `IList<T>` for collection returns (preserving the codebase convention against NSwag 14.4's new `ICollection<T>` default). Reverting just this method would require either (a) dropping the setting and regressing every newly added method to `ICollection<T>` — inconsistent with the indexable assertion style used across the integration tests — or (b) carving a per-method exception in the liquid template, which is maintenance burden for an API where the runtime type is already `List<T>`. The benign compile-only break for one method is the better trade-off.
+
 ## 2.0.4
 
 ### Fixes
