@@ -4,7 +4,7 @@
 
 ### Features
 
-- Add electronic document methods: `GetDocumentAsync`, `UpdateDocumentAsync`, `UpdateDocumentUploadedPartsAsync`.
+- Add electronic document methods: `UpdateDocumentAsync`, `UpdateDocumentUploadedPartsAsync`.
 - Add page manipulation methods: `CreatePagesAsync`, `ReplacePagesAsync`, `WritePageAsync`, `ListPageInfosAsync`, `MovePagesAsync`, `CopyPagesAsync`, `RotateImagePageAsync`, `GetPageImageAsync`, `GetPageTextAsync`, `GenerateTextAsync`.
 - Add check-in/check-out and lock methods: `LockDocumentAsync`, `UnlockDocumentAsync`, `GetDocumentLockInfoAsync`, `PutUnderVersionControlAsync`, `CheckOutDocumentAsync`, `CheckInDocumentAsync`, `UndoCheckOutAsync`.
 
