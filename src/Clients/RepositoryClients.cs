@@ -2626,18 +2626,20 @@ namespace Laserfiche.Repository.Api.Client
         Task<Entry> ReplacePagesAsync(ReplacePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Returns page information for pages in a document.
+        /// Returns page information for the pages of a document.
         /// </summary>
         /// <remarks>
         /// - Returns a list of page properties including image dimensions, rotation angle, and content flags.<br/>
-        /// - Optional parameter: pageRange (default empty). If no pageRange is specified, information for all pages is returned. The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
+        /// - Pages are returned in ascending pageNumber order; that order is fixed and not configurable.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | SkipToken | Top | Prefer.<br/>
+        /// - pageRange filters which pages are returned before paging is applied. Combine pageRange with $top/$skiptoken to paginate within a known range.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully retrieved page information for the specified pages in the document.</returns>
+        /// <returns>Successfully retrieved a paged listing of page information for the document.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<PageInfoCollectionResponse> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Writes the image and/or text content of an existing page in the document.
@@ -8238,18 +8240,20 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Returns page information for pages in a document.
+        /// Returns page information for the pages of a document.
         /// </summary>
         /// <remarks>
         /// - Returns a list of page properties including image dimensions, rotation angle, and content flags.<br/>
-        /// - Optional parameter: pageRange (default empty). If no pageRange is specified, information for all pages is returned. The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
+        /// - Pages are returned in ascending pageNumber order; that order is fixed and not configurable.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | SkipToken | Top | Prefer.<br/>
+        /// - pageRange filters which pages are returned before paging is applied. Combine pageRange with $top/$skiptoken to paginate within a known range.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully retrieved page information for the specified pages in the document.</returns>
+        /// <returns>Successfully retrieved a paged listing of page information for the document.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<IList<PageInfoResponse>> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<PageInfoCollectionResponse> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -8257,8 +8261,9 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var pageRange = parameters.PageRange;
+            var prefer = parameters.Prefer;
             var select = parameters.Select;
-            var orderby = parameters.Orderby;
+            var top = parameters.Top;
             var count = parameters.Count;
 
             if (repositoryId == null)
@@ -8283,9 +8288,9 @@ namespace Laserfiche.Repository.Api.Client
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
                     }
-                    if (orderby != null)
+                    if (top != null)
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("$orderby")).Append('=').Append(Uri.EscapeDataString(ConvertToString(orderby, CultureInfo.InvariantCulture))).Append('&');
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (count != null)
                     {
@@ -8299,6 +8304,9 @@ namespace Laserfiche.Repository.Api.Client
             {
                 using (var request_ = new HttpRequestMessage())
                 {
+
+                    if (prefer != null)
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
                     request_.Method = new HttpMethod("GET");
                     request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -8318,7 +8326,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task<IList<PageInfoResponse>> ListPageInfosSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<PageInfoCollectionResponse> ListPageInfosSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -8336,7 +8344,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<IList<PageInfoResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<PageInfoCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -12439,9 +12447,14 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The pages to retrieve information for.
+        /// Optional comma-separated page numbers and ranges (e.g., "1,3-5,8-10"). Ranges must not overlap. When omitted, all pages are returned (subject to paging).
         /// </summary>
         public string PageRange { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
 
         /// <summary>
         /// Limits the properties returned in the result.
@@ -12449,9 +12462,9 @@ namespace Laserfiche.Repository.Api.Client
         public string Select { get; set; } = null;
 
         /// <summary>
-        /// Specifies the order in which items are returned. The maximum number of expressions is 5.
+        /// Limits the number of items returned from a collection. The maximum value is 150.
         /// </summary>
-        public string Orderby { get; set; } = null;
+        public int? Top { get; set; } = null;
 
         /// <summary>
         /// Indicates whether the total count of items within a collection are returned in the result.
@@ -18621,6 +18634,32 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Link> Value { get; set; }
+
+    }
+
+    /// <summary>
+    /// Response containing a collection of PageInfoResponse.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageInfoCollectionResponse
+    {
+        /// <summary>
+        /// A URL to retrieve the next page of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// The total count of items within a collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? OdataCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<PageInfoResponse> Value { get; set; }
 
     }
 

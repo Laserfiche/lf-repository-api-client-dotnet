@@ -6,6 +6,7 @@
 
 - Add electronic document methods: `UpdateDocumentAsync`, `UpdateDocumentUploadedPartsAsync`.
 - Add page manipulation methods: `CreatePagesAsync`, `ReplacePagesAsync`, `WritePageAsync`, `ListPageInfosAsync`, `MovePagesAsync`, `CopyPagesAsync`, `RotateImagePageAsync`, `GetPageImageAsync`, `GetPageTextAsync`, `GenerateTextAsync`.
+- `ListPageInfosAsync` returns a paginated `PageInfoCollectionResponse` (OData envelope with `Value`/`OdataCount`/`OdataNextLink`); accepts `Top`, `Select`, `Count`, `PageRange`, and the `Prefer: odata.maxpagesize=...` header. Default page size 150; clients follow `OdataNextLink` for further pages.
 - Add check-in/check-out and lock methods: `LockDocumentAsync`, `UnlockDocumentAsync`, `GetDocumentLockInfoAsync`, `PutUnderVersionControlAsync`, `CheckOutDocumentAsync`, `CheckInDocumentAsync`, `UndoCheckOutAsync`.
 
 ### Breaking changes
