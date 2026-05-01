@@ -30,7 +30,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA")]
         public async Task ListPageInfos()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos";
@@ -70,7 +69,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA")]
         public async Task ListPageInfos_WithPageRange_ReturnsFilteredPages()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos PageRange";
@@ -104,7 +102,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA")]
         public async Task ListPageInfos_WithSinglePageRange_ReturnsOnePage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net ListPageInfos SinglePage";

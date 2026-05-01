@@ -234,7 +234,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA — uses ListPageInfos to verify page parts")]
         public async Task CreatePages_SingleImageAndText()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net CreatePages ImageAndText";

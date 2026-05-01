@@ -28,7 +28,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA — uses ListPageInfos to verify rotation")]
         public async Task RotateImagePage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net RotateImagePage";
