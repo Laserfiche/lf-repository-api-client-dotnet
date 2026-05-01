@@ -28,6 +28,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
+        [Ignore("Pending server-side ListPageInfos pagination deploy to Dev CA — uses ListPageInfos to verify rotation")]
         public async Task RotateImagePage()
         {
             var entryName = "RepositoryApiClientIntegrationTest .Net RotateImagePage";
@@ -64,7 +65,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryId = createdEntryId,
                 PageRange = "1"
             }).ConfigureAwait(false);
-            var pageInfoBefore = pageInfoBeforeList[0];
+            var pageInfoBefore = pageInfoBeforeList.Value[0];
 
             Assert.IsNotNull(pageInfoBefore);
             Assert.AreEqual(0, pageInfoBefore.ImageRotationAngle, "Initial image rotation should be zero");
@@ -89,7 +90,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
                 EntryId = createdEntryId,
                 PageRange = "1"
             }).ConfigureAwait(false);
-            var pageInfoAfter = pageInfoAfterList[0];
+            var pageInfoAfter = pageInfoAfterList.Value[0];
 
             Assert.IsNotNull(pageInfoAfter);
             Assert.IsTrue(pageInfoAfter.HasImage, "Page should still have image content after rotation");
