@@ -56,7 +56,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of attributes associated with the authenticated user.</returns>
+        /// <returns>Successfully returned the list of trustee attribute key value pairs for the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<AttributeCollectionResponse> ListAttributesAsync(ListAttributesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -70,7 +70,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single attribute associated with the authenticated user.</returns>
+        /// <returns>Successfully returned the specified attribute for the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Attribute> GetAttributeAsync(GetAttributeParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -113,7 +113,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of attributes associated with the authenticated user.</returns>
+        /// <returns>Successfully returned the list of trustee attribute key value pairs for the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<AttributeCollectionResponse> ListAttributesAsync(ListAttributesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -268,6 +268,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -290,7 +300,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single attribute associated with the authenticated user.</returns>
+        /// <returns>Successfully returned the specified attribute for the authenticated user.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Attribute> GetAttributeAsync(GetAttributeParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -412,6 +422,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -631,7 +651,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of audit reasons.</returns>
+        /// <returns>Successfully returned list of audit reasons.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(ListAuditReasonsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -673,7 +693,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of audit reasons.</returns>
+        /// <returns>Successfully returned list of audit reasons.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<AuditReasonCollectionResponse> ListAuditReasonsAsync(ListAuditReasonsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -814,6 +834,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -1005,7 +1035,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single field definition.</returns>
+        /// <returns>Successfully returned requested field definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldDefinition> GetFieldDefinitionAsync(GetFieldDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -1020,7 +1050,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of field definitions.</returns>
+        /// <returns>Successfully returned field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(ListFieldDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -1062,7 +1092,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single field definition.</returns>
+        /// <returns>Successfully returned requested field definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<FieldDefinition> GetFieldDefinitionAsync(GetFieldDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1198,6 +1228,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -1221,7 +1261,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of field definitions.</returns>
+        /// <returns>Successfully returned field definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<FieldDefinitionCollectionResponse> ListFieldDefinitionsAsync(ListFieldDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1367,6 +1407,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -1591,7 +1641,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of link definitions.</returns>
+        /// <returns>Successfully returned link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(ListLinkDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -1606,7 +1656,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single link definition.</returns>
+        /// <returns>Successfully returned specified link definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkDefinition> GetLinkDefinitionAsync(GetLinkDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -1648,7 +1698,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of link definitions.</returns>
+        /// <returns>Successfully returned link definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<LinkDefinitionCollectionResponse> ListLinkDefinitionsAsync(ListLinkDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1798,6 +1848,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -1821,7 +1881,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single link definition.</returns>
+        /// <returns>Successfully returned specified link definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<LinkDefinition> GetLinkDefinitionAsync(GetLinkDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1943,6 +2003,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -2162,7 +2232,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A response containing an upload id and an array of upload URLs.</returns>
+        /// <returns>Returned response containing an upload ID and an array of upload URLs.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2170,13 +2240,20 @@ namespace Laserfiche.Repository.Api.Client
         /// Starts an asynchronous import task to import a document into a folder.
         /// </summary>
         /// <remarks>
-        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api. The maximum file size allowed is 64 GB.<br/>
-        /// - This route does not support partial success.<br/>
+        /// - Imports a new document from previously uploaded parts into the specified folder. The parts are assembled server-side into a single file that is then processed like a direct import.<br/>
+        /// - The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.<br/>
+        /// - The assembled file is imported as either the electronic document or image pages, following the same rules as the synchronous POST /Folder/Import:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file is stored as the electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        /// - Metadata in the body is assigned to the newly created entry.<br/>
+        /// - Supports assembled files up to 64 GB — use this endpoint when the file exceeds the size or time limits of the synchronous POST /Folder/Import.<br/>
+        /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion. This route does not support partial success.<br/>
+        /// - `imageFiles` and `generateImagePagesText` are not supported on this endpoint; use the synchronous POST /Folder/Import to attach image pages alongside the imported file.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartImportUploadedPartsAsync(StartImportUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2190,7 +2267,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartExportEntryAsync(StartExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2206,7 +2283,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartCopyEntryAsync(StartCopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2221,7 +2298,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartDeleteEntryAsync(StartDeleteEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2231,14 +2308,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns a single entry object.<br/>
         /// - Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.<br/>
-        /// - If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.<br/>
+        /// - If the entry is a subtype (Folder, Document, or Shortcut), the response will automatically include properties specific to that entry type. For example, Document entries include page-related properties such as the number of image pages and whether an electronic document is attached. Entries with an electronic document component include the electronic document size (in bytes). Folder entries include whether the folder is a record series. Shortcut entries include the target entry ID.<br/>
         /// - Allowed OData query options: Select.<br/>
         /// - When OData Select query option is used, 'entryType' is always included in the result.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single entry.</returns>
+        /// <returns>Successfully retrieved requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> GetEntryAsync(GetEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2253,21 +2330,28 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Succesfully moved and/or renamed the entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> UpdateEntryAsync(UpdateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Imports a file into a folder (max length: 100 MB).
+        /// Imports a new document into the specified folder.
         /// </summary>
         /// <remarks>
-        /// - Import a new document in the specified folder, and optionally assigns metadata.<br/>
-        /// - The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.<br/>
+        /// - Imports a new document into the specified folder, optionally with electronic document content, image pages, and metadata.<br/>
+        /// - The `file` form field is optional. When provided, it becomes either the electronic document or image pages of the new document:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file is stored as the electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. A multi-page TIFF produces multiple pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        ///   - A zero-byte file creates an empty document with no electronic document and no pages.<br/>
+        /// - The optional `imageFiles` form field accepts up to 10 image files (100 MB aggregate) that are appended as image pages. Set `generateImagePagesText=false` in the body to skip OCR for the pages added via `imageFiles` (default: true).<br/>
+        /// - `file` and `imageFiles` can be combined whenever the file is imported as the electronic document — i.e. non-image file types, or image file types with `importAsElectronicDocument=true`. The request returns 400 only when both are provided and the file would itself become image pages (image file type with `importAsElectronicDocument=false`).<br/>
+        /// - Metadata in the body is assigned to the newly created entry.<br/>
+        /// - Size and time limits: file must be ≤ 100 MB and the request must complete within 60 seconds. These limits may change. Use the asynchronous long-operation import endpoint for larger files or slower imports.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The created entry.</returns>
+        /// <returns>Document was created successfully. Returns created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> ImportEntryAsync(ImportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2281,7 +2365,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A link to download the exported entry.</returns>
+        /// <returns>Export was successful. Returned a link to download the exported entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2295,7 +2379,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The found entry or ancestor entry.</returns>
+        /// <returns>Successfully retrieved requested entry or ancestor entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<GetEntryByPathResponse> GetEntryByPathAsync(GetEntryByPathParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2313,7 +2397,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of children entries of a folder.</returns>
+        /// <returns>Successfully returned list of children entries in requested folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> ListEntriesAsync(ListEntriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2327,7 +2411,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The created entry.</returns>
+        /// <returns>Document was created successfully. Returns created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2342,7 +2426,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of fields assigned to the entry.</returns>
+        /// <returns>Successfully returned field values for requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldCollectionResponse> ListFieldsAsync(ListFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2357,7 +2441,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of fields assigned to the entry.</returns>
+        /// <returns>Successfully updated field values on requested entry. Returned updated fields</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2372,7 +2456,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tags assigned to the entry.</returns>
+        /// <returns>Successfully returned tags for requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagCollectionResponse> ListTagsAsync(ListTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2387,7 +2471,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tags assigned to the entry.</returns>
+        /// <returns>Successfully assigned tags to the requested entry. Returned updated tags.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2402,7 +2486,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of links assigned to the entry.</returns>
+        /// <returns>Successfully returned list of links assigned to requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2417,7 +2501,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of links assigned to the entry.</returns>
+        /// <returns>Successfully returned list of links assigned to requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<LinkCollectionResponse> ListLinksAsync(ListLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2431,9 +2515,53 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The copied entry.</returns>
+        /// <returns>Entry was copied successfully. Returned copied entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates a document entry's electronic document, image pages, and/or metadata.
+        /// </summary>
+        /// <remarks>
+        /// - Updates the electronic document, image pages, and/or metadata of the specified document entry.<br/>
+        /// - At least one of `file`, `imageFiles`, or `metadata` must be provided.<br/>
+        /// - The `file` form field is optional. When provided, it replaces the electronic document or is imported as image pages, following the same rules as the import endpoint:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        ///   - A zero-byte file is rejected with 400. To delete the electronic document while preserving pages and metadata, use `DELETE /Document/Edoc`.<br/>
+        /// - The optional `imageFiles` form field accepts up to 10 image files (100 MB aggregate) that are appended as image pages. Set `generateImagePagesText=false` in the body to skip OCR for the pages added via `imageFiles` (default: true).<br/>
+        /// - `file` and `imageFiles` can be combined whenever the file is imported as the electronic document — i.e. non-image file types, or image file types with `importAsElectronicDocument=true`. The request returns 400 only when both are provided and the file would itself become image pages (image file type with `importAsElectronicDocument=false`).<br/>
+        /// - Metadata updates are additive — only fields, tags, and links specified in the request are changed; everything else is preserved. Use PUT /fields, PUT /tags, or PUT /links for replace semantics.<br/>
+        /// - Lock/checkout lifecycle: the endpoint executes all requested mutations inside a single lock scope so that only one version is produced. It detects the caller's starting state and preserves it — the caller's existing persistent lock and/or checkout are reused, and the endpoint adds only what's missing for atomicity (checking out when the document is under version control but not checked out, persistently locking when no plock is held). On success, anything the endpoint added is released in reverse order (unlock plock, then check in — creating one version). On error, the endpoint undoes what it acquired (delete plock, undo checkout — no partial version).<br/>
+        /// - If the document is checked out or persistently locked by another user, this endpoint returns 423 Locked.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> UpdateDocumentAsync(UpdateDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates a document entry's electronic document and/or metadata from previously uploaded parts.
+        /// </summary>
+        /// <remarks>
+        /// - Updates a document entry from previously uploaded parts. The parts are assembled server-side into a single file that is then applied to the existing document.<br/>
+        /// - The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.<br/>
+        /// - Use this endpoint when the file exceeds the upload size or time limits of the synchronous PATCH /Document endpoint.<br/>
+        /// - The assembled file is applied as either the electronic document or image pages, following the same rules as the synchronous PATCH /Document:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        /// - If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.<br/>
+        /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.<br/>
+        /// - `imageFiles`, `generateImagePagesText`, and the `overwriteContent` query parameter are not supported on this endpoint; use the synchronous PATCH /Document to append image pages, OCR them automatically, or replace metadata wholesale.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully started the update document from uploaded parts operation. Returns a task ID for polling progress.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<StartTaskResponse> UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Deletes the edoc associated with an entry.
@@ -2444,7 +2572,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully deleted edoc associated with the specified entry. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2458,9 +2586,165 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully deleted pages associated with the specified entry. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Creates new pages in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Creates one or more new pages in the specified document.<br/>
+        /// - Optional imageFiles form field: up to 10 image files, 100 MB aggregate.<br/>
+        /// - Optional textPages array in the request JSON part. Aggregate size must be below 100 MB.<br/>
+        /// - The two arrays are paired by index: page[i] gets imageFiles[i] and textPages[i].<br/>
+        /// - The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.<br/>
+        /// - If neither imageFiles nor textPages is provided, one empty page is created.<br/>
+        /// - If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.<br/>
+        /// - generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created pages in the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CreatePagesAsync(CreatePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces all pages on the document with new pages from the provided image files and/or text content.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes all existing pages on the document, then creates new pages from the provided content. This is a single operation — one lock scope, one auto-version if the document is under version control.<br/>
+        /// - At least one `imageFile` or `textPage` must be provided. To delete all pages without replacement, use DELETE /Pages.<br/>
+        /// - The `imageFiles` and `textPages` arrays are paired by index (same rules as POST /Pages).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced all pages in the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> ReplacePagesAsync(ReplacePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns page information for the pages of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns a list of page properties including image dimensions, rotation angle, and content flags.<br/>
+        /// - Pages are returned in ascending pageNumber order; that order is fixed and not configurable.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | SkipToken | Top | Prefer.<br/>
+        /// - pageRange filters which pages are returned before paging is applied. Combine pageRange with $top/$skiptoken to paginate within a known range.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved a paged listing of page information for the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageInfoCollectionResponse> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Writes the image and/or text content of an existing page in the document.
+        /// </summary>
+        /// <remarks>
+        /// - Overwrites the image and/or text part of the specified page. At least one of `imageFile` or `request` (with text) must be provided.<br/>
+        /// - Parts not provided are left unchanged — e.g. providing only `imageFile` replaces the image without affecting existing text.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully wrote the image content of the specified page. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> WritePageAsync(WritePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Moves pages within a document to a new position.
+        /// </summary>
+        /// <remarks>
+        /// - Moves the specified pages within the same document to a new position.<br/>
+        /// - pageRange: A comma-separated string of non-overlapping single values or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
+        /// - destinationPageNumber: The 1-based page number where the pages will be moved before.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully moved pages within the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> MovePagesAsync(MovePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Copies pages from the source document to a destination document.
+        /// </summary>
+        /// <remarks>
+        /// - Copies the specified pages from the source document to the destination document.<br/>
+        /// - The source document retains its pages; copies are inserted into the destination.<br/>
+        /// - pageRange: A comma-separated string of non-overlapping single values or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12." The total number of distinct pages cannot exceed 500.<br/>
+        /// - destinationEntryId: The entry ID of the destination document.<br/>
+        /// - destinationPageNumber: The 1-based page number in the destination document where pages will be inserted before.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully copied pages from the source document to the destination document. The source document retains its pages. Returned the updated source entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CopyPagesAsync(CopyPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Rotates an image page in the document.
+        /// </summary>
+        /// <remarks>
+        /// - Rotates the image of the specified page by the given angle.<br/>
+        /// - rotationAngle: The rotation angle in degrees. Accepted values: 0, 90, 180, 270.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully rotated the image page. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> RotateImagePageAsync(RotateImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the image content of a specific page in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the raw image data for the specified page as a binary stream.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the image content for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FileResponse> GetPageImageAsync(GetPageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the text content of a specific page in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the text content for the specified page.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the text content for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageTextResponse> GetPageTextAsync(GetPageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Triggers server-side text generation for a document.
+        /// </summary>
+        /// <remarks>
+        /// - Triggers server-side text generation for the specified document.<br/>
+        /// - For documents with image pages, this performs OCR to generate searchable text.<br/>
+        /// - For documents with an electronic document part (e.g., PDF), this extracts embedded text.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully triggered text generation for the document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the dynamic field logic values assigned to an entry.
@@ -2473,9 +2757,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of dynamic field values.</returns>
+        /// <returns>Successfully returned dynamic field values for specified entry, template, and field values.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IDictionary<string, IList<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Removes the currently assigned template from an entry.
@@ -2488,7 +2772,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully removed the currently assigned template from requested entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> RemoveTemplateAsync(RemoveTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -2503,9 +2787,112 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully assigned specified template to requested entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Creates a persistent lock on a document.
+        /// </summary>
+        /// <remarks>
+        /// - Creates a persistent lock on the specified document. Persistent locks survive session disconnect and server restart.<br/>
+        /// - Optionally specify a comment and lock extent (Page, Edoc, Metadata, or All). Defaults to All.<br/>
+        /// - Returns lock info including the lock token, owner, and extent.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created a persistent lock on the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<LockInfo> LockDocumentAsync(LockDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the persistent lock state of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the current persistent lock state of the document, including who holds the lock, the lock token, comment, extent, and creation timestamp.<br/>
+        /// - If the document is not locked, returns lock info with isActive set to false.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the lock state of the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<LockInfo> GetDocumentLockInfoAsync(GetDocumentLockInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Removes a persistent lock from a document.
+        /// </summary>
+        /// <remarks>
+        /// - Without a lockToken query parameter, removes the current user's persistent lock on the document.<br/>
+        /// - With a lockToken query parameter, removes the specified lock regardless of owner (administrative unlock).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the persistent lock from the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task UnlockDocumentAsync(UnlockDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Puts a document under version control.
+        /// </summary>
+        /// <remarks>
+        /// - Puts the specified document under version control. No-op if already under version control.<br/>
+        /// - Documents must be under version control before they can be checked out.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully put the document under version control.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> PutUnderVersionControlAsync(PutUnderVersionControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Checks out a document.
+        /// </summary>
+        /// <remarks>
+        /// - Checks out the specified document for editing. The document must be under version control.<br/>
+        /// - By default, a persistent lock is automatically acquired (lock=true). Set lock=false to check out without locking.<br/>
+        /// - Optionally specify a comment for the check-out.<br/>
+        /// - Returns an error if the document is not under version control.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully checked out the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CheckOutDocumentAsync(CheckOutDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Checks in a document, creating a new version.
+        /// </summary>
+        /// <remarks>
+        /// - Checks in the specified document, creating a new version in the version history.<br/>
+        /// - By default, releases the persistent lock if one is held. Set unlock to false to keep the lock.<br/>
+        /// - Returns an error if the document is not currently checked out.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully checked in the document. If a persistent lock was held and unlock was not set to false, the lock has been released.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CheckInDocumentAsync(CheckInDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Undoes a document check-out without creating a new version.
+        /// </summary>
+        /// <remarks>
+        /// - Releases the check-out state without creating a new version in the version history.<br/>
+        /// - Always releases the persistent lock if one is held.<br/>
+        /// - Returns an error if the document is not under version control.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully undid the document check-out. Any persistent lock held on the document has been released.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> UndoCheckOutAsync(UndoCheckOutParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -2550,7 +2937,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A response containing an upload id and an array of upload URLs.</returns>
+        /// <returns>Returned response containing an upload ID and an array of upload URLs.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<CreateMultipartUploadUrlsResponse> CreateMultipartUploadUrlsAsync(CreateMultipartUploadUrlsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -2687,6 +3074,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -2703,13 +3100,20 @@ namespace Laserfiche.Repository.Api.Client
         /// Starts an asynchronous import task to import a document into a folder.
         /// </summary>
         /// <remarks>
-        /// - Imports a new file in the specified folder. The file should be already written (in chunks) to the upload URLs obtained by calling the Upload api. The maximum file size allowed is 64 GB.<br/>
-        /// - This route does not support partial success.<br/>
+        /// - Imports a new document from previously uploaded parts into the specified folder. The parts are assembled server-side into a single file that is then processed like a direct import.<br/>
+        /// - The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.<br/>
+        /// - The assembled file is imported as either the electronic document or image pages, following the same rules as the synchronous POST /Folder/Import:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file is stored as the electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        /// - Metadata in the body is assigned to the newly created entry.<br/>
+        /// - Supports assembled files up to 64 GB — use this endpoint when the file exceeds the size or time limits of the synchronous POST /Folder/Import.<br/>
+        /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion. This route does not support partial success.<br/>
+        /// - `imageFiles` and `generateImagePagesText` are not supported on this endpoint; use the synchronous POST /Folder/Import to attach image pages alongside the imported file.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartImportUploadedPartsAsync(StartImportUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -2888,7 +3292,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartExportEntryAsync(StartExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3072,7 +3476,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartCopyEntryAsync(StartCopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3222,6 +3626,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -3245,7 +3659,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartDeleteEntryAsync(StartDeleteEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3384,6 +3798,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -3402,14 +3826,14 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Returns a single entry object.<br/>
         /// - Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.<br/>
-        /// - If the entry is a subtype (Folder, Document, or Shortcut), the entry will automatically be converted to include those model-specific properties.<br/>
+        /// - If the entry is a subtype (Folder, Document, or Shortcut), the response will automatically include properties specific to that entry type. For example, Document entries include page-related properties such as the number of image pages and whether an electronic document is attached. Entries with an electronic document component include the electronic document size (in bytes). Folder entries include whether the folder is a record series. Shortcut entries include the target entry ID.<br/>
         /// - Allowed OData query options: Select.<br/>
         /// - When OData Select query option is used, 'entryType' is always included in the result.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single entry.</returns>
+        /// <returns>Successfully retrieved requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> GetEntryAsync(GetEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3540,6 +3964,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -3563,7 +3997,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Succesfully moved and/or renamed the entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> UpdateEntryAsync(UpdateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3770,6 +4204,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -3783,16 +4227,23 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Imports a file into a folder (max length: 100 MB).
+        /// Imports a new document into the specified folder.
         /// </summary>
         /// <remarks>
-        /// - Import a new document in the specified folder, and optionally assigns metadata.<br/>
-        /// - The import may fail if the file is greater than 100 MB or time out if it takes longer than 60 seconds. These values are subject to change at anytime. Use the long operation asynchronous import if you run into these restrictions.<br/>
+        /// - Imports a new document into the specified folder, optionally with electronic document content, image pages, and metadata.<br/>
+        /// - The `file` form field is optional. When provided, it becomes either the electronic document or image pages of the new document:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file is stored as the electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. A multi-page TIFF produces multiple pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        ///   - A zero-byte file creates an empty document with no electronic document and no pages.<br/>
+        /// - The optional `imageFiles` form field accepts up to 10 image files (100 MB aggregate) that are appended as image pages. Set `generateImagePagesText=false` in the body to skip OCR for the pages added via `imageFiles` (default: true).<br/>
+        /// - `file` and `imageFiles` can be combined whenever the file is imported as the electronic document — i.e. non-image file types, or image file types with `importAsElectronicDocument=true`. The request returns 400 only when both are provided and the file would itself become image pages (image file type with `importAsElectronicDocument=false`).<br/>
+        /// - Metadata in the body is assigned to the newly created entry.<br/>
+        /// - Size and time limits: file must be ≤ 100 MB and the request must complete within 60 seconds. These limits may change. Use the asynchronous long-operation import endpoint for larger files or slower imports.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The created entry.</returns>
+        /// <returns>Document was created successfully. Returns created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> ImportEntryAsync(ImportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -3804,6 +4255,7 @@ namespace Laserfiche.Repository.Api.Client
             var culture = parameters.Culture;
             var file = parameters.File;
             var request = parameters.Request;
+            var imageFiles = parameters.ImageFiles;
 
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
@@ -3837,9 +4289,7 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file == null)
-                            throw new ArgumentNullException("parameters.File");
-                        else
+                        if (file != null)
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -3853,6 +4303,17 @@ namespace Laserfiche.Repository.Api.Client
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
+                            }
+
+                        if (imageFiles != null)
+                        {
+                            foreach (var item_ in imageFiles)
+                            {
+                                var content_imageFiles_ = new StreamContent(item_.Data);
+                                if (!string.IsNullOrEmpty(item_.ContentType))
+                                    content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                    content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                }
                             }
                         request_.Content = content_;
                         request_.Method = new HttpMethod("POST");
@@ -3879,9 +4340,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file == null)
-                                    throw new ArgumentNullException("parameters.File");
-                                else
+                                if (file != null)
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -3895,6 +4354,17 @@ namespace Laserfiche.Repository.Api.Client
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
+                                    }
+
+                                if (imageFiles != null)
+                                {
+                                    foreach (var item_ in imageFiles)
+                                    {
+                                        var content_imageFiles_ = new StreamContent(item_.Data);
+                                        if (!string.IsNullOrEmpty(item_.ContentType))
+                                            content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                            content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                        }
                                     }
                                 request_.Content = content_;
                                 request_.Method = new HttpMethod("POST");
@@ -4048,7 +4518,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A link to download the exported entry.</returns>
+        /// <returns>Export was successful. Returned a link to download the exported entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -4278,7 +4748,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The found entry or ancestor entry.</returns>
+        /// <returns>Successfully retrieved requested entry or ancestor entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<GetEntryByPathResponse> GetEntryByPathAsync(GetEntryByPathParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -4409,6 +4879,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -4435,7 +4915,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of children entries of a folder.</returns>
+        /// <returns>Successfully returned list of children entries in requested folder.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<EntryCollectionResponse> ListEntriesAsync(ListEntriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -4611,6 +5091,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -4633,7 +5123,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The created entry.</returns>
+        /// <returns>Document was created successfully. Returns created entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> CreateEntryAsync(CreateEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -4831,6 +5321,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -4854,7 +5354,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of fields assigned to the entry.</returns>
+        /// <returns>Successfully returned field values for requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<FieldCollectionResponse> ListFieldsAsync(ListFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -5020,6 +5520,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -5043,7 +5553,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of fields assigned to the entry.</returns>
+        /// <returns>Successfully updated field values on requested entry. Returned updated fields</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<FieldCollectionResponse> SetFieldsAsync(SetFieldsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -5241,6 +5751,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -5264,7 +5784,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tags assigned to the entry.</returns>
+        /// <returns>Successfully returned tags for requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TagCollectionResponse> ListTagsAsync(ListTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -5420,6 +5940,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -5443,7 +5973,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tags assigned to the entry.</returns>
+        /// <returns>Successfully assigned tags to the requested entry. Returned updated tags.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TagCollectionResponse> SetTagsAsync(SetTagsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -5634,6 +6164,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -5657,7 +6197,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of links assigned to the entry.</returns>
+        /// <returns>Successfully returned list of links assigned to requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<LinkCollectionResponse> SetLinksAsync(SetLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -5848,6 +6388,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -5871,7 +6421,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of links assigned to the entry.</returns>
+        /// <returns>Successfully returned list of links assigned to requested entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<LinkCollectionResponse> ListLinksAsync(ListLinksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -6027,6 +6577,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -6049,7 +6609,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The copied entry.</returns>
+        /// <returns>Entry was copied successfully. Returned copied entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> CopyEntryAsync(CopyEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -6247,6 +6807,498 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates a document entry's electronic document, image pages, and/or metadata.
+        /// </summary>
+        /// <remarks>
+        /// - Updates the electronic document, image pages, and/or metadata of the specified document entry.<br/>
+        /// - At least one of `file`, `imageFiles`, or `metadata` must be provided.<br/>
+        /// - The `file` form field is optional. When provided, it replaces the electronic document or is imported as image pages, following the same rules as the import endpoint:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        ///   - A zero-byte file is rejected with 400. To delete the electronic document while preserving pages and metadata, use `DELETE /Document/Edoc`.<br/>
+        /// - The optional `imageFiles` form field accepts up to 10 image files (100 MB aggregate) that are appended as image pages. Set `generateImagePagesText=false` in the body to skip OCR for the pages added via `imageFiles` (default: true).<br/>
+        /// - `file` and `imageFiles` can be combined whenever the file is imported as the electronic document — i.e. non-image file types, or image file types with `importAsElectronicDocument=true`. The request returns 400 only when both are provided and the file would itself become image pages (image file type with `importAsElectronicDocument=false`).<br/>
+        /// - Metadata updates are additive — only fields, tags, and links specified in the request are changed; everything else is preserved. Use PUT /fields, PUT /tags, or PUT /links for replace semantics.<br/>
+        /// - Lock/checkout lifecycle: the endpoint executes all requested mutations inside a single lock scope so that only one version is produced. It detects the caller's starting state and preserves it — the caller's existing persistent lock and/or checkout are reused, and the endpoint adds only what's missing for atomicity (checking out when the document is under version control but not checked out, persistently locking when no plock is held). On success, anything the endpoint added is released in reverse order (unlock plock, then check in — creating one version). On error, the endpoint undoes what it acquired (delete plock, undo checkout — no partial version).<br/>
+        /// - If the document is checked out or persistently locked by another user, this endpoint returns 423 Locked.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> UpdateDocumentAsync(UpdateDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var culture = parameters.Culture;
+            var file = parameters.File;
+            var request = parameters.Request;
+            var imageFiles = parameters.ImageFiles;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document");
+                    urlBuilder_.Append('?');
+                    if (culture != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (file != null)
+                        {
+                                var content_file_ = new StreamContent(file.Data);
+                                if (!string.IsNullOrEmpty(file.ContentType))
+                                    content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                content_.Add(content_file_, "file", file.FileName ?? "file");
+                            }
+
+                        if (request != null)
+                        {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                content_.Add(new StringContent(json_), "request");
+                            }
+
+                        if (imageFiles != null)
+                        {
+                            foreach (var item_ in imageFiles)
+                            {
+                                var content_imageFiles_ = new StreamContent(item_.Data);
+                                if (!string.IsNullOrEmpty(item_.ContentType))
+                                    content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                    content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                }
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PATCH");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await UpdateDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (file != null)
+                                {
+                                        var content_file_ = new StreamContent(file.Data);
+                                        if (!string.IsNullOrEmpty(file.ContentType))
+                                            content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                        content_.Add(content_file_, "file", file.FileName ?? "file");
+                                    }
+
+                                if (request != null)
+                                {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        content_.Add(new StringContent(json_), "request");
+                                    }
+
+                                if (imageFiles != null)
+                                {
+                                    foreach (var item_ in imageFiles)
+                                    {
+                                        var content_imageFiles_ = new StreamContent(item_.Data);
+                                        if (!string.IsNullOrEmpty(item_.ContentType))
+                                            content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                            content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                        }
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PATCH");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await UpdateDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> UpdateDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 413)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates a document entry's electronic document and/or metadata from previously uploaded parts.
+        /// </summary>
+        /// <remarks>
+        /// - Updates a document entry from previously uploaded parts. The parts are assembled server-side into a single file that is then applied to the existing document.<br/>
+        /// - The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.<br/>
+        /// - Use this endpoint when the file exceeds the upload size or time limits of the synchronous PATCH /Document endpoint.<br/>
+        /// - The assembled file is applied as either the electronic document or image pages, following the same rules as the synchronous PATCH /Document:<br/>
+        ///   - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).<br/>
+        ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
+        /// - If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.<br/>
+        /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.<br/>
+        /// - `imageFiles`, `generateImagePagesText`, and the `overwriteContent` query parameter are not supported on this endpoint; use the synchronous PATCH /Document to append image pages, OCR them automatically, or replace metadata wholesale.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully started the update document from uploaded parts operation. Returns a task ID for polling progress.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<StartTaskResponse> UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/UpdateUploadedParts"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/UpdateUploadedParts");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await UpdateDocumentUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> UpdateDocumentUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 202)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 413)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -6268,7 +7320,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully deleted edoc associated with the specified entry. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -6437,6 +7489,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -6459,7 +7521,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully deleted pages associated with the specified entry. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> DeletePagesAsync(DeletePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -6635,6 +7697,2008 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Creates new pages in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Creates one or more new pages in the specified document.<br/>
+        /// - Optional imageFiles form field: up to 10 image files, 100 MB aggregate.<br/>
+        /// - Optional textPages array in the request JSON part. Aggregate size must be below 100 MB.<br/>
+        /// - The two arrays are paired by index: page[i] gets imageFiles[i] and textPages[i].<br/>
+        /// - The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.<br/>
+        /// - If neither imageFiles nor textPages is provided, one empty page is created.<br/>
+        /// - If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.<br/>
+        /// - generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created pages in the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> CreatePagesAsync(CreatePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var generateText = parameters.GenerateText;
+            var request = parameters.Request;
+            var imageFiles = parameters.ImageFiles;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+                    urlBuilder_.Append('?');
+                    if (pageNumber != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("pageNumber")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (generateText != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("generateText")).Append('=').Append(Uri.EscapeDataString(ConvertToString(generateText, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (request != null)
+                        {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                content_.Add(new StringContent(json_), "request");
+                            }
+
+                        if (imageFiles != null)
+                        {
+                            foreach (var item_ in imageFiles)
+                            {
+                                var content_imageFiles_ = new StreamContent(item_.Data);
+                                if (!string.IsNullOrEmpty(item_.ContentType))
+                                    content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                    content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                }
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("POST");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await CreatePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (request != null)
+                                {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        content_.Add(new StringContent(json_), "request");
+                                    }
+
+                                if (imageFiles != null)
+                                {
+                                    foreach (var item_ in imageFiles)
+                                    {
+                                        var content_imageFiles_ = new StreamContent(item_.Data);
+                                        if (!string.IsNullOrEmpty(item_.ContentType))
+                                            content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                            content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                        }
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("POST");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await CreatePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CreatePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces all pages on the document with new pages from the provided image files and/or text content.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes all existing pages on the document, then creates new pages from the provided content. This is a single operation — one lock scope, one auto-version if the document is under version control.<br/>
+        /// - At least one `imageFile` or `textPage` must be provided. To delete all pages without replacement, use DELETE /Pages.<br/>
+        /// - The `imageFiles` and `textPages` arrays are paired by index (same rules as POST /Pages).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced all pages in the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> ReplacePagesAsync(ReplacePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var generateText = parameters.GenerateText;
+            var request = parameters.Request;
+            var imageFiles = parameters.ImageFiles;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+                    urlBuilder_.Append('?');
+                    if (generateText != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("generateText")).Append('=').Append(Uri.EscapeDataString(ConvertToString(generateText, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (request != null)
+                        {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                content_.Add(new StringContent(json_), "request");
+                            }
+
+                        if (imageFiles != null)
+                        {
+                            foreach (var item_ in imageFiles)
+                            {
+                                var content_imageFiles_ = new StreamContent(item_.Data);
+                                if (!string.IsNullOrEmpty(item_.ContentType))
+                                    content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                    content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                }
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await ReplacePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (request != null)
+                                {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        content_.Add(new StringContent(json_), "request");
+                                    }
+
+                                if (imageFiles != null)
+                                {
+                                    foreach (var item_ in imageFiles)
+                                    {
+                                        var content_imageFiles_ = new StreamContent(item_.Data);
+                                        if (!string.IsNullOrEmpty(item_.ContentType))
+                                            content_imageFiles_.Headers.ContentType = MediaTypeHeaderValue.Parse(item_.ContentType);
+                                            content_.Add(content_imageFiles_, "imageFiles", item_.FileName ?? "imageFiles");
+                                        }
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await ReplacePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> ReplacePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns page information for the pages of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns a list of page properties including image dimensions, rotation angle, and content flags.<br/>
+        /// - Pages are returned in ascending pageNumber order; that order is fixed and not configurable.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | SkipToken | Top | Prefer.<br/>
+        /// - pageRange filters which pages are returned before paging is applied. Combine pageRange with $top/$skiptoken to paginate within a known range.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved a paged listing of page information for the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<PageInfoCollectionResponse> ListPageInfosAsync(ListPageInfosParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageRange = parameters.PageRange;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var top = parameters.Top;
+            var count = parameters.Count;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages");
+                    urlBuilder_.Append('?');
+                    if (pageRange != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("pageRange")).Append('=').Append(Uri.EscapeDataString(ConvertToString(pageRange, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+
+                    if (prefer != null)
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await ListPageInfosSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<PageInfoCollectionResponse> ListPageInfosSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<PageInfoCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Writes the image and/or text content of an existing page in the document.
+        /// </summary>
+        /// <remarks>
+        /// - Overwrites the image and/or text part of the specified page. At least one of `imageFile` or `request` (with text) must be provided.<br/>
+        /// - Parts not provided are left unchanged — e.g. providing only `imageFile` replaces the image without affecting existing text.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully wrote the image content of the specified page. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> WritePageAsync(WritePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var generateText = parameters.GenerateText;
+            var imageFile = parameters.ImageFile;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (generateText != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("generateText")).Append('=').Append(Uri.EscapeDataString(ConvertToString(generateText, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (imageFile != null)
+                        {
+                                var content_imageFile_ = new StreamContent(imageFile.Data);
+                                if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                    content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                            }
+
+                        if (request != null)
+                        {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                content_.Add(new StringContent(json_), "request");
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await WritePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (imageFile != null)
+                                {
+                                        var content_imageFile_ = new StreamContent(imageFile.Data);
+                                        if (!string.IsNullOrEmpty(imageFile.ContentType))
+                                            content_imageFile_.Headers.ContentType = MediaTypeHeaderValue.Parse(imageFile.ContentType);
+                                        content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
+                                    }
+
+                                if (request != null)
+                                {
+                                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                        content_.Add(new StringContent(json_), "request");
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await WritePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> WritePageSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Moves pages within a document to a new position.
+        /// </summary>
+        /// <remarks>
+        /// - Moves the specified pages within the same document to a new position.<br/>
+        /// - pageRange: A comma-separated string of non-overlapping single values or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12."<br/>
+        /// - destinationPageNumber: The 1-based page number where the pages will be moved before.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully moved pages within the specified document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> MovePagesAsync(MovePagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Move"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/Move");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await MovePagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> MovePagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Copies pages from the source document to a destination document.
+        /// </summary>
+        /// <remarks>
+        /// - Copies the specified pages from the source document to the destination document.<br/>
+        /// - The source document retains its pages; copies are inserted into the destination.<br/>
+        /// - pageRange: A comma-separated string of non-overlapping single values or page ranges. Ex: "1,2,3", "1-3,5", "2-7,10-12." The total number of distinct pages cannot exceed 500.<br/>
+        /// - destinationEntryId: The entry ID of the destination document.<br/>
+        /// - destinationPageNumber: The 1-based page number in the destination document where pages will be inserted before.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully copied pages from the source document to the destination document. The source document retains its pages. Returned the updated source entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> CopyPagesAsync(CopyPagesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/Copy"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/Copy");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await CopyPagesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CopyPagesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Rotates an image page in the document.
+        /// </summary>
+        /// <remarks>
+        /// - Rotates the image of the specified page by the given angle.<br/>
+        /// - rotationAngle: The rotation angle in degrees. Accepted values: 0, 90, 180, 270.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully rotated the image page. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> RotateImagePageAsync(RotateImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Image/Rotate"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Image/Rotate");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await RotateImagePageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> RotateImagePageSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the image content of a specific page in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the raw image data for the specified page as a binary stream.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the image content for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FileResponse> GetPageImageAsync(GetPageImageParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Image"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Image");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetPageImageSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FileResponse> GetPageImageSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200 || status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the text content of a specific page in a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the text content for the specified page.<br/>
+        /// - pageNumber is 1-based.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the text content for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<PageTextResponse> GetPageTextAsync(GetPageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Text"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Text");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetPageTextSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<PageTextResponse> GetPageTextSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<PageTextResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Triggers server-side text generation for a document.
+        /// </summary>
+        /// <remarks>
+        /// - Triggers server-side text generation for the specified document.<br/>
+        /// - For documents with image pages, this performs OCR to generate searchable text.<br/>
+        /// - For documents with an electronic document part (e.g., PDF), this extracts embedded text.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully triggered text generation for the document. Returned the updated entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/GenerateText"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/GenerateText");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GenerateTextSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> GenerateTextSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -6658,9 +9722,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of dynamic field values.</returns>
+        /// <returns>Successfully returned dynamic field values for specified entry, template, and field values.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDictionary<string, IList<string>>> ListDynamicFieldValuesAsync(ListDynamicFieldValuesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -6753,7 +9817,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task<IDictionary<string, ICollection<string>>> ListDynamicFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<IDictionary<string, IList<string>>> ListDynamicFieldValuesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -6771,7 +9835,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<IDictionary<string, IList<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -6839,6 +9903,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -6862,7 +9936,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully removed the currently assigned template from requested entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> RemoveTemplateAsync(RemoveTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -6997,6 +10071,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -7020,7 +10104,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated entry.</returns>
+        /// <returns>Successfully assigned specified template to requested entry. Returned updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> SetTemplateAsync(SetTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -7209,6 +10293,1232 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Creates a persistent lock on a document.
+        /// </summary>
+        /// <remarks>
+        /// - Creates a persistent lock on the specified document. Persistent locks survive session disconnect and server restart.<br/>
+        /// - Optionally specify a comment and lock extent (Page, Edoc, Metadata, or All). Defaults to All.<br/>
+        /// - Returns lock info including the lock token, owner, and extent.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created a persistent lock on the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<LockInfo> LockDocumentAsync(LockDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Lock"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Lock");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await LockDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LockInfo> LockDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<LockInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets the persistent lock state of a document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the current persistent lock state of the document, including who holds the lock, the lock token, comment, extent, and creation timestamp.<br/>
+        /// - If the document is not locked, returns lock info with isActive set to false.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the lock state of the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<LockInfo> GetDocumentLockInfoAsync(GetDocumentLockInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Lock"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Lock");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetDocumentLockInfoSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<LockInfo> GetDocumentLockInfoSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<LockInfo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Removes a persistent lock from a document.
+        /// </summary>
+        /// <remarks>
+        /// - Without a lockToken query parameter, removes the current user's persistent lock on the document.<br/>
+        /// - With a lockToken query parameter, removes the specified lock regardless of owner (administrative unlock).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the persistent lock from the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task UnlockDocumentAsync(UnlockDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var lockToken = parameters.LockToken;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Lock"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Lock");
+                    urlBuilder_.Append('?');
+                    if (lockToken != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("lockToken")).Append('=').Append(Uri.EscapeDataString(ConvertToString(lockToken, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        request_.Method = new HttpMethod("DELETE");
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+
+                        await UnlockDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return;
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                request_.Method = new HttpMethod("DELETE");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+
+                                await UnlockDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return;
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task UnlockDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Puts a document under version control.
+        /// </summary>
+        /// <remarks>
+        /// - Puts the specified document under version control. No-op if already under version control.<br/>
+        /// - Documents must be under version control before they can be checked out.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully put the document under version control.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> PutUnderVersionControlAsync(PutUnderVersionControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/VersionControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/VersionControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await PutUnderVersionControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> PutUnderVersionControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Checks out a document.
+        /// </summary>
+        /// <remarks>
+        /// - Checks out the specified document for editing. The document must be under version control.<br/>
+        /// - By default, a persistent lock is automatically acquired (lock=true). Set lock=false to check out without locking.<br/>
+        /// - Optionally specify a comment for the check-out.<br/>
+        /// - Returns an error if the document is not under version control.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully checked out the document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> CheckOutDocumentAsync(CheckOutDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/CheckOut"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/CheckOut");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await CheckOutDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CheckOutDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Checks in a document, creating a new version.
+        /// </summary>
+        /// <remarks>
+        /// - Checks in the specified document, creating a new version in the version history.<br/>
+        /// - By default, releases the persistent lock if one is held. Set unlock to false to keep the lock.<br/>
+        /// - Returns an error if the document is not currently checked out.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully checked in the document. If a persistent lock was held and unlock was not set to false, the lock has been released.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> CheckInDocumentAsync(CheckInDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/CheckIn"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/CheckIn");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await CheckInDocumentSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CheckInDocumentSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Undoes a document check-out without creating a new version.
+        /// </summary>
+        /// <remarks>
+        /// - Releases the check-out state without creating a new version in the version history.<br/>
+        /// - Always releases the persistent lock if one is held.<br/>
+        /// - Returns an error if the document is not under version control.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully undid the document check-out. Any persistent lock held on the document has been released.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> UndoCheckOutAsync(UndoCheckOutParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/UndoCheckOut"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/UndoCheckOut");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await UndoCheckOutSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> UndoCheckOutSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -7539,9 +11849,17 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public string Culture { get; set; } = null;
 
+        /// <summary>
+        /// Optional. The file to import. If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if importAsElectronicDocument=true, it is stored as the electronic document. Otherwise (image extension with importAsElectronicDocument=false), it is imported as image pages. A zero-byte file creates an empty document with no electronic document and no pages.
+        /// </summary>
         public FileParameter File { get; set; } = null;
 
         public ImportEntryRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// </summary>
+        public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
     }
 
@@ -7949,6 +12267,64 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateDocumentAsync(UpdateDocumentParameters, CancellationToken)">UpdateDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
+        /// </summary>
+        public string Culture { get; set; } = null;
+
+        /// <summary>
+        /// Optional. The electronic document or image file to apply to the existing document. If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if importAsElectronicDocument=true, it replaces the existing electronic document. Otherwise (image extension with importAsElectronicDocument=false), it is imported as image pages. A zero-byte file is rejected with 400; use DELETE /Document/Edoc to remove the electronic document.
+        /// </summary>
+        public FileParameter File { get; set; } = null;
+
+        public UpdateDocumentRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// </summary>
+        public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateDocumentUploadedPartsAsync(UpdateDocumentUploadedPartsParameters, CancellationToken)">UpdateDocumentUploadedParts</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateDocumentUploadedPartsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body containing the upload ID, part ETags, and optional metadata.
+        /// </summary>
+        public UpdateDocumentUploadedPartsRequest Request { get; set; }
+
+    }
+
+    /// <summary>
     /// Represents the request parameters for <see cref="IEntriesClient.DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters, CancellationToken)">DeleteElectronicDocument</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -7986,6 +12362,297 @@ namespace Laserfiche.Repository.Api.Client
         /// The pages to be deleted.
         /// </summary>
         public string PageRange { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CreatePagesAsync(CreatePagesParameters, CancellationToken)">CreatePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreatePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional 1-based page number. If omitted, pages are appended to the end. If provided, pages are inserted at that position.
+        /// </summary>
+        public int? PageNumber { get; set; } = null;
+
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) for image pages. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; } = null;
+
+        public PagesContentRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// </summary>
+        public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ReplacePagesAsync(ReplacePagesParameters, CancellationToken)">ReplacePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ReplacePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) after creating pages. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; } = null;
+
+        public PagesContentRequest Request { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// </summary>
+        public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListPageInfosAsync(ListPageInfosParameters, CancellationToken)">ListPageInfos</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListPageInfosParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional comma-separated page numbers and ranges (e.g., "1,3-5,8-10"). Ranges must not overlap. When omitted, all pages are returned (subject to paging).
+        /// </summary>
+        public string PageRange { get; set; } = null;
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection. The maximum value is 150.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.WritePageAsync(WritePageParameters, CancellationToken)">WritePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WritePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// If true, triggers server-side text generation (OCR) after writing. Default is false.
+        /// </summary>
+        public bool? GenerateText { get; set; } = null;
+
+        /// <summary>
+        /// Optional. The image file to upload to replace the page's image content. See https://doc.laserfiche.com/ for supported image file formats. At least one of imageFile or request (with text) must be provided.
+        /// </summary>
+        public FileParameter ImageFile { get; set; } = null;
+
+        public WritePageTextRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.MovePagesAsync(MovePagesParameters, CancellationToken)">MovePages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MovePagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body containing the page range and destination.
+        /// </summary>
+        public MovePagesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CopyPagesAsync(CopyPagesParameters, CancellationToken)">CopyPages</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CopyPagesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The source document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body containing the page range, destination entry ID, and destination page number.
+        /// </summary>
+        public CopyPagesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.RotateImagePageAsync(RotateImagePageParameters, CancellationToken)">RotateImagePage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RotateImagePageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to rotate.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The request body containing the rotation angle.
+        /// </summary>
+        public RotateImagePageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageImageAsync(GetPageImageParameters, CancellationToken)">GetPageImage</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetPageImageParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve the image for.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageTextAsync(GetPageTextParameters, CancellationToken)">GetPageText</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetPageTextParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve the text for.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GenerateTextAsync(GenerateTextParameters, CancellationToken)">GenerateText</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GenerateTextParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
 
     }
 
@@ -8058,6 +12725,157 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.LockDocumentAsync(LockDocumentParameters, CancellationToken)">LockDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class LockDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body containing optional lock comment and extent.
+        /// </summary>
+        public LockDocumentRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetDocumentLockInfoAsync(GetDocumentLockInfoParameters, CancellationToken)">GetDocumentLockInfo</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetDocumentLockInfoParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UnlockDocumentAsync(UnlockDocumentParameters, CancellationToken)">UnlockDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UnlockDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional lock token to unlock a specific lock held by another user (administrative unlock).
+        /// </summary>
+        public string LockToken { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.PutUnderVersionControlAsync(PutUnderVersionControlParameters, CancellationToken)">PutUnderVersionControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PutUnderVersionControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CheckOutDocumentAsync(CheckOutDocumentParameters, CancellationToken)">CheckOutDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CheckOutDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The request body containing optional lock and comment parameters.
+        /// </summary>
+        public CheckOutDocumentRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CheckInDocumentAsync(CheckInDocumentParameters, CancellationToken)">CheckInDocument</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CheckInDocumentParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional request body. If omitted, the persistent lock is released (default behavior).
+        /// </summary>
+        public CheckInDocumentRequest Request { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UndoCheckOutAsync(UndoCheckOutParameters, CancellationToken)">UndoCheckOut</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UndoCheckOutParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IRepositoriesClient
     {
@@ -8071,7 +12889,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of respositories.</returns>
+        /// <returns>Successfully returned list of available repositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -8111,7 +12929,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of respositories.</returns>
+        /// <returns>Successfully returned list of available repositories.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -8202,6 +13020,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -8359,7 +13187,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartSearchEntryAsync(StartSearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -8378,7 +13206,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of entry search results.</returns>
+        /// <returns>Successfully returned search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> ListSearchResultsAsync(ListSearchResultsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -8393,7 +13221,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of context hits for a search result.</returns>
+        /// <returns>Successfully returned context hits for specified search.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(ListSearchContextHitsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -8436,7 +13264,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A long operation task id.</returns>
+        /// <returns>Operation was started successfully. Returned a long operation task ID.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartSearchEntryAsync(StartSearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -8573,6 +13401,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -8600,7 +13438,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of entry search results.</returns>
+        /// <returns>Successfully returned search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<EntryCollectionResponse> ListSearchResultsAsync(ListSearchResultsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -8781,6 +13619,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -8804,7 +13652,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of context hits for a search result.</returns>
+        /// <returns>Successfully returned context hits for specified search.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<SearchContextHitCollectionResponse> ListSearchContextHitsAsync(ListSearchContextHitsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -8957,6 +13805,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -9252,7 +14110,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of entry search results.</returns>
+        /// <returns>Successfully returned search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryCollectionResponse> SearchEntryAsync(SearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -9297,7 +14155,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of entry search results.</returns>
+        /// <returns>Successfully returned search results.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<EntryCollectionResponse> SearchEntryAsync(SearchEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -9467,6 +14325,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -9663,7 +14531,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tag definitions.</returns>
+        /// <returns>Successfully returned list of tag definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(ListTagDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -9678,7 +14546,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single tag definition.</returns>
+        /// <returns>Successfully returned requested tag definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TagDefinition> GetTagDefinitionAsync(GetTagDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -9720,7 +14588,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of tag definitions.</returns>
+        /// <returns>Successfully returned list of tag definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TagDefinitionCollectionResponse> ListTagDefinitionsAsync(ListTagDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -9875,6 +14743,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -9898,7 +14776,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single tag definition.</returns>
+        /// <returns>Successfully returned requested tag definition.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TagDefinition> GetTagDefinitionAsync(GetTagDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -10025,6 +14903,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -10251,7 +15139,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of task progresses.</returns>
+        /// <returns>Returned a list of tasks.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TaskCollectionResponse> ListTasksAsync(ListTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10268,7 +15156,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of task cancellation results.</returns>
+        /// <returns>Successfully canceled requested tasks. Returned successfully canceled tasks.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10277,7 +15165,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Start test task operation successfully.</returns>
+        /// <returns>Test task was started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10321,7 +15209,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of task progresses.</returns>
+        /// <returns>Returned a list of tasks.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TaskCollectionResponse> ListTasksAsync(ListTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -10447,6 +15335,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -10472,7 +15370,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of task cancellation results.</returns>
+        /// <returns>Successfully canceled requested tasks. Returned successfully canceled tasks.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<CancelTasksResponse> CancelTasksAsync(CancelTasksParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -10598,6 +15496,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -10615,7 +15523,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Start test task operation successfully.</returns>
+        /// <returns>Test task was started successfully.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<StartTaskResponse> StartTestTaskAsync(StartTestTaskParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -10743,6 +15651,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -10955,7 +15873,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template definitions.</returns>
+        /// <returns>Returned list of template definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10970,7 +15888,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single template definition.</returns>
+        /// <returns>Successfully found and returned specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10985,7 +15903,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template field definitions.</returns>
+        /// <returns>Returned list of field definitions for specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -11000,7 +15918,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template field definitions.</returns>
+        /// <returns>Returned list of field definitions for specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -11042,7 +15960,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template definitions.</returns>
+        /// <returns>Returned list of template definitions.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -11202,6 +16120,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -11225,7 +16153,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A single template definition.</returns>
+        /// <returns>Successfully found and returned specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -11361,6 +16289,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -11384,7 +16322,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template field definitions.</returns>
+        /// <returns>Returned list of field definitions for specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateIdAsync(ListTemplateFieldDefinitionsByTemplateIdParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -11545,6 +16483,16 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 {
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                     throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
@@ -11568,7 +16516,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A collection of template field definitions.</returns>
+        /// <returns>Returned list of field definitions for specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -11719,6 +16667,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -12057,6 +17015,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Attribute> Value { get; set; }
 
@@ -12100,6 +17061,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<AuditReason> Value { get; set; }
 
@@ -12346,6 +17310,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<FieldDefinition> Value { get; set; }
 
@@ -12369,6 +17336,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<LinkDefinition> Value { get; set; }
 
@@ -12451,15 +17421,18 @@ namespace Laserfiche.Repository.Api.Client
         public int NumberOfParts { get; set; }
 
         /// <summary>
-        /// The name of the file to be uploaded. The file extension in the name will be used as the extension of the imported entry.
+        /// The name of the file to be uploaded. The file extension in the name will be used as the<br/>
+        /// extension of the imported entry. Required when startingPartNumber is 1 (first batch);<br/>
+        /// ignored on subsequent batches.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("fileName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("fileName", Required = Newtonsoft.Json.Required.Always)]
         public string FileName { get; set; }
 
         /// <summary>
-        /// The mime-type of the file to be uploaded.
+        /// The mime-type of the file to be uploaded. Required when startingPartNumber is 1<br/>
+        /// (first batch); ignored on subsequent batches.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("mimeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("mimeType", Required = Newtonsoft.Json.Required.Always)]
         public string MimeType { get; set; }
 
     }
@@ -12509,13 +17482,15 @@ namespace Laserfiche.Repository.Api.Client
         public bool AutoRename { get; set; } = false;
 
         /// <summary>
-        /// The options applied when importing a PDF.
+        /// Server-side processing options applied to the imported file. See ImportEntryRequestPdfOptions for the full contract.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ImportEntryRequestPdfOptions PdfOptions { get; set; }
 
         /// <summary>
-        /// Indicates if the document should be imported as an electronic document (true) or as image pages (false). The default value is false. This option is only applicable when importing the following document types: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.
+        /// Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool ImportAsElectronicDocument { get; set; } = false;
@@ -12535,19 +17510,24 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// PDF-related options for importing an entry.
+    /// Server-side processing options for the imported file. Despite the type name, these fields apply to any<br/>
+    /// supported electronic document as well as to files imported as image pages.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ImportEntryRequestPdfOptions
     {
         /// <summary>
-        /// Indicates if the import operation should generate text. The default value is false.
+        /// Generate searchable text for the imported file. For electronic documents, text is extracted from<br/>
+        /// the document (or OCR'd when the source is image-based). For files imported as image pages<br/>
+        /// (image file type with importAsElectronicDocument=false), the pages are OCR'd. Default: false.<br/>
+        /// Does not affect pages added via `imageFiles` — use `generateImagePagesText` for those.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("generateText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool GenerateText { get; set; } = false;
 
         /// <summary>
-        /// Indicates if the import operation should generate image pages. The default value is false.
+        /// Render server-side image pages from the electronic document. Applicable when the file is imported<br/>
+        /// as an electronic document. Default: false.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("generatePages", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool GeneratePages { get; set; } = false;
@@ -12560,7 +17540,8 @@ namespace Laserfiche.Repository.Api.Client
         public GeneratePagesImageType GeneratePagesImageType { get; set; } = Laserfiche.Repository.Api.Client.GeneratePagesImageType.StandardColor;
 
         /// <summary>
-        /// Indicates if the PDF file should be retained as an electronic document after generating image pages. The default value is true. This option is only applicable when GeneratePages is true.
+        /// When GeneratePages is true, retain the original file as the electronic document.<br/>
+        /// When false, only the generated image pages remain. Default: true. Ignored when GeneratePages=false.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("keepPdfAfterImport", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool KeepPdfAfterImport { get; set; } = true;
@@ -13194,6 +18175,46 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("isUnderVersionControl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsUnderVersionControl { get; set; }
 
+        /// <summary>
+        /// A boolean indicating if the represented document has a persistent lock.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isLocked", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsLocked { get; set; }
+
+        /// <summary>
+        /// The account name of the persistent lock holder. Null if the document is not locked.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lockedBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LockedBy { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if the document is locked by a user other than the authenticated user.<br/>
+        /// False if the document is not locked or is locked by the authenticated user.<br/>
+        /// Only populated on single-entry GET, not in listing results.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isLockedByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsLockedByAnotherUser { get; set; }
+
+        /// <summary>
+        /// The version number of the document. 0 if the document is not under version control.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("currentVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int CurrentVersion { get; set; }
+
+        /// <summary>
+        /// The account name of the user who checked out the document. Null if the document is not checked out.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("checkedOutBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CheckedOutBy { get; set; }
+
+        /// <summary>
+        /// A boolean indicating if the document is checked out by a user other than the authenticated user.<br/>
+        /// False if the document is not checked out or is checked out by the authenticated user.<br/>
+        /// Only populated on single-entry GET, not in listing results.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCheckedOutByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsCheckedOutByAnotherUser { get; set; }
+
     }
 
     /// <summary>
@@ -13268,7 +18289,9 @@ namespace Laserfiche.Repository.Api.Client
         public ImportEntryRequestPdfOptions PdfOptions { get; set; }
 
         /// <summary>
-        /// Indicates if the document should be imported as an electronic document (true) or as image pages (false). The default value is false. This option is only applicable when importing the following document types: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.
+        /// Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool ImportAsElectronicDocument { get; set; } = false;
@@ -13285,6 +18308,13 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string VolumeName { get; set; }
 
+        /// <summary>
+        /// Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.<br/>
+        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = true;
+
     }
 
     /// <summary>
@@ -13293,6 +18323,9 @@ namespace Laserfiche.Repository.Api.Client
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ExportEntryResponse
     {
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Value { get; set; }
 
@@ -13401,6 +18434,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Entry> Value { get; set; }
 
@@ -13424,6 +18460,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Field> Value { get; set; }
 
@@ -13461,6 +18500,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Tag> Value { get; set; }
 
@@ -13587,8 +18629,37 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Link> Value { get; set; }
+
+    }
+
+    /// <summary>
+    /// Response containing a collection of PageInfoResponse.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageInfoCollectionResponse
+    {
+        /// <summary>
+        /// A URL to retrieve the next page of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// The total count of items within a collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? OdataCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<PageInfoResponse> Value { get; set; }
 
     }
 
@@ -13779,6 +18850,225 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// Request body for updating a document's electronic document and/or metadata.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateDocumentRequest
+    {
+        /// <summary>
+        /// Whether a provided file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when `file` is provided and its extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry. Metadata updates are additive — only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// The options applied when importing a PDF.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+        /// <summary>
+        /// Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.<br/>
+        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = true;
+
+    }
+
+    /// <summary>
+    /// Request body for updating a document's electronic document and/or metadata from previously uploaded parts.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateDocumentUploadedPartsRequest
+    {
+        /// <summary>
+        /// The UploadId received when calling the CreateMultipartUploadUrls API to request upload URLs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("uploadId", Required = Newtonsoft.Json.Required.Always)]
+        public string UploadId { get; set; }
+
+        /// <summary>
+        /// The array of the ETag values received when writing the file chunks into the upload URLs. The ETag values should be in the order of their associated upload URLs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("partETags", Required = Newtonsoft.Json.Required.Always)]
+        public IList<string> PartETags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Whether the assembled file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry. Metadata updates are additive — only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// Server-side processing options applied to the assembled file. See ImportEntryRequestPdfOptions for the full contract.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for POST /Document/Pages (CreatePages) and PUT /Document/Pages (ReplacePages).<br/>
+    /// Carries the textual page content alongside any uploaded image files.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PagesContentRequest
+    {
+        /// <summary>
+        /// Optional text content for new pages. Paired by index with imageFiles —<br/>
+        /// page[i] gets textPages[i] and imageFiles[i]. If one array is shorter,<br/>
+        /// the corresponding pages are created without that part.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textPages", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<string> TextPages { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WritePageTextRequest
+    {
+        /// <summary>
+        /// The text content for the page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
+        public string Text { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MovePagesRequest
+    {
+        /// <summary>
+        /// The page range to move (e.g., "1-3" or "2,4,6"). 1-based page numbers.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pageRange", Required = Newtonsoft.Json.Required.Always)]
+        public string PageRange { get; set; }
+
+        /// <summary>
+        /// The 1-based destination page number. Pages will be moved before this position.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationPageNumber", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationPageNumber { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CopyPagesRequest
+    {
+        /// <summary>
+        /// The page range to copy (e.g., "1-3" or "2,4,6"). 1-based page numbers.<br/>
+        /// The total number of distinct pages in the range cannot exceed 500.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pageRange", Required = Newtonsoft.Json.Required.Always)]
+        public string PageRange { get; set; }
+
+        /// <summary>
+        /// The entry ID of the destination document.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationEntryId", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationEntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number in the destination document. Pages will be inserted before this position.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("destinationPageNumber", Required = Newtonsoft.Json.Required.Always)]
+        public int DestinationPageNumber { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RotateImagePageRequest
+    {
+        /// <summary>
+        /// The rotation angle in degrees. Accepted values: 0, 90, 180, 270.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rotationAngle", Required = Newtonsoft.Json.Required.Always)]
+        public int RotationAngle { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageInfoResponse
+    {
+        [Newtonsoft.Json.JsonProperty("entryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EntryId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pageId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long PageId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pageNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int PageNumber { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasImage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasImage { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasText { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasThumbnail", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasThumbnail { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("hasWordLocations", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasWordLocations { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageRotationAngle", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageRotationAngle { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long ImageDataSize { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("textDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long TextDataSize { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("locationsDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long LocationsDataSize { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("thumbnailDataSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long ThumbnailDataSize { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageDepth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageDepth { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageHeight", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageHeight { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageWidth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageWidth { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageXResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageXResolution { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageYResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageYResolution { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageTextResponse
+    {
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Text { get; set; }
+
+    }
+
+    /// <summary>
     /// Request body for listing dynamic field values for an entry.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -13818,12 +19108,116 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class LockInfo
+    {
+        /// <summary>
+        /// The unique lock token.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lockToken", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LockToken { get; set; }
+
+        /// <summary>
+        /// The account name of the lock owner (e.g., "DOMAIN\user").
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("owner", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Owner { get; set; }
+
+        /// <summary>
+        /// The user-defined comment for the lock.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// The lock extent (e.g., "Page", "Edoc", "Metadata", "All").
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("extent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Extent { get; set; }
+
+        /// <summary>
+        /// The UTC timestamp when the lock was created.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("creationTimestampUtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? CreationTimestampUtc { get; set; }
+
+        /// <summary>
+        /// The entry ID of the locked document.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Whether the lock is currently active.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isActive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsActive { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for creating a persistent lock on a document.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class LockDocumentRequest
+    {
+        /// <summary>
+        /// An optional comment for the persistent lock.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// The lock extent. Valid values: "Page", "Edoc", "Metadata", "All". Defaults to "All".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("extent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Extent { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for checking out a document.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CheckOutDocumentRequest
+    {
+        /// <summary>
+        /// Whether to automatically acquire a persistent lock as part of the check-out. Defaults to true.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lock", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Lock { get; set; } = true;
+
+        /// <summary>
+        /// An optional comment for the check-out.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Comment { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for checking in a document.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CheckInDocumentRequest
+    {
+        /// <summary>
+        /// Whether to automatically release the persistent lock as part of the check-in. Defaults to true.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("unlock", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Unlock { get; set; } = true;
+
+    }
+
     /// <summary>
     /// Response containing a collection of Repository.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class RepositoryCollectionResponse
     {
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<Repository> Value { get; set; }
 
@@ -13915,6 +19309,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<SearchContextHit> Value { get; set; }
 
@@ -14108,6 +19505,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<TagDefinition> Value { get; set; }
 
@@ -14163,6 +19563,9 @@ namespace Laserfiche.Repository.Api.Client
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TaskCollectionResponse
     {
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<TaskProgress> Value { get; set; }
 
@@ -14300,6 +19703,9 @@ namespace Laserfiche.Repository.Api.Client
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CancelTasksResponse
     {
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<CancelTaskResult> Value { get; set; }
 
@@ -14350,6 +19756,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<TemplateDefinition> Value { get; set; }
 
@@ -14449,6 +19858,9 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? OdataCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<TemplateFieldDefinition> Value { get; set; }
 
@@ -14493,6 +19905,43 @@ namespace Laserfiche.Repository.Api.Client
         public IList<int> Ancestors { get; set; }
 
     }
+
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileResponse : IDisposable
+    {
+        private IDisposable _client;
+        private IDisposable _response;
+
+        public int StatusCode { get; private set; }
+
+        public IReadOnlyDictionary<string, IEnumerable<string>> Headers { get; private set; }
+
+        public Stream Stream { get; private set; }
+
+        public bool IsPartial
+        {
+            get { return StatusCode == 206; }
+        }
+
+        public FileResponse(int statusCode, IReadOnlyDictionary<string, IEnumerable<string>> headers, Stream stream, IDisposable client, IDisposable response)
+        {
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
+            _response = response;
+        }
+
+        public void Dispose()
+        {
+            Stream.Dispose();
+            if (_response != null)
+                _response.Dispose();
+            if (_client != null)
+                _client.Dispose();
+        }
+    }
+
 
 
 }

@@ -86,7 +86,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
                 {
                     if (string.IsNullOrEmpty(ServicePrincipalKey) || AccessKey == null)
                         return null;
-                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey, "repository.ReadWrite");
+                    client = RepositoryApiClient.CreateFromAccessKey(ServicePrincipalKey, AccessKey, "repository.ReadWrite", BaseUrl);
                 }
                 else if (AuthorizationType == AuthorizationType.API_SERVER_USERNAME_PASSWORD)
                 {
@@ -153,6 +153,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
 
             using var fileStream = File.OpenRead(fileLocation);
             var electronicDocument = new FileParameter(fileStream, "test.pdf", "application/pdf");
+            var entry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
+            {
+                RepositoryId = RepositoryId,
+                EntryId = parentEntryId,
+                File = electronicDocument,
+                Request = request
+            }).ConfigureAwait(false);
+
+            Assert.IsNotNull(entry);
+            Assert.IsNotNull(entry.Id);
+
+            return entry;
+        }
+
+        protected async Task<Entry> CreateEmptyDocument(string name)
+        {
+            int parentEntryId = 1;
+            var request = new ImportEntryRequest()
+            {
+                AutoRename = true,
+                Name = name,
+            };
+
+            using var emptyStream = new MemoryStream();
+            var electronicDocument = new FileParameter(emptyStream, name, "application/octet-stream");
             var entry = await client.EntriesClient.ImportEntryAsync(new ImportEntryParameters()
             {
                 RepositoryId = RepositoryId,

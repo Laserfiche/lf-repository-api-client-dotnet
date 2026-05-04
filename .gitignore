@@ -1,6 +1,7 @@
 .vs
 [Oo]bj/
 [Bb]in/
+[Tt]est[Rr]esults/
 *.cache
 *.manifest
 *.env

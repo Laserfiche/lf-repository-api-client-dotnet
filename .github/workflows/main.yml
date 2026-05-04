@@ -12,13 +12,16 @@ on:
 
 env:
   API_VERSION: 'v2'
-  VERSION_PREFIX: '2.0.4'
+  VERSION_PREFIX: '2.1.0'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
   build-n-test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
+      checks: write
     steps:
     - uses: actions/checkout@v4
 

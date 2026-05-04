@@ -21,7 +21,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.SimpleSearches
         [TestCleanup]
         public async Task Cleanup()
         {
-            await DeleteEntry(_createdEntry.Id).ConfigureAwait(false);
+            if (_createdEntry != null)
+            {
+                await DeleteEntry(_createdEntry.Id).ConfigureAwait(false);
+            }
         }
 
         [TestMethod]
