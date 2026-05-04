@@ -29,7 +29,6 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         }
 
         [TestMethod]
-        [Ignore("Fails for an environment configuration reason unrelated to this branch.")]
         public async Task SetAndReturnTags()
         {
             var tagDefinitionsResult = await client.TagDefinitionsClient.ListTagDefinitionsAsync(new ListTagDefinitionsParameters()
