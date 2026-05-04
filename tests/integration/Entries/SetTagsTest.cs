@@ -40,14 +40,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(tagDefinitions);
             Assert.IsTrue(tagDefinitions.Count > 0, "No tag definitions exist in the repository.");
 
-            // Pick an informational tag (IsSecure=false). Security tags require the service principal's
-            // trustee to have that tag assigned; most test principals don't, so SetTagsAsync would
-            // silently no-op server-side and return 0 tags. Informational tags are applicable to anyone.
-            //
-            // NOTE: The swagger spec marks isSecure as non-required, so if the server omits it in the
-            // JSON response the .NET client deserializes IsSecure as false (bool default). Filter
-            // explicitly for IsSecure == false to match only tags where the server stated it is false.
-            var informationalTag = tagDefinitions.FirstOrDefault(t => t.IsSecure == false);
+            var informationalTag = tagDefinitions.FirstOrDefault(t => t.IsSecure == false && !t.Name.Contains("Automatically select tags"));
             if (informationalTag == null)
             {
                 Assert.Inconclusive(
