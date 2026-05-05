@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Laserfiche.Repository.Api.Client.csproj" />
+    <PackageReference Include="Laserfiche.Repository.Api.Client.V2" Version="2.1.0-beta-25349096326" />
   </ItemGroup>
 
   <ItemGroup>
