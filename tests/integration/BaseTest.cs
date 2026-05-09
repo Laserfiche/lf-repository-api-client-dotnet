@@ -1,10 +1,13 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client.OAuth;
+using Laserfiche.Repository.Api.Client.IntegrationTest.Util;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
@@ -45,6 +48,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         {
             TryLoadFromDotEnv(TestConfigFile);
             PopulateFromEnv();
+        }
+
+        /// <summary>
+        /// Skips the test as Inconclusive when the test class (or method) is decorated with
+        /// <see cref="SkipIfEndpointMissingAttribute"/> and any named operationId is absent
+        /// from the swagger document at <see cref="BaseUrl"/>. Replaces the
+        /// <c>[Ignore("Temporarily ignored: cloud test server not yet updated...")]</c> pattern.
+        /// </summary>
+        [TestInitialize]
+        public void CheckSkipIfEndpointMissing()
+        {
+            var attr = GetType().GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
+            if (attr == null || attr.OperationIds.Length == 0) return;
+
+            var (ops, fetchError) = SwaggerOperationCache.Get(BaseUrl);
+            if (fetchError != null)
+            {
+                Assert.Inconclusive($"Could not fetch swagger from {BaseUrl?.TrimEnd('/')}/swagger/v2/swagger.json: {fetchError.GetType().Name}: {fetchError.Message}");
+            }
+
+            var missing = attr.OperationIds.Where(id => !ops.Contains(id)).ToList();
+            if (missing.Count > 0)
+            {
+                Assert.Inconclusive($"Endpoint(s) not deployed at {BaseUrl}: {string.Join(", ", missing)}");
+            }
         }
 
         private static void TryLoadFromDotEnv(string fileName)
