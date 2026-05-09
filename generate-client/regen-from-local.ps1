@@ -36,7 +36,11 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot  = Split-Path -Parent $scriptDir
 
 Write-Host ">>> Downloading swagger from $SwaggerUrl"
-py "$scriptDir/download_swagger.py" `
+# Pick the first available Python launcher: Windows ships `py`, Linux/macOS ship
+# `python3`, some envs only have `python`. Same fallback as generate-client.ps1.
+$python = @('py', 'python3', 'python') | Where-Object { Get-Command $_ -ErrorAction SilentlyContinue } | Select-Object -First 1
+if (-not $python) { throw "Python not found in PATH (tried 'py', 'python3', 'python')." }
+& $python "$scriptDir/download_swagger.py" `
     --swagger-url $SwaggerUrl `
     --output-filepath "$scriptDir/swagger.json" `
     --swagger-override-filepath "$scriptDir/swagger-override.json"

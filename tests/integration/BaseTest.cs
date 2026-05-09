@@ -1,6 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client.OAuth;
+using Laserfiche.Api.Client.Utils;
 using Laserfiche.Repository.Api.Client.IntegrationTest.Util;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -68,17 +69,31 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             var attr = ResolveSkipAttribute();
             if (attr == null || attr.OperationIds.Length == 0) return;
 
-            var (ops, fetchError) = SwaggerOperationCache.Get(BaseUrl);
+            var probeBaseUrl = ResolveSwaggerProbeBaseUrl();
+            var (ops, fetchError) = SwaggerOperationCache.Get(probeBaseUrl);
             if (fetchError != null)
             {
-                Assert.Inconclusive($"Could not fetch swagger from {BaseUrl?.TrimEnd('/')}/swagger/v2/swagger.json: {fetchError.GetType().Name}: {fetchError.Message}");
+                Assert.Inconclusive($"Could not fetch swagger from {probeBaseUrl?.TrimEnd('/')}/swagger/v2/swagger.json: {fetchError.GetType().Name}: {fetchError.Message}");
             }
 
             var missing = attr.OperationIds.Where(id => !ops.Contains(id)).ToList();
             if (missing.Count > 0)
             {
-                Assert.Inconclusive($"Endpoint(s) not deployed at {BaseUrl}: {string.Join(", ", missing)}");
+                Assert.Inconclusive($"Endpoint(s) not deployed at {probeBaseUrl}: {string.Join(", ", missing)}");
             }
+        }
+
+        // CI uses CLOUD_ACCESS_KEY auth without setting APISERVER_REPOSITORY_API_BASE_URL —
+        // the V2 client resolves the regional API URL from the AccessKey's domain via
+        // DomainUtils internally. Mirror that here so the swagger probe targets the same
+        // server the client itself will hit. If neither is available the helper returns
+        // null and the cache surfaces a clean ArgumentException-shaped Inconclusive.
+        private string ResolveSwaggerProbeBaseUrl()
+        {
+            if (!string.IsNullOrEmpty(BaseUrl)) return BaseUrl;
+            if (AccessKey != null && !string.IsNullOrEmpty(AccessKey.Domain))
+                return DomainUtils.GetRepositoryApiBaseUri(AccessKey.Domain);
+            return null;
         }
 
         private SkipIfEndpointMissingAttribute ResolveSkipAttribute()
