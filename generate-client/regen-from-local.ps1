@@ -44,11 +44,21 @@ if (-not $python) { throw "Python not found in PATH (tried 'py', 'python3', 'pyt
     --swagger-url $SwaggerUrl `
     --output-filepath "$scriptDir/swagger.json" `
     --swagger-override-filepath "$scriptDir/swagger-override.json"
+# $ErrorActionPreference does not propagate native command exit codes in PowerShell 7.x
+# without $PSNativeCommandUseErrorActionPreference (7.3+ only). Check $LASTEXITCODE
+# explicitly so a failed download (server down, swagger 404, network outage) doesn't
+# silently regenerate the client from the previously committed stale swagger.json.
+if ($LASTEXITCODE -ne 0) {
+    throw "download_swagger.py failed with exit code $LASTEXITCODE — refusing to regenerate from a stale swagger.json."
+}
 
 Write-Host ">>> Regenerating client"
 & "$scriptDir/generate-client.ps1" `
     -input_folder $scriptDir `
     -output_folder "$repoRoot/src/Clients"
+if ($LASTEXITCODE -ne 0) {
+    throw "generate-client.ps1 failed with exit code $LASTEXITCODE."
+}
 
 Write-Host ">>> Done. Updated generate-client/swagger.json and src/Clients/RepositoryClients.cs."
 Write-Host ">>> Commit both as part of your feature branch when ready."
