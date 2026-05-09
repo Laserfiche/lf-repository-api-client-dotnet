@@ -52,4 +52,9 @@ Move-Item -Path $client_filepath -Destination "$output_folder/$client_filename" 
 # Post-nswag: relax null-throw checks on multipart parameters that the swagger
 # marks as optional. See generate-client/patch_optional_multipart.py for the
 # rationale (nswag's C# generator ignores the `required` list for multipart).
-py "$input_folder/patch_optional_multipart.py"
+#
+# Pick the first available Python launcher across platforms: Windows ships `py`,
+# Linux/macOS ship `python3`, some envs only have `python`.
+$python = @('py', 'python3', 'python') | Where-Object { Get-Command $_ -ErrorAction SilentlyContinue } | Select-Object -First 1
+if (-not $python) { throw "Python not found in PATH (tried 'py', 'python3', 'python')." }
+& $python "$input_folder/patch_optional_multipart.py"

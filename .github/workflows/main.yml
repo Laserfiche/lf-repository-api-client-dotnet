@@ -130,11 +130,18 @@ jobs:
       # get a `${VERSION_PREFIX}-feature-${branch_slug}-${run_id}` suffix so previews from
       # different branches don't collide on the NuGet feed and the source branch is visible
       # in the version string.
+      #
+      # Branch slug must be a valid SemVer prerelease identifier ([0-9A-Za-z-] only). Git
+      # allows characters NuGet/SemVer reject (`_ . / @ + ~ ...`), so map every non-allowed
+      # char to `-`, then collapse runs and trim leading/trailing `-`.
       run: |
         if [ "$GITHUB_REF_NAME" = "v2" ]; then
           echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-beta-${{ github.run_id }}" >> $GITHUB_ENV
         else
-          BRANCH_SLUG=$(echo "$GITHUB_REF_NAME" | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+          BRANCH_SLUG=$(echo "$GITHUB_REF_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr -c 'a-z0-9-' '-' \
+            | sed -e 's/-\{2,\}/-/g' -e 's/^-//' -e 's/-$//')
           echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-feature-${BRANCH_SLUG}-${{ github.run_id }}" >> $GITHUB_ENV
         fi
 

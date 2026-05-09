@@ -50,16 +50,22 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             PopulateFromEnv();
         }
 
+        // Populated by MSTest via property injection. Used by CheckSkipIfEndpointMissing
+        // to read the running test method's name for method-level
+        // <see cref="SkipIfEndpointMissingAttribute"/> resolution.
+        public TestContext TestContext { get; set; }
+
         /// <summary>
-        /// Skips the test as Inconclusive when the test class (or method) is decorated with
+        /// Skips the test as Inconclusive when the test class or method is decorated with
         /// <see cref="SkipIfEndpointMissingAttribute"/> and any named operationId is absent
-        /// from the swagger document at <see cref="BaseUrl"/>. Replaces the
+        /// from the swagger document at <see cref="BaseUrl"/>. Method-level attributes take
+        /// precedence over class-level. Replaces the
         /// <c>[Ignore("Temporarily ignored: cloud test server not yet updated...")]</c> pattern.
         /// </summary>
         [TestInitialize]
         public void CheckSkipIfEndpointMissing()
         {
-            var attr = GetType().GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
+            var attr = ResolveSkipAttribute();
             if (attr == null || attr.OperationIds.Length == 0) return;
 
             var (ops, fetchError) = SwaggerOperationCache.Get(BaseUrl);
@@ -73,6 +79,26 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             {
                 Assert.Inconclusive($"Endpoint(s) not deployed at {BaseUrl}: {string.Join(", ", missing)}");
             }
+        }
+
+        private SkipIfEndpointMissingAttribute ResolveSkipAttribute()
+        {
+            // Method-level wins over class-level. TestContext is read via reflection so a
+            // derived class that shadows the property still surfaces the value MSTest set.
+            SkipIfEndpointMissingAttribute methodAttr = null;
+            var tcProp = GetType().GetProperty("TestContext", BindingFlags.Public | BindingFlags.Instance);
+            var testName = (tcProp?.GetValue(this) as TestContext)?.TestName;
+            if (!string.IsNullOrEmpty(testName))
+            {
+                // Strip parameterized-test arg suffix (e.g., "Foo (1, 2)"); GetMethod doesn't
+                // resolve those names. If the strip yields an unknown name, GetMethod returns
+                // null and we fall through to class-level cleanly.
+                var paren = testName.IndexOf('(');
+                var methodName = paren > 0 ? testName.Substring(0, paren).Trim() : testName;
+                methodAttr = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance)
+                    ?.GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
+            }
+            return methodAttr ?? GetType().GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
         }
 
         private static void TryLoadFromDotEnv(string fileName)
