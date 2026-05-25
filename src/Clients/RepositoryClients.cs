@@ -2554,7 +2554,7 @@ namespace Laserfiche.Repository.Api.Client
         ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
         /// - If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.<br/>
         /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.<br/>
-        /// - `imageFiles`, `generateImagePagesText`, and the `overwriteContent` query parameter are not supported on this endpoint; use the synchronous PATCH /Document to append image pages, OCR them automatically, or replace metadata wholesale.<br/>
+        /// - `imageFiles` and `generateImagePagesText` are not supported on this endpoint; use the synchronous PATCH /Document to append image pages or OCR them automatically. Use PUT /Document/Pages to replace existing pages.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -4289,7 +4289,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file != null)
+                        if (file == null)
+                            throw new ArgumentNullException("parameters.File");
+                        else
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -4305,7 +4307,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -4340,7 +4344,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file != null)
+                                if (file == null)
+                                    throw new ArgumentNullException("parameters.File");
+                                else
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -4356,7 +4362,9 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -6894,7 +6902,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file != null)
+                        if (file == null)
+                            throw new ArgumentNullException("parameters.File");
+                        else
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -6902,13 +6912,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_file_, "file", file.FileName ?? "file");
                             }
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -6943,7 +6957,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file != null)
+                                if (file == null)
+                                    throw new ArgumentNullException("parameters.File");
+                                else
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -6951,13 +6967,17 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_file_, "file", file.FileName ?? "file");
                                     }
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -7131,7 +7151,7 @@ namespace Laserfiche.Repository.Api.Client
         ///   - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.<br/>
         /// - If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.<br/>
         /// - Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.<br/>
-        /// - `imageFiles`, `generateImagePagesText`, and the `overwriteContent` query parameter are not supported on this endpoint; use the synchronous PATCH /Document to append image pages, OCR them automatically, or replace metadata wholesale.<br/>
+        /// - `imageFiles` and `generateImagePagesText` are not supported on this endpoint; use the synchronous PATCH /Document to append image pages or OCR them automatically. Use PUT /Document/Pages to replace existing pages.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -7785,13 +7805,17 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -7826,13 +7850,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -8040,13 +8068,17 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -8081,13 +8113,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -8485,7 +8521,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (imageFile != null)
+                        if (imageFile == null)
+                            throw new ArgumentNullException("parameters.ImageFile");
+                        else
                         {
                                 var content_imageFile_ = new StreamContent(imageFile.Data);
                                 if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -8493,7 +8531,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                             }
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
@@ -8523,7 +8563,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (imageFile != null)
+                                if (imageFile == null)
+                                    throw new ArgumentNullException("parameters.ImageFile");
+                                else
                                 {
                                         var content_imageFile_ = new StreamContent(imageFile.Data);
                                         if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -8531,7 +8573,9 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                                     }
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
@@ -10982,6 +11026,26 @@ namespace Laserfiche.Repository.Api.Client
                     throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
                 }
                 else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -11330,6 +11394,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -11857,7 +11931,7 @@ namespace Laserfiche.Repository.Api.Client
         public ImportEntryRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -12295,7 +12369,7 @@ namespace Laserfiche.Repository.Api.Client
         public UpdateDocumentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -12394,7 +12468,7 @@ namespace Laserfiche.Repository.Api.Client
         public PagesContentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -12424,7 +12498,7 @@ namespace Laserfiche.Repository.Api.Client
         public PagesContentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -15878,6 +15952,22 @@ namespace Laserfiche.Repository.Api.Client
         Task<TemplateDefinitionCollectionResponse> ListTemplateDefinitionsAsync(ListTemplateDefinitionsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Creates a new template definition in the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Creates a new metadata template with the supplied scalar properties and (optionally) an initial set of field assignments.<br/>
+        /// - Names must be unique within the repository; duplicate-name failures return 400.<br/>
+        /// - Initial fields are appended in array order; each may carry per-template isRequired and localDescription. The repository-level field-definition properties are unaffected.<br/>
+        /// - The template extended-properties bag (REQ-ADMIN-006B) cannot be set during create — follow up with PATCH /Properties.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateDefinition> CreateTemplateAsync(CreateTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Returns a single template definition object.
         /// </summary>
         /// <remarks>
@@ -15891,6 +15981,34 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Successfully found and returned specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateDefinition> GetTemplateDefinitionAsync(GetTemplateDefinitionParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates properties of an existing template definition (partial update).
+        /// </summary>
+        /// <remarks>
+        /// - Partial-update merge semantics. null = leave unchanged; "" = clear a string property.<br/>
+        /// - To clear an existing color, set clearColor to true and leave color null. Supplying both is rejected with 400.<br/>
+        /// - Field membership is managed via the AddTemplateField / RemoveTemplateField / MoveTemplateField endpoints.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateDefinition> UpdateTemplateAsync(UpdateTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Deletes a template definition from the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes the specified template definition. Behavior when the template is assigned to entries mirrors the underlying repository server response — if rejected, the response surfaces the server error.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully deleted the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task DeleteTemplateAsync(DeleteTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the field definitions assigned to a template definition (by template definition ID).
@@ -15921,6 +16039,104 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Returned list of field definitions for specified template.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<TemplateFieldDefinitionCollectionResponse> ListTemplateFieldDefinitionsByTemplateNameAsync(ListTemplateFieldDefinitionsByTemplateNameParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the count of entries currently assigned to the specified template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Useful for impact analysis before performing destructive operations on the template.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the assigned entry count for the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<AssignedEntryCountResponse> GetTemplateAssignedEntryCountAsync(GetTemplateAssignedEntryCountParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the extended-properties bag for a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - The bag is opaque: keys are WebDAV-style identifiers used by admin tooling and migration utilities, and values are strings consumers interpret.<br/>
+        /// - The response may include LFS-internal entries (RA-managed flags, audit metadata, etc.) alongside caller-set keys. Treat unrecognized keys as read-only system data and avoid round-tripping them on UpdateTemplateProperties unless their semantics are known.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the template extended-properties bag.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplatePropertiesResponse> GetTemplatePropertiesAsync(GetTemplatePropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Partially updates the extended-properties bag for a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.<br/>
+        /// - Empty set and empty remove is a no-op and returns the current bag.<br/>
+        /// - Returns the full property bag after the change.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the template extended-properties bag.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplatePropertiesResponse> UpdateTemplatePropertiesAsync(UpdateTemplatePropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Adds a field to a template.
+        /// </summary>
+        /// <remarks>
+        /// - The field definition must already exist in the repository.<br/>
+        /// - Per-template properties do not affect the repository-level field-definition properties.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully added the field to the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task AddTemplateFieldAsync(AddTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Updates per-template properties for a field assignment on a template.
+        /// </summary>
+        /// <remarks>
+        /// - Affects only the field's behavior on this specific template.<br/>
+        /// - The repository-level field-definition properties are unchanged; use the FieldDefinitions admin endpoints for those.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the per-template properties for the field assignment.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task UpdateTemplateFieldPropertiesAsync(UpdateTemplateFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Removes a field from a template.
+        /// </summary>
+        /// <remarks>
+        /// - Field values already assigned to entries using this template are not affected — RA removes only the binding of the field to the template definition.<br/>
+        /// - The field definition itself is not deleted; only the template assignment is removed.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the field from the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task RemoveTemplateFieldAsync(RemoveTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Moves a field to a new position within a template.
+        /// </summary>
+        /// <remarks>
+        /// - The field must already be part of the template.<br/>
+        /// - newPosition must be between 1 and the current field count, inclusive.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully moved the field to the new position in the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task MoveTemplateFieldAsync(MoveTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -16143,6 +16359,157 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Creates a new template definition in the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Creates a new metadata template with the supplied scalar properties and (optionally) an initial set of field assignments.<br/>
+        /// - Names must be unique within the repository; duplicate-name failures return 400.<br/>
+        /// - Initial fields are appended in array order; each may carry per-template isRequired and localDescription. The repository-level field-definition properties are unaffected.<br/>
+        /// - The template extended-properties bag (REQ-ADMIN-006B) cannot be set during create — follow up with PATCH /Properties.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateDefinition> CreateTemplateAsync(CreateTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await CreateTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateDefinition> CreateTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Returns a single template definition object.
         /// </summary>
         /// <remarks>
@@ -16237,6 +16604,322 @@ namespace Laserfiche.Repository.Api.Client
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
                     }
                     return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates properties of an existing template definition (partial update).
+        /// </summary>
+        /// <remarks>
+        /// - Partial-update merge semantics. null = leave unchanged; "" = clear a string property.<br/>
+        /// - To clear an existing color, set clearColor to true and leave color null. Supplying both is rejected with 400.<br/>
+        /// - Field membership is managed via the AddTemplateField / RemoveTemplateField / MoveTemplateField endpoints.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateDefinition> UpdateTemplateAsync(UpdateTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await UpdateTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateDefinition> UpdateTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateDefinition>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Deletes a template definition from the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes the specified template definition. Behavior when the template is assigned to entries mirrors the underlying repository server response — if rejected, the response surfaces the server error.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully deleted the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task DeleteTemplateAsync(DeleteTemplateParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("DELETE");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await DeleteTemplateSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task DeleteTemplateSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
                 }
                 else
                 if (status_ == 400)
@@ -16698,6 +17381,1145 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Returns the count of entries currently assigned to the specified template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Useful for impact analysis before performing destructive operations on the template.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the assigned entry count for the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<AssignedEntryCountResponse> GetTemplateAssignedEntryCountAsync(GetTemplateAssignedEntryCountParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/AssignedEntryCount"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AssignedEntryCount");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetTemplateAssignedEntryCountSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AssignedEntryCountResponse> GetTemplateAssignedEntryCountSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AssignedEntryCountResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets the extended-properties bag for a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - The bag is opaque: keys are WebDAV-style identifiers used by admin tooling and migration utilities, and values are strings consumers interpret.<br/>
+        /// - The response may include LFS-internal entries (RA-managed flags, audit metadata, etc.) alongside caller-set keys. Treat unrecognized keys as read-only system data and avoid round-tripping them on UpdateTemplateProperties unless their semantics are known.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the template extended-properties bag.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplatePropertiesResponse> GetTemplatePropertiesAsync(GetTemplatePropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Properties");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetTemplatePropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplatePropertiesResponse> GetTemplatePropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplatePropertiesResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Partially updates the extended-properties bag for a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.<br/>
+        /// - Empty set and empty remove is a no-op and returns the current bag.<br/>
+        /// - Returns the full property bag after the change.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the template extended-properties bag.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplatePropertiesResponse> UpdateTemplatePropertiesAsync(UpdateTemplatePropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Properties");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await UpdateTemplatePropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplatePropertiesResponse> UpdateTemplatePropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplatePropertiesResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Adds a field to a template.
+        /// </summary>
+        /// <remarks>
+        /// - The field definition must already exist in the repository.<br/>
+        /// - Per-template properties do not affect the repository-level field-definition properties.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully added the field to the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task AddTemplateFieldAsync(AddTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await AddTemplateFieldSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task AddTemplateFieldSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates per-template properties for a field assignment on a template.
+        /// </summary>
+        /// <remarks>
+        /// - Affects only the field's behavior on this specific template.<br/>
+        /// - The repository-level field-definition properties are unchanged; use the FieldDefinitions admin endpoints for those.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the per-template properties for the field assignment.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task UpdateTemplateFieldPropertiesAsync(UpdateTemplateFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var fieldName = parameters.FieldName;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (fieldName == null)
+                throw new ArgumentNullException("parameters.FieldName");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields/{fieldName}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldName, CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PATCH");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await UpdateTemplateFieldPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task UpdateTemplateFieldPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Removes a field from a template.
+        /// </summary>
+        /// <remarks>
+        /// - Field values already assigned to entries using this template are not affected — RA removes only the binding of the field to the template definition.<br/>
+        /// - The field definition itself is not deleted; only the template assignment is removed.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the field from the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task RemoveTemplateFieldAsync(RemoveTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var fieldName = parameters.FieldName;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (fieldName == null)
+                throw new ArgumentNullException("parameters.FieldName");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields/{fieldName}"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldName, CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("DELETE");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await RemoveTemplateFieldSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task RemoveTemplateFieldSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Moves a field to a new position within a template.
+        /// </summary>
+        /// <remarks>
+        /// - The field must already be part of the template.<br/>
+        /// - newPosition must be between 1 and the current field count, inclusive.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully moved the field to the new position in the template.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task MoveTemplateFieldAsync(MoveTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields/Move"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Fields/Move");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    await MoveTemplateFieldSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return;
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task MoveTemplateFieldSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -16864,6 +18686,24 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.CreateTemplateAsync(CreateTemplateParameters, CancellationToken)">CreateTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The template definition to create. Name is required.
+        /// </summary>
+        public CreateTemplateRequest Request { get; set; }
+
+    }
+
+    /// <summary>
     /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateDefinitionAsync(GetTemplateDefinitionParameters, CancellationToken)">GetTemplateDefinition</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -16888,6 +18728,47 @@ namespace Laserfiche.Repository.Api.Client
         /// Limits the properties returned in the result.
         /// </summary>
         public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.UpdateTemplateAsync(UpdateTemplateParameters, CancellationToken)">UpdateTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template to update.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The properties to change. Only non-null properties are applied; null leaves the property unchanged.
+        /// </summary>
+        public UpdateTemplateRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.DeleteTemplateAsync(DeleteTemplateParameters, CancellationToken)">DeleteTemplate</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeleteTemplateParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template to delete.
+        /// </summary>
+        public int TemplateId { get; set; }
 
     }
 
@@ -16994,6 +18875,172 @@ namespace Laserfiche.Repository.Api.Client
         /// Indicates whether the total count of items within a collection are returned in the result.
         /// </summary>
         public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateAssignedEntryCountAsync(GetTemplateAssignedEntryCountParameters, CancellationToken)">GetTemplateAssignedEntryCount</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplateAssignedEntryCountParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplatePropertiesAsync(GetTemplatePropertiesParameters, CancellationToken)">GetTemplateProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplatePropertiesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.UpdateTemplatePropertiesAsync(UpdateTemplatePropertiesParameters, CancellationToken)">UpdateTemplateProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplatePropertiesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// Set and/or remove entries on the property bag. Keys not mentioned are left unchanged.
+        /// </summary>
+        public UpdateTemplatePropertiesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.AddTemplateFieldAsync(AddTemplateFieldParameters, CancellationToken)">AddTemplateField</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AddTemplateFieldParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The field to add. fieldName is required. Optional position (1-based) inserts at that position; omit to append. Optional per-template isRequired and localDescription apply only to this template.
+        /// </summary>
+        public AddTemplateFieldRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.UpdateTemplateFieldPropertiesAsync(UpdateTemplateFieldPropertiesParameters, CancellationToken)">UpdateTemplateFieldProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplateFieldPropertiesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The name of the field whose per-template properties to update. URL-decoded server-side.
+        /// </summary>
+        public string FieldName { get; set; }
+
+        /// <summary>
+        /// The per-template properties to change. Null = leave unchanged; empty string clears localDescription.
+        /// </summary>
+        public UpdateTemplateFieldPropertiesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.RemoveTemplateFieldAsync(RemoveTemplateFieldParameters, CancellationToken)">RemoveTemplateField</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RemoveTemplateFieldParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The name of the field to remove. URL-decoded server-side.
+        /// </summary>
+        public string FieldName { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.MoveTemplateFieldAsync(MoveTemplateFieldParameters, CancellationToken)">MoveTemplateField</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MoveTemplateFieldParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the template.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The field to move and the new 1-based position.
+        /// </summary>
+        public MoveTemplateFieldRequest Request { get; set; }
 
     }
 
@@ -18182,7 +20229,9 @@ namespace Laserfiche.Repository.Api.Client
         public bool IsLocked { get; set; }
 
         /// <summary>
-        /// The account name of the persistent lock holder. Null if the document is not locked.
+        /// Display name (account name, e.g. "DOMAIN\user") of the persistent lock holder. Null if the document is not locked.<br/>
+        /// Account renames change this value over time — do not use for stable identity comparisons.<br/>
+        /// To test whether the current authenticated user holds the lock, use IsLockedByAnotherUser; it compares stable principal identifiers internally.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("lockedBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LockedBy { get; set; }
@@ -18190,6 +20239,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// A boolean indicating if the document is locked by a user other than the authenticated user.<br/>
         /// False if the document is not locked or is locked by the authenticated user.<br/>
+        /// Computed from a stable principal identifier comparison, not from LockedBy.<br/>
         /// Only populated on single-entry GET, not in listing results.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isLockedByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -18202,7 +20252,9 @@ namespace Laserfiche.Repository.Api.Client
         public int CurrentVersion { get; set; }
 
         /// <summary>
-        /// The account name of the user who checked out the document. Null if the document is not checked out.
+        /// Display name (account name, e.g. "DOMAIN\user") of the user who checked out the document. Null if the document is not checked out.<br/>
+        /// Account renames change this value over time — do not use for stable identity comparisons.<br/>
+        /// To test whether the current authenticated user holds the checkout, use IsCheckedOutByAnotherUser; it compares stable principal identifiers internally.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("checkedOutBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CheckedOutBy { get; set; }
@@ -18210,6 +20262,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// A boolean indicating if the document is checked out by a user other than the authenticated user.<br/>
         /// False if the document is not checked out or is checked out by the authenticated user.<br/>
+        /// Computed from a stable principal identifier comparison, not from CheckedOutBy.<br/>
         /// Only populated on single-entry GET, not in listing results.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isCheckedOutByAnotherUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -18638,32 +20691,6 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Response containing a collection of PageInfoResponse.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class PageInfoCollectionResponse
-    {
-        /// <summary>
-        /// A URL to retrieve the next page of the requested collection.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OdataNextLink { get; set; }
-
-        /// <summary>
-        /// The total count of items within a collection.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? OdataCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the OData response content in the "value".
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public IList<PageInfoResponse> Value { get; set; }
-
-    }
-
-    /// <summary>
     /// Represents a link between a source entry and a target entry.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -19004,6 +21031,32 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// Response containing a collection of PageInfoResponse.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageInfoCollectionResponse
+    {
+        /// <summary>
+        /// A URL to retrieve the next page of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// The total count of items within a collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? OdataCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<PageInfoResponse> Value { get; set; }
+
+    }
+
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PageInfoResponse
     {
@@ -19118,7 +21171,9 @@ namespace Laserfiche.Repository.Api.Client
         public string LockToken { get; set; }
 
         /// <summary>
-        /// The account name of the lock owner (e.g., "DOMAIN\user").
+        /// Display name (account name, e.g. "DOMAIN\user") of the lock owner.<br/>
+        /// Same value reported as lockedBy on Document for the same lock.<br/>
+        /// Account renames change this value over time — do not use for stable identity comparisons.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("owner", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Owner { get; set; }
@@ -19168,10 +21223,32 @@ namespace Laserfiche.Repository.Api.Client
         public string Comment { get; set; }
 
         /// <summary>
-        /// The lock extent. Valid values: "Page", "Edoc", "Metadata", "All". Defaults to "All".
+        /// The lock extent. Defaults to All when omitted.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("extent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Extent { get; set; }
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public LockExtent? Extent { get; set; }
+
+    }
+
+    /// <summary>
+    /// The portion of a document that a persistent lock covers.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum LockExtent
+    {
+
+        [EnumMember(Value = @"Page")]
+        Page = 0,
+
+        [EnumMember(Value = @"Edoc")]
+        Edoc = 1,
+
+        [EnumMember(Value = @"Metadata")]
+        Metadata = 2,
+
+        [EnumMember(Value = @"All")]
+        All = 3,
 
     }
 
@@ -19806,6 +21883,12 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("fieldCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int FieldCount { get; set; }
 
+        /// <summary>
+        /// Whether the template is eligible for automatic assignment by Cloud auto-classification.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isAutoAssignable", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsAutoAssignable { get; set; }
+
     }
 
     /// <summary>
@@ -19890,6 +21973,14 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("groupName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string GroupName { get; set; }
 
+        /// <summary>
+        /// The per-template description for this field assignment. Distinct from the field<br/>
+        /// definition's repository-level description; set via AddTemplateField /<br/>
+        /// UpdateTemplateFieldProperties.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("localDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LocalDescription { get; set; }
+
     }
 
     /// <summary>
@@ -19903,6 +21994,258 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ancestors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<int> Ancestors { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for creating a new template definition. Name is required; all other<br/>
+    /// properties are optional and fall back to repository defaults when omitted.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateTemplateRequest
+    {
+        /// <summary>
+        /// The name of the template. Required. Must be unique within the repository.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The description of the template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// The color assigned to the template. Omit (or set null) for no color.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("color", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public LFColor Color { get; set; }
+
+        /// <summary>
+        /// Whether the template is eligible for automatic assignment by Cloud auto-classification.<br/>
+        /// Defaults to false when omitted.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isAutoAssignable", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsAutoAssignable { get; set; }
+
+        /// <summary>
+        /// Optional initial field assignments. Order is preserved (each entry is appended<br/>
+        /// in array order; the resulting position is 1-based). Each entry may carry the<br/>
+        /// per-template isRequired and localDescription properties.<br/>
+        /// Note: extended properties (the WebDAV-keyed bag) cannot be set during create<br/>
+        /// because RepositoryAccess does not expose an atomic create-with-properties path<br/>
+        /// for templates. To set initial properties, follow Create with a PATCH /Properties<br/>
+        /// call against the returned template ID.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<TemplateFieldAssignment> Fields { get; set; }
+
+    }
+
+    /// <summary>
+    /// A single field assignment used in Fields.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TemplateFieldAssignment
+    {
+        /// <summary>
+        /// The name of an existing field definition to assign to the template. Required.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldName", Required = Newtonsoft.Json.Required.Always)]
+        public string FieldName { get; set; }
+
+        /// <summary>
+        /// Whether the field is required for entries assigned to this template specifically.<br/>
+        /// Distinct from the repository-level IsRequired on the field definition.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsRequired { get; set; }
+
+        /// <summary>
+        /// The per-template description for this field assignment.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("localDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LocalDescription { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for partial-update of an existing template definition. Every property<br/>
+    /// is optional.<br/>
+    /// null = leave the property unchanged.<br/>
+    /// Empty string ("") on a string property = clear the value.<br/>
+    /// To clear an existing color, set ClearColor to true and leave Color null. Supplying both Color and ClearColor=true is rejected with 400.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplateRequest
+    {
+        /// <summary>
+        /// The new name of the template. Must be unique within the repository.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The description of the template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// The new color for the template. Omit to leave unchanged.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("color", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public LFColor Color { get; set; }
+
+        /// <summary>
+        /// Set to true to clear the template's existing color. Mutually exclusive with Color.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("clearColor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? ClearColor { get; set; }
+
+        /// <summary>
+        /// Whether the template is eligible for automatic assignment by Cloud auto-classification.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isAutoAssignable", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsAutoAssignable { get; set; }
+
+    }
+
+    /// <summary>
+    /// The number of entries that have a value assigned for a given field definition,<br/>
+    /// or that are currently assigned to a given template definition.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AssignedEntryCountResponse
+    {
+        /// <summary>
+        /// The count of entries currently using this field or template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Count { get; set; }
+
+    }
+
+    /// <summary>
+    /// Response body for the extended-properties bag on a template definition. The bag is<br/>
+    /// opaque: keys are WebDAV-style identifiers used by admin tooling and migration<br/>
+    /// utilities; values are strings consumers interpret. The response may include<br/>
+    /// LFS-internal entries (e.g. RA-managed flags) alongside caller-set keys; callers<br/>
+    /// should treat unrecognized keys as read-only system data.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TemplatePropertiesResponse
+    {
+        /// <summary>
+        /// The full set of extended properties currently set on the template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, string> Properties { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for partially updating the extended-properties bag on a template<br/>
+    /// definition. Entries in Set are written (creating or overwriting).<br/>
+    /// Entries in Remove are deleted. Properties not mentioned in either<br/>
+    /// are left unchanged.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplatePropertiesRequest
+    {
+        /// <summary>
+        /// Properties to set. Keys absent here are not modified.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("set", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, string> Set { get; set; }
+
+        /// <summary>
+        /// Property keys to remove. Keys not currently set are ignored.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("remove", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<string> Remove { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for adding an existing field definition to a template.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AddTemplateFieldRequest
+    {
+        /// <summary>
+        /// The name of an existing field definition to assign to the template. Required.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldName", Required = Newtonsoft.Json.Required.Always)]
+        public string FieldName { get; set; }
+
+        /// <summary>
+        /// The 1-based position at which to insert the field. Omit (or set null) to append<br/>
+        /// to the end of the template. Values less than 1 or greater than the current<br/>
+        /// field count + 1 are rejected with 400.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? Position { get; set; }
+
+        /// <summary>
+        /// Whether the field is required for entries assigned to this template specifically.<br/>
+        /// Distinct from the repository-level IsRequired on the field definition.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsRequired { get; set; }
+
+        /// <summary>
+        /// The per-template description for this field assignment. Distinct from the<br/>
+        /// field definition's repository-level description.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("localDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LocalDescription { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for updating per-template properties on a field assignment that is<br/>
+    /// already part of a template. Repository-level field-definition properties are<br/>
+    /// unaffected by this endpoint — those go through the FieldDefinitions admin endpoints.<br/>
+    /// null = leave the property unchanged.<br/>
+    /// Empty string ("") on LocalDescription clears the value.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateTemplateFieldPropertiesRequest
+    {
+        /// <summary>
+        /// Whether the field is required for entries assigned to this template specifically.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isRequired", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsRequired { get; set; }
+
+        /// <summary>
+        /// The per-template description for this field assignment.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("localDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LocalDescription { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for moving an existing field within a template to a new position.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MoveTemplateFieldRequest
+    {
+        /// <summary>
+        /// The name of the field to move. Required. Must already be part of the template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldName", Required = Newtonsoft.Json.Required.Always)]
+        public string FieldName { get; set; }
+
+        /// <summary>
+        /// The 1-based target position. Required. Values less than 1 or greater than the<br/>
+        /// current field count are rejected with 400.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("newPosition", Required = Newtonsoft.Json.Required.Always)]
+        public int NewPosition { get; set; }
 
     }
 
