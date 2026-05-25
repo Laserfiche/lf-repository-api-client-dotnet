@@ -117,6 +117,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                 }).ConfigureAwait(false);
                 CollectionAssert.AreEqual(replacement, (List<string>)afterReplace.Values);
 
+                // Independent GET — proves the PUT persisted; same-request reads can mask a missing Save() (Trap 4).
+                var afterReplaceReread = await client.FieldDefinitionsClient.GetFieldListValuesAsync(new GetFieldListValuesParameters
+                {
+                    RepositoryId = RepositoryId,
+                    FieldId = createdId,
+                }).ConfigureAwait(false);
+                CollectionAssert.AreEqual(replacement, (List<string>)afterReplaceReread.Values);
+
                 // Clear via empty array
                 var afterClear = await client.FieldDefinitionsClient.ReplaceFieldListValuesAsync(new ReplaceFieldListValuesParameters
                 {
@@ -125,6 +133,13 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
                     Request = new ReplaceListValuesRequest { Values = new List<string>() },
                 }).ConfigureAwait(false);
                 Assert.AreEqual(0, afterClear.Values.Count);
+
+                var afterClearReread = await client.FieldDefinitionsClient.GetFieldListValuesAsync(new GetFieldListValuesParameters
+                {
+                    RepositoryId = RepositoryId,
+                    FieldId = createdId,
+                }).ConfigureAwait(false);
+                Assert.AreEqual(0, afterClearReread.Values.Count);
             }
             finally
             {
