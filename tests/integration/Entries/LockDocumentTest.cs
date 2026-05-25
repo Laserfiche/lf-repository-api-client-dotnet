@@ -38,7 +38,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             {
                 RepositoryId = RepositoryId,
                 EntryId = createdEntryId,
-                Request = new LockDocumentRequest() { Comment = "client test lock", Extent = "All" }
+                Request = new LockDocumentRequest() { Comment = "client test lock", Extent = LockExtent.All }
             }).ConfigureAwait(false);
 
             Assert.IsNotNull(lockResult);
