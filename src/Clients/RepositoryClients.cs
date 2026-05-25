@@ -1150,6 +1150,34 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<AssignedEntryCountResponse> GetFieldAssignedEntryCountAsync(GetFieldAssignedEntryCountParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Gets the extended-properties bag for a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - The bag is opaque: keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the extended properties for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldPropertiesResponse> GetFieldPropertiesAsync(GetFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Partially updates the extended-properties bag for a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.<br/>
+        /// - Empty set and empty remove is a no-op and returns the current bag.<br/>
+        /// - Returns the full property bag after the change.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the extended properties for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldPropertiesResponse> UpdateFieldPropertiesAsync(UpdateFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2664,6 +2692,335 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Gets the extended-properties bag for a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - The bag is opaque: keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the extended properties for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldPropertiesResponse> GetFieldPropertiesAsync(GetFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (fieldId == null)
+                throw new ArgumentNullException("parameters.FieldId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Properties");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetFieldPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldPropertiesResponse> GetFieldPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldPropertiesResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Partially updates the extended-properties bag for a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.<br/>
+        /// - Empty set and empty remove is a no-op and returns the current bag.<br/>
+        /// - Returns the full property bag after the change.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the extended properties for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldPropertiesResponse> UpdateFieldPropertiesAsync(UpdateFieldPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (fieldId == null)
+                throw new ArgumentNullException("parameters.FieldId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Properties");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await UpdateFieldPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldPropertiesResponse> UpdateFieldPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldPropertiesResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -3010,6 +3367,52 @@ namespace Laserfiche.Repository.Api.Client
         /// Limits the properties returned in the result.
         /// </summary>
         public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetFieldPropertiesAsync(GetFieldPropertiesParameters, CancellationToken)">GetFieldProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFieldPropertiesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the field definition.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.UpdateFieldPropertiesAsync(UpdateFieldPropertiesParameters, CancellationToken)">UpdateFieldProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateFieldPropertiesParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The ID of the field definition.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// Set and/or remove entries on the property bag. Keys not mentioned are left unchanged.
+        /// </summary>
+        public UpdateFieldPropertiesRequest Request { get; set; }
 
     }
 
@@ -5676,7 +6079,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file != null)
+                        if (file == null)
+                            throw new ArgumentNullException("parameters.File");
+                        else
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -5692,7 +6097,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -5727,7 +6134,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file != null)
+                                if (file == null)
+                                    throw new ArgumentNullException("parameters.File");
+                                else
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -5743,7 +6152,9 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -8281,7 +8692,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file != null)
+                        if (file == null)
+                            throw new ArgumentNullException("parameters.File");
+                        else
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -8289,13 +8702,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_file_, "file", file.FileName ?? "file");
                             }
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -8330,7 +8747,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file != null)
+                                if (file == null)
+                                    throw new ArgumentNullException("parameters.File");
+                                else
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -8338,13 +8757,17 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_file_, "file", file.FileName ?? "file");
                                     }
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -9172,13 +9595,17 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -9213,13 +9640,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -9427,13 +9858,17 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles != null)
+                        if (imageFiles == null)
+                            throw new ArgumentNullException("parameters.ImageFiles");
+                        else
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -9468,13 +9903,17 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles != null)
+                                if (imageFiles == null)
+                                    throw new ArgumentNullException("parameters.ImageFiles");
+                                else
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -9872,7 +10311,9 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (imageFile != null)
+                        if (imageFile == null)
+                            throw new ArgumentNullException("parameters.ImageFile");
+                        else
                         {
                                 var content_imageFile_ = new StreamContent(imageFile.Data);
                                 if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -9880,7 +10321,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                             }
 
-                        if (request != null)
+                        if (request == null)
+                            throw new ArgumentNullException("parameters.Request");
+                        else
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
@@ -9910,7 +10353,9 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (imageFile != null)
+                                if (imageFile == null)
+                                    throw new ArgumentNullException("parameters.ImageFile");
+                                else
                                 {
                                         var content_imageFile_ = new StreamContent(imageFile.Data);
                                         if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -9918,7 +10363,9 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                                     }
 
-                                if (request != null)
+                                if (request == null)
+                                    throw new ArgumentNullException("parameters.Request");
+                                else
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
@@ -18885,6 +19332,15 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("listValues", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<string> ListValues { get; set; }
 
+        /// <summary>
+        /// Initial extended properties (opaque WebDAV-keyed bag) to persist atomically with the field.<br/>
+        /// Use the dedicated /FieldDefinitions/{id}/Properties endpoints to manage after creation.<br/>
+        /// For list fields, this is where the admin UI stores sort order, add-blank, add-Other,<br/>
+        /// display-as-dropdown, and similar UI-display options.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, string> Properties { get; set; }
+
     }
 
     /// <summary>
@@ -19113,6 +19569,44 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("count", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Count { get; set; }
+
+    }
+
+    /// <summary>
+    /// Response body for the extended-properties bag on a field definition. The bag is opaque:<br/>
+    /// keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field<br/>
+    /// sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FieldPropertiesResponse
+    {
+        /// <summary>
+        /// The full set of extended properties currently set on the field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, string> Properties { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for partially updating the extended-properties bag on a field definition.<br/>
+    /// Entries in Set are written (creating or overwriting). Entries in Remove<br/>
+    /// are deleted. Properties not mentioned in either are left unchanged.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateFieldPropertiesRequest
+    {
+        /// <summary>
+        /// Properties to set. Keys absent here are not modified.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("set", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, string> Set { get; set; }
+
+        /// <summary>
+        /// Property keys to remove. Keys not currently set are ignored.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("remove", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<string> Remove { get; set; }
 
     }
 

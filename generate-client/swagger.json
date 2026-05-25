@@ -1528,6 +1528,237 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Properties": {
+      "get": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Gets the extended-properties bag for a field definition.",
+        "description": "- The bag is opaque: keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the extended properties for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldPropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Partially updates the extended-properties bag for a field definition.",
+        "description": "- Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.\n- Empty set and empty remove is a no-op and returns the current bag.\n- Returns the full property bag after the change.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateFieldProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "Set and/or remove entries on the property bag. Keys not mentioned are left unchanged.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFieldPropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the extended properties for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldPropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/LinkDefinitions": {
       "get": {
         "tags": [
@@ -10639,6 +10870,14 @@
             "items": {
               "type": "string"
             }
+          },
+          "properties": {
+            "type": "object",
+            "description": "Initial extended properties (opaque WebDAV-keyed bag) to persist atomically with the field.\nUse the dedicated /FieldDefinitions/{id}/Properties endpoints to manage after creation.\nFor list fields, this is where the admin UI stores sort order, add-blank, add-Other,\ndisplay-as-dropdown, and similar UI-display options.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
@@ -10843,6 +11082,44 @@
             "type": "integer",
             "description": "The count of entries currently using this field.",
             "format": "int32"
+          }
+        }
+      },
+      "FieldPropertiesResponse": {
+        "type": "object",
+        "description": "Response body for the extended-properties bag on a field definition. The bag is opaque:\nkeys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field\nsort order, add-blank, add-Other, display-as), and values are strings the UI interprets.",
+        "additionalProperties": false,
+        "properties": {
+          "properties": {
+            "type": "object",
+            "description": "The full set of extended properties currently set on the field.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateFieldPropertiesRequest": {
+        "type": "object",
+        "description": "Request body for partially updating the extended-properties bag on a field definition.\nEntries in Set are written (creating or overwriting). Entries in Remove\nare deleted. Properties not mentioned in either are left unchanged.",
+        "additionalProperties": false,
+        "properties": {
+          "set": {
+            "type": "object",
+            "description": "Properties to set. Keys absent here are not modified.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "remove": {
+            "type": "array",
+            "description": "Property keys to remove. Keys not currently set are ignored.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

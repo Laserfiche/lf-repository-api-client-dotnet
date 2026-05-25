@@ -191,6 +191,80 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.FieldDefinitions
         }
 
         [TestMethod]
+        public async Task ExtendedProperties_CreateGetUpdate_RoundTrip()
+        {
+            string fieldName = UniqueName("client_test_props_field");
+            int createdId = 0;
+            try
+            {
+                // Create with an initial property set — atomic with the create call.
+                var initialProps = new Dictionary<string, string>
+                {
+                    { "lf-cli-test-key1", "alpha" },
+                    { "lf-cli-test-key2", "beta" },
+                };
+                var created = await client.FieldDefinitionsClient.CreateFieldDefinitionAsync(new CreateFieldDefinitionParameters
+                {
+                    RepositoryId = RepositoryId,
+                    Request = new CreateFieldDefinitionRequest
+                    {
+                        Name = fieldName,
+                        FieldType = FieldType.String,
+                        Length = 25,
+                        Properties = initialProps,
+                    }
+                }).ConfigureAwait(false);
+                createdId = created.Id;
+
+                // GET — bag should include the two keys we set on Create (server may also include
+                // RA-internal properties; we only assert ours are present, not exclusivity).
+                var bag = await client.FieldDefinitionsClient.GetFieldPropertiesAsync(new GetFieldPropertiesParameters
+                {
+                    RepositoryId = RepositoryId,
+                    FieldId = createdId,
+                }).ConfigureAwait(false);
+                Assert.IsTrue(bag.Properties.ContainsKey("lf-cli-test-key1"));
+                Assert.AreEqual("alpha", bag.Properties["lf-cli-test-key1"]);
+                Assert.AreEqual("beta", bag.Properties["lf-cli-test-key2"]);
+
+                // PATCH — set one new key, remove one of the existing keys.
+                var afterUpdate = await client.FieldDefinitionsClient.UpdateFieldPropertiesAsync(new UpdateFieldPropertiesParameters
+                {
+                    RepositoryId = RepositoryId,
+                    FieldId = createdId,
+                    Request = new UpdateFieldPropertiesRequest
+                    {
+                        Set = new Dictionary<string, string> { { "lf-cli-test-key3", "gamma" } },
+                        Remove = new List<string> { "lf-cli-test-key1" },
+                    },
+                }).ConfigureAwait(false);
+                Assert.IsFalse(afterUpdate.Properties.ContainsKey("lf-cli-test-key1"), "key1 should be removed");
+                Assert.AreEqual("beta", afterUpdate.Properties["lf-cli-test-key2"], "key2 should be unchanged");
+                Assert.AreEqual("gamma", afterUpdate.Properties["lf-cli-test-key3"], "key3 should be added");
+
+                // Independent GET — verify the PATCH persisted (defense against same-request masking).
+                var afterUpdateReread = await client.FieldDefinitionsClient.GetFieldPropertiesAsync(new GetFieldPropertiesParameters
+                {
+                    RepositoryId = RepositoryId,
+                    FieldId = createdId,
+                }).ConfigureAwait(false);
+                Assert.IsFalse(afterUpdateReread.Properties.ContainsKey("lf-cli-test-key1"));
+                Assert.AreEqual("gamma", afterUpdateReread.Properties["lf-cli-test-key3"]);
+            }
+            finally
+            {
+                if (createdId > 0)
+                {
+                    await client.FieldDefinitionsClient.DeleteFieldDefinitionAsync(new DeleteFieldDefinitionParameters
+                    {
+                        RepositoryId = RepositoryId,
+                        FieldId = createdId,
+                    }).ConfigureAwait(false);
+                }
+            }
+        }
+
+        [TestMethod]
         public async Task GetAssignedEntryCount_BrandNewField_ReturnsZero()
         {
             string fieldName = UniqueName("client_test_unassigned_field");
