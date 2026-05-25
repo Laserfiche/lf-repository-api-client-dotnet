@@ -55,9 +55,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                     TemplateId = templateId,
                 }).ConfigureAwait(false);
             }
-            catch
+            catch (Exception cleanupEx)
             {
-                // Swallow cleanup failures so an earlier assertion isn't masked.
+                // Don't fail the test on cleanup error (so an earlier assertion isn't masked),
+                // but log it so an orphan template doesn't accumulate silently across runs.
+                Console.WriteLine($"[TemplateAdminTest cleanup] DeleteTemplate id={templateId} failed: {cleanupEx.GetType().Name}: {cleanupEx.Message}");
             }
         }
 
@@ -122,7 +124,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }).ConfigureAwait(false);
                 createdId = 0;
 
-                // 404 after delete — verify the just-deleted template is actually gone.
+                // 404 after delete — verify the just-deleted template is actually gone, and
+                // that the response is a structured ProblemDetails (not a coarse network 404).
                 var ex = await Assert.ThrowsExceptionAsync<ApiException>(async () =>
                 {
                     await client.TemplateDefinitionsClient.GetTemplateDefinitionAsync(new GetTemplateDefinitionParameters
@@ -132,6 +135,8 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                     }).ConfigureAwait(false);
                 });
                 Assert.AreEqual(404, ex.StatusCode, $"Expected 404 from GET on deleted template id={deletedId}, got {ex.StatusCode}");
+                Assert.IsNotNull(ex.ProblemDetails, "Expected a ProblemDetails body on the 404 response (not a coarse infrastructure 404).");
+                Assert.AreEqual(404, ex.ProblemDetails.Status, "ProblemDetails.Status should mirror the HTTP status.");
             }
             finally
             {

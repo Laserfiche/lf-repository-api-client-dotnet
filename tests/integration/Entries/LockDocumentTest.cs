@@ -46,6 +46,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(lockResult.LockToken);
             Assert.AreEqual("client test lock", lockResult.Comment);
             Assert.AreEqual(createdEntryId, lockResult.EntryId);
+            // Round-trip the extent so a server-side regression that silently defaults the
+            // extent (or ignores the enum value) is caught. Locked in after Codex round-2
+            // flagged the original "no exception thrown" assertion as unfalsifiable.
+            Assert.AreEqual("All", lockResult.Extent);
 
             // Get lock info
             var lockInfo = await client.EntriesClient.GetDocumentLockInfoAsync(new GetDocumentLockInfoParameters()
@@ -57,6 +61,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             Assert.IsNotNull(lockInfo);
             Assert.IsTrue(lockInfo.IsActive);
             Assert.AreEqual(lockResult.LockToken, lockInfo.LockToken);
+            Assert.AreEqual("All", lockInfo.Extent);
 
             // Unlock
             await client.EntriesClient.UnlockDocumentAsync(new UnlockDocumentParameters()

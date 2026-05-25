@@ -55,8 +55,10 @@ Use `py` or `C:\Python314\python.exe` — avoid `python3` (broken Windows Store 
 ```powershell
 .\generate-client\generate-client.ps1 `
     -input_folder generate-client `
-    -output_folder src
+    -output_folder src/Clients
 ```
+
+**Important:** `-output_folder` must be `src/Clients`, not `src`. The canonical location of the generated client is `src/Clients/RepositoryClients.cs`. If you pass `-output_folder src` the script will land the file at `src/RepositoryClients.cs` while `patch_optional_multipart.py` reads from the canonical `src/Clients/RepositoryClients.cs` — the patch silently runs against the stale file and the new regen ships unpatched. (Incident: 2026-05-25, during PRD 6.3.C regen on `bzajzon/template-definition-admin`.)
 
 The script:
 1. Invokes `nswag run generate-client/nswag.json` to produce `RepositoryClients.cs`.
