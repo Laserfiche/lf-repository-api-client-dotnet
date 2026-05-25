@@ -114,6 +114,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 Assert.IsTrue(readBack.IsAutoAssignable);
 
                 // Delete
+                int deletedId = createdId;
                 await client.TemplateDefinitionsClient.DeleteTemplateAsync(new DeleteTemplateParameters
                 {
                     RepositoryId = RepositoryId,
@@ -121,15 +122,16 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.TemplateDefinitions
                 }).ConfigureAwait(false);
                 createdId = 0;
 
-                // 404 after delete
-                await Assert.ThrowsExceptionAsync<ApiException>(async () =>
+                // 404 after delete — verify the just-deleted template is actually gone.
+                var ex = await Assert.ThrowsExceptionAsync<ApiException>(async () =>
                 {
                     await client.TemplateDefinitionsClient.GetTemplateDefinitionAsync(new GetTemplateDefinitionParameters
                     {
                         RepositoryId = RepositoryId,
-                        TemplateId = createdId == 0 ? int.MaxValue - 1 : createdId,
+                        TemplateId = deletedId,
                     }).ConfigureAwait(false);
                 });
+                Assert.AreEqual(404, ex.StatusCode, $"Expected 404 from GET on deleted template id={deletedId}, got {ex.StatusCode}");
             }
             finally
             {
