@@ -6079,9 +6079,7 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file == null)
-                            throw new ArgumentNullException("parameters.File");
-                        else
+                        if (file != null)
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -6097,9 +6095,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles == null)
-                            throw new ArgumentNullException("parameters.ImageFiles");
-                        else
+                        if (imageFiles != null)
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -6134,9 +6130,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file == null)
-                                    throw new ArgumentNullException("parameters.File");
-                                else
+                                if (file != null)
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -6152,9 +6146,7 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles == null)
-                                    throw new ArgumentNullException("parameters.ImageFiles");
-                                else
+                                if (imageFiles != null)
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -8692,9 +8684,7 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (file == null)
-                            throw new ArgumentNullException("parameters.File");
-                        else
+                        if (file != null)
                         {
                                 var content_file_ = new StreamContent(file.Data);
                                 if (!string.IsNullOrEmpty(file.ContentType))
@@ -8702,17 +8692,13 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_file_, "file", file.FileName ?? "file");
                             }
 
-                        if (request == null)
-                            throw new ArgumentNullException("parameters.Request");
-                        else
+                        if (request != null)
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles == null)
-                            throw new ArgumentNullException("parameters.ImageFiles");
-                        else
+                        if (imageFiles != null)
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -8747,9 +8733,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (file == null)
-                                    throw new ArgumentNullException("parameters.File");
-                                else
+                                if (file != null)
                                 {
                                         var content_file_ = new StreamContent(file.Data);
                                         if (!string.IsNullOrEmpty(file.ContentType))
@@ -8757,17 +8741,13 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_file_, "file", file.FileName ?? "file");
                                     }
 
-                                if (request == null)
-                                    throw new ArgumentNullException("parameters.Request");
-                                else
+                                if (request != null)
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles == null)
-                                    throw new ArgumentNullException("parameters.ImageFiles");
-                                else
+                                if (imageFiles != null)
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -9595,17 +9575,13 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request == null)
-                            throw new ArgumentNullException("parameters.Request");
-                        else
+                        if (request != null)
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles == null)
-                            throw new ArgumentNullException("parameters.ImageFiles");
-                        else
+                        if (imageFiles != null)
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -9640,17 +9616,13 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request == null)
-                                    throw new ArgumentNullException("parameters.Request");
-                                else
+                                if (request != null)
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles == null)
-                                    throw new ArgumentNullException("parameters.ImageFiles");
-                                else
+                                if (imageFiles != null)
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -9858,17 +9830,13 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (request == null)
-                            throw new ArgumentNullException("parameters.Request");
-                        else
+                        if (request != null)
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
                             }
 
-                        if (imageFiles == null)
-                            throw new ArgumentNullException("parameters.ImageFiles");
-                        else
+                        if (imageFiles != null)
                         {
                             foreach (var item_ in imageFiles)
                             {
@@ -9903,17 +9871,13 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (request == null)
-                                    throw new ArgumentNullException("parameters.Request");
-                                else
+                                if (request != null)
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
                                     }
 
-                                if (imageFiles == null)
-                                    throw new ArgumentNullException("parameters.ImageFiles");
-                                else
+                                if (imageFiles != null)
                                 {
                                     foreach (var item_ in imageFiles)
                                     {
@@ -10311,9 +10275,7 @@ namespace Laserfiche.Repository.Api.Client
                         content_.Headers.Remove("Content-Type");
                         content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                        if (imageFile == null)
-                            throw new ArgumentNullException("parameters.ImageFile");
-                        else
+                        if (imageFile != null)
                         {
                                 var content_imageFile_ = new StreamContent(imageFile.Data);
                                 if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -10321,9 +10283,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                             }
 
-                        if (request == null)
-                            throw new ArgumentNullException("parameters.Request");
-                        else
+                        if (request != null)
                         {
                                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                 content_.Add(new StringContent(json_), "request");
@@ -10353,9 +10313,7 @@ namespace Laserfiche.Repository.Api.Client
                                 content_.Headers.Remove("Content-Type");
                                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 
-                                if (imageFile == null)
-                                    throw new ArgumentNullException("parameters.ImageFile");
-                                else
+                                if (imageFile != null)
                                 {
                                         var content_imageFile_ = new StreamContent(imageFile.Data);
                                         if (!string.IsNullOrEmpty(imageFile.ContentType))
@@ -10363,9 +10321,7 @@ namespace Laserfiche.Repository.Api.Client
                                         content_.Add(content_imageFile_, "imageFile", imageFile.FileName ?? "imageFile");
                                     }
 
-                                if (request == null)
-                                    throw new ArgumentNullException("parameters.Request");
-                                else
+                                if (request != null)
                                 {
                                         var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                                         content_.Add(new StringContent(json_), "request");
