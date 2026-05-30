@@ -3,15 +3,12 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
     "version": "2"
   },
   "servers": [
     {
-      "url": "http://localhost:11211/repository"
-    },
-    {
-      "url": "https://localhost:11211/repository"
+      "url": "https://api.laserfiche.com/repository"
     }
   ],
   "paths": {
@@ -1533,8 +1530,8 @@
         "tags": [
           "FieldDefinitions"
         ],
-        "summary": "Gets the extended-properties bag for a field definition.",
-        "description": "- The bag is opaque: keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.\n- Required OAuth scope: repository.Read",
+        "summary": "Gets the custom-properties bag for a field definition.",
+        "description": "- Returns the custom-properties bag persisted on the field definition. The bag is an opaque application-defined string \u2192 string map scoped to the definition itself (not to a user), useful for attaching integration metadata or application-specific configuration that belongs with the field \u2014 for example to encode list-field display preferences such as sort order, or to record an external system's identifier for the field.\n- Keys are application-defined; recommend a namespace prefix (e.g. com.acme.workflow.stage, myapp.kind) to avoid collisions across applications.\n- The response may include entries written by other applications or by system-managed tooling. Callers should leave unrecognized keys untouched on subsequent UpdateFieldProperties calls \u2014 round-tripping them in set preserves them, including them in remove deletes them.\n- Required OAuth scope: repository.Read",
         "operationId": "GetFieldProperties",
         "parameters": [
           {
@@ -1646,8 +1643,8 @@
         "tags": [
           "FieldDefinitions"
         ],
-        "summary": "Partially updates the extended-properties bag for a field definition.",
-        "description": "- Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.\n- Empty set and empty remove is a no-op and returns the current bag.\n- Returns the full property bag after the change.\n- Required OAuth scope: repository.Write",
+        "summary": "Partially updates the custom-properties bag for a field definition.",
+        "description": "- Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.\n- Empty set and empty remove is a no-op and returns the current bag.\n- Returns the full custom-properties bag after the change.\n- The bag is application-defined; the API does not validate key semantics. Recommend namespaced keys (e.g. com.acme.invoice.region, myapp.kind) to avoid collisions.\n- Required OAuth scope: repository.Write",
         "operationId": "UpdateFieldProperties",
         "parameters": [
           {
@@ -1692,6 +1689,231 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FieldPropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/Merge": {
+      "post": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Merges two or more field definitions into a new field definition.",
+        "description": "- Combines the values of the source fields into a new field. onConflict controls per-entry value conflicts: Fail (default) aborts on conflict, MakeMultivalue keeps all values, UseFirstField keeps the first and discards the rest.\n- UseFirstField is lossy and requires allowDataLoss = true; otherwise the request is rejected with 400.\n- removeFromTemplates (default false) also removes the source fields from any templates that contain them. The source field definitions themselves are preserved regardless \u2014 the merge creates a new field, it does not delete the originals. Callers that want the sources gone must call DeleteFieldDefinition on each after the merge succeeds.\n- autoRename (default false) asks the repository to auto-select a non-conflicting name on collision; whether the repository honors this for merges is version-dependent, so callers should pre-validate newFieldName and treat an \"already exists\" error as a genuine collision.\n- At least two source fields are required.\n- Required OAuth scope: repository.Write",
+        "operationId": "MergeFields",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The source field IDs (two or more), the new field name, and merge options.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MergeFieldsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully merged the source fields into the new field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldDefinition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/ChangeType": {
+      "post": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Changes the data type of an existing field definition.",
+        "description": "- Converts the field to newFieldType. The conversion can reset type-specific configuration (length, constraint, format), clear list items when leaving the List type, and clear a default value that cannot be reinterpreted in the new type. Entries already assigned the field may have their values dropped if the existing data cannot survive the new type's domain.\n- When the conversion would lose data, allowDataLoss = true is required; otherwise the request is rejected with 400. The server treats the conversion as lossy unless it is one of the explicit safe widenings (Date \u2192 DateTime, ShortInteger \u2192 LongInteger, ShortInteger \u2192 Number, LongInteger \u2192 Number) and clearing list items / resetting a constraint / dropping a default would not actually discard data. A field with assigned entries that is not undergoing one of the safe widenings is always treated as lossy.\n- Required OAuth scope: repository.Write",
+        "operationId": "ChangeFieldType",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition to convert.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The target field type and the data-loss acknowledgement.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeFieldTypeRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully changed the field definition's type.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldDefinition"
                 }
               }
             }
@@ -2779,7 +3001,7 @@
           "Entries"
         ],
         "summary": "Returns a single entry object.",
-        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- If the entry is a subtype (Folder, Document, or Shortcut), the response will automatically include properties specific to that entry type. For example, Document entries include page-related properties such as the number of image pages and whether an electronic document is attached. Entries with an electronic document component include the electronic document size (in bytes). Folder entries include whether the folder is a record series. Shortcut entries include the target entry ID.\n- Allowed OData query options: Select.\n- When OData Select query option is used, 'entryType' is always included in the result.\n- Required OAuth scope: repository.Read",
+        "description": "- Returns a single entry object.\n- Provide an entry ID, and get the entry associated with that ID. Useful when detailed information about the entry is required, such as metadata, path information, etc.\n- If the entry is a subtype (Folder, Document, or Shortcut), the response will automatically include properties specific to that entry type. For example, Document entries include page-related properties such as the number of image pages and whether an electronic document is attached. Entries with an electronic document component include the electronic document size (in bytes). Folder entries include whether the folder is a record series. Shortcut entries include the target entry ID.\n- Optionally pass 'includeChildInfo=true' on a folder to retrieve, on demand, a 'childInfo' object with whether the folder has immediate children, the total immediate-child count, and a per-type breakdown (folder/document/shortcut). Immediate children only \u2014 recursive subtree counts are deliberately not supported here (unbounded, DoS-prone on a public API). This is opt-in because it is comparatively expensive; lazy expansion is the recommended pattern for folder tree navigation.\n- Optionally pass 'includeTotalSize=true' on a document to retrieve 'totalDocumentSize' \u2014 the full stored size including rendered pages, OCR text, thumbnails, and attachments \u2014 in addition to the electronic-document size. Opt-in because it aggregates across all pages.\n- Allowed OData query options: Select.\n- When OData Select query option is used, 'entryType' is always included in the result.\n- Required OAuth scope: repository.Read",
         "operationId": "GetEntry",
         "parameters": [
           {
@@ -2804,6 +3026,24 @@
             "x-position": 2
           },
           {
+            "name": "includeChildInfo",
+            "in": "query",
+            "description": "Optional. When true and the entry is a folder, includes a childInfo object reporting whether the folder has immediate children, the total count, and a per-type breakdown (folderCount, documentCount, shortcutCount). Counts are for immediate children only \u2014 never recursive/whole-subtree (a recursive count is intentionally not offered here; it would be an unbounded, DoS-prone operation on a public API). Omitted by default because the calculation is comparatively expensive \u2014 for tree UIs prefer lazy expansion (load children on demand) over requesting this per node. Ignored for non-folder entries.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "includeTotalSize",
+            "in": "query",
+            "description": "Optional. When true and the entry is a document, includes totalDocumentSize \u2014 the document's full stored size (electronic document plus page image/text/locations/thumbnail data and attachments), as opposed to electronicDocumentSize which is just the source file. Omitted by default because it aggregates across all of the document's pages. Ignored for non-document entries.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 4
+          },
+          {
             "name": "$select",
             "in": "query",
             "description": "Limits the properties returned in the result.",
@@ -2811,7 +3051,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 5
           }
         ],
         "responses": {
@@ -9802,6 +10042,111 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Creates a new template definition in the repository.",
+        "description": "- Creates a new metadata template with the supplied scalar properties and (optionally) an initial set of field assignments.\n- Names must be unique within the repository; duplicate-name failures surface as 409 Conflict from the underlying repository server.\n- Initial fields are appended in array order; each may carry per-template isRequired and localDescription. The repository-level field-definition properties are unaffected.\n- If the scalar template is successfully created but a subsequent AddField mid-loop fails, the template is left in place with the partial field set \u2014 there is no implicit rollback. Callers should treat the failure as transactional only at the scalar level and clean up via DeleteTemplate if needed.\n- The template extended-properties bag (REQ-ADMIN-006B) cannot be set during create \u2014 follow up with PATCH /Properties.\n- Required OAuth scope: repository.Write",
+        "operationId": "CreateTemplate",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The template definition to create. Name is required.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTemplateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the template definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateDefinition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict. The request could not be completed due to the current state of the resource.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}": {
@@ -9899,6 +10244,238 @@
           },
           "404": {
             "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Updates properties of an existing template definition (partial update).",
+        "description": "- Partial-update merge semantics. null = leave unchanged; \"\" = clear a string property.\n- To clear an existing color, set clearColor to true and leave color null. Supplying both is rejected with 400.\n- Field membership is managed via the AddTemplateField / RemoveTemplateField / MoveTemplateField endpoints.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateTemplate",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template to update.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The properties to change. Only non-null properties are applied; null leaves the property unchanged.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTemplateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the template definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateDefinition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict. The request could not be completed due to the current state of the resource.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Deletes a template definition from the repository.",
+        "description": "- Deletes the specified template definition. If the template is currently assigned to entries, the underlying repository server rejects the request and the response surfaces as 409 Conflict.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteTemplate",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template to delete.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the template definition."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict. The request could not be completed due to the current state of the resource.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -10280,6 +10857,801 @@
           }
         }
       }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/AssignedEntryCount": {
+      "get": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Returns the count of entries currently assigned to the specified template definition.",
+        "description": "- Useful for impact analysis before performing destructive operations on the template.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTemplateAssignedEntryCount",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the assigned entry count for the template.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignedEntryCountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Properties": {
+      "get": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Gets the custom-properties bag for a template definition.",
+        "description": "- Returns the custom-properties bag persisted on the template definition. The bag is an opaque application-defined string \u2192 string map scoped to the definition itself (not to a user), useful for attaching integration metadata or application-specific configuration that belongs with the template \u2014 for example to record an external system's identifier for the template, or to encode display preferences such as field ordering hints.\n- Keys are application-defined; recommend a namespace prefix (e.g. com.acme.workflow.stage, myapp.template.category) to avoid collisions across applications.\n- The response may include entries written by other applications or by system-managed tooling. Callers should leave unrecognized keys untouched on subsequent UpdateTemplateProperties calls \u2014 round-tripping them in set preserves them, including them in remove deletes them.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTemplateProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the template extended-properties bag.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplatePropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Partially updates the custom-properties bag for a template definition.",
+        "description": "- Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.\n- Empty set and empty remove is a no-op and returns the current bag.\n- Returns the full custom-properties bag after the change.\n- The bag is application-defined; the API does not validate key semantics. Recommend namespaced keys (e.g. com.acme.workflow.stage, myapp.template.category) to avoid collisions.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateTemplateProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "Set and/or remove entries on the property bag. Keys not mentioned are left unchanged.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTemplatePropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the template extended-properties bag.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplatePropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields": {
+      "post": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Adds a field to a template.",
+        "description": "- The field definition must already exist in the repository.\n- Per-template properties do not affect the repository-level field-definition properties.\n- Required OAuth scope: repository.Write",
+        "operationId": "AddTemplateField",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The field to add. fieldName is required. Optional position (1-based) inserts at that position; omit to append. Optional per-template isRequired and localDescription apply only to this template.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTemplateFieldRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully added the field to the template."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields/{fieldName}": {
+      "patch": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Updates per-template properties for a field assignment on a template.",
+        "description": "- Affects only the field's behavior on this specific template.\n- The repository-level field-definition properties are unchanged; use the FieldDefinitions admin endpoints for those.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateTemplateFieldProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "fieldName",
+            "in": "path",
+            "required": true,
+            "description": "The name of the field whose per-template properties to update. URL-decoded server-side.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The per-template properties to change. Null = leave unchanged; empty string clears localDescription.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTemplateFieldPropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 4
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully updated the per-template properties for the field assignment."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Removes a field from a template.",
+        "description": "- Field values already assigned to entries using this template are not affected \u2014 RA removes only the binding of the field to the template definition.\n- The field definition itself is not deleted; only the template assignment is removed.\n- Required OAuth scope: repository.Write",
+        "operationId": "RemoveTemplateField",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "fieldName",
+            "in": "path",
+            "required": true,
+            "description": "The name of the field to remove. URL-decoded server-side.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully removed the field from the template."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Fields/Move": {
+      "post": {
+        "tags": [
+          "TemplateDefinitions"
+        ],
+        "summary": "Moves a field to a new position within a template.",
+        "description": "- The field must already be part of the template.\n- newPosition must be between 1 and the current field count, inclusive.\n- Required OAuth scope: repository.Write",
+        "operationId": "MoveTemplateField",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the template.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The field to move and the new 1-based position.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveTemplateFieldRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully moved the field to the new position in the template."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10302,7 +11674,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
@@ -10408,7 +11779,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -10754,7 +12124,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -10873,7 +12242,7 @@
           },
           "properties": {
             "type": "object",
-            "description": "Initial extended properties (opaque WebDAV-keyed bag) to persist atomically with the field.\nUse the dedicated /FieldDefinitions/{id}/Properties endpoints to manage after creation.\nFor list fields, this is where the admin UI stores sort order, add-blank, add-Other,\ndisplay-as-dropdown, and similar UI-display options.",
+            "description": "Initial custom properties to persist atomically with the field. The bag is an opaque\napplication-defined string \u2192 string map scoped to the field definition; use it\nto attach integration metadata or application-specific configuration that should be\ncreated together with the field \u2014 for example to encode list-field display preferences\nsuch as sort order, or to record an external system's identifier for the field.\nKeys are application-defined; recommend namespaced keys (e.g. myapp.kind,\ncom.acme.field.source) to avoid collisions. Manage after creation via the\ndedicated /FieldDefinitions/{id}/Properties endpoints. Constraints: empty keys,\nnull values, and control characters are rejected with 400. Maximum 500 entries,\n256 chars per key, 1000 chars per value.",
             "nullable": true,
             "additionalProperties": {
               "type": "string"
@@ -11043,6 +12412,10 @@
             "type": "integer",
             "description": "The number of field definitions assigned to the template definition.",
             "format": "int32"
+          },
+          "isAutoAssignable": {
+            "type": "boolean",
+            "description": "Whether the template is eligible for automatic assignment by Cloud auto-classification."
           }
         }
       },
@@ -11075,24 +12448,24 @@
       },
       "AssignedEntryCountResponse": {
         "type": "object",
-        "description": "The number of entries that have a value assigned for a given field definition.",
+        "description": "The number of entries that have a value assigned for a given field definition,\nor that are currently assigned to a given template definition.",
         "additionalProperties": false,
         "properties": {
           "count": {
             "type": "integer",
-            "description": "The count of entries currently using this field.",
+            "description": "The count of entries currently using this field or template.",
             "format": "int32"
           }
         }
       },
       "FieldPropertiesResponse": {
         "type": "object",
-        "description": "Response body for the extended-properties bag on a field definition. The bag is opaque:\nkeys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field\nsort order, add-blank, add-Other, display-as), and values are strings the UI interprets.",
+        "description": "Response body for the custom-properties bag on a field definition. The bag is an opaque\napplication-defined string \u2192 string map persisted on the field definition itself\n(scoped to the definition, not to a user). Use it to attach integration metadata or\napplication-specific configuration that belongs with the field \u2014 for example to encode\nlist-field display preferences such as sort order, or to record an external system's\nidentifier for the field. Keys are application-defined; the API does not validate\nsemantic meaning. Recommend namespaced keys to avoid collisions, e.g.\ncom.acme.invoice.region or myapp.ingest.batch_id. The response may include\nentries written by other applications or by system-managed tooling; callers should\nleave unrecognized keys untouched on subsequent updates.",
         "additionalProperties": false,
         "properties": {
           "properties": {
             "type": "object",
-            "description": "The full set of extended properties currently set on the field.",
+            "description": "The full set of custom properties currently set on the field.",
             "nullable": true,
             "additionalProperties": {
               "type": "string"
@@ -11102,7 +12475,7 @@
       },
       "UpdateFieldPropertiesRequest": {
         "type": "object",
-        "description": "Request body for partially updating the extended-properties bag on a field definition.\nEntries in Set are written (creating or overwriting). Entries in Remove\nare deleted. Properties not mentioned in either are left unchanged.",
+        "description": "Request body for partially updating the custom-properties bag on a field definition.\nEntries in Set are written (creating or overwriting). Entries in Remove\nare deleted. Properties not mentioned in either are left unchanged. The bag is\napplication-defined; the API does not validate key semantics. Recommend namespaced keys\n(e.g. com.acme.invoice.region, myapp.kind) to avoid collisions.",
         "additionalProperties": false,
         "properties": {
           "set": {
@@ -11120,6 +12493,105 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "MergeFieldsRequest": {
+        "type": "object",
+        "description": "Request body for merging two or more field definitions into a new field definition.",
+        "additionalProperties": false,
+        "required": [
+          "sourceFieldIds",
+          "newFieldName"
+        ],
+        "properties": {
+          "sourceFieldIds": {
+            "type": "array",
+            "description": "The IDs of the field definitions to merge. At least two are required. Their values are\ncombined into a new field; see onConflict for how per-entry value conflicts are resolved.\nThe source field definitions are preserved by this operation \u2014 only their per-entry values\nare migrated to the new merged field. Use DeleteFieldDefinition on each source after\nthe merge if the originals are no longer needed.",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "newFieldName": {
+            "type": "string",
+            "description": "The name of the new merged field definition. Required. Must be unique within the repository\nunless autoRename is set."
+          },
+          "onConflict": {
+            "description": "How to resolve per-entry value conflicts across the source fields. Defaults to Fail\n(abort on conflict \u2014 nothing is discarded). UseFirstField discards conflicting values\nand therefore requires allowDataLoss = true.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FieldMergeConflictStrategy"
+              }
+            ]
+          },
+          "removeFromTemplates": {
+            "type": "boolean",
+            "description": "When true, removes the source fields from every template that contains them as part of the\nmerge. Defaults to false. This is a destructive side effect on template definitions; opt in explicitly."
+          },
+          "autoRename": {
+            "type": "boolean",
+            "description": "When true, requests that the repository auto-select a non-conflicting name if\nnewFieldName collides with an existing field. Defaults to false. Whether the\nrepository actually rewrites the name on collision is repository-version-dependent;\ncallers should not rely on it. The safe pattern is to ensure newFieldName is unique\nbefore calling, and to treat an \"already exists\" error response as a genuine collision."
+          },
+          "allowDataLoss": {
+            "type": "boolean",
+            "description": "Acknowledges that the requested merge will lose data and authorizes it to proceed. Required\n(must be true) only when the merge is lossy \u2014 i.e. onConflict = UseFirstField, which\ndiscards conflicting values. When the merge is lossless (Fail or MakeMultivalue)\nthis flag is ignored. A lossy merge without this flag returns 400 (data_loss_expected)."
+          }
+        }
+      },
+      "FieldMergeConflictStrategy": {
+        "type": "string",
+        "description": "Strategy for resolving per-entry value conflicts when merging multiple field definitions\ninto one. Applies when entries carry differing values across the source fields.",
+        "x-enum-names": [
+          "Fail",
+          "MakeMultivalue",
+          "UseFirstField"
+        ],
+        "x-enum-varnames": [
+          "Fail",
+          "MakeMultivalue",
+          "UseFirstField"
+        ],
+        "x-enumNames": [
+          "Fail",
+          "MakeMultivalue",
+          "UseFirstField"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Fail",
+          "MakeMultivalue",
+          "UseFirstField"
+        ]
+      },
+      "ChangeFieldTypeRequest": {
+        "type": "object",
+        "description": "Request body for changing the data type of an existing field definition.",
+        "additionalProperties": false,
+        "required": [
+          "newFieldType"
+        ],
+        "properties": {
+          "newFieldType": {
+            "description": "The target field type. Required. Changing type can reset type-specific configuration\n(length, constraint, format), clear list items when leaving the List type, and clear a\ndefault value that cannot be reinterpreted in the new type.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FieldType"
+              }
+            ]
+          },
+          "allowDataLoss": {
+            "type": "boolean",
+            "description": "Acknowledges that the requested conversion will lose data and authorizes it to proceed.\nRequired (must be true) when any of the following hold: leaving the List type\n(clears list items); the field has a non-empty constraint, a defaultValue,\nor any assigned entries, AND the conversion is not one of the explicit safe widenings\n(Date \u2192 DateTime, ShortInteger \u2192 LongInteger, ShortInteger \u2192 Number,\nLongInteger \u2192 Number). A lossy conversion without this flag returns 400\n(data_loss_expected). Lossless conversions ignore this flag."
           }
         }
       },
@@ -11141,7 +12613,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -12037,6 +13508,12 @@
                 "description": "The size of the electronic document attached to the represented document, if there is one, in bytes.",
                 "format": "int64"
               },
+              "totalDocumentSize": {
+                "type": "integer",
+                "description": "The total size in bytes of the document's stored components \u2014 electronic document plus\nimage/text/locations/thumbnail page data and attachments \u2014 as opposed to\nElectronicDocumentSize, which is just the source file. Present only when\nrequested via the includeTotalSize query parameter; otherwise null. Opt-in because\nit aggregates across all of the document's pages.",
+                "format": "int64",
+                "nullable": true
+              },
               "extension": {
                 "type": "string",
                 "description": "The extension for the document.",
@@ -12148,10 +13625,50 @@
               "isUnderRecordSeries": {
                 "type": "boolean",
                 "description": "A boolean indicating if the folder that this instance represents is known to directly or indirectly under a record series in the repository."
+              },
+              "childInfo": {
+                "description": "Opt-in introspection about the folder's immediate children (total + per-type counts).\nPresent only when includeChildInfo=true is supplied; otherwise null.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ChildInfo"
+                  }
+                ]
               }
             }
           }
         ]
+      },
+      "ChildInfo": {
+        "type": "object",
+        "description": "Opt-in introspection about a folder's immediate children \u2014 a total count plus a per-type\nbreakdown. Returned only when explicitly requested via includeChildInfo=true, because\nthe underlying repository calculation is comparatively expensive. Counts are for immediate\nchildren only (never recursive/whole-subtree). For folder tree UIs, prefer optimistic lazy\nexpansion (load children on demand) over requesting this for every node.",
+        "additionalProperties": false,
+        "properties": {
+          "hasChildren": {
+            "type": "boolean",
+            "description": "Whether the folder has at least one immediate child of any type."
+          },
+          "childCount": {
+            "type": "integer",
+            "description": "Total number of immediate children across all entry types.",
+            "format": "int64"
+          },
+          "folderCount": {
+            "type": "integer",
+            "description": "Number of immediate child folders.",
+            "format": "int32"
+          },
+          "documentCount": {
+            "type": "integer",
+            "description": "Number of immediate child documents.",
+            "format": "int32"
+          },
+          "shortcutCount": {
+            "type": "integer",
+            "description": "Number of immediate child shortcuts.",
+            "format": "int32"
+          }
+        }
       },
       "ImportEntryRequest": {
         "type": "object",
@@ -12212,7 +13729,6 @@
         "properties": {
           "value": {
             "type": "string",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -12330,7 +13846,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -12356,7 +13871,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -12397,7 +13911,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -12517,7 +14030,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -12898,7 +14410,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -13170,7 +14681,6 @@
         "properties": {
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -13280,7 +14790,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -13517,7 +15026,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -13572,7 +15080,6 @@
         "properties": {
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -13756,7 +15263,6 @@
         "properties": {
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -13806,7 +15312,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -13832,7 +15337,6 @@
           },
           "value": {
             "type": "array",
-            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -13868,6 +15372,11 @@
                 "type": "string",
                 "description": "The name of field group.",
                 "nullable": true
+              },
+              "localDescription": {
+                "type": "string",
+                "description": "The per-template description for this field assignment. Distinct from the field\ndefinition's repository-level description; set via AddTemplateField /\nUpdateTemplateFieldProperties.",
+                "nullable": true
               }
             }
           }
@@ -13888,6 +15397,212 @@
             }
           }
         }
+      },
+      "CreateTemplateRequest": {
+        "type": "object",
+        "description": "Request body for creating a new template definition. Name is required; all other\nproperties are optional and fall back to repository defaults when omitted.",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the template. Required. Must be unique within the repository."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the template.",
+            "nullable": true
+          },
+          "color": {
+            "description": "The color assigned to the template. Omit (or set null) for no color.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LFColor"
+              }
+            ]
+          },
+          "isAutoAssignable": {
+            "type": "boolean",
+            "description": "Whether the template is eligible for automatic assignment by Cloud auto-classification.\nDefaults to false when omitted.",
+            "nullable": true
+          },
+          "fields": {
+            "type": "array",
+            "description": "Optional initial field assignments. Order is preserved (each entry is appended\nin array order; the resulting position is 1-based). Each entry may carry the\nper-template isRequired and localDescription properties.\nNote: extended properties (the WebDAV-keyed bag) cannot be set during create\nbecause RepositoryAccess does not expose an atomic create-with-properties path\nfor templates. To set initial properties, follow Create with a PATCH /Properties\ncall against the returned template ID.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TemplateFieldAssignment"
+            }
+          }
+        }
+      },
+      "TemplateFieldAssignment": {
+        "type": "object",
+        "description": "A single field assignment used in Fields.",
+        "additionalProperties": false,
+        "required": [
+          "fieldName"
+        ],
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The name of an existing field definition to assign to the template. Required."
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether the field is required for entries assigned to this template specifically.\nDistinct from the repository-level IsRequired on the field definition.",
+            "nullable": true
+          },
+          "localDescription": {
+            "type": "string",
+            "description": "The per-template description for this field assignment.",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateTemplateRequest": {
+        "type": "object",
+        "description": "Request body for partial-update of an existing template definition. Every property\nis optional.\nnull = leave the property unchanged.\nEmpty string (\"\") on a string property = clear the value.\nTo clear an existing color, set ClearColor to true and leave Color null. Supplying both Color and ClearColor=true is rejected with 400.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The new name of the template. Must be unique within the repository.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the template.",
+            "nullable": true
+          },
+          "color": {
+            "description": "The new color for the template. Omit to leave unchanged.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LFColor"
+              }
+            ]
+          },
+          "clearColor": {
+            "type": "boolean",
+            "description": "Set to true to clear the template's existing color. Mutually exclusive with Color.",
+            "nullable": true
+          },
+          "isAutoAssignable": {
+            "type": "boolean",
+            "description": "Whether the template is eligible for automatic assignment by Cloud auto-classification.",
+            "nullable": true
+          }
+        }
+      },
+      "TemplatePropertiesResponse": {
+        "type": "object",
+        "description": "Response body for the custom-properties bag on a template definition. The bag is an\nopaque application-defined string \u2192 string map persisted on the template\ndefinition itself (scoped to the definition, not to a user). Use it to attach\nintegration metadata or application-specific configuration that belongs with the\ntemplate \u2014 for example to record an external system's identifier for the template,\nor to encode display preferences such as field ordering hints. Keys are\napplication-defined; the API does not validate semantic meaning. Recommend\nnamespaced keys to avoid collisions, e.g. com.acme.workflow.stage or\nmyapp.template.category. The response may include entries written by other\napplications or by system-managed tooling; callers should leave unrecognized keys\nuntouched on subsequent updates.",
+        "additionalProperties": false,
+        "properties": {
+          "properties": {
+            "type": "object",
+            "description": "The full set of custom properties currently set on the template.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateTemplatePropertiesRequest": {
+        "type": "object",
+        "description": "Request body for partially updating the custom-properties bag on a template definition.\nEntries in Set are written (creating or overwriting). Entries in\nRemove are deleted. Properties not mentioned in either are left unchanged.\nThe bag is application-defined; the API does not validate key semantics. Recommend\nnamespaced keys (e.g. com.acme.workflow.stage, myapp.template.category)\nto avoid collisions.",
+        "additionalProperties": false,
+        "properties": {
+          "set": {
+            "type": "object",
+            "description": "Properties to set. Keys absent here are not modified.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "remove": {
+            "type": "array",
+            "description": "Property keys to remove. Keys not currently set are ignored.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AddTemplateFieldRequest": {
+        "type": "object",
+        "description": "Request body for adding an existing field definition to a template.",
+        "additionalProperties": false,
+        "required": [
+          "fieldName"
+        ],
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The name of an existing field definition to assign to the template. Required."
+          },
+          "position": {
+            "type": "integer",
+            "description": "The 1-based position at which to insert the field. Omit (or set null) to append\nto the end of the template. Values less than 1 or greater than the current\nfield count + 1 are rejected with 400.",
+            "format": "int32",
+            "nullable": true
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether the field is required for entries assigned to this template specifically.\nDistinct from the repository-level IsRequired on the field definition.",
+            "nullable": true
+          },
+          "localDescription": {
+            "type": "string",
+            "description": "The per-template description for this field assignment. Distinct from the\nfield definition's repository-level description.",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateTemplateFieldPropertiesRequest": {
+        "type": "object",
+        "description": "Request body for updating per-template properties on a field assignment that is\nalready part of a template. Repository-level field-definition properties are\nunaffected by this endpoint \u2014 those go through the FieldDefinitions admin endpoints.\nnull = leave the property unchanged.\nEmpty string (\"\") on LocalDescription clears the value.",
+        "additionalProperties": false,
+        "properties": {
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether the field is required for entries assigned to this template specifically.",
+            "nullable": true
+          },
+          "localDescription": {
+            "type": "string",
+            "description": "The per-template description for this field assignment.",
+            "nullable": true
+          }
+        }
+      },
+      "MoveTemplateFieldRequest": {
+        "type": "object",
+        "description": "Request body for moving an existing field within a template to a new position.",
+        "additionalProperties": false,
+        "required": [
+          "fieldName",
+          "newPosition"
+        ],
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The name of the field to move. Required. Must already be part of the template."
+          },
+          "newPosition": {
+            "type": "integer",
+            "description": "The 1-based target position. Required. Values less than 1 or greater than the\ncurrent field count are rejected with 400.",
+            "format": "int32"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -13898,11 +15613,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
-            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
+            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
+            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."
