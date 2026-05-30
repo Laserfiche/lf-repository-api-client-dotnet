@@ -571,6 +571,218 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Updates properties of an existing field definition (partial update).",
+        "description": "- Partial-update merge semantics. null = leave unchanged; \"\" = clear a string property.\n- FieldType cannot be changed via this endpoint \u2014 use the dedicated ChangeFieldType endpoint.\n- ListValues cannot be changed via this endpoint \u2014 use the dedicated ListValues endpoints.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateFieldDefinition",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition to update.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The properties to change. Only non-null properties are applied; null leaves the property unchanged. Empty string clears a string property.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFieldDefinitionRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldDefinition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Deletes a field definition from the repository.",
+        "description": "- Deletes the specified field definition. Behavior when the field is referenced by templates or assigned to entries mirrors the underlying repository server response \u2014 if rejected by the server, the response surfaces the server error.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteFieldDefinition",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition to delete.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the field definition."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v2/Repositories/{repositoryId}/FieldDefinitions": {
@@ -707,6 +919,815 @@
           },
           "404": {
             "description": "Not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Creates a new field definition in the repository.",
+        "description": "- Creates a new metadata field definition with the supplied core attributes, flags, and (optionally) initial list values for list-backed fields.\n- Names must be unique within the repository; duplicate-name failures return 400.\n- Required OAuth scope: repository.Write",
+        "operationId": "CreateFieldDefinition",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The field definition to create. Name and FieldType are required.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFieldDefinitionRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldDefinition"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/ListValues": {
+      "get": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Returns the list values configured on a list-backed field definition.",
+        "description": "- Returns the field's configured list-item values in repository-configured order.\n- Applies only to list-backed fields; non-list fields return an empty array.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldListValues",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the list values for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListValuesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Replaces the list values for a list-backed field definition.",
+        "description": "- Replaces the field's full list-item set wholesale. No partial add/remove endpoints are exposed.\n- Duplicates and empty-string values are rejected with 400.\n- Required OAuth scope: repository.Write",
+        "operationId": "ReplaceFieldListValues",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The new list of values. Order is preserved. Empty array clears the list.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceListValuesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the list values for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListValuesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/ContainingTemplates": {
+      "get": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Returns the templates that contain the specified field definition.",
+        "description": "- Lists template definitions that include the specified field. Useful before performing destructive operations on the field.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldContainingTemplates",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the templates that contain the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TemplateDefinition"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/AssignedEntryCount": {
+      "get": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Returns the count of entries that have a value assigned for the specified field definition.",
+        "description": "- Useful for impact analysis before performing destructive operations such as type changes or deletion.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldAssignedEntryCount",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the count of entries assigned to the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignedEntryCountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Properties": {
+      "get": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Gets the extended-properties bag for a field definition.",
+        "description": "- The bag is opaque: keys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field sort order, add-blank, add-Other, display-as), and values are strings the UI interprets.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the extended properties for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldPropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "FieldDefinitions"
+        ],
+        "summary": "Partially updates the extended-properties bag for a field definition.",
+        "description": "- Entries in set are written (creating or overwriting). Entries in remove are deleted. Properties not mentioned in either are left unchanged.\n- Empty set and empty remove is a no-op and returns the current bag.\n- Returns the full property bag after the change.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateFieldProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the field definition.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "Set and/or remove entries on the property bag. Keys not mentioned are left unchanged.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFieldPropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the extended properties for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldPropertiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -2111,7 +3132,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -4047,7 +5068,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -4158,7 +5179,7 @@
           "Entries"
         ],
         "summary": "Updates a document entry's electronic document and/or metadata from previously uploaded parts.",
-        "description": "- Updates a document entry from previously uploaded parts. The parts are assembled server-side into a single file that is then applied to the existing document.\n- The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.\n- Use this endpoint when the file exceeds the upload size or time limits of the synchronous PATCH /Document endpoint.\n- The assembled file is applied as either the electronic document or image pages, following the same rules as the synchronous PATCH /Document:\n  - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).\n  - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.\n- If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.\n- Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.\n- `imageFiles`, `generateImagePagesText`, and the `overwriteContent` query parameter are not supported on this endpoint; use the synchronous PATCH /Document to append image pages, OCR them automatically, or replace metadata wholesale.\n- Required OAuth scope: repository.Write",
+        "description": "- Updates a document entry from previously uploaded parts. The parts are assembled server-side into a single file that is then applied to the existing document.\n- The uploadId is obtained from the CreateMultipartUploadUrls response. The partETags are the ETag values returned by S3 when uploading each file chunk to the pre-signed upload URLs, and should be provided in the order of their associated upload URLs.\n- Use this endpoint when the file exceeds the upload size or time limits of the synchronous PATCH /Document endpoint.\n- The assembled file is applied as either the electronic document or image pages, following the same rules as the synchronous PATCH /Document:\n  - If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if `importAsElectronicDocument=true`, the file replaces the existing electronic document. For supported edoc formats, `pdfOptions.generatePages` additionally produces server-rendered image pages, and `pdfOptions.generateText` triggers text extraction from the document (or OCR when the source is image-based).\n  - Otherwise (image extension with `importAsElectronicDocument=false`), the file is imported as image pages. `pdfOptions.generateText` triggers OCR for the resulting pages.\n- If `metadata` is provided, it additively updates the template, fields, tags, and links. Existing values not mentioned in the request are preserved.\n- Returns 202 Accepted with a task ID. Poll the task endpoint for progress and completion.\n- `imageFiles` and `generateImagePagesText` are not supported on this endpoint; use the synchronous PATCH /Document to append image pages or OCR them automatically. Use PUT /Document/Pages to replace existing pages.\n- Required OAuth scope: repository.Write",
         "operationId": "UpdateDocumentUploadedParts",
         "parameters": [
           {
@@ -4591,7 +5612,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -4736,7 +5757,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. On UpdateDocument, existing pages are preserved by default and deleted first when overwriteContent=true. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -4834,8 +5855,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Returns page information for pages in a document.",
-        "description": "- Returns a list of page properties including image dimensions, rotation angle, and content flags.\n- Optional parameter: pageRange (default empty). If no pageRange is specified, information for all pages is returned. The value should be a comma-separated string which contains non-overlapping single values, or page ranges. Ex: \"1,2,3\", \"1-3,5\", \"2-7,10-12.\"\n- Required OAuth scope: repository.Read",
+        "summary": "Returns page information for the pages of a document.",
+        "description": "- Returns a list of page properties including image dimensions, rotation angle, and content flags.\n- Pages are returned in ascending pageNumber order; that order is fixed and not configurable.\n- Default page size: 150. Allowed OData query options: Select | Count | SkipToken | Top | Prefer.\n- pageRange filters which pages are returned before paging is applied. Combine pageRange with $top/$skiptoken to paginate within a known range.\n- Required OAuth scope: repository.Read",
         "operationId": "ListPageInfos",
         "parameters": [
           {
@@ -4862,12 +5883,23 @@
           {
             "name": "pageRange",
             "in": "query",
-            "description": "The pages to retrieve information for.",
+            "description": "Optional comma-separated page numbers and ranges (e.g., \"1,3-5,8-10\"). Ranges must not overlap. When omitted, all pages are returned (subject to paging).",
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 3
+          },
+          {
+            "name": "Prefer",
+            "x-originalName": "prefer",
+            "in": "header",
+            "description": "An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
           },
           {
             "name": "$select",
@@ -4877,15 +5909,15 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
-            "name": "$orderby",
+            "name": "$top",
             "in": "query",
-            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "description": "Limits the number of items returned from a collection. The maximum value is 150.",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 6
           },
@@ -4901,14 +5933,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved page information for the specified pages in the document.",
+            "description": "Successfully retrieved a paged listing of page information for the document.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PageInfoResponse"
-                  }
+                  "$ref": "#/components/schemas/PageInfoCollectionResponse"
                 }
               }
             }
@@ -6427,7 +7456,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -6540,7 +7569,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -6646,7 +7675,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -6740,6 +7769,26 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict. The request could not be completed due to the current state of the resource.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -6751,7 +7800,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -6888,7 +7937,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -7004,6 +8053,16 @@
               }
             }
           },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate limit is reached.",
             "content": {
@@ -7015,7 +8074,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -7130,7 +8189,7 @@
             }
           },
           "500": {
-            "description": "An unexpected server-side error occurred.",
+            "description": "Operation failed due to an internal server error. See error for details.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -9496,6 +10555,26 @@
             "type": "string",
             "description": "The custom format pattern for fields that are configured to use a custom format.",
             "nullable": true
+          },
+          "isIndexed": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the field is indexed for searching."
+          },
+          "isIndexedForReporting": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the field is indexed for reporting."
+          },
+          "warnIfBlank": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the user should be warned when leaving the field blank."
+          },
+          "hideListValues": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the field's list values should be hidden in the UI.\nApplies only to list-backed fields."
+          },
+          "autoExtract": {
+            "type": "boolean",
+            "description": "A boolean indicating whether values for this field can be automatically extracted by AI/OCR services."
           }
         }
       },
@@ -9679,6 +10758,367 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
+            }
+          }
+        }
+      },
+      "CreateFieldDefinitionRequest": {
+        "type": "object",
+        "description": "Request body for creating a new field definition. Name and FieldType are required;\nall other properties are optional and fall back to repository defaults when omitted.",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "fieldType"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the field. Required. Must be unique within the repository."
+          },
+          "fieldType": {
+            "description": "The type of the field. Required. Cannot be changed via UpdateFieldDefinition;\nuse the ChangeFieldType endpoint to convert between types.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FieldType"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the field.",
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "description": "The maximum length of the field for variable-length data types.",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "The default value applied to entries assigned to a template containing this field.",
+            "nullable": true
+          },
+          "format": {
+            "description": "The display format for the field. Defaults to None when omitted.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FieldFormat"
+              }
+            ]
+          },
+          "formatPattern": {
+            "type": "string",
+            "description": "The custom format pattern. Only meaningful when Format is set to a value that supports custom patterns.",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency for numeric fields when Format is Currency.",
+            "nullable": true
+          },
+          "constraint": {
+            "type": "string",
+            "description": "A validation constraint expression for values stored in this field.",
+            "nullable": true
+          },
+          "constraintError": {
+            "type": "string",
+            "description": "The error message returned when the constraint is violated.",
+            "nullable": true
+          },
+          "isMultiValue": {
+            "type": "boolean",
+            "description": "Whether the field supports multiple values.",
+            "nullable": true
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether the field is required on entries assigned to a template containing it.",
+            "nullable": true
+          },
+          "isIndexed": {
+            "type": "boolean",
+            "description": "Whether the field is indexed for searching.",
+            "nullable": true
+          },
+          "isIndexedForReporting": {
+            "type": "boolean",
+            "description": "Whether the field is indexed for reporting.",
+            "nullable": true
+          },
+          "warnIfBlank": {
+            "type": "boolean",
+            "description": "Whether the user should be warned when leaving the field blank.",
+            "nullable": true
+          },
+          "hideListValues": {
+            "type": "boolean",
+            "description": "Whether list values should be hidden in the UI. Applies only to list-backed fields.",
+            "nullable": true
+          },
+          "autoExtract": {
+            "type": "boolean",
+            "description": "Whether values for this field can be automatically extracted by AI/OCR services.",
+            "nullable": true
+          },
+          "listValues": {
+            "type": "array",
+            "description": "Initial list values to populate. Applies only when FieldType is List.\nOrder is preserved. Use the dedicated ListValues endpoints to manage list values after creation.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "type": "object",
+            "description": "Initial extended properties (opaque WebDAV-keyed bag) to persist atomically with the field.\nUse the dedicated /FieldDefinitions/{id}/Properties endpoints to manage after creation.\nFor list fields, this is where the admin UI stores sort order, add-blank, add-Other,\ndisplay-as-dropdown, and similar UI-display options.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateFieldDefinitionRequest": {
+        "type": "object",
+        "description": "Request body for partial-update of an existing field definition. Every property is optional.\nnull = leave the property unchanged.\nEmpty string (\"\") on a string property = clear the value.\nFieldType cannot be changed via this endpoint \u2014 use the ChangeFieldType endpoint.\nListValues cannot be changed via this endpoint \u2014 use the dedicated ListValues endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The new name of the field. Must be unique within the repository.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the field.",
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "description": "The maximum length of the field for variable-length data types.",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "The default value applied to entries assigned to a template containing this field.",
+            "nullable": true
+          },
+          "format": {
+            "description": "The display format for the field.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FieldFormat"
+              }
+            ]
+          },
+          "formatPattern": {
+            "type": "string",
+            "description": "The custom format pattern.",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency for numeric fields when Format is Currency.",
+            "nullable": true
+          },
+          "constraint": {
+            "type": "string",
+            "description": "A validation constraint expression for values stored in this field.",
+            "nullable": true
+          },
+          "constraintError": {
+            "type": "string",
+            "description": "The error message returned when the constraint is violated.",
+            "nullable": true
+          },
+          "isMultiValue": {
+            "type": "boolean",
+            "description": "Whether the field supports multiple values.",
+            "nullable": true
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether the field is required on entries assigned to a template containing it.",
+            "nullable": true
+          },
+          "isIndexed": {
+            "type": "boolean",
+            "description": "Whether the field is indexed for searching.",
+            "nullable": true
+          },
+          "isIndexedForReporting": {
+            "type": "boolean",
+            "description": "Whether the field is indexed for reporting.",
+            "nullable": true
+          },
+          "warnIfBlank": {
+            "type": "boolean",
+            "description": "Whether the user should be warned when leaving the field blank.",
+            "nullable": true
+          },
+          "hideListValues": {
+            "type": "boolean",
+            "description": "Whether list values should be hidden in the UI. Applies only to list-backed fields.",
+            "nullable": true
+          },
+          "autoExtract": {
+            "type": "boolean",
+            "description": "Whether values for this field can be automatically extracted by AI/OCR services.",
+            "nullable": true
+          }
+        }
+      },
+      "ListValuesResponse": {
+        "type": "object",
+        "description": "Response containing the list values of a field definition, in the order configured on the server.",
+        "additionalProperties": false,
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "The ordered list of list-item values.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ReplaceListValuesRequest": {
+        "type": "object",
+        "description": "Request body for replacing the list values of a list-backed field definition.\nThe provided values replace the field's full list-item set wholesale, preserving the supplied order.\nAn empty array clears the list.",
+        "additionalProperties": false,
+        "required": [
+          "values"
+        ],
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "The ordered list of list-item values to apply. Duplicates and empty strings are rejected with 400.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TemplateDefinition": {
+        "type": "object",
+        "description": "Represents a template definition.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the template definition.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the template definition.",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The localized name of the template definition.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the template definition.",
+            "nullable": true
+          },
+          "color": {
+            "description": "The color assigned to the template definition.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LFColor"
+              }
+            ]
+          },
+          "fieldCount": {
+            "type": "integer",
+            "description": "The number of field definitions assigned to the template definition.",
+            "format": "int32"
+          }
+        }
+      },
+      "LFColor": {
+        "type": "object",
+        "description": "Represents an RGB color value with alpha channel.",
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "type": "integer",
+            "description": "The alpha channel component, from 0-255.",
+            "format": "byte"
+          },
+          "r": {
+            "type": "integer",
+            "description": "The red channel component, from 0-255.",
+            "format": "byte"
+          },
+          "g": {
+            "type": "integer",
+            "description": "The green channel component, from 0-255.",
+            "format": "byte"
+          },
+          "b": {
+            "type": "integer",
+            "description": "The blue channel component from 0-255.",
+            "format": "byte"
+          }
+        }
+      },
+      "AssignedEntryCountResponse": {
+        "type": "object",
+        "description": "The number of entries that have a value assigned for a given field definition.",
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "The count of entries currently using this field.",
+            "format": "int32"
+          }
+        }
+      },
+      "FieldPropertiesResponse": {
+        "type": "object",
+        "description": "Response body for the extended-properties bag on a field definition. The bag is opaque:\nkeys are WebDAV-style identifiers used by the Cloud admin UI (e.g. to encode list-field\nsort order, add-blank, add-Other, display-as), and values are strings the UI interprets.",
+        "additionalProperties": false,
+        "properties": {
+          "properties": {
+            "type": "object",
+            "description": "The full set of extended properties currently set on the field.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateFieldPropertiesRequest": {
+        "type": "object",
+        "description": "Request body for partially updating the extended-properties bag on a field definition.\nEntries in Set are written (creating or overwriting). Entries in Remove\nare deleted. Properties not mentioned in either are left unchanged.",
+        "additionalProperties": false,
+        "properties": {
+          "set": {
+            "type": "object",
+            "description": "Properties to set. Keys absent here are not modified.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "remove": {
+            "type": "array",
+            "description": "Property keys to remove. Keys not currently set are ignored.",
+            "nullable": true,
+            "items": {
+              "type": "string"
             }
           }
         }
@@ -10634,12 +12074,12 @@
               },
               "lockedBy": {
                 "type": "string",
-                "description": "The account name of the persistent lock holder. Null if the document is not locked.",
+                "description": "Display name (account name, e.g. \"DOMAIN\\user\") of the persistent lock holder. Null if the document is not locked.\nAccount renames change this value over time \u2014 do not use for stable identity comparisons.\nTo test whether the current authenticated user holds the lock, use IsLockedByAnotherUser; it compares stable principal identifiers internally.",
                 "nullable": true
               },
               "isLockedByAnotherUser": {
                 "type": "boolean",
-                "description": "A boolean indicating if the document is locked by a user other than the authenticated user.\nFalse if the document is not locked or is locked by the authenticated user.\nOnly populated on single-entry GET, not in listing results."
+                "description": "A boolean indicating if the document is locked by a user other than the authenticated user.\nFalse if the document is not locked or is locked by the authenticated user.\nComputed from a stable principal identifier comparison, not from LockedBy.\nOnly populated on single-entry GET, not in listing results."
               },
               "currentVersion": {
                 "type": "integer",
@@ -10648,12 +12088,12 @@
               },
               "checkedOutBy": {
                 "type": "string",
-                "description": "The account name of the user who checked out the document. Null if the document is not checked out.",
+                "description": "Display name (account name, e.g. \"DOMAIN\\user\") of the user who checked out the document. Null if the document is not checked out.\nAccount renames change this value over time \u2014 do not use for stable identity comparisons.\nTo test whether the current authenticated user holds the checkout, use IsCheckedOutByAnotherUser; it compares stable principal identifiers internally.",
                 "nullable": true
               },
               "isCheckedOutByAnotherUser": {
                 "type": "boolean",
-                "description": "A boolean indicating if the document is checked out by a user other than the authenticated user.\nFalse if the document is not checked out or is checked out by the authenticated user.\nOnly populated on single-entry GET, not in listing results."
+                "description": "A boolean indicating if the document is checked out by a user other than the authenticated user.\nFalse if the document is not checked out or is checked out by the authenticated user.\nComputed from a stable principal identifier comparison, not from CheckedOutBy.\nOnly populated on single-entry GET, not in listing results."
               }
             }
           }
@@ -11440,6 +12880,32 @@
           }
         }
       },
+      "PageInfoCollectionResponse": {
+        "type": "object",
+        "description": "Response containing a collection of PageInfoResponse.",
+        "additionalProperties": false,
+        "properties": {
+          "@odata.nextLink": {
+            "type": "string",
+            "description": "A URL to retrieve the next page of the requested collection.",
+            "nullable": true
+          },
+          "@odata.count": {
+            "type": "integer",
+            "description": "The total count of items within a collection.",
+            "format": "int32",
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/PageInfoResponse"
+            }
+          }
+        }
+      },
       "PageInfoResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -11577,7 +13043,7 @@
           },
           "owner": {
             "type": "string",
-            "description": "The account name of the lock owner (e.g., \"DOMAIN\\user\").",
+            "description": "Display name (account name, e.g. \"DOMAIN\\user\") of the lock owner.\nSame value reported as lockedBy on Document for the same lock.\nAccount renames change this value over time \u2014 do not use for stable identity comparisons.",
             "nullable": true
           },
           "comment": {
@@ -11618,11 +13084,55 @@
             "nullable": true
           },
           "extent": {
-            "type": "string",
-            "description": "The lock extent. Valid values: \"Page\", \"Edoc\", \"Metadata\", \"All\". Defaults to \"All\".",
-            "nullable": true
+            "description": "The lock extent. Defaults to All when omitted.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockExtent"
+              }
+            ]
           }
         }
+      },
+      "LockExtent": {
+        "type": "string",
+        "description": "The portion of a document that a persistent lock covers.",
+        "x-enum-names": [
+          "Page",
+          "Edoc",
+          "Metadata",
+          "All"
+        ],
+        "x-enum-varnames": [
+          "Page",
+          "Edoc",
+          "Metadata",
+          "All"
+        ],
+        "x-enumNames": [
+          "Page",
+          "Edoc",
+          "Metadata",
+          "All"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Page",
+          "Edoc",
+          "Metadata",
+          "All"
+        ]
       },
       "CheckOutDocumentRequest": {
         "type": "object",
@@ -12301,74 +13811,6 @@
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
             }
-          }
-        }
-      },
-      "TemplateDefinition": {
-        "type": "object",
-        "description": "Represents a template definition.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The ID of the template definition.",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the template definition.",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "description": "The localized name of the template definition.",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the template definition.",
-            "nullable": true
-          },
-          "color": {
-            "description": "The color assigned to the template definition.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LFColor"
-              }
-            ]
-          },
-          "fieldCount": {
-            "type": "integer",
-            "description": "The number of field definitions assigned to the template definition.",
-            "format": "int32"
-          }
-        }
-      },
-      "LFColor": {
-        "type": "object",
-        "description": "Represents an RGB color value with alpha channel.",
-        "additionalProperties": false,
-        "properties": {
-          "a": {
-            "type": "integer",
-            "description": "The alpha channel component, from 0-255.",
-            "format": "byte"
-          },
-          "r": {
-            "type": "integer",
-            "description": "The red channel component, from 0-255.",
-            "format": "byte"
-          },
-          "g": {
-            "type": "integer",
-            "description": "The green channel component, from 0-255.",
-            "format": "byte"
-          },
-          "b": {
-            "type": "integer",
-            "description": "The blue channel component from 0-255.",
-            "format": "byte"
           }
         }
       },
