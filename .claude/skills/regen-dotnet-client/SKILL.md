@@ -38,15 +38,32 @@ Document the rationale in a notes file before doing this. (Last instance: 2026-0
 
 All commands run from `lf-repository-api-client-dotnet/`.
 
+### Canonical path — `regen-from-local.ps1` (one command)
+
+Use the wrapper for almost every regen. It downloads swagger from a running server, runs NSwag, patches the client, and writes it to `src/Clients/` — Steps 1–3 below in one call, with a `$LASTEXITCODE` guard so a failed download can't silently regen from a stale `swagger.json`:
+
+```powershell
+# Default: pulls from a locally-running site-api-repository on http://localhost:11211/
+.\generate-client\regen-from-local.ps1
+
+# Or point at a deployed dev environment (e.g. when the change isn't on localhost)
+.\generate-client\regen-from-local.ps1 -SwaggerUrl 'https://api.a.clouddev.laserfiche.ca/repository/swagger/v2/swagger.json'
+```
+
+`regen-from-local.sh` is the POSIX `bash` equivalent. After it succeeds, commit **both** `generate-client/swagger.json` and `src/Clients/RepositoryClients.cs` to the feature branch — the per-branch preview NuGet job publishes from the committed swagger (see "Ship path" below).
+
+The manual two-step form below is what the wrapper runs under the hood — reach for it only when you need to drive a step in isolation.
+
 ### Step 1 — download the swagger
 
 ```powershell
 py generate-client/download_swagger.py `
     --swagger-url "http://localhost:11211/repository/swagger/v2/swagger.json" `
-    --output-filepath "generate-client/swagger.json"
+    --output-filepath "generate-client/swagger.json" `
+    --swagger-override-filepath "generate-client/swagger-override.json"
 ```
 
-A `generate-client/swagger-override.json` exists but is effectively empty (`{"components":{"schemas":{}}}`). Unlike the JS client, dotnet NSwag handles the abstract `Entry` correctly without a discriminator injection. If a future case needs an override, add it there and pass `--swagger-override-filepath generate-client/swagger-override.json` to the download script.
+A `generate-client/swagger-override.json` exists but is effectively empty (`{"components":{"schemas":{}}}`). Unlike the JS client, dotnet NSwag handles the abstract `Entry` correctly without a discriminator injection. If a future case needs an override, add it there.
 
 Use `py` or `C:\Python314\python.exe` — avoid `python3` (broken Windows Store alias).
 
@@ -55,14 +72,16 @@ Use `py` or `C:\Python314\python.exe` — avoid `python3` (broken Windows Store 
 ```powershell
 .\generate-client\generate-client.ps1 `
     -input_folder generate-client `
-    -output_folder src
+    -output_folder src/Clients
 ```
+
+> **Trap — pass `src/Clients`, NOT `src`.** `generate-client.ps1` now writes the client to `$output_folder/RepositoryClients.cs` **verbatim** (`Move-Item … -Destination "$output_folder/RepositoryClients.cs"`). Passing `-output_folder src` silently produces `src/RepositoryClients.cs` and leaves the real `src/Clients/RepositoryClients.cs` stale — the regen "succeeds" against the wrong path. The CI workflow and `regen-from-local.ps1` both pass `src/Clients`; match them.
 
 The script:
 1. Invokes `nswag run generate-client/nswag.json` to produce `RepositoryClients.cs`.
 2. Strips long System.* namespaces from the generated client for readable docs.
 3. Fixes `<br/>` placement in XML-doc lines.
-4. Moves the cleaned client into `src/Clients/`.
+4. Moves the cleaned client to `$output_folder/RepositoryClients.cs`.
 5. **Runs `patch_optional_multipart.py` as the final step — see Step 3.**
 
 ### Step 3 — `patch_optional_multipart.py` (mandatory, not optional)
@@ -100,30 +119,27 @@ Then start a local `site-api-repository` server and run integration tests with t
 
 For server-repo developers iterating on a new endpoint, switch `site-api-repository`'s test projects to a local `ProjectReference` instead of the published NuGet. See the [`UseLocalClientLib` workflow in site-api-repository](../../../site-api-repository/SiteAPIRepositoryTests/README.md) — copy `Directory.Build.props.user.example` → `Directory.Build.props.user` in the server repo. No preview publish required; the test projects compile straight against the local source.
 
-### Ship path — preview NuGet publish
+### Ship path — per-branch preview NuGet publish
 
-For the canonical "publish a preview from this branch" flow today:
+Per-feature-branch preview publishing is now live on `v2` (work item [#659276](https://v-dev-tfs.laserfiche.com/DefaultCollection/Cloud/_workitems/edit/659276), merged via PR #200). It decouples the preview NuGet from a server deploy: `.github/workflows/main.yml` runs on **every branch push** (`branches: ['**']`) and publishes from the **committed** `generate-client/swagger.json` — no live server needed at publish time.
 
-1. **Open a PR** to `v2` from your feature branch with the regenerated client.
-2. **Merge** after review. Status checks `build-n-test` and `build-documentation` must pass.
-3. **The publish workflow** in `.github/workflows/main.yml` builds a preview NuGet on the merge to `v2`. The published version name follows the workflow's convention.
-4. **Bump `<ClientLibVersion>`** in `site-api-repository/Directory.Build.props` to the new preview version. Server-repo tests then consume it.
+1. **Commit** the regenerated `swagger.json` + `RepositoryClients.cs` and push your feature branch.
+2. **CI runs and validates** (`build-n-test` + `build-documentation`). On this first run, the publish jobs are **skipped by design**.
+3. **Re-run the workflow to publish** — the publish jobs gate on `if: github.run_attempt != 1`. The initial run validates; a re-run (run attempt 2+) actually publishes. This is the **re-run-to-publish convention** — a fresh push/merge alone never publishes.
+4. **Consume it.** Bump `<ClientLibVersion>` in `site-api-repository/Directory.Build.props` to the published preview version, then server-repo tests pull it from the feed.
 
-This is the version that exists on `v2` today. The in-flight Phase 2 of work item #659276 changes this (see next section).
+Preview version shapes (`VERSION_PREFIX` is `2.1.0` today):
 
-## In flight — work item #659276 Phase 2 (per-branch preview)
+| Branch | Preview version | Tagged? |
+|---|---|---|
+| `v2` | `${VERSION_PREFIX}-beta-${run_id}` | yes |
+| any feature branch | `${VERSION_PREFIX}-feature-${branch_slug}-${run_id}` | no (short-lived) |
 
-Work item [#659276](https://v-dev-tfs.laserfiche.com/DefaultCollection/Cloud/_workitems/edit/659276) introduces per-feature-branch preview NuGet publishes from a committed swagger snapshot, plus helper scripts:
+Production publish (`publish-production-package`, version `${VERSION_PREFIX}`) stays gated on `v2` **and** `run_attempt != 1` **and** a manual `preview`/production environment approval.
 
-- `generate-client/regen-from-local.ps1` / `regen-from-local.sh` — wrap the download/regen/build steps with the local-server URL baked in.
-- `publish-preview-package` workflow runs on every feature-branch push (not just `v2`).
-- Preview version shape on feature branches: `${VERSION_PREFIX}-feature-${BRANCH_SLUG}-${RUN_ID}`.
-- Production-publish remains gated on `v2` + manual approval.
+> **Gotcha that bit us:** merging a regen PR to `v2` produces a `run_attempt == 1` push build, so the NuGet does **not** publish on merge. You must re-run that `v2` CI run (`gh run rerun <id>`) to get attempt 2 and trigger the preview + production publish. If a merged regen never showed up on the feed, this is why.
 
-When this lands on `v2`, **update this skill** to:
-- Replace "open a PR to v2 to trigger preview publish" with "push feature branch to trigger preview publish".
-- Reference `regen-from-local.ps1` as the canonical regen entry point.
-- Point to the design doc `site-api-repository/docs/design-server-client-preview-nuget-workflow.md`.
+Full background: [`site-api-repository/docs/design-server-client-preview-nuget-workflow.md`](../../../site-api-repository/docs/design-server-client-preview-nuget-workflow.md).
 
 ## NSwag config — read this before changing tag conventions
 
