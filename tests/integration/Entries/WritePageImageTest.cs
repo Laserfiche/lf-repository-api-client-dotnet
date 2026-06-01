@@ -1,5 +1,6 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
+using Laserfiche.Repository.Api.Client.IntegrationTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 {
     [TestClass]
-    [Ignore("PUT /Document/Pages/{n} requires the WritePage path-segment routing bridge (server middleware + NSwag processor). Re-enable once that change ships to the integration-test environment.")]
+    [SkipIfEndpointMissing("WritePage")]
     public class WritePageTest : BaseTest
     {
         int createdEntryId;

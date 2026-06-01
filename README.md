@@ -22,3 +22,50 @@ See the [.github/workflows/main.yml](https://github.com/Laserfiche/lf-repository
 
 #### Branches
 The v1 branch stores client code for the Laserfiche Repository API v1; the v2 branch stores client code for the Laserfiche Repository API v2.
+
+### Working on a new server feature
+
+When a new server endpoint requires a corresponding client method, the workflow below avoids the chicken-and-egg cycle between server deploy and preview NuGet publish. Background: [`site-api-repository/docs/design-server-client-preview-nuget-workflow.md`](https://github.com/Laserfiche/site-api-repository/blob/main/docs/design-server-client-preview-nuget-workflow.md).
+
+#### Inner loop — regenerate against a local server
+
+[`generate-client/regen-from-local.ps1`](generate-client/regen-from-local.ps1) (Windows / `pwsh`) and [`generate-client/regen-from-local.sh`](generate-client/regen-from-local.sh) (POSIX `bash`) refresh `generate-client/swagger.json` and `src/Clients/RepositoryClients.cs` from a running API server, with no NuGet round-trip:
+
+```powershell
+# Default: pulls from a locally-running site-api-repository on http://localhost:11211/
+./generate-client/regen-from-local.ps1
+
+# Or point at a deployed dev environment
+./generate-client/regen-from-local.ps1 -SwaggerUrl 'https://api.a.clouddev.laserfiche.ca/repository/swagger/v2/swagger.json'
+```
+
+Commit both `swagger.json` and `RepositoryClients.cs` to the feature branch when ready.
+
+Requires `nswag` (`npm install -g nswag@14.4.0`), `python` (3.x), and `pwsh` (PowerShell Core, on POSIX).
+
+#### Per-branch preview NuGet
+
+`main.yml` publishes a preview NuGet on every feature-branch push, not just `v2`. Versions:
+
+| Branch | Preview version shape |
+|---|---|
+| `v2` | `${VERSION_PREFIX}-beta-${run_id}` (unchanged) |
+| anything else | `${VERSION_PREFIX}-feature-${branch_slug}-${run_id}` |
+
+The publish job consumes the **committed** `generate-client/swagger.json` — no live server is required at publish time. The production-publish job is gated on `v2` + manual environment approval (unchanged).
+
+The publish jobs use the `run_attempt != 1` convention: an initial CI run validates; re-running the workflow then triggers the publish.
+
+#### Cloud-not-yet-deployed integration tests
+
+When a feature branch's tests exercise a new endpoint that the upstream cloud test environment hasn't deployed yet, mark the test class (or method) with `[SkipIfEndpointMissing("OperationId")]` from [`tests/integration/Util/`](tests/integration/Util/SkipIfEndpointMissingAttribute.cs):
+
+```csharp
+[TestClass]
+[SkipIfEndpointMissing("WritePage")]
+public class WritePageTest : BaseTest { … }
+```
+
+The base-test `[TestInitialize]` probes `{BaseUrl}/swagger/v2/swagger.json` once per process, caches the operationId set, and reports the test `Inconclusive` when any named operation is missing. The skip self-clears as soon as the deployed swagger contains the operation — no follow-up un-Ignore PR is needed.
+
+Replaces the historical `[Ignore("Temporarily ignored: cloud test server not yet updated…")]` pattern.

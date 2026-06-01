@@ -2,8 +2,13 @@ name: lf-repository-api-client-dotnet-CI
 
 on:
   push:
+    # Trigger on every branch push so feature branches can publish per-branch preview
+    # NuGet packages without first deploying the server. The publish job below restricts
+    # production publishes to the `v2` branch; preview-publish runs on all branches with
+    # a branch-aware version suffix. See:
+    #   site-api-repository/docs/design-server-client-preview-nuget-workflow.md
     branches:
-      - v2
+      - '**'
   pull_request:
     branches:
       - v2
@@ -106,6 +111,9 @@ jobs:
     environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
+    permissions:
+      id-token: write   # request the OIDC token for NuGet Trusted Publishing
+      contents: write   # the "Tag commit" step pushes a tag on the v2 branch
     steps:
     - uses: actions/checkout@v4
 
@@ -121,15 +129,45 @@ jobs:
       run: dotnet build --no-restore --configuration release
 
     - name: Set PACKAGE_VERSION environment
-      run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-beta-${{ github.run_id }}" >> $GITHUB_ENV
+      # `v2` keeps the historical `${VERSION_PREFIX}-beta-${run_id}` shape. Feature branches
+      # get a `${VERSION_PREFIX}-feature-${branch_slug}-${run_id}` suffix so previews from
+      # different branches don't collide on the NuGet feed and the source branch is visible
+      # in the version string.
+      #
+      # Branch slug must be a valid SemVer prerelease identifier ([0-9A-Za-z-] only). Git
+      # allows characters NuGet/SemVer reject (`_ . / @ + ~ ...`), so map every non-allowed
+      # char to `-`, then collapse runs and trim leading/trailing `-`.
+      run: |
+        if [ "$GITHUB_REF_NAME" = "v2" ]; then
+          echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-beta-${{ github.run_id }}" >> $GITHUB_ENV
+        else
+          BRANCH_SLUG=$(echo "$GITHUB_REF_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr -c 'a-z0-9-' '-' \
+            | sed -e 's/-\{2,\}/-/g' -e 's/^-//' -e 's/-$//')
+          echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-feature-${BRANCH_SLUG}-${{ github.run_id }}" >> $GITHUB_ENV
+        fi
 
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
+    # Trusted Publishing: exchange the GitHub OIDC token for a short-lived (1 hour)
+    # nuget.org API key. Requested immediately before the push so it doesn't expire.
+    # No long-lived NUGET_KEY secret required. See:
+    #   https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+    - name: NuGet login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Publish to nuget.org
-      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
+      # Only tag `v2`-branch previews. Feature-branch previews are short-lived and tagging
+      # each one would clutter the repo.
+      if: github.ref_name == 'v2'
       uses: rickstaa/action-create-tag@v1
       with:
         tag: ${{ env.API_VERSION }}-${{ env.PACKAGE_VERSION }}
@@ -141,8 +179,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: production
-    if: ${{ github.run_attempt != 1 }}
+    # Production publish is `v2`-branch only. The `run_attempt != 1` gate keeps the
+    # re-run-to-publish convention; feature branches never reach this job.
+    if: ${{ github.run_attempt != 1 && github.ref_name == 'v2' }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
+    permissions:
+      id-token: write   # request the OIDC token for NuGet Trusted Publishing
+      contents: write   # the "Tag commit" step pushes a tag on the v2 branch
     steps:
     - uses: actions/checkout@v4
 
@@ -163,8 +206,18 @@ jobs:
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
+    # Trusted Publishing: exchange the GitHub OIDC token for a short-lived (1 hour)
+    # nuget.org API key. Requested immediately before the push so it doesn't expire.
+    # No long-lived NUGET_KEY secret required. See:
+    #   https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+    - name: NuGet login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Publish to nuget.org
-      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
