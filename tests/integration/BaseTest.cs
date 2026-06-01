@@ -1,10 +1,14 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Laserfiche.Api.Client.OAuth;
+using Laserfiche.Api.Client.Utils;
+using Laserfiche.Repository.Api.Client.IntegrationTest.Util;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Laserfiche.Repository.Api.Client.IntegrationTest
@@ -45,6 +49,112 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
         {
             TryLoadFromDotEnv(TestConfigFile);
             PopulateFromEnv();
+        }
+
+        // Populated by MSTest via property injection. Used by CheckSkipIfEndpointMissing
+        // to read the running test method's name for method-level
+        // <see cref="SkipIfEndpointMissingAttribute"/> resolution.
+        public TestContext TestContext { get; set; }
+
+        /// <summary>
+        /// Skips the test as Inconclusive when the test class or method is decorated with
+        /// <see cref="SkipIfEndpointMissingAttribute"/> and any named operationId is absent
+        /// from the swagger document at <see cref="BaseUrl"/>. Method-level attributes take
+        /// precedence over class-level. Replaces the
+        /// <c>[Ignore("Temporarily ignored: cloud test server not yet updated...")]</c> pattern.
+        /// </summary>
+        [TestInitialize]
+        public async Task CheckSkipIfEndpointMissing()
+        {
+            var attr = ResolveSkipAttribute();
+            if (attr == null || attr.OperationIds.Length == 0) return;
+
+            var probeBaseUrl = ResolveSwaggerProbeBaseUrl();
+            var (ops, fetchError) = await SwaggerOperationCache.GetAsync(probeBaseUrl);
+            if (fetchError != null)
+            {
+                SkipInconclusive($"Could not fetch swagger from {probeBaseUrl?.TrimEnd('/')}/swagger/v2/swagger.json: {fetchError.GetType().Name}: {fetchError.Message}");
+            }
+
+            var missing = attr.OperationIds.Where(id => !ops.Contains(id)).ToList();
+            if (missing.Count == 0) return;
+
+            // Production never silently skips. A missing endpoint on prod is either a
+            // genuine regression or an incomplete deploy, and we want it to surface with
+            // its natural failure (the client call hits the absent route and throws).
+            // Deploy lag — the only reason this skip exists — only happens against
+            // clouddev/cloudtest, never against prod.
+            if (IsProductionEnvironment(probeBaseUrl))
+            {
+                ResolveTestContext()?.WriteLine(
+                    $"[SkipIfEndpointMissing] Missing at {probeBaseUrl}: {string.Join(", ", missing)}. " +
+                    $"Running anyway because BaseUrl appears to target a production environment.");
+                return;
+            }
+
+            SkipInconclusive($"Endpoint(s) not deployed at {probeBaseUrl}: {string.Join(", ", missing)}");
+        }
+
+        // CI uses CLOUD_ACCESS_KEY auth without setting APISERVER_REPOSITORY_API_BASE_URL —
+        // the V2 client resolves the regional API URL from the AccessKey's domain via
+        // DomainUtils internally. Mirror that here so the swagger probe targets the same
+        // server the client itself will hit. If neither is available the helper returns
+        // null and the cache surfaces a clean ArgumentException-shaped Inconclusive.
+        private string ResolveSwaggerProbeBaseUrl()
+        {
+            if (!string.IsNullOrEmpty(BaseUrl)) return BaseUrl;
+            if (AccessKey != null && !string.IsNullOrEmpty(AccessKey.Domain))
+                return DomainUtils.GetRepositoryApiBaseUri(AccessKey.Domain);
+            return null;
+        }
+
+        // Treat anything that isn't clearly clouddev or cloudtest as production. The client
+        // repo has no enum-based environment configuration like the server repo's
+        // runsettings/TestEnvironment; the URL substring is the only signal we get. Unknown
+        // hosts (including malformed URLs) fall to the "treat as prod" side, which fails
+        // closed — a real regression won't disappear into a silent Inconclusive.
+        private static bool IsProductionEnvironment(string baseUrl)
+        {
+            if (string.IsNullOrEmpty(baseUrl)) return false;
+            return baseUrl.IndexOf("clouddev", StringComparison.OrdinalIgnoreCase) < 0
+                && baseUrl.IndexOf("cloudtest", StringComparison.OrdinalIgnoreCase) < 0;
+        }
+
+        // Mirrors the Inconclusive message to the test console output before raising the
+        // assert. Without this the message only lands in the test-result detail pane —
+        // visible in the Azure DevOps Tests tab, but easy to miss when scanning the
+        // pipeline task log where Inconclusive otherwise looks like a silent skip.
+        private void SkipInconclusive(string message)
+        {
+            ResolveTestContext()?.WriteLine($"[SKIP] {message}");
+            Assert.Inconclusive(message);
+        }
+
+        private SkipIfEndpointMissingAttribute ResolveSkipAttribute()
+        {
+            // Method-level wins over class-level.
+            SkipIfEndpointMissingAttribute methodAttr = null;
+            var testName = ResolveTestContext()?.TestName;
+            if (!string.IsNullOrEmpty(testName))
+            {
+                // Strip parameterized-test arg suffix (e.g., "Foo (1, 2)"); GetMethod doesn't
+                // resolve those names. If the strip yields an unknown name, GetMethod returns
+                // null and we fall through to class-level cleanly.
+                var paren = testName.IndexOf('(');
+                var methodName = paren > 0 ? testName.Substring(0, paren).Trim() : testName;
+                methodAttr = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance)
+                    ?.GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
+            }
+            return methodAttr ?? GetType().GetCustomAttribute<SkipIfEndpointMissingAttribute>(inherit: true);
+        }
+
+        // TestContext is read via reflection so a derived class that shadows the property
+        // still surfaces the value MSTest set — reflection picks up the most-derived
+        // declaration, which is the one MSTest populates.
+        private TestContext ResolveTestContext()
+        {
+            var tcProp = GetType().GetProperty("TestContext", BindingFlags.Public | BindingFlags.Instance);
+            return tcProp?.GetValue(this) as TestContext;
         }
 
         private static void TryLoadFromDotEnv(string fileName)

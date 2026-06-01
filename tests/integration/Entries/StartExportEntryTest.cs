@@ -38,7 +38,11 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
         [TestMethod]
         public async Task StartExportEntry()
         {
-            var entryName = "RepositoryApiClientIntegrationTest .Net StartExportEntry";
+            // Unique per run: the integration tests share a cloud repo, so a fixed name
+            // collides with leftovers from a previous run (or a concurrent run) — LFS then
+            // auto-renames the new entry (e.g. "... StartExportEntry (3)") and the exported
+            // filename no longer matches the asserted name. A GUID keeps each run isolated.
+            var entryName = $"RepositoryApiClientIntegrationTest .Net StartExportEntry {System.Guid.NewGuid()}";
             var createdEntry = await CreateDocument(entryName).ConfigureAwait(false);
             createdEntryId = createdEntry.Id;
 
