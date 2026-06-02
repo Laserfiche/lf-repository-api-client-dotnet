@@ -75,7 +75,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using var httpClient = new HttpClient();
             var response = await httpClient.GetAsync(result.Value).ConfigureAwait(false);
 
-            Assert.AreEqual(entryName + ".pdf", response.Content.Headers.ContentDisposition.FileNameStar);
+            // Tolerate an auto-rename suffix (e.g. " (2)") inserted before the extension when a
+            // prior run's entry lingers on the shared repo: assert the unique prefix + extension
+            // instead of an exact filename match (work item #671227).
+            var exportedFileName = response.Content.Headers.ContentDisposition.FileNameStar;
+            Assert.IsTrue(exportedFileName.StartsWith(entryName), $"Expected exported filename to start with '{entryName}' but was '{exportedFileName}'.");
+            Assert.IsTrue(exportedFileName.EndsWith(".pdf"), $"Expected exported filename to end with '.pdf' but was '{exportedFileName}'.");
             Assert.AreEqual("application/pdf", response.Content.Headers.ContentType.ToString());
             Assert.IsTrue(response.Content.Headers.ContentLength > 0);
 
