@@ -24021,32 +24021,10 @@ namespace Laserfiche.Repository.Api.Client
         public string Comment { get; set; }
 
         /// <summary>
-        /// The lock extent. Defaults to All when omitted.
+        /// The lock extent. One of: Page, Edoc, Metadata, All. Defaults to All when omitted.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("extent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public LockExtent? Extent { get; set; }
-
-    }
-
-    /// <summary>
-    /// The portion of a document that a persistent lock covers.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum LockExtent
-    {
-
-        [EnumMember(Value = @"Page")]
-        Page = 0,
-
-        [EnumMember(Value = @"Edoc")]
-        Edoc = 1,
-
-        [EnumMember(Value = @"Metadata")]
-        Metadata = 2,
-
-        [EnumMember(Value = @"All")]
-        All = 3,
+        public string Extent { get; set; }
 
     }
 

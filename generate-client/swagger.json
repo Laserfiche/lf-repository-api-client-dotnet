@@ -14595,55 +14595,11 @@
             "nullable": true
           },
           "extent": {
-            "description": "The lock extent. Defaults to All when omitted.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LockExtent"
-              }
-            ]
+            "type": "string",
+            "description": "The lock extent. One of: Page, Edoc, Metadata, All. Defaults to All when omitted.",
+            "nullable": true
           }
         }
-      },
-      "LockExtent": {
-        "type": "string",
-        "description": "The portion of a document that a persistent lock covers.",
-        "x-enum-names": [
-          "Page",
-          "Edoc",
-          "Metadata",
-          "All"
-        ],
-        "x-enum-varnames": [
-          "Page",
-          "Edoc",
-          "Metadata",
-          "All"
-        ],
-        "x-enumNames": [
-          "Page",
-          "Edoc",
-          "Metadata",
-          "All"
-        ],
-        "x-enum-descriptions": [
-          null,
-          null,
-          null,
-          null
-        ],
-        "x-enumDescriptions": [
-          null,
-          null,
-          null,
-          null
-        ],
-        "enum": [
-          "Page",
-          "Edoc",
-          "Metadata",
-          "All"
-        ]
       },
       "CheckOutDocumentRequest": {
         "type": "object",
