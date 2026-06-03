@@ -16,16 +16,14 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Tasks
         }
 
         [TestMethod]
-        // Deterministic failure on the shared dev-CA repo (r-00010029cf7e): the async
-        // StartDeleteEntry background op returns Failed, not Completed — this is NOT flaky.
-        // Kept ignored so the publish-gating integration-test job can go green; un-ignore once
-        // the server/LFS-side root-cause is fixed (work item #671227, server follow-up).
-        [Ignore("Blocked on dev-CA env: async StartDeleteEntry returns Failed; re-enable after server/LFS root-cause (#671227)")]
         public async Task ReturnStatus()
         {
             var deleteEntry = await CreateEntry(client, "RepositoryApiClientIntegrationTest .Net GetOperationStatus").ConfigureAwait(false);
 
-            StartDeleteEntryRequest request = new();
+            // The repository's audit policy may require a reason for DeleteEntry; without one the
+            // background task deterministically reports Failed (400 invalidRequest, errorCode 216,
+            // "Need to provide correct audit reason for DeleteEntry") — root-caused under #671441.
+            StartDeleteEntryRequest request = new() { AuditReasonId = await GetDeleteEntryAuditReasonIdAsync().ConfigureAwait(false) };
             var result = await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
             {
                 RepositoryId = RepositoryId,

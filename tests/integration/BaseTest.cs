@@ -236,8 +236,35 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             return newEntry;
         }
 
+        // Cached per test run; the repository's audit-reason list is static test fixture data.
+        private static int? deleteEntryAuditReasonId;
+        private static bool deleteEntryAuditReasonResolved;
+
+        /// <summary>
+        /// Returns the id of a DeleteEntry audit reason, or null if the repository has none.
+        /// The shared test repository's audit policy requires a reason for DeleteEntry —
+        /// without one the async delete task deterministically reports Failed
+        /// (400 invalidRequest, "Need to provide correct audit reason for DeleteEntry").
+        /// </summary>
+        protected async Task<int?> GetDeleteEntryAuditReasonIdAsync()
+        {
+            if (!deleteEntryAuditReasonResolved)
+            {
+                var auditReasons = await client.AuditReasonsClient.ListAuditReasonsAsync(new ListAuditReasonsParameters()
+                {
+                    RepositoryId = RepositoryId
+                }).ConfigureAwait(false);
+                deleteEntryAuditReasonId = auditReasons.Value.FirstOrDefault(r => r.AuditEventType == AuditEventType.DeleteEntry)?.Id;
+                deleteEntryAuditReasonResolved = true;
+            }
+            return deleteEntryAuditReasonId;
+        }
+
         public async Task DeleteEntry(int entryId, StartDeleteEntryRequest request = null)
         {
+            // Default to a valid audit reason — without it the background delete silently fails
+            // and cleanup entries accumulate in the shared test repository.
+            request ??= new StartDeleteEntryRequest() { AuditReasonId = await GetDeleteEntryAuditReasonIdAsync().ConfigureAwait(false) };
             var operation = await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
             {
                 RepositoryId = RepositoryId,
