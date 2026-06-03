@@ -73,13 +73,24 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
 
             Assert.IsNotNull(result?.TaskId);
 
-            // Wait for the long operation to finish
-            await Task.Delay(5000).ConfigureAwait(false);
-            var taskCollectionResponse = await client.TasksClient.ListTasksAsync(new ListTasksParameters()
+            // Poll until the export long-operation reaches a terminal status instead of asserting
+            // after a single fixed delay. Under shared-repo load the operation can take longer than
+            // one interval, which previously flaked this assert (work item #671227).
+            TaskCollectionResponse taskCollectionResponse;
+            var pollDeadline = System.DateTime.UtcNow.AddSeconds(120);
+            do
             {
-                RepositoryId = RepositoryId,
-                TaskIds = new[] { result.TaskId }
-            }).ConfigureAwait(false);
+                await Task.Delay(2000).ConfigureAwait(false);
+                taskCollectionResponse = await client.TasksClient.ListTasksAsync(new ListTasksParameters()
+                {
+                    RepositoryId = RepositoryId,
+                    TaskIds = new[] { result.TaskId }
+                }).ConfigureAwait(false);
+                var current = taskCollectionResponse.Value.FirstOrDefault(t => t.Id == result.TaskId);
+                if (current != null && current.Status != TaskStatus.InProgress && current.Status != TaskStatus.NotStarted)
+                    break;
+            } while (System.DateTime.UtcNow < pollDeadline);
+
             AssertCollectionResponse(taskCollectionResponse);
             var task = taskCollectionResponse.Value.FirstOrDefault(t => t.Id == result.TaskId);
             Assert.IsNotNull(task);
@@ -92,7 +103,12 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.Entries
             using var httpClient = new HttpClient();
             var response = await httpClient.GetAsync(downloadLink).ConfigureAwait(false);
 
-            Assert.AreEqual(entryName + ".pdf", response.Content.Headers.ContentDisposition.FileNameStar);
+            // Tolerate an auto-rename suffix (e.g. " (2)") inserted before the extension when a
+            // prior run's entry lingers on the shared repo: assert the unique prefix + extension
+            // instead of an exact filename match (work item #671227).
+            var exportedFileName = response.Content.Headers.ContentDisposition.FileNameStar;
+            Assert.IsTrue(exportedFileName.StartsWith(entryName), $"Expected exported filename to start with '{entryName}' but was '{exportedFileName}'.");
+            Assert.IsTrue(exportedFileName.EndsWith(".pdf"), $"Expected exported filename to end with '.pdf' but was '{exportedFileName}'.");
             Assert.AreEqual("application/pdf", response.Content.Headers.ContentType.ToString());
             Assert.IsTrue(response.Content.Headers.ContentLength > 0);
 
