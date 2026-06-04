@@ -329,6 +329,48 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             return entry;
         }
 
+        // ---- Template-definition test helpers (shared by the template test classes) ----
+
+        protected static string UniqueName(string prefix) =>
+            $"{prefix}_{DateTime.UtcNow:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid().ToString("N").Substring(0, 6)}";
+
+        // The template tests reuse existing repository field definitions rather than creating their
+        // own: 6.3.C is independent of 6.3.A, so CreateFieldDefinition isn't on the base swagger.
+        // Pick from whatever the repository already has.
+        protected async Task<string[]> PickExistingFieldNamesAsync(int count)
+        {
+            var fields = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(new ListFieldDefinitionsParameters
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
+            var names = fields.Value?
+                .Where(f => !string.IsNullOrEmpty(f.Name))
+                .Select(f => f.Name)
+                .Take(count)
+                .ToArray() ?? Array.Empty<string>();
+            Assert.IsTrue(names.Length >= count, $"Need at least {count} existing field definition(s) in the test repository; found {names.Length}.");
+            return names;
+        }
+
+        // Best-effort template cleanup: never fail a test on a cleanup error (so an earlier assertion
+        // isn't masked), but log it so an orphan template doesn't accumulate silently across runs.
+        protected async Task SafeDeleteTemplateAsync(int templateId)
+        {
+            if (templateId <= 0) return;
+            try
+            {
+                await client.TemplateDefinitionsClient.DeleteTemplateAsync(new DeleteTemplateParameters
+                {
+                    RepositoryId = RepositoryId,
+                    TemplateId = templateId,
+                }).ConfigureAwait(false);
+            }
+            catch (Exception cleanupEx)
+            {
+                Console.WriteLine($"[template cleanup] DeleteTemplate id={templateId} failed: {cleanupEx.GetType().Name}: {cleanupEx.Message}");
+            }
+        }
+
         protected static void AssertCollectionResponse(AttributeCollectionResponse response)
         {
             Assert.IsNotNull(response);
