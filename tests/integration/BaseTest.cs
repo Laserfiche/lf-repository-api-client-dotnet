@@ -236,8 +236,35 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             return newEntry;
         }
 
+        // Cached per test run; the repository's audit-reason list is static test fixture data.
+        private static int? deleteEntryAuditReasonId;
+        private static bool deleteEntryAuditReasonResolved;
+
+        /// <summary>
+        /// Returns the id of a DeleteEntry audit reason, or null if the repository has none.
+        /// The shared test repository's audit policy requires a reason for DeleteEntry —
+        /// without one the async delete task deterministically reports Failed
+        /// (400 invalidRequest, "Need to provide correct audit reason for DeleteEntry").
+        /// </summary>
+        protected async Task<int?> GetDeleteEntryAuditReasonIdAsync()
+        {
+            if (!deleteEntryAuditReasonResolved)
+            {
+                var auditReasons = await client.AuditReasonsClient.ListAuditReasonsAsync(new ListAuditReasonsParameters()
+                {
+                    RepositoryId = RepositoryId
+                }).ConfigureAwait(false);
+                deleteEntryAuditReasonId = auditReasons.Value.FirstOrDefault(r => r.AuditEventType == AuditEventType.DeleteEntry)?.Id;
+                deleteEntryAuditReasonResolved = true;
+            }
+            return deleteEntryAuditReasonId;
+        }
+
         public async Task DeleteEntry(int entryId, StartDeleteEntryRequest request = null)
         {
+            // Default to a valid audit reason — without it the background delete silently fails
+            // and cleanup entries accumulate in the shared test repository.
+            request ??= new StartDeleteEntryRequest() { AuditReasonId = await GetDeleteEntryAuditReasonIdAsync().ConfigureAwait(false) };
             var operation = await client.EntriesClient.StartDeleteEntryAsync(new StartDeleteEntryParameters()
             {
                 RepositoryId = RepositoryId,
@@ -300,6 +327,48 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest
             Assert.IsNotNull(entry.Id);
 
             return entry;
+        }
+
+        // ---- Template-definition test helpers (shared by the template test classes) ----
+
+        protected static string UniqueName(string prefix) =>
+            $"{prefix}_{DateTime.UtcNow:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid().ToString("N").Substring(0, 6)}";
+
+        // The template tests reuse existing repository field definitions rather than creating their
+        // own: 6.3.C is independent of 6.3.A, so CreateFieldDefinition isn't on the base swagger.
+        // Pick from whatever the repository already has.
+        protected async Task<string[]> PickExistingFieldNamesAsync(int count)
+        {
+            var fields = await client.FieldDefinitionsClient.ListFieldDefinitionsAsync(new ListFieldDefinitionsParameters
+            {
+                RepositoryId = RepositoryId,
+            }).ConfigureAwait(false);
+            var names = fields.Value?
+                .Where(f => !string.IsNullOrEmpty(f.Name))
+                .Select(f => f.Name)
+                .Take(count)
+                .ToArray() ?? Array.Empty<string>();
+            Assert.IsTrue(names.Length >= count, $"Need at least {count} existing field definition(s) in the test repository; found {names.Length}.");
+            return names;
+        }
+
+        // Best-effort template cleanup: never fail a test on a cleanup error (so an earlier assertion
+        // isn't masked), but log it so an orphan template doesn't accumulate silently across runs.
+        protected async Task SafeDeleteTemplateAsync(int templateId)
+        {
+            if (templateId <= 0) return;
+            try
+            {
+                await client.TemplateDefinitionsClient.DeleteTemplateAsync(new DeleteTemplateParameters
+                {
+                    RepositoryId = RepositoryId,
+                    TemplateId = templateId,
+                }).ConfigureAwait(false);
+            }
+            catch (Exception cleanupEx)
+            {
+                Console.WriteLine($"[template cleanup] DeleteTemplate id={templateId} failed: {cleanupEx.GetType().Name}: {cleanupEx.Message}");
+            }
         }
 
         protected static void AssertCollectionResponse(AttributeCollectionResponse response)
