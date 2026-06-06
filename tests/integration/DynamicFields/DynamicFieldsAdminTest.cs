@@ -12,23 +12,28 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
 {
     /// <summary>
     /// Integration tests for the Dynamic Fields admin endpoints introduced by PRD REQ-ADMIN-008:
-    /// external-table registration (RA-direct) and template form-logic rules (RWS-reuse).
-    /// Self-sufficient: reuses the shared <c>PMT_LoadTest_LT</c> external-table fixture's coordinates
-    /// and creates its own throwaway alias / template / field, cleaning up afterward. Skips
-    /// (Inconclusive) when that fixture is not registered on the target account.
+    /// external-table reads (RA-direct) and template form-logic rules (RWS-reuse).
+    /// Self-sufficient: reads the external-table fixture and creates its own throwaway template /
+    /// field to bind a form-logic rule, cleaning up afterward. Skips (Inconclusive) when the fixture
+    /// is not registered on the target account.
     ///
-    /// Fixture provisioning (Option 1, manual / account-level — same fixture the RA cloud test
-    /// <c>TemplateTest.FormLogicParentFieldTest</c> uses): import RepositoryAccess
-    /// <c>src/SharedTest/TestFiles/data.csv</c> (columns City, State, Company, Fname, Lname, Email)
-    /// into the account's Process Automation "data management" as a lookup table named
-    /// <c>PMT_LoadTest_LT</c>. It then surfaces through ListExternalTables automatically.
+    /// External tables are READ-ONLY here: on cloud the LFS hard-denies register/update/unregister
+    /// (LFCR_E_ACCESS_DENIED / 9013), so external tables are provisioned out-of-band via Process
+    /// Automation "data management" and surfaced read-only. The write client methods are gated out
+    /// of the cloud build (EXTERNAL_TABLE_WRITE) and are therefore absent from this client.
+    ///
+    /// Fixture provisioning: import a CSV (columns City, State, Company, Fname, Lname, Email — e.g.
+    /// RepositoryAccess src/SharedTest/TestFiles/data.csv) into the account's PA "data management"
+    /// as a lookup table named <c>APIServer_DynamicFields_Integration_Tests</c>. It then surfaces
+    /// through ListExternalTables automatically.
     /// </summary>
     [TestClass]
-    [SkipIfEndpointMissing("ListExternalTables", "GetExternalTable", "ListExternalTableColumns", "RegisterExternalTable", "UpdateExternalTable", "UnregisterExternalTable", "GetTemplateFormLogicRules", "SetTemplateFormLogicRules")]
+    [SkipIfEndpointMissing("ListExternalTables", "GetExternalTable", "ListExternalTableColumns", "GetTemplateFormLogicRules", "SetTemplateFormLogicRules")]
     public class DynamicFieldsAdminTest : BaseTest
     {
-        // Shared cross-suite fixture name (RA TemplateTest.FormLogicParentFieldTest, RWS, API Server).
-        private const string ExternalTableFixtureName = "PMT_LoadTest_LT";
+        // Lookup table provisioned on the dev account's PA "data management" for these tests
+        // (City, State, Company, Fname, Lname, Email — same shape as RA TestFiles/data.csv).
+        private const string ExternalTableFixtureName = "APIServer_DynamicFields_Integration_Tests";
 
         [TestInitialize]
         public void Initialize()
@@ -49,65 +54,28 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
         }
 
         [TestMethod]
-        public async Task ExternalTable_RegisterListGetColumnsUpdateUnregister_Lifecycle()
+        public async Task ExternalTable_ListGetColumns_ReadOnly()
         {
             var existing = await FindExistingExternalTableAsync();
             if (existing == null)
             {
-                Assert.Inconclusive($"No external table registered on the target account. Provision the shared '{ExternalTableFixtureName}' lookup table (import RA TestFiles/data.csv into PA 'data management') to exercise external-table admin.");
+                Assert.Inconclusive($"No external table registered on the target account. Provision the shared '{ExternalTableFixtureName}' lookup table (import a CSV into PA 'data management') to exercise external-table reads.");
                 return;
             }
 
-            string alias = UniqueName("client_test_exttable");
-            int newId = 0;
-            try
-            {
-                // Register a new alias pointing at the same underlying (database, schema, table) as the existing fixture.
-                var created = await client.DynamicFieldsClient.RegisterExternalTableAsync(new RegisterExternalTableParameters
-                {
-                    RepositoryId = RepositoryId,
-                    Request = new ExternalTableRequest { LaserficheName = alias, Database = existing.Database, Schema = existing.Schema, Table = existing.Table }
-                }).ConfigureAwait(false);
-                Assert.IsNotNull(created);
-                Assert.IsTrue(created.Id > 0);
-                Assert.AreEqual(alias, created.LaserficheName);
-                Assert.AreEqual("lfe", created.LaserficheSchema);
-                newId = created.Id;
+            // List surfaces the fixture with the expected lfe schema.
+            Assert.IsTrue(existing.Id > 0);
+            Assert.AreEqual("lfe", existing.LaserficheSchema);
 
-                // List contains the new registration.
-                var list = await client.DynamicFieldsClient.ListExternalTablesAsync(new ListExternalTablesParameters { RepositoryId = RepositoryId }).ConfigureAwait(false);
-                Assert.IsTrue(list.Any(t => t.Id == newId));
+            // Get by id round-trips the same registration.
+            var got = await client.DynamicFieldsClient.GetExternalTableAsync(new GetExternalTableParameters { RepositoryId = RepositoryId, ExternalTableId = existing.Id }).ConfigureAwait(false);
+            Assert.AreEqual(existing.Id, got.Id);
+            Assert.AreEqual(existing.LaserficheName, got.LaserficheName);
 
-                // Get by id.
-                var got = await client.DynamicFieldsClient.GetExternalTableAsync(new GetExternalTableParameters { RepositoryId = RepositoryId, ExternalTableId = newId }).ConfigureAwait(false);
-                Assert.AreEqual(alias, got.LaserficheName);
-                Assert.AreEqual(existing.Table, got.Table);
-
-                // Columns (hits the external data source).
-                var columns = await client.DynamicFieldsClient.ListExternalTableColumnsAsync(new ListExternalTableColumnsParameters { RepositoryId = RepositoryId, ExternalTableId = newId }).ConfigureAwait(false);
-                Assert.IsNotNull(columns);
-                Assert.IsTrue(columns.Count > 0, "Expected the external table to expose at least one column.");
-
-                // Update (re-PUT the same coordinates) returns the updated registration.
-                var updated = await client.DynamicFieldsClient.UpdateExternalTableAsync(new UpdateExternalTableParameters
-                {
-                    RepositoryId = RepositoryId,
-                    ExternalTableId = newId,
-                    Request = new ExternalTableRequest { LaserficheName = alias, Database = existing.Database, Schema = existing.Schema, Table = existing.Table }
-                }).ConfigureAwait(false);
-                Assert.AreEqual(newId, updated.Id);
-            }
-            finally
-            {
-                if (newId > 0)
-                {
-                    try
-                    {
-                        await client.DynamicFieldsClient.UnregisterExternalTableAsync(new UnregisterExternalTableParameters { RepositoryId = RepositoryId, ExternalTableId = newId }).ConfigureAwait(false);
-                    }
-                    catch { /* best-effort cleanup */ }
-                }
-            }
+            // Columns hit the backing external data source and return at least one column.
+            var columns = await client.DynamicFieldsClient.ListExternalTableColumnsAsync(new ListExternalTableColumnsParameters { RepositoryId = RepositoryId, ExternalTableId = existing.Id }).ConfigureAwait(false);
+            Assert.IsNotNull(columns);
+            Assert.IsTrue(columns.Count > 0, "Expected the external table to expose at least one column.");
         }
 
         [TestMethod]
