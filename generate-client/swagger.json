@@ -3,12 +3,15 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
     "version": "2"
   },
   "servers": [
     {
-      "url": "https://api.laserfiche.com/repository"
+      "url": "http://localhost:11211/repository"
+    },
+    {
+      "url": "https://localhost:11211/repository"
     }
   ],
   "paths": {
@@ -413,6 +416,665 @@
           },
           "404": {
             "description": "Not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/ExternalTables": {
+      "get": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Returns the external-table registrations in the repository.",
+        "description": "- Lists the external tables registered for use by dynamic fields.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListExternalTables",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Prefer",
+            "x-originalName": "prefer",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the external table registrations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalTable"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Registers a new external table.",
+        "operationId": "RegisterExternalTable",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalTableRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully registered the external table.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTable"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/ExternalTables/{externalTableId}": {
+      "get": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Returns a single external-table registration.",
+        "operationId": "GetExternalTable",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "externalTableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the requested external table registration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTable"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "External table with the specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Updates an existing external-table registration.",
+        "operationId": "UpdateExternalTable",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "externalTableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalTableRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the external table registration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTable"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "External table with the specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Unregisters an external table.",
+        "operationId": "UnregisterExternalTable",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "externalTableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully unregistered the external table."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/ExternalTables/{externalTableId}/Columns": {
+      "get": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Returns the column names of an external table.",
+        "operationId": "ListExternalTableColumns",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "externalTableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the external table column names.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "External table with the specified id was not found.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -9869,6 +10531,262 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/FormLogicRules": {
+      "get": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Returns the dynamic-field (form-logic) rules configured on a template.",
+        "description": "- Returns the dynamic-field rules on the template. Only simple (single external column) binding is represented; a conditional-query rule is reported with isSimple = false.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTemplateFormLogicRules",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The requested template definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the template's dynamic-field (form-logic) rules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormLogicRule"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "DynamicFields"
+        ],
+        "summary": "Replaces the full set of dynamic-field (form-logic) rules on a template.",
+        "description": "- Authoritative full-replace: rules omitted from the request are removed; an empty list clears all dynamic fields on the template.\n- Only simple (single external column) binding is configurable. Each rule requires fieldId, boundTableId, and boundColumn.\n- Required OAuth scope: repository.Write",
+        "operationId": "SetTemplateFormLogicRules",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The requested template definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The complete set of dynamic-field rules for the template.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFormLogicRulesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the template's dynamic-field (form-logic) rules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormLogicRule"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/TemplateDefinitions": {
       "get": {
         "tags": [
@@ -11674,6 +12592,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
@@ -11779,6 +12698,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -11838,6 +12758,70 @@
           "DeleteEntry",
           "ExportDocument"
         ]
+      },
+      "ExternalTable": {
+        "type": "object",
+        "description": "Represents an external-table registration: a Laserfiche alias mapped to a table on an\nalready-configured external data source. External tables back dynamic fields.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The id of the external-table registration.",
+            "format": "int32"
+          },
+          "laserficheName": {
+            "type": "string",
+            "description": "The Laserfiche alias for the external table (unique within the repository).",
+            "nullable": true
+          },
+          "laserficheSchema": {
+            "type": "string",
+            "description": "The Laserfiche schema the registration lives under. Always \"lfe\".",
+            "nullable": true
+          },
+          "database": {
+            "type": "string",
+            "description": "The name of the external database. May be null for data sources that do not use it.",
+            "nullable": true
+          },
+          "schema": {
+            "type": "string",
+            "description": "The external schema (for example \"dbo\").",
+            "nullable": true
+          },
+          "table": {
+            "type": "string",
+            "description": "The external table name.",
+            "nullable": true
+          }
+        }
+      },
+      "ExternalTableRequest": {
+        "type": "object",
+        "description": "Request body for registering or updating an external-table registration.",
+        "additionalProperties": false,
+        "properties": {
+          "laserficheName": {
+            "type": "string",
+            "description": "The Laserfiche alias for the external table (unique within the repository). Required.",
+            "nullable": true
+          },
+          "database": {
+            "type": "string",
+            "description": "The name of the external database. Optional; omit for data sources that do not use it.",
+            "nullable": true
+          },
+          "schema": {
+            "type": "string",
+            "description": "The external schema (for example \"dbo\"). Optional.",
+            "nullable": true
+          },
+          "table": {
+            "type": "string",
+            "description": "The external table name. Required.",
+            "nullable": true
+          }
+        }
       },
       "FieldDefinition": {
         "type": "object",
@@ -12124,6 +13108,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -12613,6 +13598,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -13729,6 +14715,7 @@
         "properties": {
           "value": {
             "type": "string",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -13846,6 +14833,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -13871,6 +14859,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -13911,6 +14900,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -14030,6 +15020,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -14410,6 +15401,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -14637,6 +15629,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -14746,6 +15739,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -14982,6 +15976,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -15036,6 +16031,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -15219,6 +16215,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -15250,6 +16247,128 @@
           }
         }
       },
+      "FormLogicRule": {
+        "type": "object",
+        "description": "Represents a dynamic-field configuration (form-logic rule): a template field populated from\na bound external-table column. Only simple (single-column) binding is configurable through\nthis surface; a pre-existing conditional-query rule is reported with IsSimple = false\nbut carries no query detail.",
+        "additionalProperties": false,
+        "properties": {
+          "templateId": {
+            "type": "integer",
+            "description": "The id of the template the rule belongs to. Set from the route; ignored in request bodies.",
+            "format": "int32"
+          },
+          "fieldId": {
+            "type": "integer",
+            "description": "The id of the field the rule applies to. Required.",
+            "format": "int32"
+          },
+          "fieldName": {
+            "type": "string",
+            "description": "The name of the field the rule applies to. Read-only.",
+            "nullable": true
+          },
+          "isSimple": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the rule uses simple (single-column) binding. Read-only."
+          },
+          "boundTableId": {
+            "type": "integer",
+            "description": "The id of the bound external-table registration.",
+            "format": "int32"
+          },
+          "boundTable": {
+            "type": "string",
+            "description": "The Laserfiche alias of the bound external table. Read-only.",
+            "nullable": true
+          },
+          "boundColumn": {
+            "type": "string",
+            "description": "The external column whose values populate the field.",
+            "nullable": true
+          },
+          "sortColumn": {
+            "type": "string",
+            "description": "The external column used to sort candidate values.",
+            "nullable": true
+          },
+          "sortDirection": {
+            "description": "The direction candidate values are sorted in.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          },
+          "validate": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the server validates that an entered value is in the result set."
+          },
+          "isValueRequired": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the field's value is restricted to the result set."
+          },
+          "parentFields": {
+            "type": "array",
+            "description": "The ids of parent fields whose value changes trigger re-evaluation of this rule.",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "parentFieldNames": {
+            "type": "array",
+            "description": "The names of parent fields. May be supplied in place of ParentFields on input; resolved server-side.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "The sort direction applied to a dynamic field's bound external column.",
+        "x-enum-names": [
+          "Ascending",
+          "Descending"
+        ],
+        "x-enum-varnames": [
+          "Ascending",
+          "Descending"
+        ],
+        "x-enumNames": [
+          "Ascending",
+          "Descending"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "Ascending",
+          "Descending"
+        ]
+      },
+      "SetFormLogicRulesRequest": {
+        "type": "object",
+        "description": "Request body for replacing the full set of dynamic-field (form-logic) rules on a template.\nThe update is authoritative for the whole template: rules omitted here are removed; an empty\nlist clears all dynamic fields on the template.",
+        "additionalProperties": false,
+        "properties": {
+          "rules": {
+            "type": "array",
+            "description": "The complete set of dynamic-field rules for the template.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FormLogicRule"
+            }
+          }
+        }
+      },
       "TemplateDefinitionCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of TemplateDefinition.",
@@ -15268,6 +16387,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -15293,6 +16413,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -15569,11 +16690,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."

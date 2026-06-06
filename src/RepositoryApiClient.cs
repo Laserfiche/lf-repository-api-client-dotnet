@@ -53,6 +53,8 @@ namespace Laserfiche.Repository.Api.Client
         public ITasksClient TasksClient { get; }
         /// <inheritdoc/>
         public ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
+        /// <inheritdoc/>
+        public IDynamicFieldsClient DynamicFieldsClient { get; }
 
         internal RepositoryApiClient(HttpClient httpClient)
         {
@@ -69,6 +71,7 @@ namespace Laserfiche.Repository.Api.Client
             TagDefinitionsClient = new TagDefinitionsClient(_httpClient);
             TasksClient = new TasksClient(_httpClient);
             TemplateDefinitionsClient = new TemplateDefinitionsClient(_httpClient);
+            DynamicFieldsClient = new DynamicFieldsClient(_httpClient);
         }
 
         /// <summary>

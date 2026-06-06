@@ -64,5 +64,9 @@ namespace Laserfiche.Repository.Api.Client
         /// The Laserfiche Repository Template Definitions API client.
         /// </summary>
         ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
+        /// <summary>
+        /// The Laserfiche Repository Dynamic Fields (external tables and form-logic rules) API client.
+        /// </summary>
+        IDynamicFieldsClient DynamicFieldsClient { get; }
     }
 }
