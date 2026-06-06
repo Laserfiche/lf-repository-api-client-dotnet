@@ -13,14 +13,23 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
     /// <summary>
     /// Integration tests for the Dynamic Fields admin endpoints introduced by PRD REQ-ADMIN-008:
     /// external-table registration (RA-direct) and template form-logic rules (RWS-reuse).
-    /// Self-sufficient: reuses an existing external-table fixture's coordinates and creates its own
-    /// throwaway alias / template / field, cleaning up afterward. Skips (Inconclusive) when the dev
-    /// repository has no external data source registered.
+    /// Self-sufficient: reuses the shared <c>PMT_LoadTest_LT</c> external-table fixture's coordinates
+    /// and creates its own throwaway alias / template / field, cleaning up afterward. Skips
+    /// (Inconclusive) when that fixture is not registered on the target account.
+    ///
+    /// Fixture provisioning (Option 1, manual / account-level — same fixture the RA cloud test
+    /// <c>TemplateTest.FormLogicParentFieldTest</c> uses): import RepositoryAccess
+    /// <c>src/SharedTest/TestFiles/data.csv</c> (columns City, State, Company, Fname, Lname, Email)
+    /// into the account's Process Automation "data management" as a lookup table named
+    /// <c>PMT_LoadTest_LT</c>. It then surfaces through ListExternalTables automatically.
     /// </summary>
     [TestClass]
     [SkipIfEndpointMissing("ListExternalTables", "GetExternalTable", "ListExternalTableColumns", "RegisterExternalTable", "UpdateExternalTable", "UnregisterExternalTable", "GetTemplateFormLogicRules", "SetTemplateFormLogicRules")]
     public class DynamicFieldsAdminTest : BaseTest
     {
+        // Shared cross-suite fixture name (RA TemplateTest.FormLogicParentFieldTest, RWS, API Server).
+        private const string ExternalTableFixtureName = "PMT_LoadTest_LT";
+
         [TestInitialize]
         public void Initialize()
         {
@@ -33,7 +42,10 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
         private async Task<ExternalTable> FindExistingExternalTableAsync()
         {
             var list = await client.DynamicFieldsClient.ListExternalTablesAsync(new ListExternalTablesParameters { RepositoryId = RepositoryId }).ConfigureAwait(false);
-            return list?.FirstOrDefault();
+            // Prefer the shared PMT_LoadTest_LT fixture; fall back to any registration so the suite
+            // still exercises the surface on accounts that registered a differently-named table.
+            return list?.FirstOrDefault(t => string.Equals(t.LaserficheName, ExternalTableFixtureName, StringComparison.OrdinalIgnoreCase))
+                ?? list?.FirstOrDefault();
         }
 
         [TestMethod]
@@ -42,7 +54,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
             var existing = await FindExistingExternalTableAsync();
             if (existing == null)
             {
-                Assert.Inconclusive("No external table registered on the dev repository to exercise external-table admin (requires a configured external data source).");
+                Assert.Inconclusive($"No external table registered on the target account. Provision the shared '{ExternalTableFixtureName}' lookup table (import RA TestFiles/data.csv into PA 'data management') to exercise external-table admin.");
                 return;
             }
 
@@ -104,7 +116,7 @@ namespace Laserfiche.Repository.Api.Client.IntegrationTest.DynamicFields
             var existing = await FindExistingExternalTableAsync();
             if (existing == null)
             {
-                Assert.Inconclusive("No external table registered on the dev repository to bind a dynamic field to.");
+                Assert.Inconclusive($"No external table registered on the target account. Provision the shared '{ExternalTableFixtureName}' lookup table (import RA TestFiles/data.csv into PA 'data management') to bind a dynamic field to.");
                 return;
             }
             var columns = await client.DynamicFieldsClient.ListExternalTableColumnsAsync(new ListExternalTableColumnsParameters { RepositoryId = RepositoryId, ExternalTableId = existing.Id }).ConfigureAwait(false);
