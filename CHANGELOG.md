@@ -8,7 +8,8 @@
 - Add destructive field operations: `MergeFieldsAsync` and `ChangeFieldTypeAsync`, both gated by an explicit `allowDataLoss` flag — a request that would lose data is rejected unless `allowDataLoss` is `true`.
 - Add template definition administration methods: `CreateTemplateAsync`, `UpdateTemplateAsync`, `DeleteTemplateAsync`, `GetTemplateAssignedEntryCountAsync`, `GetTemplatePropertiesAsync`, `UpdateTemplatePropertiesAsync`, `AddTemplateFieldAsync`, `UpdateTemplateFieldPropertiesAsync`, `RemoveTemplateFieldAsync`, `MoveTemplateFieldAsync`.
 - `GetEntryAsync` accepts opt-in `includeChildInfo` (folder entries — immediate-children counts: `hasChildren`, `childCount`, `folderCount`, `documentCount`, `shortcutCount`) and `includeTotalSize` (document entries — full stored size including page data, distinct from `electronicDocumentSize`). Both are omitted from the response unless requested.
-- New types: request/response DTOs for field and template definition administration, and the `childInfo` object on the entry response.
+- Add Dynamic Fields administration methods (REQ-ADMIN-008): `ListExternalTablesAsync`, `GetExternalTableAsync`, `ListExternalTableColumnsAsync` for external-table registrations, and `GetTemplateFormLogicRulesAsync` / `SetTemplateFormLogicRulesAsync` to get and replace a template's dynamic-field (form-logic) rules. External tables are read-only — they are provisioned out-of-band through Process Automation data management, so there are no register/update/unregister methods.
+- New types: request/response DTOs for field and template definition administration, the Dynamic Fields external-table and form-logic-rule types, and the `childInfo` object on the entry response.
 
 ## 2.1.0
 
