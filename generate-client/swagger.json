@@ -8563,7 +8563,7 @@
           "Entries"
         ],
         "summary": "Replaces the explicit access control list (ACL) for an entry.",
-        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE is keyed by trustee.sid; trustee.accountName is optional and resolved server-side. A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- Required OAuth scope: repository.Write",
         "operationId": "SetEntryAccessControl",
         "parameters": [
           {
@@ -8681,7 +8681,7 @@
           "Entries"
         ],
         "summary": "Returns the effective rights to an entry for the current session or a specified trustee.",
-        "description": "- Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.\n- Pass trusteeId (a SID) to compute the effective rights for another trustee; omit it for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
+        "description": "- Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
         "operationId": "GetEntryEffectiveRights",
         "parameters": [
           {
@@ -8708,12 +8708,22 @@
           {
             "name": "trusteeId",
             "in": "query",
-            "description": "Optional. The SID of the trustee to compute effective rights for. When omitted, the effective rights of the current session are returned.",
+            "description": "Optional. The SID of the trustee to compute effective rights for. When omitted (along with trusteeName), the effective rights of the current session are returned.",
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 3
+          },
+          {
+            "name": "trusteeName",
+            "in": "query",
+            "description": "Optional. The account name of the trustee to compute effective rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
           },
           {
             "name": "$select",
@@ -8723,7 +8733,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           }
         ],
         "responses": {
@@ -15142,7 +15152,7 @@
         "additionalProperties": false,
         "properties": {
           "trustee": {
-            "description": "The trustee this ACE applies to. On input, only trustee.sid is required.",
+            "description": "The trustee this ACE applies to. On input, identify the trustee by either\ntrustee.sid or trustee.accountName (the SID takes precedence when both are given).",
             "nullable": true,
             "oneOf": [
               {
@@ -15192,12 +15202,12 @@
         "properties": {
           "sid": {
             "type": "string",
-            "description": "The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is\nthe canonical, URL-safe id used to address a trustee when reading effective rights or\nbuilding access control entries.",
+            "description": "The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is\nthe canonical, stable id for a trustee. On input it is preferred and takes precedence over\nAccountName; always populated on output.",
             "nullable": true
           },
           "accountName": {
             "type": "string",
-            "description": "The trustee's account name. Optional when supplied on input \u2014 it is resolved from the\nSID server-side. Always populated on output.",
+            "description": "The trustee's account name. On input it may be supplied instead of Sid to\naddress the trustee by name (resolved to a SID server-side); the SID wins when both are\ngiven. Always populated on output.",
             "nullable": true
           },
           "trusteeType": {

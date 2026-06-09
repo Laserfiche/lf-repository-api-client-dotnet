@@ -5112,7 +5112,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.<br/>
         /// - Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.<br/>
-        /// - Each ACE is keyed by trustee.sid; trustee.accountName is optional and resolved server-side. A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
+        /// - Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
         /// - The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.<br/>
         /// - Returns the entry's full ACL after the change.<br/>
         /// - Required OAuth scope: repository.Write
@@ -5128,7 +5128,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.<br/>
-        /// - Pass trusteeId (a SID) to compute the effective rights for another trustee; omit it for the calling session.<br/>
+        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
         /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
@@ -13997,7 +13997,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.<br/>
         /// - Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.<br/>
-        /// - Each ACE is keyed by trustee.sid; trustee.accountName is optional and resolved server-side. A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
+        /// - Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
         /// - The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.<br/>
         /// - Returns the entry's full ACL after the change.<br/>
         /// - Required OAuth scope: repository.Write
@@ -14202,7 +14202,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.<br/>
-        /// - Pass trusteeId (a SID) to compute the effective rights for another trustee; omit it for the calling session.<br/>
+        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
         /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
@@ -14218,6 +14218,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var trusteeId = parameters.TrusteeId;
+            var trusteeName = parameters.TrusteeName;
             var select = parameters.Select;
 
             if (repositoryId == null)
@@ -14237,6 +14238,10 @@ namespace Laserfiche.Repository.Api.Client
                     if (trusteeId != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("trusteeId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (trusteeName != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (select != null)
                     {
@@ -15776,9 +15781,14 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// Optional. The SID of the trustee to compute effective rights for. When omitted, the effective rights of the current session are returned.
+        /// Optional. The SID of the trustee to compute effective rights for. When omitted (along with trusteeName), the effective rights of the current session are returned.
         /// </summary>
         public string TrusteeId { get; set; } = null;
+
+        /// <summary>
+        /// Optional. The account name of the trustee to compute effective rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
+        /// </summary>
+        public string TrusteeName { get; set; } = null;
 
         /// <summary>
         /// Limits the properties returned in the result.
@@ -25129,7 +25139,8 @@ namespace Laserfiche.Repository.Api.Client
     public partial class AccessControlEntry
     {
         /// <summary>
-        /// The trustee this ACE applies to. On input, only trustee.sid is required.
+        /// The trustee this ACE applies to. On input, identify the trustee by either<br/>
+        /// trustee.sid or trustee.accountName (the SID takes precedence when both are given).
         /// </summary>
         [Newtonsoft.Json.JsonProperty("trustee", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TrusteeIdentity Trustee { get; set; }
@@ -25178,15 +25189,16 @@ namespace Laserfiche.Repository.Api.Client
     {
         /// <summary>
         /// The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is<br/>
-        /// the canonical, URL-safe id used to address a trustee when reading effective rights or<br/>
-        /// building access control entries.
+        /// the canonical, stable id for a trustee. On input it is preferred and takes precedence over<br/>
+        /// AccountName; always populated on output.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("sid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Sid { get; set; }
 
         /// <summary>
-        /// The trustee's account name. Optional when supplied on input — it is resolved from the<br/>
-        /// SID server-side. Always populated on output.
+        /// The trustee's account name. On input it may be supplied instead of Sid to<br/>
+        /// address the trustee by name (resolved to a SID server-side); the SID wins when both are<br/>
+        /// given. Always populated on output.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("accountName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string AccountName { get; set; }
