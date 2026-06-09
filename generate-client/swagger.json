@@ -3,12 +3,15 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
     "version": "2"
   },
   "servers": [
     {
-      "url": "https://api.laserfiche.com/repository"
+      "url": "http://localhost:11211/repository"
+    },
+    {
+      "url": "https://localhost:11211/repository"
     }
   ],
   "paths": {
@@ -8441,6 +8444,362 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/AccessControl": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the access control list (ACL) for an entry.",
+        "description": "- Returns the access control entries (ACEs) configured on the entry, both explicitly-set and inherited (inherited ACEs carry isInherited = true), plus whether the entry inherits rights from its parent(s).\n- Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.\n- The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose access control list is returned.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the entry's access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Replaces the explicit access control list (ACL) for an entry.",
+        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE is keyed by trustee.sid; trustee.accountName is optional and resolved server-side. A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- Required OAuth scope: repository.Write",
+        "operationId": "SetEntryAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose access control list is replaced.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The explicit access control entries to apply and, optionally, the parent-inheritance setting.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the entry's access control list. Returned the updated access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/EffectiveRights": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the effective rights to an entry for the current session or a specified trustee.",
+        "description": "- Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.\n- Pass trusteeId (a SID) to compute the effective rights for another trustee; omit it for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryEffectiveRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose effective rights are computed.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "trusteeId",
+            "in": "query",
+            "description": "Optional. The SID of the trustee to compute effective rights for. When omitted, the effective rights of the current session are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the effective rights for the entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EffectiveRights"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories": {
       "get": {
         "tags": [
@@ -11652,6 +12011,124 @@
           }
         }
       }
+    },
+    "/v2/Repositories/{repositoryId}/Trustees": {
+      "get": {
+        "tags": [
+          "Trustees"
+        ],
+        "summary": "Searches the repository's trustees (users and groups) by name.",
+        "description": "- Resolves trustee names to the SIDs used when building access control entries or reading effective rights for a trustee.\n- Each result includes the trustee's SID, account name, display name, type, whether it is a user or group, and whether the account is disabled.\n- Required OAuth scope: repository.Read",
+        "operationId": "LookupTrustees",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "The name (or name prefix) to search for.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Optional. Restrict the search to user or group trustees. When omitted, both users and groups are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Optional. The maximum number of trustees to return. Defaults to 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the matching trustees.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrusteeIdentity"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11674,6 +12151,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
@@ -11779,6 +12257,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -12124,6 +12603,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -12613,6 +13093,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -13729,6 +14210,7 @@
         "properties": {
           "value": {
             "type": "string",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -13846,6 +14328,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -13871,6 +14354,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -13911,6 +14395,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -14030,6 +14515,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -14410,6 +14896,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -14630,6 +15117,382 @@
           }
         }
       },
+      "AccessControlList": {
+        "type": "object",
+        "description": "An entry's access control list: the explicit and inherited access control entries plus\nwhether the entry inherits rights from its parent(s).",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries. Includes both explicitly-set and inherited ACEs;\ninherited ACEs carry isInherited = true.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessControlEntry"
+            }
+          },
+          "inheritParents": {
+            "type": "boolean",
+            "description": "Whether the entry inherits access rights from its parent(s). When false, the entry's\nACL is protected from parent inheritance."
+          }
+        }
+      },
+      "AccessControlEntry": {
+        "type": "object",
+        "description": "A single access control entry (ACE): one trustee, whether its rights are allowed or\ndenied, and the rights themselves. A trustee that has both allowed and denied rights is\nrepresented as two ACEs.",
+        "additionalProperties": false,
+        "properties": {
+          "trustee": {
+            "description": "The trustee this ACE applies to. On input, only trustee.sid is required.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrusteeIdentity"
+              }
+            ]
+          },
+          "accessControlType": {
+            "description": "Whether the ACE grants (Allow) or denies (Deny) the listed rights.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccessControlType"
+              }
+            ]
+          },
+          "rights": {
+            "type": "array",
+            "description": "The rights granted or denied by this ACE.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/EntryRight"
+            }
+          },
+          "scope": {
+            "description": "How the ACE propagates to descendant entries. Defaults to All when omitted on input.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EntryAccessScope"
+              }
+            ]
+          },
+          "isInherited": {
+            "type": "boolean",
+            "description": "True when this ACE is inherited from an ancestor. Read-only \u2014 inherited ACEs are\nreturned by GET but are ignored on input (the set operation manages explicit ACEs only)."
+          },
+          "inheritedFrom": {
+            "type": "string",
+            "description": "When inherited, a description of where the ACE was inherited from. Output only.",
+            "nullable": true
+          }
+        }
+      },
+      "TrusteeIdentity": {
+        "type": "object",
+        "description": "Identifies a security trustee (a user or a group) referenced by an access control\nentry, an effective-rights query, or a trustee-lookup result.",
+        "additionalProperties": false,
+        "properties": {
+          "sid": {
+            "type": "string",
+            "description": "The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is\nthe canonical, URL-safe id used to address a trustee when reading effective rights or\nbuilding access control entries.",
+            "nullable": true
+          },
+          "accountName": {
+            "type": "string",
+            "description": "The trustee's account name. Optional when supplied on input \u2014 it is resolved from the\nSID server-side. Always populated on output.",
+            "nullable": true
+          },
+          "trusteeType": {
+            "type": "string",
+            "description": "The trustee type: one of LaserficheUser, LaserficheGroup,\nWindowsAccount, LdapAccount, LfdsAccount.",
+            "nullable": true
+          },
+          "isUser": {
+            "type": "boolean",
+            "description": "True when the trustee is an individual user; false when it is a group."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "A human-readable display name. Populated by trustee-lookup results; omitted in\naccess-control-entry contexts.",
+            "nullable": true
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "description": "True when the trustee account is disabled. Populated by trustee-lookup results."
+          }
+        }
+      },
+      "AccessControlType": {
+        "type": "string",
+        "description": "Whether an access control entry (ACE) grants or denies its rights. Serialized by name.",
+        "x-enum-names": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-varnames": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enumNames": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "Allow",
+          "Deny"
+        ]
+      },
+      "EntryRight": {
+        "type": "string",
+        "description": "An individual access right that can be granted to or denied a trustee on an entry.\nSerialized by name; emitted as a string enum in the OpenAPI schema so clients can\nreference it directly.",
+        "x-enum-names": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-varnames": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enumNames": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ]
+      },
+      "EntryAccessScope": {
+        "type": "string",
+        "description": "Controls how an entry access control entry (ACE) propagates to descendant entries.\nApplies to entry ACEs only (field/template ACEs have no scope). Serialized by name.",
+        "x-enum-names": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enum-varnames": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enumNames": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ]
+      },
+      "SetAccessControlRequest": {
+        "type": "object",
+        "description": "Request body to replace an entry's explicit access control list. This is a full replace:\nthe supplied entries become the entry's complete set of explicit ACEs (any explicit ACE\nnot included is removed). Inherited ACEs cannot be supplied and are managed via\ninheritParents.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The explicit access control entries to apply. An empty array clears all explicit ACEs.\nEntries flagged isInherited = true are rejected.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessControlEntry"
+            }
+          },
+          "inheritParents": {
+            "type": "boolean",
+            "description": "Whether the entry should inherit access rights from its parent(s). When omitted, the\nentry's current inheritance setting is preserved. When false, the ACL is protected\nfrom parent inheritance; when true, parent rights are inherited.",
+            "nullable": true
+          }
+        }
+      },
+      "EffectiveRights": {
+        "type": "object",
+        "description": "A trustee's effective rights to an entry \u2014 the net rights after inheritance, group\nmembership, and allow/deny resolution are applied by the repository server.",
+        "additionalProperties": false,
+        "properties": {
+          "rights": {
+            "type": "array",
+            "description": "The rights effectively granted to the trustee on the entry.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/EntryRight"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the session is read-only, so no write operations are possible regardless of\nthe granted rights."
+          }
+        }
+      },
       "RepositoryCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of Repository.",
@@ -14637,6 +15500,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -14746,6 +15610,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -14982,6 +15847,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -15036,6 +15902,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -15219,6 +16086,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -15268,6 +16136,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -15293,6 +16162,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -15569,11 +16439,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."

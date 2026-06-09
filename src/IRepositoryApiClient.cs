@@ -64,5 +64,9 @@ namespace Laserfiche.Repository.Api.Client
         /// The Laserfiche Repository Template Definitions API client.
         /// </summary>
         ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
+        /// <summary>
+        /// The Laserfiche Repository Trustees API client.
+        /// </summary>
+        ITrusteesClient TrusteesClient { get; }
     }
 }
