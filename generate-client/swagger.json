@@ -8810,6 +8810,141 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/DirectRights": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the direct (ACL) rights to an entry for the current session or a specified trustee.",
+        "description": "- Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryDirectRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose direct rights are computed.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "trusteeId",
+            "in": "query",
+            "description": "Optional. The SID of the trustee to compute direct rights for. When omitted (along with trusteeName), the direct rights of the current session are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "trusteeName",
+            "in": "query",
+            "description": "Optional. The account name of the trustee to compute direct rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the direct (ACL) rights for the entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EffectiveRights"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories": {
       "get": {
         "tags": [

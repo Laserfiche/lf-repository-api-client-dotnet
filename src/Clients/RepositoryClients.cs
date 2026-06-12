@@ -5138,6 +5138,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EffectiveRights> GetEntryEffectiveRightsAsync(GetEntryEffectiveRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Returns the direct (ACL) rights to an entry for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.<br/>
+        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
+        /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the direct (ACL) rights for the entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<EffectiveRights> GetEntryDirectRightsAsync(GetEntryDirectRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -14372,6 +14387,181 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Returns the direct (ACL) rights to an entry for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.<br/>
+        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
+        /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the direct (ACL) rights for the entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<EffectiveRights> GetEntryDirectRightsAsync(GetEntryDirectRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var trusteeId = parameters.TrusteeId;
+            var trusteeName = parameters.TrusteeName;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/DirectRights"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/DirectRights");
+                    urlBuilder_.Append('?');
+                    if (trusteeId != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (trusteeName != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetEntryDirectRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<EffectiveRights> GetEntryDirectRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<EffectiveRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -15787,6 +15977,39 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <summary>
         /// Optional. The account name of the trustee to compute effective rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
+        /// </summary>
+        public string TrusteeName { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryDirectRightsAsync(GetEntryDirectRightsParameters, CancellationToken)">GetEntryDirectRights</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryDirectRightsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The entry whose direct rights are computed.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional. The SID of the trustee to compute direct rights for. When omitted (along with trusteeName), the direct rights of the current session are returned.
+        /// </summary>
+        public string TrusteeId { get; set; } = null;
+
+        /// <summary>
+        /// Optional. The account name of the trustee to compute direct rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
         /// </summary>
         public string TrusteeName { get; set; } = null;
 
