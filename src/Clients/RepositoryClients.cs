@@ -5095,7 +5095,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns the access control list (ACL) for an entry.
         /// </summary>
         /// <remarks>
-        /// - Returns the access control entries (ACEs) configured on the entry, both explicitly-set and inherited (inherited ACEs carry isInherited = true), plus whether the entry inherits rights from its parent(s).<br/>
+        /// - Returns the access control entries (ACEs) configured on the entry — by default both explicitly-set and inherited (inherited ACEs carry isInherited = true), or only the explicit ones when includeInherited=false — plus whether the entry inherits rights from its parent(s).<br/>
         /// - Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.<br/>
         /// - The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.<br/>
         /// - Required OAuth scope: repository.Read
@@ -5124,34 +5124,19 @@ namespace Laserfiche.Repository.Api.Client
         Task<AccessControlList> SetEntryAccessControlAsync(SetEntryAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Returns the effective rights to an entry for the current session or a specified trustee.
+        /// Returns the rights to an entry for the current session or a specified trustee.
         /// </summary>
         /// <remarks>
-        /// - Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.<br/>
+        /// - Returns the rights a trustee has on the entry. By default these are the effective rights — the same calculation the Laserfiche applications use, after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. Set aclOnly=true to return only the rights granted by the entry's access control list (including its stored inherited ACEs) without the privilege/records-management overlays.<br/>
         /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
         /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully returned the effective rights for the entry.</returns>
+        /// <returns>Successfully returned the rights for the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<EffectiveRights> GetEntryEffectiveRightsAsync(GetEntryEffectiveRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Returns the direct (ACL) rights to an entry for the current session or a specified trustee.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.<br/>
-        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
-        /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully returned the direct (ACL) rights for the entry.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<EffectiveRights> GetEntryDirectRightsAsync(GetEntryDirectRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+        Task<EntryRights> GetEntryRightsAsync(GetEntryRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -13845,7 +13830,7 @@ namespace Laserfiche.Repository.Api.Client
         /// Returns the access control list (ACL) for an entry.
         /// </summary>
         /// <remarks>
-        /// - Returns the access control entries (ACEs) configured on the entry, both explicitly-set and inherited (inherited ACEs carry isInherited = true), plus whether the entry inherits rights from its parent(s).<br/>
+        /// - Returns the access control entries (ACEs) configured on the entry — by default both explicitly-set and inherited (inherited ACEs carry isInherited = true), or only the explicit ones when includeInherited=false — plus whether the entry inherits rights from its parent(s).<br/>
         /// - Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.<br/>
         /// - The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.<br/>
         /// - Required OAuth scope: repository.Read
@@ -13861,6 +13846,7 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
+            var includeInherited = parameters.IncludeInherited;
             var select = parameters.Select;
 
             if (repositoryId == null)
@@ -13877,6 +13863,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/AccessControl");
                     urlBuilder_.Append('?');
+                    if (includeInherited != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("includeInherited")).Append('=').Append(Uri.EscapeDataString(ConvertToString(includeInherited, CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (select != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
@@ -14213,19 +14203,19 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Returns the effective rights to an entry for the current session or a specified trustee.
+        /// Returns the rights to an entry for the current session or a specified trustee.
         /// </summary>
         /// <remarks>
-        /// - Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.<br/>
+        /// - Returns the rights a trustee has on the entry. By default these are the effective rights — the same calculation the Laserfiche applications use, after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. Set aclOnly=true to return only the rights granted by the entry's access control list (including its stored inherited ACEs) without the privilege/records-management overlays.<br/>
         /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
         /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully returned the effective rights for the entry.</returns>
+        /// <returns>Successfully returned the rights for the entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EffectiveRights> GetEntryEffectiveRightsAsync(GetEntryEffectiveRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<EntryRights> GetEntryRightsAsync(GetEntryRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (parameters == null)
                 throw new ArgumentNullException("parameters");
@@ -14234,6 +14224,7 @@ namespace Laserfiche.Repository.Api.Client
             var entryId = parameters.EntryId;
             var trusteeId = parameters.TrusteeId;
             var trusteeName = parameters.TrusteeName;
+            var aclOnly = parameters.AclOnly;
             var select = parameters.Select;
 
             if (repositoryId == null)
@@ -14243,12 +14234,12 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters.EntryId");
 
             var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/EffectiveRights"
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Rights"
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/EffectiveRights");
+                    urlBuilder_.Append("/Rights");
                     urlBuilder_.Append('?');
                     if (trusteeId != null)
                     {
@@ -14257,6 +14248,10 @@ namespace Laserfiche.Repository.Api.Client
                     if (trusteeName != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (aclOnly != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("aclOnly")).Append('=').Append(Uri.EscapeDataString(ConvertToString(aclOnly, CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (select != null)
                     {
@@ -14279,7 +14274,7 @@ namespace Laserfiche.Repository.Api.Client
                     request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
-                    return await GetEntryEffectiveRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    return await GetEntryRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
                 }
             }
             finally
@@ -14289,7 +14284,7 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
-        protected virtual async Task<EffectiveRights> GetEntryEffectiveRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<EntryRights> GetEntryRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             var disposeResponse_ = true;
@@ -14307,182 +14302,7 @@ namespace Laserfiche.Repository.Api.Client
                 var status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse_ = await ReadObjectResponseAsync<EffectiveRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    return objectResponse_.Object;
-                }
-                else
-                if (status_ == 400)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 401)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 403)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 404)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 429)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                if (status_ == 500)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw ApiExceptionExtensions.Create(status_, headers_, null);
-                    }
-                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
-                }
-                else
-                {
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
-                }
-            }
-            finally
-            {
-                if (disposeResponse_)
-                    response_.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Returns the direct (ACL) rights to an entry for the current session or a specified trustee.
-        /// </summary>
-        /// <remarks>
-        /// - Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.<br/>
-        /// - Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.<br/>
-        /// - isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.<br/>
-        /// - Required OAuth scope: repository.Read
-        /// </remarks>
-        /// <param name="parameters">Parameters for the request.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully returned the direct (ACL) rights for the entry.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async Task<EffectiveRights> GetEntryDirectRightsAsync(GetEntryDirectRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (parameters == null)
-                throw new ArgumentNullException("parameters");
-
-            var repositoryId = parameters.RepositoryId;
-            var entryId = parameters.EntryId;
-            var trusteeId = parameters.TrusteeId;
-            var trusteeName = parameters.TrusteeName;
-            var select = parameters.Select;
-
-            if (repositoryId == null)
-                throw new ArgumentNullException("parameters.RepositoryId");
-
-            if (entryId == null)
-                throw new ArgumentNullException("parameters.EntryId");
-
-            var urlBuilder_ = new StringBuilder();
-                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/DirectRights"
-                    urlBuilder_.Append("v2/Repositories/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/Entries/");
-                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/DirectRights");
-                    urlBuilder_.Append('?');
-                    if (trusteeId != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("trusteeId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (trusteeName != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (select != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
-
-            var client_ = _httpClient;
-            bool[] disposeClient_ = new bool[]{ false };
-            try
-            {
-                using (var request_ = new HttpRequestMessage())
-                {
-                    request_.Method = new HttpMethod("GET");
-                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-                    return await GetEntryDirectRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
-                }
-            }
-            finally
-            {
-                if (disposeClient_[0])
-                    client_.Dispose();
-            }
-        }
-
-        protected virtual async Task<EffectiveRights> GetEntryDirectRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            var disposeResponse_ = true;
-            try
-            {
-                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                if (response_.Content != null && response_.Content.Headers != null)
-                {
-                    foreach (var item_ in response_.Content.Headers)
-                        headers_[item_.Key] = item_.Value;
-                }
-
-                ProcessResponse(client_, response_);
-
-                var status_ = (int)response_.StatusCode;
-                if (status_ == 200)
-                {
-                    var objectResponse_ = await ReadObjectResponseAsync<EffectiveRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse_ = await ReadObjectResponseAsync<EntryRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -15925,6 +15745,11 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
+        /// Optional. When true (the default), the response includes both the entry's explicit access control entries and the inherited ones (inherited ACEs carry isInherited = true). When false, only the explicit ACEs are returned — the exact set that the access-control PUT accepts — making it convenient to read, edit, and write back the ACL without filtering inherited entries client-side. The inheritParents flag is unaffected by this option.
+        /// </summary>
+        public bool? IncludeInherited { get; set; } = null;
+
+        /// <summary>
         /// Limits the properties returned in the result.
         /// </summary>
         public string Select { get; set; } = null;
@@ -15955,10 +15780,10 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryEffectiveRightsAsync(GetEntryEffectiveRightsParameters, CancellationToken)">GetEntryEffectiveRights</see>.
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryRightsAsync(GetEntryRightsParameters, CancellationToken)">GetEntryRights</see>.
     /// </summary>
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetEntryEffectiveRightsParameters
+    public partial class GetEntryRightsParameters
     {
         /// <summary>
         /// The requested repository ID.
@@ -15966,52 +15791,24 @@ namespace Laserfiche.Repository.Api.Client
         public string RepositoryId { get; set; }
 
         /// <summary>
-        /// The entry whose effective rights are computed.
+        /// The entry whose rights are computed.
         /// </summary>
         public int EntryId { get; set; }
 
         /// <summary>
-        /// Optional. The SID of the trustee to compute effective rights for. When omitted (along with trusteeName), the effective rights of the current session are returned.
+        /// Optional. The SID of the trustee to compute rights for. When omitted (along with trusteeName), the rights of the current session are returned.
         /// </summary>
         public string TrusteeId { get; set; } = null;
 
         /// <summary>
-        /// Optional. The account name of the trustee to compute effective rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
+        /// Optional. The account name of the trustee to compute rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
         /// </summary>
         public string TrusteeName { get; set; } = null;
 
         /// <summary>
-        /// Limits the properties returned in the result.
+        /// Optional. Selects which rights are returned. Default (false): the trustee's effective rights — the net result after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. When true: only the rights granted by this item's access control list — including inherited access control entries, which are stored on the item itself — without the privilege and records-management overlays (for example, a privilege that grants full control regardless of the ACL is reflected only when aclOnly=false). Group membership is always resolved. The aclOnly=true value is what the ACL editor displays as the net effect of the list.
         /// </summary>
-        public string Select { get; set; } = null;
-
-    }
-
-    /// <summary>
-    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryDirectRightsAsync(GetEntryDirectRightsParameters, CancellationToken)">GetEntryDirectRights</see>.
-    /// </summary>
-    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetEntryDirectRightsParameters
-    {
-        /// <summary>
-        /// The requested repository ID.
-        /// </summary>
-        public string RepositoryId { get; set; }
-
-        /// <summary>
-        /// The entry whose direct rights are computed.
-        /// </summary>
-        public int EntryId { get; set; }
-
-        /// <summary>
-        /// Optional. The SID of the trustee to compute direct rights for. When omitted (along with trusteeName), the direct rights of the current session are returned.
-        /// </summary>
-        public string TrusteeId { get; set; } = null;
-
-        /// <summary>
-        /// Optional. The account name of the trustee to compute direct rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.
-        /// </summary>
-        public string TrusteeName { get; set; } = null;
+        public bool? AclOnly { get; set; } = null;
 
         /// <summary>
         /// Limits the properties returned in the result.
@@ -25604,14 +25401,16 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// A trustee's effective rights to an entry — the net rights after inheritance, group<br/>
-    /// membership, and allow/deny resolution are applied by the repository server.
+    /// A trustee's rights to an entry. Depending on the aclOnly option on the request, these<br/>
+    /// are either the effective rights (the net result after allow/deny resolution, group membership,<br/>
+    /// and the repository's privilege and records-management overlays) or the rights granted by the<br/>
+    /// entry's access control list alone.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class EffectiveRights
+    public partial class EntryRights
     {
         /// <summary>
-        /// The rights effectively granted to the trustee on the entry.
+        /// The rights granted to the trustee on the entry.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("rights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public IList<EntryRight> Rights { get; set; }

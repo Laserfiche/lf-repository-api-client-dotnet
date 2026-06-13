@@ -8450,7 +8450,7 @@
           "Entries"
         ],
         "summary": "Returns the access control list (ACL) for an entry.",
-        "description": "- Returns the access control entries (ACEs) configured on the entry, both explicitly-set and inherited (inherited ACEs carry isInherited = true), plus whether the entry inherits rights from its parent(s).\n- Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.\n- The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.\n- Required OAuth scope: repository.Read",
+        "description": "- Returns the access control entries (ACEs) configured on the entry \u2014 by default both explicitly-set and inherited (inherited ACEs carry isInherited = true), or only the explicit ones when includeInherited=false \u2014 plus whether the entry inherits rights from its parent(s).\n- Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.\n- The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.\n- Required OAuth scope: repository.Read",
         "operationId": "GetEntryAccessControl",
         "parameters": [
           {
@@ -8475,6 +8475,16 @@
             "x-position": 2
           },
           {
+            "name": "includeInherited",
+            "in": "query",
+            "description": "Optional. When true (the default), the response includes both the entry's explicit access control entries and the inherited ones (inherited ACEs carry isInherited = true). When false, only the explicit ACEs are returned \u2014 the exact set that the access-control PUT accepts \u2014 making it convenient to read, edit, and write back the ACL without filtering inherited entries client-side. The inheritParents flag is unaffected by this option.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 3
+          },
+          {
             "name": "$select",
             "in": "query",
             "description": "Limits the properties returned in the result.",
@@ -8482,7 +8492,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 4
           }
         ],
         "responses": {
@@ -8675,14 +8685,14 @@
         }
       }
     },
-    "/v2/Repositories/{repositoryId}/Entries/{entryId}/EffectiveRights": {
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Rights": {
       "get": {
         "tags": [
           "Entries"
         ],
-        "summary": "Returns the effective rights to an entry for the current session or a specified trustee.",
-        "description": "- Returns the net rights a trustee effectively has on the entry after inheritance, group membership, and allow/deny resolution are applied by the repository server. This is the same effective-rights calculation the Laserfiche applications use.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
-        "operationId": "GetEntryEffectiveRights",
+        "summary": "Returns the rights to an entry for the current session or a specified trustee.",
+        "description": "- Returns the rights a trustee has on the entry. By default these are the effective rights \u2014 the same calculation the Laserfiche applications use, after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. Set aclOnly=true to return only the rights granted by the entry's access control list (including its stored inherited ACEs) without the privilege/records-management overlays.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryRights",
         "parameters": [
           {
             "name": "repositoryId",
@@ -8698,7 +8708,7 @@
             "name": "entryId",
             "in": "path",
             "required": true,
-            "description": "The entry whose effective rights are computed.",
+            "description": "The entry whose rights are computed.",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -8708,7 +8718,7 @@
           {
             "name": "trusteeId",
             "in": "query",
-            "description": "Optional. The SID of the trustee to compute effective rights for. When omitted (along with trusteeName), the effective rights of the current session are returned.",
+            "description": "Optional. The SID of the trustee to compute rights for. When omitted (along with trusteeName), the rights of the current session are returned.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -8718,12 +8728,22 @@
           {
             "name": "trusteeName",
             "in": "query",
-            "description": "Optional. The account name of the trustee to compute effective rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
+            "description": "Optional. The account name of the trustee to compute rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 4
+          },
+          {
+            "name": "aclOnly",
+            "in": "query",
+            "description": "Optional. Selects which rights are returned. Default (false): the trustee's effective rights \u2014 the net result after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. When true: only the rights granted by this item's access control list \u2014 including inherited access control entries, which are stored on the item itself \u2014 without the privilege and records-management overlays (for example, a privilege that grants full control regardless of the ACL is reflected only when aclOnly=false). Group membership is always resolved. The aclOnly=true value is what the ACL editor displays as the net effect of the list.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
           },
           {
             "name": "$select",
@@ -8733,151 +8753,16 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 5
+            "x-position": 6
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully returned the effective rights for the entry.",
+            "description": "Successfully returned the rights for the entry.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EffectiveRights"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid or bad request.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access token is invalid or expired.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied for the operation.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Entry with requested ID was not found.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit is reached.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "An unexpected server-side error occurred.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v2/Repositories/{repositoryId}/Entries/{entryId}/DirectRights": {
-      "get": {
-        "tags": [
-          "Entries"
-        ],
-        "summary": "Returns the direct (ACL) rights to an entry for the current session or a specified trustee.",
-        "description": "- Returns the rights granted by this entry's own ACL, excluding inheritance from parent folders and privilege/records-management overlays; group membership is still resolved. Contrast with EffectiveRights, which returns the net rights after inheritance and overlays are applied.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
-        "operationId": "GetEntryDirectRights",
-        "parameters": [
-          {
-            "name": "repositoryId",
-            "in": "path",
-            "required": true,
-            "description": "The requested repository ID.",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "entryId",
-            "in": "path",
-            "required": true,
-            "description": "The entry whose direct rights are computed.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "trusteeId",
-            "in": "query",
-            "description": "Optional. The SID of the trustee to compute direct rights for. When omitted (along with trusteeName), the direct rights of the current session are returned.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 3
-          },
-          {
-            "name": "trusteeName",
-            "in": "query",
-            "description": "Optional. The account name of the trustee to compute direct rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 4
-          },
-          {
-            "name": "$select",
-            "in": "query",
-            "description": "Limits the properties returned in the result.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 5
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully returned the direct (ACL) rights for the entry.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EffectiveRights"
+                  "$ref": "#/components/schemas/EntryRights"
                 }
               }
             }
@@ -15619,14 +15504,14 @@
           }
         }
       },
-      "EffectiveRights": {
+      "EntryRights": {
         "type": "object",
-        "description": "A trustee's effective rights to an entry \u2014 the net rights after inheritance, group\nmembership, and allow/deny resolution are applied by the repository server.",
+        "description": "A trustee's rights to an entry. Depending on the aclOnly option on the request, these\nare either the effective rights (the net result after allow/deny resolution, group membership,\nand the repository's privilege and records-management overlays) or the rights granted by the\nentry's access control list alone.",
         "additionalProperties": false,
         "properties": {
           "rights": {
             "type": "array",
-            "description": "The rights effectively granted to the trustee on the entry.",
+            "description": "The rights granted to the trustee on the entry.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/EntryRight"
