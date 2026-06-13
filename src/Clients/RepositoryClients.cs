@@ -1212,6 +1212,73 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<FieldDefinition> ChangeFieldTypeAsync(ChangeFieldTypeParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Returns the access control list (ACL) of a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the field's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Field ACEs have no scope and are never inherited.<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ReadPermissions right.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the field definition's access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldAccessControlList> GetFieldAccessControlAsync(GetFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the access control list (ACL) of a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the field definition's access control list. Returned the updated access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldAccessControlList> SetFieldAccessControlAsync(SetFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the rights to a field definition for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights a trustee has on the field definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the field's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the rights for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldRights> GetFieldRightsAsync(GetFieldRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the default access control list assigned to newly created field definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the repository's default field ACL — the access control entries a new field definition inherits at creation time.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the default field access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldAccessControlList> GetDefaultFieldAccessControlAsync(GetDefaultFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the default access control list assigned to newly created field definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the default field access control list. Returned the updated default access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FieldAccessControlList> SetDefaultFieldAccessControlAsync(SetDefaultFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -3385,6 +3452,789 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Returns the access control list (ACL) of a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the field's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Field ACEs have no scope and are never inherited.<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ReadPermissions right.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the field definition's access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldAccessControlList> GetFieldAccessControlAsync(GetFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (fieldId == null)
+                throw new ArgumentNullException("parameters.FieldId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/AccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetFieldAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldAccessControlList> GetFieldAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the access control list (ACL) of a field definition.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the field definition's access control list. Returned the updated access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldAccessControlList> SetFieldAccessControlAsync(SetFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (fieldId == null)
+                throw new ArgumentNullException("parameters.FieldId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/AccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await SetFieldAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldAccessControlList> SetFieldAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the rights to a field definition for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights a trustee has on the field definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the field's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the rights for the field definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldRights> GetFieldRightsAsync(GetFieldRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var fieldId = parameters.FieldId;
+            var trusteeId = parameters.TrusteeId;
+            var trusteeName = parameters.TrusteeName;
+            var aclOnly = parameters.AclOnly;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (fieldId == null)
+                throw new ArgumentNullException("parameters.FieldId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Rights"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(fieldId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Rights");
+                    urlBuilder_.Append('?');
+                    if (trusteeId != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (trusteeName != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (aclOnly != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("aclOnly")).Append('=').Append(Uri.EscapeDataString(ConvertToString(aclOnly, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetFieldRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldRights> GetFieldRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the default access control list assigned to newly created field definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the repository's default field ACL — the access control entries a new field definition inherits at creation time.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the default field access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldAccessControlList> GetDefaultFieldAccessControlAsync(GetDefaultFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/DefaultAccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/DefaultAccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetDefaultFieldAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldAccessControlList> GetDefaultFieldAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the default access control list assigned to newly created field definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the default field access control list. Returned the updated default access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FieldAccessControlList> SetDefaultFieldAccessControlAsync(SetDefaultFieldAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/FieldDefinitions/DefaultAccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/FieldDefinitions/DefaultAccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await SetDefaultFieldAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FieldAccessControlList> SetDefaultFieldAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<FieldAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -3818,6 +4668,111 @@ namespace Laserfiche.Repository.Api.Client
         /// The target field type and the data-loss acknowledgement.
         /// </summary>
         public ChangeFieldTypeRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetFieldAccessControlAsync(GetFieldAccessControlParameters, CancellationToken)">GetFieldAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFieldAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested field definition ID.
+        /// </summary>
+        public int FieldId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.SetFieldAccessControlAsync(SetFieldAccessControlParameters, CancellationToken)">SetFieldAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetFieldAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The field definition ID whose ACL to replace.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// The access control entries to set.
+        /// </summary>
+        public SetFieldAccessControlRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetFieldRightsAsync(GetFieldRightsParameters, CancellationToken)">GetFieldRights</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFieldRightsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested field definition ID.
+        /// </summary>
+        public int FieldId { get; set; }
+
+        /// <summary>
+        /// An optional trustee SID. When supplied, returns that trustee's rights; otherwise the current session's.
+        /// </summary>
+        public string TrusteeId { get; set; } = null;
+
+        /// <summary>
+        /// An optional trustee account name, as an alternative to trusteeId. The SID wins when both are supplied.
+        /// </summary>
+        public string TrusteeName { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Selects which rights are returned. Default (false): the trustee's effective rights — the net result after allow/deny resolution, group membership, and the repository's privilege overlay (for example, the metadata-management privilege that grants full control over every field regardless of its ACL). When true: only the rights granted by this field definition's own access control list, without that privilege overlay. Group membership is always resolved. Field definitions are not hierarchical, so there is no parent inheritance involved either way.
+        /// </summary>
+        public bool? AclOnly { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.GetDefaultFieldAccessControlAsync(GetDefaultFieldAccessControlParameters, CancellationToken)">GetDefaultFieldAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetDefaultFieldAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IFieldDefinitionsClient.SetDefaultFieldAccessControlAsync(SetDefaultFieldAccessControlParameters, CancellationToken)">SetDefaultFieldAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetDefaultFieldAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The access control entries to set as the default field ACL.
+        /// </summary>
+        public SetFieldAccessControlRequest Request { get; set; }
 
     }
 
@@ -15834,6 +16789,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<RepositoryCollectionResponse> ListRepositoriesAsync(ListRepositoriesParameters parameters = null, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Returns the current session's rights in the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the privileges and feature rights held by the current session, plus whether the session is read-only. Each is reported as named booleans (a map of right name to whether it is granted), for UI enablement and pre-flight checks.<br/>
+        /// - Reflects the current session only. Per-trustee privilege administration is not part of this surface.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the current session's rights.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<SessionRights> GetSessionRightsAsync(GetSessionRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -15923,6 +16892,147 @@ namespace Laserfiche.Repository.Api.Client
                 if (status_ == 200)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<RepositoryCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the current session's rights in the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the privileges and feature rights held by the current session, plus whether the session is read-only. Each is reported as named booleans (a map of right name to whether it is granted), for UI enablement and pre-flight checks.<br/>
+        /// - Reflects the current session only. Per-trustee privilege administration is not part of this surface.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the current session's rights.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<SessionRights> GetSessionRightsAsync(GetSessionRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/SessionRights"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/SessionRights");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetSessionRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<SessionRights> GetSessionRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<SessionRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
                     {
                         throw ApiExceptionExtensions.Create(status_, headers_, null);
@@ -16110,6 +17220,19 @@ namespace Laserfiche.Repository.Api.Client
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ListRepositoriesParameters
     {
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IRepositoriesClient.GetSessionRightsAsync(GetSessionRightsParameters, CancellationToken)">GetSessionRights</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetSessionRightsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -19008,6 +20131,73 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task MoveTemplateFieldAsync(MoveTemplateFieldParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <summary>
+        /// Returns the access control list (ACL) of a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the template's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Template ACEs have no scope and are never inherited.<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ReadPermissions right.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the template definition's access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateAccessControlList> GetTemplateAccessControlAsync(GetTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the access control list (ACL) of a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the template definition's access control list. Returned the updated access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateAccessControlList> SetTemplateAccessControlAsync(SetTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the rights to a template definition for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights a trustee has on the template definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the template's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the rights for the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateRights> GetTemplateRightsAsync(GetTemplateRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the default access control list assigned to newly created template definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the repository's default template ACL — the access control entries a new template definition inherits at creation time.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the default template access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateAccessControlList> GetDefaultTemplateAccessControlAsync(GetDefaultTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Replaces the default access control list assigned to newly created template definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the default template access control list. Returned the updated default access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TemplateAccessControlList> SetDefaultTemplateAccessControlAsync(SetDefaultTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -21423,6 +22613,789 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Returns the access control list (ACL) of a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the template's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Template ACEs have no scope and are never inherited.<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ReadPermissions right.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the template definition's access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateAccessControlList> GetTemplateAccessControlAsync(GetTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/AccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetTemplateAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateAccessControlList> GetTemplateAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the access control list (ACL) of a template definition.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
+        /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the template definition's access control list. Returned the updated access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateAccessControlList> SetTemplateAccessControlAsync(SetTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/AccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/AccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await SetTemplateAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateAccessControlList> SetTemplateAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the rights to a template definition for the current session or a specified trustee.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the rights a trustee has on the template definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the template's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the rights for the template definition.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateRights> GetTemplateRightsAsync(GetTemplateRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var templateId = parameters.TemplateId;
+            var trusteeId = parameters.TrusteeId;
+            var trusteeName = parameters.TrusteeName;
+            var aclOnly = parameters.AclOnly;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (templateId == null)
+                throw new ArgumentNullException("parameters.TemplateId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Rights"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(templateId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Rights");
+                    urlBuilder_.Append('?');
+                    if (trusteeId != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (trusteeName != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("trusteeName")).Append('=').Append(Uri.EscapeDataString(ConvertToString(trusteeName, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (aclOnly != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("aclOnly")).Append('=').Append(Uri.EscapeDataString(ConvertToString(aclOnly, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetTemplateRightsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateRights> GetTemplateRightsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateRights>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the default access control list assigned to newly created template definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the repository's default template ACL — the access control entries a new template definition inherits at creation time.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the default template access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateAccessControlList> GetDefaultTemplateAccessControlAsync(GetDefaultTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/DefaultAccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/DefaultAccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetDefaultTemplateAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateAccessControlList> GetDefaultTemplateAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Replaces the default access control list assigned to newly created template definitions.
+        /// </summary>
+        /// <remarks>
+        /// - Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully replaced the default template access control list. Returned the updated default access control list.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TemplateAccessControlList> SetDefaultTemplateAccessControlAsync(SetDefaultTemplateAccessControlParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/TemplateDefinitions/DefaultAccessControl"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/TemplateDefinitions/DefaultAccessControl");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("PUT");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await SetDefaultTemplateAccessControlSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TemplateAccessControlList> SetDefaultTemplateAccessControlSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TemplateAccessControlList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -21947,6 +23920,111 @@ namespace Laserfiche.Repository.Api.Client
 
     }
 
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateAccessControlAsync(GetTemplateAccessControlParameters, CancellationToken)">GetTemplateAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplateAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.SetTemplateAccessControlAsync(SetTemplateAccessControlParameters, CancellationToken)">SetTemplateAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTemplateAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The template definition ID whose ACL to replace.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// The access control entries to set.
+        /// </summary>
+        public SetTemplateAccessControlRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetTemplateRightsAsync(GetTemplateRightsParameters, CancellationToken)">GetTemplateRights</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTemplateRightsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested template definition ID.
+        /// </summary>
+        public int TemplateId { get; set; }
+
+        /// <summary>
+        /// An optional trustee SID. When supplied, returns that trustee's rights; otherwise the current session's.
+        /// </summary>
+        public string TrusteeId { get; set; } = null;
+
+        /// <summary>
+        /// An optional trustee account name, as an alternative to trusteeId. The SID wins when both are supplied.
+        /// </summary>
+        public string TrusteeName { get; set; } = null;
+
+        /// <summary>
+        /// Optional. Selects which rights are returned. Default (false): the trustee's effective rights — the net result after allow/deny resolution, group membership, and the repository's privilege overlay (for example, the metadata-management privilege that grants full control over every template regardless of its ACL). When true: only the rights granted by this template definition's own access control list, without that privilege overlay. Group membership is always resolved. Template definitions are not hierarchical, so there is no parent inheritance involved either way.
+        /// </summary>
+        public bool? AclOnly { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.GetDefaultTemplateAccessControlAsync(GetDefaultTemplateAccessControlParameters, CancellationToken)">GetDefaultTemplateAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetDefaultTemplateAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITemplateDefinitionsClient.SetDefaultTemplateAccessControlAsync(SetDefaultTemplateAccessControlParameters, CancellationToken)">SetDefaultTemplateAccessControl</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetDefaultTemplateAccessControlParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The access control entries to set as the default template ACL.
+        /// </summary>
+        public SetTemplateAccessControlRequest Request { get; set; }
+
+    }
+
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface ITrusteesClient
     {
@@ -21964,6 +24042,20 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Successfully returned the matching trustees.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<IList<TrusteeIdentity>> LookupTrusteesAsync(LookupTrusteesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the effective account security that applies when the specified trustee signs in to the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the trustee's effective privileges and feature rights (as named booleans), the security tags assigned to it, the audit classes configured for it (split into success and failure masks), and whether the trustee is read-only.<br/>
+        /// - This is a best-effort computation that can, in rare cases, differ from the trustee's real rights. The authoritative way to determine a trustee's security is to sign in as that trustee and read the resulting session's rights.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the trustee's effective account security.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<TrusteeEffectiveSecurity> GetTrusteeEffectiveSecurityAsync(GetTrusteeEffectiveSecurityParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 
@@ -22150,6 +24242,163 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <summary>
+        /// Returns the effective account security that applies when the specified trustee signs in to the repository.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the trustee's effective privileges and feature rights (as named booleans), the security tags assigned to it, the audit classes configured for it (split into success and failure masks), and whether the trustee is read-only.<br/>
+        /// - This is a best-effort computation that can, in rare cases, differ from the trustee's real rights. The authoritative way to determine a trustee's security is to sign in as that trustee and read the resulting session's rights.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the trustee's effective account security.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<TrusteeEffectiveSecurity> GetTrusteeEffectiveSecurityAsync(GetTrusteeEffectiveSecurityParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var trusteeId = parameters.TrusteeId;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (trusteeId == null)
+                throw new ArgumentNullException("parameters.TrusteeId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Trustees/{trusteeId}/EffectiveSecurity"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Trustees/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(trusteeId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/EffectiveSecurity");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetTrusteeEffectiveSecuritySendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<TrusteeEffectiveSecurity> GetTrusteeEffectiveSecuritySendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<TrusteeEffectiveSecurity>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -22287,6 +24536,24 @@ namespace Laserfiche.Repository.Api.Client
         /// Optional. The maximum number of trustees to return. Defaults to 100.
         /// </summary>
         public int? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="ITrusteesClient.GetTrusteeEffectiveSecurityAsync(GetTrusteeEffectiveSecurityParameters, CancellationToken)">GetTrusteeEffectiveSecurity</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTrusteeEffectiveSecurityParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The SID of the trustee whose effective security is computed. Use the trustee lookup to resolve a name to a SID.
+        /// </summary>
+        public string TrusteeId { get; set; }
 
     }
 
@@ -23166,6 +25433,207 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("allowDataLoss", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool AllowDataLoss { get; set; }
+
+    }
+
+    /// <summary>
+    /// The access control list (ACL) of a template field definition: its access control entries.<br/>
+    /// Field ACLs have no parent inheritance, so there is no inherit-parents flag.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FieldAccessControlList
+    {
+        /// <summary>
+        /// The access control entries that make up the ACL.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<FieldAccessControlEntry> Entries { get; set; }
+
+    }
+
+    /// <summary>
+    /// A single access control entry (ACE) on a template field definition: one trustee, whether<br/>
+    /// its rights are allowed or denied, and the rights themselves. A trustee that has both allowed<br/>
+    /// and denied rights is represented as two ACEs. Unlike entry ACEs, field ACEs have no scope and<br/>
+    /// are never inherited.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FieldAccessControlEntry
+    {
+        /// <summary>
+        /// The trustee this ACE applies to. On input, identify the trustee by either<br/>
+        /// trustee.sid or trustee.accountName (the SID takes precedence when both are given).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("trustee", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrusteeIdentity Trustee { get; set; }
+
+        /// <summary>
+        /// Whether the ACE grants (Allow) or denies (Deny) the listed rights. Required on<br/>
+        /// input — a missing value is rejected (it must not silently default to Allow).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("accessControlType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public AccessControlType? AccessControlType { get; set; }
+
+        /// <summary>
+        /// The rights granted or denied by this ACE.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public IList<FieldRight> Rights { get; set; }
+
+        /// <summary>
+        /// True when this ACE is inherited. Always false for field ACEs (field definitions have no<br/>
+        /// ACL inheritance); returned for contract symmetry and ignored on input.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isInherited", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsInherited { get; set; }
+
+        /// <summary>
+        /// When inherited, a description of where the ACE was inherited from. Output only; null for<br/>
+        /// field ACEs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("inheritedFrom", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string InheritedFrom { get; set; }
+
+    }
+
+    /// <summary>
+    /// Identifies a security trustee (a user or a group) referenced by an access control<br/>
+    /// entry, an effective-rights query, or a trustee-lookup result.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TrusteeIdentity
+    {
+        /// <summary>
+        /// The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is<br/>
+        /// the canonical, stable id for a trustee. On input it is preferred and takes precedence over<br/>
+        /// AccountName; always populated on output.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("sid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Sid { get; set; }
+
+        /// <summary>
+        /// The trustee's account name. On input it may be supplied instead of Sid to<br/>
+        /// address the trustee by name (resolved to a SID server-side); the SID wins when both are<br/>
+        /// given. Always populated on output.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("accountName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AccountName { get; set; }
+
+        /// <summary>
+        /// The trustee type: one of LaserficheUser, LaserficheGroup,<br/>
+        /// WindowsAccount, LdapAccount, LfdsAccount.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("trusteeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string TrusteeType { get; set; }
+
+        /// <summary>
+        /// True when the trustee is an individual user; false when it is a group.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsUser { get; set; }
+
+        /// <summary>
+        /// A human-readable display name. Populated by trustee-lookup results; omitted in<br/>
+        /// access-control-entry contexts.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("displayName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// True when the trustee account is disabled. Populated by trustee-lookup results.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isDisabled", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsDisabled { get; set; }
+
+    }
+
+    /// <summary>
+    /// Whether an access control entry (ACE) grants or denies its rights. Serialized by name.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum AccessControlType
+    {
+
+        [EnumMember(Value = @"Allow")]
+        Allow = 0,
+
+        [EnumMember(Value = @"Deny")]
+        Deny = 1,
+
+    }
+
+    /// <summary>
+    /// An individual access right that can be granted to or denied a trustee on a template field<br/>
+    /// definition. Serialized by name; emitted as a string enum in the OpenAPI schema so clients<br/>
+    /// can reference it directly.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum FieldRight
+    {
+
+        [EnumMember(Value = @"ReadValue")]
+        ReadValue = 0,
+
+        [EnumMember(Value = @"SetValue")]
+        SetValue = 1,
+
+        [EnumMember(Value = @"SetValueOnce")]
+        SetValueOnce = 2,
+
+        [EnumMember(Value = @"ModifyDefinition")]
+        ModifyDefinition = 3,
+
+        [EnumMember(Value = @"Delete")]
+        Delete = 4,
+
+        [EnumMember(Value = @"ReadPermissions")]
+        ReadPermissions = 5,
+
+        [EnumMember(Value = @"ChangePermissions")]
+        ChangePermissions = 6,
+
+        [EnumMember(Value = @"TakeOwnership")]
+        TakeOwnership = 7,
+
+    }
+
+    /// <summary>
+    /// Request body for replacing a template field definition's access control list. The supplied<br/>
+    /// entries fully replace the field's existing explicit ACL. Inherited entries are not accepted.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetFieldAccessControlRequest
+    {
+        /// <summary>
+        /// The access control entries to set. Replaces the field's entire explicit ACL.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<FieldAccessControlEntry> Entries { get; set; }
+
+    }
+
+    /// <summary>
+    /// A trustee's rights to a template field definition. Depending on the aclOnly option on the<br/>
+    /// request, these are either the effective rights (the net result after group membership, allow/deny<br/>
+    /// resolution, and the repository's privilege overlay) or the rights granted by the field's access<br/>
+    /// control list alone.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FieldRights
+    {
+        /// <summary>
+        /// The rights granted to the trustee on the field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public IList<FieldRight> Rights { get; set; }
+
+        /// <summary>
+        /// True when the session is read-only, so no write operations are possible regardless of<br/>
+        /// the granted rights.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isReadOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsReadOnly { get; set; }
 
     }
 
@@ -25201,72 +27669,6 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// Identifies a security trustee (a user or a group) referenced by an access control<br/>
-    /// entry, an effective-rights query, or a trustee-lookup result.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class TrusteeIdentity
-    {
-        /// <summary>
-        /// The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is<br/>
-        /// the canonical, stable id for a trustee. On input it is preferred and takes precedence over<br/>
-        /// AccountName; always populated on output.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("sid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Sid { get; set; }
-
-        /// <summary>
-        /// The trustee's account name. On input it may be supplied instead of Sid to<br/>
-        /// address the trustee by name (resolved to a SID server-side); the SID wins when both are<br/>
-        /// given. Always populated on output.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("accountName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string AccountName { get; set; }
-
-        /// <summary>
-        /// The trustee type: one of LaserficheUser, LaserficheGroup,<br/>
-        /// WindowsAccount, LdapAccount, LfdsAccount.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("trusteeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TrusteeType { get; set; }
-
-        /// <summary>
-        /// True when the trustee is an individual user; false when it is a group.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isUser", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsUser { get; set; }
-
-        /// <summary>
-        /// A human-readable display name. Populated by trustee-lookup results; omitted in<br/>
-        /// access-control-entry contexts.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("displayName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DisplayName { get; set; }
-
-        /// <summary>
-        /// True when the trustee account is disabled. Populated by trustee-lookup results.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isDisabled", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsDisabled { get; set; }
-
-    }
-
-    /// <summary>
-    /// Whether an access control entry (ACE) grants or denies its rights. Serialized by name.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum AccessControlType
-    {
-
-        [EnumMember(Value = @"Allow")]
-        Allow = 0,
-
-        [EnumMember(Value = @"Deny")]
-        Deny = 1,
-
-    }
-
-    /// <summary>
     /// An individual access right that can be granted to or denied a trustee on an entry.<br/>
     /// Serialized by name; emitted as a string enum in the OpenAPI schema so clients can<br/>
     /// reference it directly.
@@ -25461,6 +27863,39 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("webClientUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string WebClientUrl { get; set; }
+
+    }
+
+    /// <summary>
+    /// The current session's rights in a repository: the privileges and feature rights held by the<br/>
+    /// session, plus whether the session is read-only. Reported as named booleans (each map is keyed<br/>
+    /// by the right's name with a granted true/false) rather than a raw bitmask, for UI enablement<br/>
+    /// and pre-flight checks. Reflects the current session only — per-trustee privilege administration<br/>
+    /// is not part of this surface.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SessionRights
+    {
+        /// <summary>
+        /// The session's privileges, keyed by privilege name (e.g. EntryAccess,<br/>
+        /// RecordManager), with the value indicating whether the session holds that privilege.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("privileges", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> Privileges { get; set; }
+
+        /// <summary>
+        /// The session's feature rights, keyed by feature-right name (e.g. Search,<br/>
+        /// Import), with the value indicating whether the session holds that feature right.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("featureRights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> FeatureRights { get; set; }
+
+        /// <summary>
+        /// True when the current session is read-only, so no write operations are possible regardless<br/>
+        /// of the granted privileges or feature rights.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isReadOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsReadOnly { get; set; }
 
     }
 
@@ -26295,6 +28730,231 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("newPosition", Required = Newtonsoft.Json.Required.Always)]
         public int NewPosition { get; set; }
+
+    }
+
+    /// <summary>
+    /// The access control list (ACL) of a template definition: its access control entries.<br/>
+    /// Template ACLs have no parent inheritance, so there is no inherit-parents flag.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TemplateAccessControlList
+    {
+        /// <summary>
+        /// The access control entries that make up the ACL.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<TemplateAccessControlEntry> Entries { get; set; }
+
+    }
+
+    /// <summary>
+    /// A single access control entry (ACE) on a template definition: one trustee, whether its<br/>
+    /// rights are allowed or denied, and the rights themselves. A trustee that has both allowed<br/>
+    /// and denied rights is represented as two ACEs. Unlike entry ACEs, template ACEs have no scope<br/>
+    /// and are never inherited.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TemplateAccessControlEntry
+    {
+        /// <summary>
+        /// The trustee this ACE applies to. On input, identify the trustee by either<br/>
+        /// trustee.sid or trustee.accountName (the SID takes precedence when both are given).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("trustee", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrusteeIdentity Trustee { get; set; }
+
+        /// <summary>
+        /// Whether the ACE grants (Allow) or denies (Deny) the listed rights. Required on<br/>
+        /// input — a missing value is rejected (it must not silently default to Allow).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("accessControlType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public AccessControlType? AccessControlType { get; set; }
+
+        /// <summary>
+        /// The rights granted or denied by this ACE.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public IList<TemplateRight> Rights { get; set; }
+
+        /// <summary>
+        /// True when this ACE is inherited. Always false for template ACEs (template definitions have<br/>
+        /// no ACL inheritance); returned for contract symmetry and ignored on input.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isInherited", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsInherited { get; set; }
+
+        /// <summary>
+        /// When inherited, a description of where the ACE was inherited from. Output only; null for<br/>
+        /// template ACEs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("inheritedFrom", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string InheritedFrom { get; set; }
+
+    }
+
+    /// <summary>
+    /// An individual access right that can be granted to or denied a trustee on a template<br/>
+    /// definition. Serialized by name; emitted as a string enum in the OpenAPI schema so clients<br/>
+    /// can reference it directly.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum TemplateRight
+    {
+
+        [EnumMember(Value = @"ReadDefinition")]
+        ReadDefinition = 0,
+
+        [EnumMember(Value = @"Modify")]
+        Modify = 1,
+
+        [EnumMember(Value = @"Delete")]
+        Delete = 2,
+
+        [EnumMember(Value = @"ReadPermissions")]
+        ReadPermissions = 3,
+
+        [EnumMember(Value = @"ChangePermissions")]
+        ChangePermissions = 4,
+
+        [EnumMember(Value = @"TakeOwnership")]
+        TakeOwnership = 5,
+
+    }
+
+    /// <summary>
+    /// Request body for replacing a template definition's access control list. The supplied<br/>
+    /// entries fully replace the template's existing explicit ACL. Inherited entries are not accepted.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetTemplateAccessControlRequest
+    {
+        /// <summary>
+        /// The access control entries to set. Replaces the template's entire explicit ACL.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<TemplateAccessControlEntry> Entries { get; set; }
+
+    }
+
+    /// <summary>
+    /// A trustee's rights to a template definition. Depending on the aclOnly option on the<br/>
+    /// request, these are either the effective rights (the net result after group membership, allow/deny<br/>
+    /// resolution, and the repository's privilege overlay) or the rights granted by the template's access<br/>
+    /// control list alone.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TemplateRights
+    {
+        /// <summary>
+        /// The rights granted to the trustee on the template.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("rights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public IList<TemplateRight> Rights { get; set; }
+
+        /// <summary>
+        /// True when the session is read-only, so no write operations are possible regardless of<br/>
+        /// the granted rights.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isReadOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsReadOnly { get; set; }
+
+    }
+
+    /// <summary>
+    /// The effective account security that applies when a trustee logs in to a repository: the<br/>
+    /// privileges and feature rights the trustee holds, the security tags assigned to it, the audit<br/>
+    /// classes configured for it, and whether the trustee is read-only. Privileges, feature rights,<br/>
+    /// and audit masks are reported as named booleans (each map keyed by the right's name with a<br/>
+    /// granted true/false) rather than raw bitmasks.<br/>
+    /// This is a documented best-effort computation: in rare cases it can differ from the trustee's<br/>
+    /// real rights. The authoritative way to determine a trustee's security is to sign in as that<br/>
+    /// trustee and read the resulting session's rights. Values reflect effective (not direct) security.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TrusteeEffectiveSecurity
+    {
+        /// <summary>
+        /// The trustee's privileges, keyed by privilege name (e.g. EntryAccess,<br/>
+        /// RecordManager), with the value indicating whether the trustee holds that privilege.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("privileges", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> Privileges { get; set; }
+
+        /// <summary>
+        /// The trustee's feature rights, keyed by feature-right name (e.g. Search,<br/>
+        /// Import), with the value indicating whether the trustee holds that feature right.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("featureRights", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> FeatureRights { get; set; }
+
+        /// <summary>
+        /// True when the trustee is read-only, so no write operations are possible regardless of the<br/>
+        /// granted privileges or feature rights.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isReadOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsReadOnly { get; set; }
+
+        /// <summary>
+        /// The security tags assigned to the trustee.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<TrusteeTag> Tags { get; set; }
+
+        /// <summary>
+        /// The audit classes configured for the trustee, split into successful- and failed-operation<br/>
+        /// masks. Each map is keyed by audit-class name with the value indicating whether that class is<br/>
+        /// audited.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("auditMasks", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrusteeAuditMasks AuditMasks { get; set; }
+
+    }
+
+    /// <summary>
+    /// A security tag assigned to a trustee.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TrusteeTag
+    {
+        /// <summary>
+        /// The tag's ID.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// The tag's name.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// True when the tag is a security tag.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isSecure", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsSecure { get; set; }
+
+    }
+
+    /// <summary>
+    /// The audit classes configured for a trustee, split by operation outcome.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TrusteeAuditMasks
+    {
+        /// <summary>
+        /// Audit classes audited on successful operations, keyed by audit-class name.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("success", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> Success { get; set; }
+
+        /// <summary>
+        /// Audit classes audited on failed operations, keyed by audit-class name.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("failure", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IDictionary<string, bool> Failure { get; set; }
 
     }
 
