@@ -6093,6 +6093,66 @@ namespace Laserfiche.Repository.Api.Client
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<EntryRights> GetEntryRightsAsync(GetEntryRightsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the entry's records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordsManagementProperties> GetEntryRecordsManagementPropertiesAsync(GetEntryRecordsManagementPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the entry's records management properties. Returned the updated properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordsManagementProperties> UpdateEntryRecordsManagementPropertiesAsync(UpdateEntryRecordsManagementPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the ids of the records eligible for the requested action.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordEntryIdCollection> GetEligibleRecordsAsync(GetEligibleRecordsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the ids of the independent records under the record folder.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordEntryIdCollection> GetIndependentRecordsAsync(GetIndependentRecordsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the record folder's alternate-retention trigger events.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<AltRetentionEventCollection> GetAltRetentionEventsAsync(GetAltRetentionEventsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the record series properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordSeriesProperties> GetRecordSeriesPropertiesAsync(GetRecordSeriesPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the record series properties. Returned the updated properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordSeriesProperties> UpdateRecordSeriesPropertiesAsync(UpdateRecordSeriesPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully set the record event date. Returned the updated records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordsManagementProperties> SetRecordEventAsync(SetRecordEventParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the record event date. Returned the updated records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<RecordsManagementProperties> RemoveRecordEventAsync(RemoveRecordEventParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created the record series. Returned the created entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<Entry> CreateRecordSeriesAsync(CreateRecordSeriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 
     [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -15337,6 +15397,1662 @@ namespace Laserfiche.Repository.Api.Client
             }
         }
 
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the entry's records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordsManagementProperties> GetEntryRecordsManagementPropertiesAsync(GetEntryRecordsManagementPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/Properties");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetEntryRecordsManagementPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordsManagementProperties> GetEntryRecordsManagementPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordsManagementProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the entry's records management properties. Returned the updated properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordsManagementProperties> UpdateEntryRecordsManagementPropertiesAsync(UpdateEntryRecordsManagementPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/Properties");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PATCH");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await UpdateEntryRecordsManagementPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PATCH");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await UpdateEntryRecordsManagementPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordsManagementProperties> UpdateEntryRecordsManagementPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordsManagementProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the ids of the records eligible for the requested action.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordEntryIdCollection> GetEligibleRecordsAsync(GetEligibleRecordsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var forSelector = parameters.ForSelector;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/EligibleRecords"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/EligibleRecords");
+                    urlBuilder_.Append('?');
+                    if (forSelector != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("for")).Append('=').Append(Uri.EscapeDataString(ConvertToString(forSelector, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetEligibleRecordsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordEntryIdCollection> GetEligibleRecordsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordEntryIdCollection>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the ids of the independent records under the record folder.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordEntryIdCollection> GetIndependentRecordsAsync(GetIndependentRecordsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/IndependentRecords"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/IndependentRecords");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetIndependentRecordsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordEntryIdCollection> GetIndependentRecordsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordEntryIdCollection>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the record folder's alternate-retention trigger events.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<AltRetentionEventCollection> GetAltRetentionEventsAsync(GetAltRetentionEventsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/AltRetentionEvents"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/AltRetentionEvents");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetAltRetentionEventsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AltRetentionEventCollection> GetAltRetentionEventsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AltRetentionEventCollection>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the record series properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordSeriesProperties> GetRecordSeriesPropertiesAsync(GetRecordSeriesPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordSeries/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordSeries/Properties");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetRecordSeriesPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordSeriesProperties> GetRecordSeriesPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordSeriesProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully updated the record series properties. Returned the updated properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordSeriesProperties> UpdateRecordSeriesPropertiesAsync(UpdateRecordSeriesPropertiesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordSeries/Properties"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordSeries/Properties");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                        var content_ = new StringContent(json_);
+                        content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PATCH");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await UpdateRecordSeriesPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                                var content_ = new StringContent(json_);
+                                content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PATCH");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await UpdateRecordSeriesPropertiesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordSeriesProperties> UpdateRecordSeriesPropertiesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordSeriesProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully set the record event date. Returned the updated records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordsManagementProperties> SetRecordEventAsync(SetRecordEventParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/SetEvent"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/SetEvent");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await SetRecordEventSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordsManagementProperties> SetRecordEventSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordsManagementProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully removed the record event date. Returned the updated records management properties.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<RecordsManagementProperties> RemoveRecordEventAsync(RemoveRecordEventParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/RemoveEvent"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordsManagement/RemoveEvent");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await RemoveRecordEventSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<RecordsManagementProperties> RemoveRecordEventSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<RecordsManagementProperties>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully created the record series. Returned the created entry.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<Entry> CreateRecordSeriesAsync(CreateRecordSeriesParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var parentEntryId = parameters.ParentEntryId;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (parentEntryId == null)
+                throw new ArgumentNullException("parameters.ParentEntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{parentEntryId}/RecordSeries"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(parentEntryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/RecordSeries");
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await CreateRecordSeriesSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<Entry> CreateRecordSeriesSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 201)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<Entry>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -16769,6 +18485,163 @@ namespace Laserfiche.Repository.Api.Client
         /// Limits the properties returned in the result.
         /// </summary>
         public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEntryRecordsManagementPropertiesAsync(GetEntryRecordsManagementPropertiesParameters, CancellationToken)">GetEntryRecordsManagementProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEntryRecordsManagementPropertiesParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateEntryRecordsManagementPropertiesAsync(UpdateEntryRecordsManagementPropertiesParameters, CancellationToken)">UpdateEntryRecordsManagementProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateEntryRecordsManagementPropertiesParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        public UpdateRecordsManagementPropertiesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetEligibleRecordsAsync(GetEligibleRecordsParameters, CancellationToken)">GetEligibleRecords</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetEligibleRecordsParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        public string ForSelector { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetIndependentRecordsAsync(GetIndependentRecordsParameters, CancellationToken)">GetIndependentRecords</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetIndependentRecordsParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetAltRetentionEventsAsync(GetAltRetentionEventsParameters, CancellationToken)">GetAltRetentionEvents</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetAltRetentionEventsParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetRecordSeriesPropertiesAsync(GetRecordSeriesPropertiesParameters, CancellationToken)">GetRecordSeriesProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetRecordSeriesPropertiesParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.UpdateRecordSeriesPropertiesAsync(UpdateRecordSeriesPropertiesParameters, CancellationToken)">UpdateRecordSeriesProperties</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateRecordSeriesPropertiesParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        public UpdateRecordSeriesPropertiesRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.SetRecordEventAsync(SetRecordEventParameters, CancellationToken)">SetRecordEvent</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetRecordEventParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        public SetRecordEventRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.RemoveRecordEventAsync(RemoveRecordEventParameters, CancellationToken)">RemoveRecordEvent</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RemoveRecordEventParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int EntryId { get; set; }
+
+        public RemoveRecordEventRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.CreateRecordSeriesAsync(CreateRecordSeriesParameters, CancellationToken)">CreateRecordSeries</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateRecordSeriesParameters
+    {
+        public string RepositoryId { get; set; }
+
+        public int ParentEntryId { get; set; }
+
+        public CreateRecordSeriesRequest Request { get; set; }
 
     }
 
@@ -27823,6 +29696,646 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isReadOnly", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsReadOnly { get; set; }
+
+    }
+
+    /// <summary>
+    /// The records management properties of an entry. The same shape describes both a document<br/>
+    /// record (RecordType = Record) and a record folder<br/>
+    /// (RecordType = RecordFolder); members that do not apply to the entry's<br/>
+    /// type are omitted. Many members are computed by the repository and are read-only — they are<br/>
+    /// noted as such and are ignored on update.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordsManagementProperties
+    {
+        /// <summary>
+        /// Whether these properties describe a document record or a record folder. Determines which<br/>
+        /// of the type-specific members are present.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("recordType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public RecordEntryType RecordType { get; set; }
+
+        /// <summary>
+        /// The current lifecycle state. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public DispositionState? DispositionState { get; set; }
+
+        /// <summary>
+        /// True when the entry has been cut off. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCutoff", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsCutoff { get; set; }
+
+        /// <summary>
+        /// True when the entry is currently eligible for cutoff. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isEligibleForCutoff", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsEligibleForCutoff { get; set; }
+
+        /// <summary>
+        /// True when the entry is currently eligible for final disposition. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isEligibleForFinalDisposition", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsEligibleForFinalDisposition { get; set; }
+
+        /// <summary>
+        /// The date the entry was cut off, or null if not cut off. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? CutoffDate { get; set; }
+
+        /// <summary>
+        /// The date the entry becomes eligible for cutoff, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffEligibility", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? CutoffEligibility { get; set; }
+
+        /// <summary>
+        /// The date the entry becomes eligible for final disposition, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("finalDispositionEligibility", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? FinalDispositionEligibility { get; set; }
+
+        /// <summary>
+        /// The date final disposition was confirmed, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionConfirmationDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? DispositionConfirmationDate { get; set; }
+
+        /// <summary>
+        /// Projected and completed interim transfers. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("transferDates", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<RecordsManagementTransferDate> TransferDates { get; set; }
+
+        /// <summary>
+        /// The records management location the entry currently resides at, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("locationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? LocationId { get; set; }
+
+        /// <summary>
+        /// The disposition schedule currently governing the entry (own or inherited), or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("activeDispositionScheduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ActiveDispositionScheduleId { get; set; }
+
+        /// <summary>
+        /// The cutoff criterion assigned to the entry, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffCriterionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? CutoffCriterionId { get; set; }
+
+        /// <summary>
+        /// The disposition schedule assigned to the entry, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionScheduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? DispositionScheduleId { get; set; }
+
+        /// <summary>
+        /// The filing date, or null when unset.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("filingDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? FilingDate { get; set; }
+
+        /// <summary>
+        /// The alternate-retention trigger date, or null when unset.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("triggerDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? TriggerDate { get; set; }
+
+        /// <summary>
+        /// The record folder this record is filed under, or null when independent. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("recordFolderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? RecordFolderId { get; set; }
+
+        /// <summary>
+        /// True when the record is filed under a record folder. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("underRecordFolder", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? UnderRecordFolder { get; set; }
+
+        /// <summary>
+        /// True when the record was cut off individually rather than with its folder. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isIndividuallyCutoff", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsIndividuallyCutoff { get; set; }
+
+        /// <summary>
+        /// True when the cutoff criterion is inherited from the record folder.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCutoffCriterionInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsCutoffCriterionInherited { get; set; }
+
+        /// <summary>
+        /// True when the disposition schedule is inherited from the record folder.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isDispositionScheduleInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsDispositionScheduleInherited { get; set; }
+
+        /// <summary>
+        /// The reviewer recorded for the last vital-record review, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Reviewer { get; set; }
+
+        /// <summary>
+        /// The last vital-record review date, or null when unset.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lastReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? LastReviewDate { get; set; }
+
+        /// <summary>
+        /// The next scheduled vital-record review date, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("nextReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? NextReviewDate { get; set; }
+
+        /// <summary>
+        /// True when the record folder is closed to new filings.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isClosed", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsClosed { get; set; }
+
+        /// <summary>
+        /// True when the record folder is permanent (never destroyed).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPermanent { get; set; }
+
+        /// <summary>
+        /// The disposition authority name, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DispositionAuthority { get; set; }
+
+        /// <summary>
+        /// The vital-record review cycle (calendar cycle) id, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewCycleId { get; set; }
+
+        /// <summary>
+        /// The vital-record review interval, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewInterval { get; set; }
+
+        /// <summary>
+        /// The review interval unit.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
+
+    }
+
+    /// <summary>
+    /// Discriminates which kind of records management entry a set of records management properties<br/>
+    /// describes. Serialized by name.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum RecordEntryType
+    {
+
+        [EnumMember(Value = @"Record")]
+        Record = 0,
+
+        [EnumMember(Value = @"RecordFolder")]
+        RecordFolder = 1,
+
+    }
+
+    /// <summary>
+    /// The current lifecycle state of a record or record folder. Serialized by name.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum DispositionState
+    {
+
+        [EnumMember(Value = @"Open")]
+        Open = 0,
+
+        [EnumMember(Value = @"Closed")]
+        Closed = 1,
+
+        [EnumMember(Value = @"InRetention")]
+        InRetention = 2,
+
+        [EnumMember(Value = @"Transferred")]
+        Transferred = 3,
+
+        [EnumMember(Value = @"Eligible")]
+        Eligible = 4,
+
+        [EnumMember(Value = @"Partial")]
+        Partial = 5,
+
+        [EnumMember(Value = @"Final")]
+        Final = 6,
+
+    }
+
+    /// <summary>
+    /// A single interim-transfer step's dates for a record or record folder. A step is either a<br/>
+    /// completed transfer or a projected one (see Transferred). Output only.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordsManagementTransferDate
+    {
+        /// <summary>
+        /// The id of the disposition schedule transfer step this date corresponds to.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("transferId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TransferId { get; set; }
+
+        /// <summary>
+        /// The ordinal transfer number within the disposition schedule.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("transferNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TransferNumber { get; set; }
+
+        /// <summary>
+        /// The date the transfer occurred, or null when it has not yet taken place.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? Date { get; set; }
+
+        /// <summary>
+        /// The date the entry becomes (or became) eligible for this transfer.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("eligibleDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? EligibleDate { get; set; }
+
+        /// <summary>
+        /// True when the transfer has taken place; false when this is a projected date.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("transferred", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Transferred { get; set; }
+
+    }
+
+    /// <summary>
+    /// The unit of a vital-record review interval. Serialized by name.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ReviewIntervalUnit
+    {
+
+        [EnumMember(Value = @"NotApplicable")]
+        NotApplicable = 0,
+
+        [EnumMember(Value = @"Day")]
+        Day = 1,
+
+        [EnumMember(Value = @"Month")]
+        Month = 2,
+
+    }
+
+    /// <summary>
+    /// A list of entry ids returned by a records management folder query (for example, the records<br/>
+    /// eligible for disposition or transfer, or the independent records under a record folder).<br/>
+    /// Callers join these ids against the entry endpoints to retrieve the entries themselves.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordEntryIdCollection
+    {
+        /// <summary>
+        /// The matching entry ids.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entryIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<int> EntryIds { get; set; }
+
+    }
+
+    /// <summary>
+    /// The alternate-retention trigger events resolved for a record folder.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AltRetentionEventCollection
+    {
+        /// <summary>
+        /// The alternate-retention trigger events.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("events", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<AltRetentionEvent> Events { get; set; }
+
+    }
+
+    /// <summary>
+    /// An alternate-retention trigger event resolved for a record folder — the event whose<br/>
+    /// occurrence drives the folder's alternate disposition schedule. Output only.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AltRetentionEvent
+    {
+        /// <summary>
+        /// The entry the alternate-retention trigger applies to.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("entryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The records management event definition id that triggers the alternate retention.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("eventId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EventId { get; set; }
+
+        /// <summary>
+        /// The date the trigger event is set to occur, or null when unset.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("triggerDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? TriggerDate { get; set; }
+
+    }
+
+    /// <summary>
+    /// A record series' retention defaults. A record series provides cascading defaults (cutoff<br/>
+    /// criterion, disposition schedule, review cycle, permanence, disposition authority) that the<br/>
+    /// record folders and records beneath it resolve against.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordSeriesProperties
+    {
+        /// <summary>
+        /// The record series code.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("code", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// The default cutoff criterion id, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffCriterionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? CutoffCriterionId { get; set; }
+
+        /// <summary>
+        /// The default disposition schedule id, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionScheduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? DispositionScheduleId { get; set; }
+
+        /// <summary>
+        /// The disposition authority name, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DispositionAuthority { get; set; }
+
+        /// <summary>
+        /// True when records under the series are permanent (never destroyed).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsPermanent { get; set; }
+
+        /// <summary>
+        /// The default vital-record review cycle (calendar cycle) id, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewCycleId { get; set; }
+
+        /// <summary>
+        /// The default vital-record review interval, or null when none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewInterval { get; set; }
+
+        /// <summary>
+        /// The default review interval unit.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for partial-update of an entry's records management properties. Every member is<br/>
+    /// optional: null = leave unchanged. Id members accept 0 to clear the assignment.<br/>
+    /// Dates are set by supplying a value; the two clearable dates (record folder triggerDate<br/>
+    /// and record lastReviewDate) are cleared via their explicit clear* flags.<br/>
+    /// Applying this update to a plain document promotes it to a record, and to a plain folder<br/>
+    /// promotes it to a record folder, before the properties are applied. Members that do not apply<br/>
+    /// to the entry's resulting type (for example record-folder members on a document record) are<br/>
+    /// rejected with 400.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateRecordsManagementPropertiesRequest
+    {
+        /// <summary>
+        /// The cutoff criterion id to assign, or 0 to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffCriterionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? CutoffCriterionId { get; set; }
+
+        /// <summary>
+        /// The disposition schedule id to assign, or 0 to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionScheduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? DispositionScheduleId { get; set; }
+
+        /// <summary>
+        /// The filing date to set.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("filingDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? FilingDate { get; set; }
+
+        /// <summary>
+        /// The alternate-retention trigger date to set.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("triggerDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? TriggerDate { get; set; }
+
+        /// <summary>
+        /// Whether the cutoff criterion is inherited from the record folder. (record)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCutoffCriterionInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsCutoffCriterionInherited { get; set; }
+
+        /// <summary>
+        /// Whether the disposition schedule is inherited from the record folder. (record)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isDispositionScheduleInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsDispositionScheduleInherited { get; set; }
+
+        /// <summary>
+        /// The last vital-record review date to set. (record)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lastReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? LastReviewDate { get; set; }
+
+        /// <summary>
+        /// When true, clear the last vital-record review date. (record)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("clearLastReviewDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ClearLastReviewDate { get; set; }
+
+        /// <summary>
+        /// When true, clear the alternate-retention trigger date. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("clearTriggerDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ClearTriggerDate { get; set; }
+
+        /// <summary>
+        /// Whether the record folder is closed to new filings. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isClosed", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsClosed { get; set; }
+
+        /// <summary>
+        /// Whether the record folder is permanent (never destroyed). (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPermanent { get; set; }
+
+        /// <summary>
+        /// The disposition authority name; empty string to clear. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DispositionAuthority { get; set; }
+
+        /// <summary>
+        /// The vital-record review cycle (calendar cycle) id to assign, or 0 to clear. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewCycleId { get; set; }
+
+        /// <summary>
+        /// The vital-record review interval to set. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewInterval { get; set; }
+
+        /// <summary>
+        /// The review interval unit. (recordFolder)
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for setting a records management event date on a record or record folder.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SetRecordEventRequest
+    {
+        /// <summary>
+        /// The records management event definition id whose date is being set.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("eventId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EventId { get; set; }
+
+        /// <summary>
+        /// The date to record for the event.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset Date { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for removing a records management event date from a record or record folder.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RemoveRecordEventRequest
+    {
+        /// <summary>
+        /// The records management event definition id whose date is being removed.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("eventId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int EventId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for partial-update of a record series' retention defaults. Every member is<br/>
+    /// optional: null = leave unchanged. Id members accept 0 to clear the assignment.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateRecordSeriesPropertiesRequest
+    {
+        /// <summary>
+        /// The default cutoff criterion id to assign, or 0 to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cutoffCriterionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? CutoffCriterionId { get; set; }
+
+        /// <summary>
+        /// The default disposition schedule id to assign, or 0 to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionScheduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? DispositionScheduleId { get; set; }
+
+        /// <summary>
+        /// The disposition authority name; empty string to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DispositionAuthority { get; set; }
+
+        /// <summary>
+        /// Whether records under the series are permanent (never destroyed).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPermanent { get; set; }
+
+        /// <summary>
+        /// The default vital-record review cycle (calendar cycle) id to assign, or 0 to clear.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewCycleId { get; set; }
+
+        /// <summary>
+        /// The default vital-record review interval to set.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewInterval { get; set; }
+
+        /// <summary>
+        /// The default review interval unit.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
+
+        /// <summary>
+        /// When true, cascade the changed defaults to the record folders and records beneath the<br/>
+        /// series. When false (default), only the series' own defaults change.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cascade", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Cascade { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for creating a record series under a parent folder.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateRecordSeriesRequest
+    {
+        /// <summary>
+        /// The name of the new record series.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The record series code.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("code", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// When true, the server appends a suffix to the name on a naming conflict instead of failing.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("autoRename", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool AutoRename { get; set; }
 
     }
 
