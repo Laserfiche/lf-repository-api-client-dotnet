@@ -19870,6 +19870,8 @@ namespace Laserfiche.Repository.Api.Client
                 throw new ArgumentNullException("parameters");
 
             var repositoryId = parameters.RepositoryId;
+            var name = parameters.Name;
+            var isPublic = parameters.IsPublic;
             var file = parameters.File;
 
             if (repositoryId == null)
@@ -19880,6 +19882,16 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("v2/Repositories/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Stamps");
+                    urlBuilder_.Append('?');
+                    if (name != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("name")).Append('=').Append(Uri.EscapeDataString(ConvertToString(name, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (isPublic != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("isPublic")).Append('=').Append(Uri.EscapeDataString(ConvertToString(isPublic, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -20801,6 +20813,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class CreateStampParameters
     {
         public string RepositoryId { get; set; }
+
+        public string Name { get; set; } = null;
+
+        public bool? IsPublic { get; set; } = null;
 
         /// <summary>
         /// The image file to upload. See https://doc.laserfiche.com/ for supported image file formats.

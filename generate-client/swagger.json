@@ -11009,6 +11009,23 @@
               "type": "string"
             },
             "x-position": 1
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "isPublic",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
           }
         ],
         "requestBody": {
