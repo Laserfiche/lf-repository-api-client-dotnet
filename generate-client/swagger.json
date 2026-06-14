@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
     "version": "2"
   },
   "servers": [
@@ -12,6 +12,1631 @@
     }
   ],
   "paths": {
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Annotations": {
+      "get": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Returns all annotations on a document.",
+        "description": "- Returns every annotation on every page of the document, as a polymorphic list keyed by annotation type.\n- Requires the \"see annotations\" entry right; redaction content is only revealed to callers with the \"see through redactions\" right.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListDocumentAnnotations",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The document entry ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the annotations on the document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Annotation"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Pages/{pageNumber}/Annotations": {
+      "get": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Returns all annotations on a single page of a document.",
+        "description": "- Returns the annotations on the requested page, as a polymorphic list keyed by annotation type.\n- Requires the \"see annotations\" entry right; redaction content is only revealed to callers with the \"see through redactions\" right.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListPageAnnotations",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The document entry ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "description": "The 1-based page number.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 7
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the annotations on the page.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Annotation"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Creates an annotation on a page.",
+        "description": "- The request body is a polymorphic annotation discriminated by `annotationType`; supply the writable members for that type.\n- For attachment and bitmap annotations, create the annotation first, then upload its binary content via the dedicated sub-resource.\n- Requires the \"annotate\" entry right.\n- Required OAuth scope: repository.Write",
+        "operationId": "CreateAnnotation",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Annotation"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 4
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the annotation. Returned the created annotation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Annotation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Pages/{pageNumber}/Annotations/{itemId}": {
+      "get": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Returns a single annotation by its item ID within a page.",
+        "description": "- Returns the annotation, typed by annotation type.\n- Requires the \"see annotations\" entry right; redaction content is only revealed to callers with the \"see through redactions\" right.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetAnnotation",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The document entry ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "description": "The 1-based page number.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "description": "The annotation item ID, unique within the page.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the requested annotation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Annotation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Applies a partial update to an annotation.",
+        "description": "- Supply only the members to change; omitted members are left unchanged. The `annotationType` must match the existing annotation.\n- Requires the \"annotate\" entry right.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateAnnotation",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Annotation"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 5
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the annotation. Returned the updated annotation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Annotation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Deletes an annotation.",
+        "description": "- Requires the \"annotate\" entry right.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteAnnotation",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the annotation."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Pages/{pageNumber}/Annotations/{itemId}/Attachment": {
+      "get": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Returns the binary content of an attachment annotation.",
+        "description": "- Streams the attached file. Fails with a bad request if the annotation is not an attachment.\n- Requires the \"see annotations\" entry right.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetAnnotationAttachment",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The document entry ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "description": "The 1-based page number.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "description": "The attachment annotation's item ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the content of the attachment annotation.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Uploads the binary content of an attachment annotation.",
+        "description": "- Send the file as multipart/form-data under the form field \"file\". The annotation must already exist and be an attachment annotation.\n- Requires the \"annotate\" entry right.\n- Required OAuth scope: repository.Write",
+        "operationId": "UploadAnnotationAttachment",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "The image file to upload. See https://doc.laserfiche.com/ for supported image file formats.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully uploaded the attachment content."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/AnnotationReasons": {
+      "get": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Returns the repository's annotation reasons.",
+        "description": "- Returns the redaction reasons defined in the repository.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListAnnotationReasons",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the repository's annotation reasons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnnotationReason"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Creates an annotation reason.",
+        "description": "- Required OAuth scope: repository.Write",
+        "operationId": "CreateAnnotationReason",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationReasonRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the annotation reason. Returned the created reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationReason"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Pages/{pageNumber}/Annotations/{itemId}/Image": {
+      "put": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Uploads the image bytes of a bitmap annotation.",
+        "description": "- Send the image as multipart/form-data under the form field \"file\". The annotation must already exist and be a bitmap annotation.\n- Requires the \"annotate\" entry right.\n- Required OAuth scope: repository.Write",
+        "operationId": "UploadAnnotationImage",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "The image file to upload. See https://doc.laserfiche.com/ for supported image file formats.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully uploaded the bitmap annotation image."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested document, page, or annotation was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/AnnotationReasons/{reasonId}": {
+      "patch": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Updates an annotation reason's text.",
+        "description": "- Required OAuth scope: repository.Write",
+        "operationId": "UpdateAnnotationReason",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "reasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationReasonRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the annotation reason. Returned the updated reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationReason"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Annotations"
+        ],
+        "summary": "Deletes an annotation reason.",
+        "description": "- When `force` is false, deleting a reason that is in use fails.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteAnnotationReason",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "reasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the annotation reason."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/Attributes": {
       "get": {
         "tags": [
@@ -9241,6 +10866,690 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Stamps": {
+      "get": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Lists stamps in the repository stamp catalog.",
+        "description": "- Use `scope` to select public, personal, or all stamps. The image bytes are not included; fetch them from the stamp's Image sub-resource.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListStamps",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "default": 0,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/StampScope"
+                }
+              ]
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Specifies the order in which items are returned. The maximum number of expressions is 5.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the repository's stamps.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Stamp"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Creates a stamp from an uploaded image.",
+        "description": "- Send the image as multipart/form-data under the form field \"file\", with \"name\" and \"isPublic\" form fields. The service converts the image to the repository's internal format.\n- Creating a public stamp requires the stamp-management privilege; personal stamps require no special privilege.\n- Required OAuth scope: repository.Write",
+        "operationId": "CreateStamp",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "The image file to upload. See https://doc.laserfiche.com/ for supported image file formats.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created the stamp. Returned the created stamp.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stamp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Stamps/{stampId}": {
+      "get": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Gets a stamp's metadata by ID.",
+        "description": "- Required OAuth scope: repository.Read",
+        "operationId": "GetStamp",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "stampId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the stamp's metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stamp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested stamp was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Updates a stamp's metadata (name, custom data). The stamp image cannot be changed after creation.",
+        "description": "- Managing a public stamp requires the stamp-management privilege.\n- Required OAuth scope: repository.Write",
+        "operationId": "UpdateStamp",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "stampId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStampRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the stamp. Returned the updated stamp.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stamp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested stamp was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Deletes a stamp.",
+        "description": "- Deleting a public stamp requires the stamp-management privilege.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteStamp",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "stampId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the stamp."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested stamp was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Stamps/{stampId}/Image": {
+      "get": {
+        "tags": [
+          "Stamps"
+        ],
+        "summary": "Gets a stamp's image as a PNG.",
+        "description": "- Use `scope` to indicate whether the stamp is public or personal. An optional `color` (#RRGGBB) recolors the image.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetStampImage",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "stampId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "default": 0,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/StampScope"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the stamp image as a PNG.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested stamp was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/TagDefinitions": {
       "get": {
         "tags": [
@@ -11656,47 +13965,1298 @@
   },
   "components": {
     "schemas": {
-      "AttributeCollectionResponse": {
+      "Annotation": {
         "type": "object",
-        "description": "Response containing a collection of Attribute.",
+        "description": "A document annotation. This is a polymorphic response: the concrete shape is determined\nby AnnotationType, and the type-specific properties live on the matching\nsubtype (for example NoteAnnotation, StampAnnotation).",
+        "x-abstract": true,
         "additionalProperties": false,
         "properties": {
-          "@odata.nextLink": {
+          "itemId": {
+            "type": "integer",
+            "description": "The identifier of the annotation, unique within its page.",
+            "format": "int32"
+          },
+          "entryId": {
+            "type": "integer",
+            "description": "The ID of the document entry the annotation belongs to.",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "The 1-based page number the annotation is on.",
+            "format": "int32"
+          },
+          "annotationType": {
+            "description": "The type of the annotation.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AnnotationType"
+              }
+            ]
+          },
+          "creator": {
             "type": "string",
-            "description": "A URL to retrieve the next page of the requested collection.",
+            "description": "The security identifier (SID) of the user that created the annotation.",
             "nullable": true
           },
-          "@odata.count": {
+          "createdTime": {
+            "type": "string",
+            "description": "The UTC time the annotation was created.",
+            "format": "date-time"
+          },
+          "lastModifiedTime": {
+            "type": "string",
+            "description": "The UTC time the annotation was last modified.",
+            "format": "date-time"
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the annotation is read-only (for example, on an archived version)."
+          },
+          "isProtected": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the annotation is protected so that only its creator can modify it."
+          },
+          "visibility": {
+            "description": "Controls who can see the annotation.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AnnotationVisibility"
+              }
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "An optional comment on the annotation.",
+            "nullable": true
+          },
+          "customData": {
+            "type": "string",
+            "description": "Optional application-defined custom data stored with the annotation.",
+            "nullable": true
+          },
+          "zOrder": {
             "type": "integer",
-            "description": "The total count of items within a collection.",
+            "description": "The z-order of the annotation; higher values draw on top.",
+            "format": "int32"
+          },
+          "reasonId": {
+            "type": "integer",
+            "description": "The ID of the redaction reason associated with the annotation, if any.",
             "format": "int32",
             "nullable": true
           },
-          "value": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Attribute"
-            }
+          "accessType": {
+            "description": "How the annotation participates in access control.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AnnotationAccessControlType"
+              }
+            ]
           }
         }
       },
-      "Attribute": {
+      "AnnotationType": {
+        "type": "string",
+        "description": "The kind of a document annotation. Used as the discriminator for the polymorphic\nAnnotation response.",
+        "x-enum-names": [
+          "Highlight",
+          "Redaction",
+          "Strikeout",
+          "Underline",
+          "Note",
+          "Attachment",
+          "TextBox",
+          "Bitmap",
+          "Line",
+          "Rectangle",
+          "Polyline",
+          "Callout",
+          "Stamp",
+          "FreeHand"
+        ],
+        "x-enum-varnames": [
+          "Highlight",
+          "Redaction",
+          "Strikeout",
+          "Underline",
+          "Note",
+          "Attachment",
+          "TextBox",
+          "Bitmap",
+          "Line",
+          "Rectangle",
+          "Polyline",
+          "Callout",
+          "Stamp",
+          "FreeHand"
+        ],
+        "x-enumNames": [
+          "Highlight",
+          "Redaction",
+          "Strikeout",
+          "Underline",
+          "Note",
+          "Attachment",
+          "TextBox",
+          "Bitmap",
+          "Line",
+          "Rectangle",
+          "Polyline",
+          "Callout",
+          "Stamp",
+          "FreeHand"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Highlight",
+          "Redaction",
+          "Strikeout",
+          "Underline",
+          "Note",
+          "Attachment",
+          "TextBox",
+          "Bitmap",
+          "Line",
+          "Rectangle",
+          "Polyline",
+          "Callout",
+          "Stamp",
+          "FreeHand"
+        ]
+      },
+      "AnnotationVisibility": {
+        "type": "string",
+        "description": "Controls who can see an annotation.",
+        "x-enum-names": [
+          "CreatorAndOwner",
+          "Standard",
+          "AllUsers"
+        ],
+        "x-enum-varnames": [
+          "CreatorAndOwner",
+          "Standard",
+          "AllUsers"
+        ],
+        "x-enumNames": [
+          "CreatorAndOwner",
+          "Standard",
+          "AllUsers"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "CreatorAndOwner",
+          "Standard",
+          "AllUsers"
+        ]
+      },
+      "AnnotationAccessControlType": {
+        "type": "string",
+        "description": "How an annotation participates in access control.",
+        "x-enum-names": [
+          "None",
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-varnames": [
+          "None",
+          "Allow",
+          "Deny"
+        ],
+        "x-enumNames": [
+          "None",
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "None",
+          "Allow",
+          "Deny"
+        ]
+      },
+      "HighlightAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "Highlights one or more regions of a page.",
+            "additionalProperties": false,
+            "properties": {
+              "color": {
+                "type": "string",
+                "description": "The highlight color as an RGB hex string (for example, \"#FFFF00\"); null if transparent.",
+                "nullable": true
+              },
+              "textStart": {
+                "type": "integer",
+                "description": "The start offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "textEnd": {
+                "type": "integer",
+                "description": "The end offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "rectangles": {
+                "type": "array",
+                "description": "The rectangular regions covered by the highlight.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationRectangle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "AnnotationRectangle": {
         "type": "object",
-        "description": "Represents a trustee attribute.",
+        "description": "A rectangular region on a page, in image pixels from the top-left corner.",
         "additionalProperties": false,
         "properties": {
-          "key": {
-            "type": "string",
-            "description": "The attribute key.",
-            "nullable": true
+          "x": {
+            "type": "integer",
+            "description": "The horizontal offset in pixels of the left edge of the rectangle.",
+            "format": "int32"
           },
-          "value": {
-            "type": "string",
-            "description": "The attribute value.",
-            "nullable": true
+          "y": {
+            "type": "integer",
+            "description": "The vertical offset in pixels of the top edge of the rectangle.",
+            "format": "int32"
+          },
+          "width": {
+            "type": "integer",
+            "description": "The width of the rectangle in pixels.",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "description": "The height of the rectangle in pixels.",
+            "format": "int32"
           }
         }
+      },
+      "RedactionAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "Obscures one or more regions of a page. Redactions are overlays; the underlying content\nis preserved and is only hidden from users without the right to see through redactions.",
+            "additionalProperties": false,
+            "properties": {
+              "isWhiteout": {
+                "type": "boolean",
+                "description": "A boolean indicating whether the region is whited out (true) rather than blacked out (false)."
+              },
+              "textStart": {
+                "type": "integer",
+                "description": "The start offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "textEnd": {
+                "type": "integer",
+                "description": "The end offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "rectangles": {
+                "type": "array",
+                "description": "The rectangular regions covered by the redaction.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationRectangle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "StrikeoutAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "Strikes through one or more regions of a page.",
+            "additionalProperties": false,
+            "properties": {
+              "color": {
+                "type": "string",
+                "description": "The strikeout color as an RGB hex string (for example, \"#FF0000\"); null if transparent.",
+                "nullable": true
+              },
+              "direction": {
+                "description": "The reading direction of the struck-through text.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TextDirection"
+                  }
+                ]
+              },
+              "textStart": {
+                "type": "integer",
+                "description": "The start offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "textEnd": {
+                "type": "integer",
+                "description": "The end offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "rectangles": {
+                "type": "array",
+                "description": "The rectangular regions covered by the strikeout.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationRectangle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "TextDirection": {
+        "type": "string",
+        "description": "The reading direction of annotation text.",
+        "x-enum-names": [
+          "LeftToRight",
+          "TopToBottom",
+          "RightToLeft",
+          "BottomToTop"
+        ],
+        "x-enum-varnames": [
+          "LeftToRight",
+          "TopToBottom",
+          "RightToLeft",
+          "BottomToTop"
+        ],
+        "x-enumNames": [
+          "LeftToRight",
+          "TopToBottom",
+          "RightToLeft",
+          "BottomToTop"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "LeftToRight",
+          "TopToBottom",
+          "RightToLeft",
+          "BottomToTop"
+        ]
+      },
+      "UnderlineAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "Underlines one or more regions of a page.",
+            "additionalProperties": false,
+            "properties": {
+              "color": {
+                "type": "string",
+                "description": "The underline color as an RGB hex string (for example, \"#FF0000\"); null if transparent.",
+                "nullable": true
+              },
+              "direction": {
+                "description": "The reading direction of the underlined text.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TextDirection"
+                  }
+                ]
+              },
+              "textStart": {
+                "type": "integer",
+                "description": "The start offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "textEnd": {
+                "type": "integer",
+                "description": "The end offset of the linked text span, or -1 when not linked to text.",
+                "format": "int32"
+              },
+              "rectangles": {
+                "type": "array",
+                "description": "The rectangular regions covered by the underline.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationRectangle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NoteAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A sticky note placed on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "description": "The top-left position of the note on the page.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "color": {
+                "type": "string",
+                "description": "The background color of the note as an RGB hex string (for example, \"#FFFF00\"); null if transparent.",
+                "nullable": true
+              },
+              "text": {
+                "type": "string",
+                "description": "The text content of the note.",
+                "nullable": true
+              },
+              "keepHistory": {
+                "type": "boolean",
+                "description": "A boolean indicating whether the note keeps a revision history."
+              }
+            }
+          }
+        ]
+      },
+      "AnnotationPoint": {
+        "type": "object",
+        "description": "A point on a page, in image pixels from the top-left corner.",
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": "The horizontal offset in pixels from the left edge of the page.",
+            "format": "int32"
+          },
+          "y": {
+            "type": "integer",
+            "description": "The vertical offset in pixels from the top edge of the page.",
+            "format": "int32"
+          }
+        }
+      },
+      "AttachmentAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A file attached to a page. The attached file's bytes are retrieved through the\nattachment-content endpoint, not in the annotation response.",
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "description": "The top-left position of the attachment icon on the page.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "fileName": {
+                "type": "string",
+                "description": "The original file name of the attachment.",
+                "nullable": true
+              },
+              "mimeType": {
+                "type": "string",
+                "description": "The MIME type of the attached file.",
+                "nullable": true
+              },
+              "attachmentLength": {
+                "type": "integer",
+                "description": "The size of the attached file in bytes.",
+                "format": "int64"
+              }
+            }
+          }
+        ]
+      },
+      "TextBoxAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A bordered text box drawn on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "description": "The bounding rectangle of the text box.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationRectangle"
+                  }
+                ]
+              },
+              "fillColor": {
+                "type": "string",
+                "description": "The fill color as an RGB hex string; null if not filled.",
+                "nullable": true
+              },
+              "borderColor": {
+                "type": "string",
+                "description": "The border color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "borderStyle": {
+                "description": "The border stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "borderThickness": {
+                "type": "integer",
+                "description": "The border thickness in pixels.",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the text box as a percentage (0-100).",
+                "format": "int32"
+              },
+              "text": {
+                "type": "string",
+                "description": "The text displayed in the box.",
+                "nullable": true
+              },
+              "textSize": {
+                "type": "integer",
+                "description": "The font size of the text in points.",
+                "format": "int32"
+              },
+              "direction": {
+                "description": "The reading direction of the text.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TextDirection"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "LineStyle": {
+        "type": "string",
+        "description": "The stroke style of a line or border.",
+        "x-enum-names": [
+          "Solid",
+          "Dashed1",
+          "Dashed2",
+          "Dashed3",
+          "Dashed4",
+          "Dashed5",
+          "Dashed6",
+          "Cloud1",
+          "Cloud2"
+        ],
+        "x-enum-varnames": [
+          "Solid",
+          "Dashed1",
+          "Dashed2",
+          "Dashed3",
+          "Dashed4",
+          "Dashed5",
+          "Dashed6",
+          "Cloud1",
+          "Cloud2"
+        ],
+        "x-enumNames": [
+          "Solid",
+          "Dashed1",
+          "Dashed2",
+          "Dashed3",
+          "Dashed4",
+          "Dashed5",
+          "Dashed6",
+          "Cloud1",
+          "Cloud2"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Solid",
+          "Dashed1",
+          "Dashed2",
+          "Dashed3",
+          "Dashed4",
+          "Dashed5",
+          "Dashed6",
+          "Cloud1",
+          "Cloud2"
+        ]
+      },
+      "BitmapAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "An image placed on a page. The image bytes are not included in the annotation response;\nthey are uploaded and managed separately.",
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "description": "The top-left position of the image on the page.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "size": {
+                "description": "The rendered size of the image in pixels.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationSize"
+                  }
+                ]
+              },
+              "rotation": {
+                "type": "integer",
+                "description": "The clockwise rotation of the image in degrees (0-359).",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the image as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "AnnotationSize": {
+        "type": "object",
+        "description": "A size in image pixels.",
+        "additionalProperties": false,
+        "properties": {
+          "width": {
+            "type": "integer",
+            "description": "The width in pixels.",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "description": "The height in pixels.",
+            "format": "int32"
+          }
+        }
+      },
+      "LineAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A straight line or arrow drawn on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "beginPosition": {
+                "description": "The start point of the line.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "endPosition": {
+                "description": "The end point of the line.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "beginStyle": {
+                "description": "The cap style at the start of the line.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineEndingStyle"
+                  }
+                ]
+              },
+              "endStyle": {
+                "description": "The cap style at the end of the line.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineEndingStyle"
+                  }
+                ]
+              },
+              "lineStyle": {
+                "description": "The line stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "color": {
+                "type": "string",
+                "description": "The line color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "endColor": {
+                "type": "string",
+                "description": "The end-cap color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "thickness": {
+                "type": "integer",
+                "description": "The line thickness in pixels.",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the line as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "LineEndingStyle": {
+        "type": "string",
+        "description": "The cap style at the end of a line.",
+        "x-enum-names": [
+          "None",
+          "Open",
+          "Closed",
+          "OpenReversed",
+          "ClosedReversed",
+          "Butt",
+          "Diamond",
+          "Round",
+          "Square",
+          "Slash"
+        ],
+        "x-enum-varnames": [
+          "None",
+          "Open",
+          "Closed",
+          "OpenReversed",
+          "ClosedReversed",
+          "Butt",
+          "Diamond",
+          "Round",
+          "Square",
+          "Slash"
+        ],
+        "x-enumNames": [
+          "None",
+          "Open",
+          "Closed",
+          "OpenReversed",
+          "ClosedReversed",
+          "Butt",
+          "Diamond",
+          "Round",
+          "Square",
+          "Slash"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "None",
+          "Open",
+          "Closed",
+          "OpenReversed",
+          "ClosedReversed",
+          "Butt",
+          "Diamond",
+          "Round",
+          "Square",
+          "Slash"
+        ]
+      },
+      "RectangleAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A rectangle, rounded rectangle, or ellipse drawn on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "description": "The bounding rectangle of the shape.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationRectangle"
+                  }
+                ]
+              },
+              "fillColor": {
+                "type": "string",
+                "description": "The fill color as an RGB hex string (for example, \"#FF0000\"); null if not filled.",
+                "nullable": true
+              },
+              "boxStyle": {
+                "description": "The shape drawn within the bounding rectangle.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/BoxStyle"
+                  }
+                ]
+              },
+              "borderStyle": {
+                "description": "The border stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "borderColor": {
+                "type": "string",
+                "description": "The border color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "borderThickness": {
+                "type": "integer",
+                "description": "The border thickness in pixels.",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the shape as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BoxStyle": {
+        "type": "string",
+        "description": "The shape of a rectangle annotation.",
+        "x-enum-names": [
+          "Rectangle",
+          "Ellipse",
+          "RoundedRectangle"
+        ],
+        "x-enum-varnames": [
+          "Rectangle",
+          "Ellipse",
+          "RoundedRectangle"
+        ],
+        "x-enumNames": [
+          "Rectangle",
+          "Ellipse",
+          "RoundedRectangle"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Rectangle",
+          "Ellipse",
+          "RoundedRectangle"
+        ]
+      },
+      "PolylineAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A closed multi-point polygon drawn on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "points": {
+                "type": "array",
+                "description": "The ordered vertices of the polygon.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationPoint"
+                }
+              },
+              "lineStyle": {
+                "description": "The border stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "fillColor": {
+                "type": "string",
+                "description": "The fill color as an RGB hex string; null if not filled.",
+                "nullable": true
+              },
+              "fillStyle": {
+                "description": "Whether the polygon is filled.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/FillStyle"
+                  }
+                ]
+              },
+              "color": {
+                "type": "string",
+                "description": "The border color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "thickness": {
+                "type": "integer",
+                "description": "The border thickness in pixels.",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the polygon as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "FillStyle": {
+        "type": "string",
+        "description": "Whether a closed shape is filled.",
+        "x-enum-names": [
+          "None",
+          "Solid"
+        ],
+        "x-enum-varnames": [
+          "None",
+          "Solid"
+        ],
+        "x-enumNames": [
+          "None",
+          "Solid"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "None",
+          "Solid"
+        ]
+      },
+      "CalloutAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A text box with a pointer leading to a focus point on the page.",
+            "additionalProperties": false,
+            "properties": {
+              "boxCoordinates": {
+                "description": "The bounding rectangle of the callout's text box.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationRectangle"
+                  }
+                ]
+              },
+              "focusPosition": {
+                "description": "The point the callout pointer leads to.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "fillColor": {
+                "type": "string",
+                "description": "The fill color as an RGB hex string; null if not filled.",
+                "nullable": true
+              },
+              "borderColor": {
+                "type": "string",
+                "description": "The border and pointer color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "borderStyle": {
+                "description": "The border stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "borderThickness": {
+                "type": "integer",
+                "description": "The border thickness in pixels.",
+                "format": "int32"
+              },
+              "focusStyle": {
+                "description": "The cap style at the focus end of the pointer.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineEndingStyle"
+                  }
+                ]
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the callout as a percentage (0-100).",
+                "format": "int32"
+              },
+              "textSize": {
+                "type": "integer",
+                "description": "The font size of the text in points.",
+                "format": "int32"
+              },
+              "text": {
+                "type": "string",
+                "description": "The text displayed in the callout.",
+                "nullable": true
+              },
+              "direction": {
+                "description": "The reading direction of the text.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TextDirection"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "StampAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A placement of a catalog stamp on a page. The stamp image itself is defined by the\ncatalog entry referenced by StampId.",
+            "additionalProperties": false,
+            "properties": {
+              "stampId": {
+                "type": "integer",
+                "description": "The ID of the catalog stamp placed; 0 when the stamp carries its own inline bitmap.",
+                "format": "int32"
+              },
+              "coordinates": {
+                "description": "The rectangle the stamp is drawn into.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationRectangle"
+                  }
+                ]
+              },
+              "position": {
+                "description": "The top-left position of the stamp on the page.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AnnotationPoint"
+                  }
+                ]
+              },
+              "color": {
+                "type": "string",
+                "description": "The render color of the stamp as an RGB hex string (for example, \"#000000\"); null if transparent.",
+                "nullable": true
+              },
+              "rotation": {
+                "type": "integer",
+                "description": "The clockwise rotation of the stamp in degrees (0-359).",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the stamp as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "FreeHandAnnotation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Annotation"
+          },
+          {
+            "type": "object",
+            "description": "A freehand-drawn multi-point line on a page.",
+            "additionalProperties": false,
+            "properties": {
+              "points": {
+                "type": "array",
+                "description": "The ordered points of the freehand stroke.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AnnotationPoint"
+                }
+              },
+              "lineStyle": {
+                "description": "The stroke style.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/LineStyle"
+                  }
+                ]
+              },
+              "color": {
+                "type": "string",
+                "description": "The stroke color as an RGB hex string; null if transparent.",
+                "nullable": true
+              },
+              "thickness": {
+                "type": "integer",
+                "description": "The stroke thickness in pixels.",
+                "format": "int32"
+              },
+              "opacity": {
+                "type": "integer",
+                "description": "The opacity of the stroke as a percentage (0-100).",
+                "format": "int32"
+              }
+            }
+          }
+        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -11761,6 +15321,78 @@
           }
         }
       },
+      "AnnotationReason": {
+        "type": "object",
+        "description": "A repository-defined reason that can be associated with a redaction annotation.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the annotation reason.",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "description": "The display text of the annotation reason.",
+            "nullable": true
+          }
+        }
+      },
+      "AnnotationReasonRequest": {
+        "type": "object",
+        "description": "Request body for creating or updating an annotation (redaction) reason.",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The display text of the annotation reason.",
+            "nullable": true
+          }
+        }
+      },
+      "AttributeCollectionResponse": {
+        "type": "object",
+        "description": "Response containing a collection of Attribute.",
+        "additionalProperties": false,
+        "properties": {
+          "@odata.nextLink": {
+            "type": "string",
+            "description": "A URL to retrieve the next page of the requested collection.",
+            "nullable": true
+          },
+          "@odata.count": {
+            "type": "integer",
+            "description": "The total count of items within a collection.",
+            "format": "int32",
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Attribute"
+            }
+          }
+        }
+      },
+      "Attribute": {
+        "type": "object",
+        "description": "Represents a trustee attribute.",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The attribute key.",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "description": "The attribute value.",
+            "nullable": true
+          }
+        }
+      },
       "AuditReasonCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of AuditReason.",
@@ -11779,6 +15411,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -12124,6 +15757,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -12613,6 +16247,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -13729,6 +17364,7 @@
         "properties": {
           "value": {
             "type": "string",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -13846,6 +17482,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -13871,6 +17508,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -13911,6 +17549,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -14030,6 +17669,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -14410,6 +18050,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -14637,6 +18278,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -14746,6 +18388,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -14964,6 +18607,98 @@
           }
         }
       },
+      "Stamp": {
+        "type": "object",
+        "description": "A stamp in the repository stamp catalog. The stamp image is retrieved separately as a PNG.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the stamp.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the stamp.",
+            "nullable": true
+          },
+          "isPublic": {
+            "type": "boolean",
+            "description": "A boolean indicating whether the stamp is public (shared) rather than personal."
+          },
+          "owner": {
+            "type": "string",
+            "description": "The security identifier (SID) of the stamp's owner.",
+            "nullable": true
+          },
+          "customData": {
+            "type": "string",
+            "description": "Optional application-defined custom data stored with the stamp.",
+            "nullable": true
+          },
+          "imageWidth": {
+            "type": "integer",
+            "description": "The width of the stamp image in pixels.",
+            "format": "int32"
+          },
+          "imageHeight": {
+            "type": "integer",
+            "description": "The height of the stamp image in pixels.",
+            "format": "int32"
+          }
+        }
+      },
+      "StampScope": {
+        "type": "integer",
+        "description": "Which stamps to list.",
+        "x-enum-names": [
+          "Public",
+          "Personal",
+          "All"
+        ],
+        "x-enum-varnames": [
+          "Public",
+          "Personal",
+          "All"
+        ],
+        "x-enumNames": [
+          "Public",
+          "Personal",
+          "All"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "UpdateStampRequest": {
+        "type": "object",
+        "description": "Request body for updating a stamp's metadata. The stamp image cannot be changed after creation.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The new display name of the stamp. Omit to leave unchanged.",
+            "nullable": true
+          },
+          "customData": {
+            "type": "string",
+            "description": "New custom data for the stamp. Omit to leave unchanged.",
+            "nullable": true
+          }
+        }
+      },
       "TagDefinitionCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of TagDefinition.",
@@ -14982,6 +18717,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -15036,6 +18772,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -15219,6 +18956,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -15268,6 +19006,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -15293,6 +19032,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -15569,11 +19309,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."
