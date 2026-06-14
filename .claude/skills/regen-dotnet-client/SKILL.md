@@ -63,7 +63,9 @@ py generate-client/download_swagger.py `
     --swagger-override-filepath "generate-client/swagger-override.json"
 ```
 
-A `generate-client/swagger-override.json` exists but is effectively empty (`{"components":{"schemas":{}}}`). Unlike the JS client, dotnet NSwag handles the abstract `Entry` correctly without a discriminator injection. If a future case needs an override, add it there.
+A `generate-client/swagger-override.json` exists but is effectively empty (`{"components":{"schemas":{}}}`). **Do NOT add a discriminator block here to fix polymorphic deserialization** (the JS client does that, but the dotnet client must not): a `discriminator` in the swagger makes NSwag emit its own `JsonInheritanceConverter`/`JsonInheritanceAttribute` classes, which then collide with the hand-maintained copies in `src/Clients/RepositoryClientsPartial.cs` (`CS0101: already contains a definition`).
+
+**Polymorphic response types — register them in `RepositoryClientsPartial.cs`, not the override.** Abstract base response types (`Entry`, `Annotation`, …) deserialize via a hand-maintained partial in `src/Clients/RepositoryClientsPartial.cs` that applies `[JsonConverter(typeof(JsonInheritanceConverter), "<discriminatorProp>")]` + one `[JsonInheritance("<value>", typeof(Subtype))]` per concrete subtype to a `partial class <Base> {}`. When you add a new polymorphic family server-side, add a matching partial block (copy the `Entry` block). **Symptom if you forget:** `JsonSerializationException: Could not create an instance of type <Base>. Type is an interface or abstract class and cannot be instantiated.` at deserialize time — the regen compiles and unit tests pass; only an integration round-trip that deserializes a response surfaces it.
 
 Use `py` or `C:\Python314\python.exe` — avoid `python3` (broken Windows Store alias).
 
