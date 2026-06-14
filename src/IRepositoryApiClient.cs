@@ -21,6 +21,10 @@ namespace Laserfiche.Repository.Api.Client
         TimeSpan HttpClientTimeout { get; set; }
 
         /// <summary>
+        /// The Laserfiche Repository Annotations API client.
+        /// </summary>
+        IAnnotationsClient AnnotationsClient { get; }
+        /// <summary>
         /// The Laserfiche Repository Attributes API client.
         /// </summary>
         IAttributesClient AttributesClient { get; }
@@ -52,6 +56,10 @@ namespace Laserfiche.Repository.Api.Client
         /// The Laserfiche Repository Simple Searches API client.
         /// </summary>
         ISimpleSearchesClient SimpleSearchesClient { get; }
+        /// <summary>
+        /// The Laserfiche Repository Stamps API client.
+        /// </summary>
+        IStampsClient StampsClient { get; }
         /// <summary>
         /// The Laserfiche Repository Tag Definitions API client.
         /// </summary>

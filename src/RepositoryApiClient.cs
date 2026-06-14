@@ -32,6 +32,8 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <inheritdoc/>
+        public IAnnotationsClient AnnotationsClient { get; }
+        /// <inheritdoc/>
         public IAttributesClient AttributesClient { get; }
         /// <inheritdoc/>
         public IAuditReasonsClient AuditReasonsClient { get; }
@@ -48,6 +50,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <inheritdoc/>
         public ISimpleSearchesClient SimpleSearchesClient { get; }
         /// <inheritdoc/>
+        public IStampsClient StampsClient { get; }
+        /// <inheritdoc/>
         public ITagDefinitionsClient TagDefinitionsClient { get; }
         /// <inheritdoc/>
         public ITasksClient TasksClient { get; }
@@ -58,6 +62,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             _httpClient = httpClient;
             _httpClient?.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            AnnotationsClient = new AnnotationsClient(_httpClient);
             AttributesClient = new AttributesClient(_httpClient);
             AuditReasonsClient = new AuditReasonsClient(_httpClient);
             EntriesClient = new EntriesClient(_httpClient);
@@ -66,6 +71,7 @@ namespace Laserfiche.Repository.Api.Client
             RepositoriesClient = new RepositoriesClient(_httpClient);
             SearchesClient = new SearchesClient(_httpClient);
             SimpleSearchesClient = new SimpleSearchesClient(_httpClient);
+            StampsClient = new StampsClient(_httpClient);
             TagDefinitionsClient = new TagDefinitionsClient(_httpClient);
             TasksClient = new TasksClient(_httpClient);
             TemplateDefinitionsClient = new TemplateDefinitionsClient(_httpClient);
