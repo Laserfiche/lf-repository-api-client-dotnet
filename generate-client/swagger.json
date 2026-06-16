@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
     "version": "2"
   },
   "servers": [
@@ -8441,6 +8441,1147 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/Properties": {
+      "get": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "GetEntryRecordsManagementProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the entry's records management properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsManagementProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record or record folder and therefore has no records management properties.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "UpdateEntryRecordsManagementProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRecordsManagementPropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the entry's records management properties. Returned the updated properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsManagementProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record or record folder and therefore has no records management properties.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/EligibleRecords": {
+      "get": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "GetEligibleRecords",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "for",
+            "x-originalName": "forSelector",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the ids of the records eligible for the requested action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordEntryIdCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record folder.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/IndependentRecords": {
+      "get": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "GetIndependentRecords",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the ids of the independent records under the record folder.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordEntryIdCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record folder.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/AltRetentionEvents": {
+      "get": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "GetAltRetentionEvents",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the record folder's alternate-retention trigger events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AltRetentionEventCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record folder.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordSeries/Properties": {
+      "get": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "GetRecordSeriesProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the record series properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordSeriesProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record series.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "UpdateRecordSeriesProperties",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRecordSeriesPropertiesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the record series properties. Returned the updated properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordSeriesProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record series.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/SetEvent": {
+      "post": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "SetRecordEvent",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetRecordEventRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully set the record event date. Returned the updated records management properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsManagementProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record or record folder and therefore has no records management properties.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/RecordsManagement/RemoveEvent": {
+      "post": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "operationId": "RemoveRecordEvent",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveRecordEventRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully removed the record event date. Returned the updated records management properties.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsManagementProperties"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, or it is not a record or record folder and therefore has no records management properties.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{parentEntryId}/RecordSeries": {
+      "post": {
+        "tags": [
+          "RecordsManagement"
+        ],
+        "summary": "Creates a record series under a parent in the repository's record file plan.",
+        "description": "- A record series provides cascading retention defaults for the file plan beneath it.\n- The parent must be the file-plan root or another record series; creating one under a normal folder is rejected.\n- Deleting a record series uses the existing Delete Entry endpoint (a record series is an entry).\n- Required OAuth scope: repository.Write",
+        "operationId": "CreateRecordSeries",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "parentEntryId",
+            "in": "path",
+            "required": true,
+            "description": "The parent the record series is created under. A record series belongs to the record file plan, so the parent must be the repository's file-plan root or an existing record series \u2014 it cannot be a normal folder (the server returns an error if it is).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The new record series' name and code.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecordSeriesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created the record series. Returned the created entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Entry name conflicts.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories": {
       "get": {
         "tags": [
@@ -11674,6 +12815,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
@@ -11779,6 +12921,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -12124,6 +13267,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -12613,6 +13757,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -13729,6 +14874,7 @@
         "properties": {
           "value": {
             "type": "string",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -13846,6 +14992,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -13871,6 +15018,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -13911,6 +15059,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -14030,6 +15179,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -14410,6 +15560,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -14630,6 +15781,645 @@
           }
         }
       },
+      "RecordsManagementProperties": {
+        "type": "object",
+        "description": "The records management properties of an entry. The same shape describes both a document\nrecord (RecordType = Record) and a record folder\n(RecordType = RecordFolder); members that do not apply to the entry's\ntype are omitted. Many members are computed by the repository and are read-only \u2014 they are\nnoted as such and are ignored on update.",
+        "additionalProperties": false,
+        "properties": {
+          "recordType": {
+            "description": "Whether these properties describe a document record or a record folder. Determines which\nof the type-specific members are present.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RecordEntryType"
+              }
+            ]
+          },
+          "dispositionState": {
+            "description": "The current lifecycle state. Computed (read-only).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DispositionState"
+              }
+            ]
+          },
+          "isCutoff": {
+            "type": "boolean",
+            "description": "True when the entry has been cut off. Computed (read-only)."
+          },
+          "isEligibleForCutoff": {
+            "type": "boolean",
+            "description": "True when the entry is currently eligible for cutoff. Computed (read-only)."
+          },
+          "isEligibleForFinalDisposition": {
+            "type": "boolean",
+            "description": "True when the entry is currently eligible for final disposition. Computed (read-only)."
+          },
+          "cutoffDate": {
+            "type": "string",
+            "description": "The date the entry was cut off, or null if not cut off. Computed (read-only).",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cutoffEligibility": {
+            "type": "string",
+            "description": "The date the entry becomes eligible for cutoff, or null. Computed (read-only).",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finalDispositionEligibility": {
+            "type": "string",
+            "description": "The date the entry becomes eligible for final disposition, or null. Computed (read-only).",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dispositionConfirmationDate": {
+            "type": "string",
+            "description": "The date final disposition was confirmed, or null. Computed (read-only).",
+            "format": "date-time",
+            "nullable": true
+          },
+          "transferDates": {
+            "type": "array",
+            "description": "Projected and completed interim transfers. Computed (read-only).",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RecordsManagementTransferDate"
+            }
+          },
+          "locationId": {
+            "type": "integer",
+            "description": "The records management location the entry currently resides at, or null. Computed (read-only).",
+            "format": "int32",
+            "nullable": true
+          },
+          "activeDispositionScheduleId": {
+            "type": "integer",
+            "description": "The disposition schedule currently governing the entry (own or inherited), or null. Computed (read-only).",
+            "format": "int32",
+            "nullable": true
+          },
+          "cutoffCriterionId": {
+            "type": "integer",
+            "description": "The cutoff criterion assigned to the entry, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionScheduleId": {
+            "type": "integer",
+            "description": "The disposition schedule assigned to the entry, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "filingDate": {
+            "type": "string",
+            "description": "The filing date, or null when unset.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "triggerDate": {
+            "type": "string",
+            "description": "The alternate-retention trigger date, or null when unset.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "recordFolderId": {
+            "type": "integer",
+            "description": "The record folder this record is filed under, or null when independent. Computed (read-only).",
+            "format": "int32",
+            "nullable": true
+          },
+          "underRecordFolder": {
+            "type": "boolean",
+            "description": "True when the record is filed under a record folder. Computed (read-only).",
+            "nullable": true
+          },
+          "isIndividuallyCutoff": {
+            "type": "boolean",
+            "description": "True when the record was cut off individually rather than with its folder. Computed (read-only).",
+            "nullable": true
+          },
+          "isCutoffCriterionInherited": {
+            "type": "boolean",
+            "description": "True when the cutoff criterion is inherited from the record folder.",
+            "nullable": true
+          },
+          "isDispositionScheduleInherited": {
+            "type": "boolean",
+            "description": "True when the disposition schedule is inherited from the record folder.",
+            "nullable": true
+          },
+          "reviewer": {
+            "type": "string",
+            "description": "The reviewer recorded for the last vital-record review, or null. Computed (read-only).",
+            "nullable": true
+          },
+          "lastReviewDate": {
+            "type": "string",
+            "description": "The last vital-record review date, or null when unset.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "nextReviewDate": {
+            "type": "string",
+            "description": "The next scheduled vital-record review date, or null. Computed (read-only).",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isClosed": {
+            "type": "boolean",
+            "description": "True when the record folder is closed to new filings.",
+            "nullable": true
+          },
+          "isPermanent": {
+            "type": "boolean",
+            "description": "True when the record folder is permanent (never destroyed).",
+            "nullable": true
+          },
+          "dispositionAuthority": {
+            "type": "string",
+            "description": "The disposition authority name, or null.",
+            "nullable": true
+          },
+          "reviewCycleId": {
+            "type": "integer",
+            "description": "The vital-record review cycle (calendar cycle) id, or null.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewInterval": {
+            "type": "integer",
+            "description": "The vital-record review interval, or null.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewIntervalUnit": {
+            "description": "The review interval unit.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReviewIntervalUnit"
+              }
+            ]
+          }
+        }
+      },
+      "RecordEntryType": {
+        "type": "string",
+        "description": "Discriminates which kind of records management entry a set of records management properties\ndescribes. Serialized by name.",
+        "x-enum-names": [
+          "Record",
+          "RecordFolder"
+        ],
+        "x-enum-varnames": [
+          "Record",
+          "RecordFolder"
+        ],
+        "x-enumNames": [
+          "Record",
+          "RecordFolder"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "Record",
+          "RecordFolder"
+        ]
+      },
+      "DispositionState": {
+        "type": "string",
+        "description": "The current lifecycle state of a record or record folder. Serialized by name.",
+        "x-enum-names": [
+          "Open",
+          "Closed",
+          "InRetention",
+          "Transferred",
+          "Eligible",
+          "Partial",
+          "Final"
+        ],
+        "x-enum-varnames": [
+          "Open",
+          "Closed",
+          "InRetention",
+          "Transferred",
+          "Eligible",
+          "Partial",
+          "Final"
+        ],
+        "x-enumNames": [
+          "Open",
+          "Closed",
+          "InRetention",
+          "Transferred",
+          "Eligible",
+          "Partial",
+          "Final"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Open",
+          "Closed",
+          "InRetention",
+          "Transferred",
+          "Eligible",
+          "Partial",
+          "Final"
+        ]
+      },
+      "RecordsManagementTransferDate": {
+        "type": "object",
+        "description": "A single interim-transfer step's dates for a record or record folder. A step is either a\ncompleted transfer or a projected one (see Transferred). Output only.",
+        "additionalProperties": false,
+        "properties": {
+          "transferId": {
+            "type": "integer",
+            "description": "The id of the disposition schedule transfer step this date corresponds to.",
+            "format": "int32"
+          },
+          "transferNumber": {
+            "type": "integer",
+            "description": "The ordinal transfer number within the disposition schedule.",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date the transfer occurred, or null when it has not yet taken place.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "eligibleDate": {
+            "type": "string",
+            "description": "The date the entry becomes (or became) eligible for this transfer.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "transferred": {
+            "type": "boolean",
+            "description": "True when the transfer has taken place; false when this is a projected date."
+          }
+        }
+      },
+      "ReviewIntervalUnit": {
+        "type": "string",
+        "description": "The unit of a vital-record review interval. Serialized by name.",
+        "x-enum-names": [
+          "NotApplicable",
+          "Day",
+          "Month"
+        ],
+        "x-enum-varnames": [
+          "NotApplicable",
+          "Day",
+          "Month"
+        ],
+        "x-enumNames": [
+          "NotApplicable",
+          "Day",
+          "Month"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "NotApplicable",
+          "Day",
+          "Month"
+        ]
+      },
+      "RecordEntryIdCollection": {
+        "type": "object",
+        "description": "A list of entry ids returned by a records management folder query (for example, the records\neligible for disposition or transfer, or the independent records under a record folder).\nCallers join these ids against the entry endpoints to retrieve the entries themselves.",
+        "additionalProperties": false,
+        "properties": {
+          "entryIds": {
+            "type": "array",
+            "description": "The matching entry ids.",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "AltRetentionEventCollection": {
+        "type": "object",
+        "description": "The alternate-retention trigger events resolved for a record folder.",
+        "additionalProperties": false,
+        "properties": {
+          "events": {
+            "type": "array",
+            "description": "The alternate-retention trigger events.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AltRetentionEvent"
+            }
+          }
+        }
+      },
+      "AltRetentionEvent": {
+        "type": "object",
+        "description": "An alternate-retention trigger event resolved for a record folder \u2014 the event whose\noccurrence drives the folder's alternate disposition schedule. Output only.",
+        "additionalProperties": false,
+        "properties": {
+          "entryId": {
+            "type": "integer",
+            "description": "The entry the alternate-retention trigger applies to.",
+            "format": "int32"
+          },
+          "eventId": {
+            "type": "integer",
+            "description": "The records management event definition id that triggers the alternate retention.",
+            "format": "int32"
+          },
+          "triggerDate": {
+            "type": "string",
+            "description": "The date the trigger event is set to occur, or null when unset.",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "RecordSeriesProperties": {
+        "type": "object",
+        "description": "A record series' retention defaults. A record series provides cascading defaults (cutoff\ncriterion, disposition schedule, review cycle, permanence, disposition authority) that the\nrecord folders and records beneath it resolve against.",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The record series code.",
+            "nullable": true
+          },
+          "cutoffCriterionId": {
+            "type": "integer",
+            "description": "The default cutoff criterion id, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionScheduleId": {
+            "type": "integer",
+            "description": "The default disposition schedule id, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionAuthority": {
+            "type": "string",
+            "description": "The disposition authority name, or null.",
+            "nullable": true
+          },
+          "isPermanent": {
+            "type": "boolean",
+            "description": "True when records under the series are permanent (never destroyed)."
+          },
+          "reviewCycleId": {
+            "type": "integer",
+            "description": "The default vital-record review cycle (calendar cycle) id, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewInterval": {
+            "type": "integer",
+            "description": "The default vital-record review interval, or null when none.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewIntervalUnit": {
+            "description": "The default review interval unit.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReviewIntervalUnit"
+              }
+            ]
+          }
+        }
+      },
+      "UpdateRecordsManagementPropertiesRequest": {
+        "type": "object",
+        "description": "Request body for partial-update of an entry's records management properties. Every member is\noptional: null = leave unchanged. Id members accept 0 to clear the assignment.\nDates are set by supplying a value; the two clearable dates (record folder triggerDate\nand record lastReviewDate) are cleared via their explicit clear* flags.\nApplying this update to a plain document promotes it to a record, and to a plain folder\npromotes it to a record folder, before the properties are applied. Members that do not apply\nto the entry's resulting type (for example record-folder members on a document record) are\nrejected with 400.",
+        "additionalProperties": false,
+        "properties": {
+          "cutoffCriterionId": {
+            "type": "integer",
+            "description": "The cutoff criterion id to assign, or 0 to clear.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionScheduleId": {
+            "type": "integer",
+            "description": "The disposition schedule id to assign, or 0 to clear.",
+            "format": "int32",
+            "nullable": true
+          },
+          "filingDate": {
+            "type": "string",
+            "description": "The filing date to set.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "triggerDate": {
+            "type": "string",
+            "description": "The alternate-retention trigger date to set.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCutoffCriterionInherited": {
+            "type": "boolean",
+            "description": "Whether the cutoff criterion is inherited from the record folder. (record)",
+            "nullable": true
+          },
+          "isDispositionScheduleInherited": {
+            "type": "boolean",
+            "description": "Whether the disposition schedule is inherited from the record folder. (record)",
+            "nullable": true
+          },
+          "lastReviewDate": {
+            "type": "string",
+            "description": "The last vital-record review date to set. (record)",
+            "format": "date-time",
+            "nullable": true
+          },
+          "clearLastReviewDate": {
+            "type": "boolean",
+            "description": "When true, clear the last vital-record review date. (record)"
+          },
+          "clearTriggerDate": {
+            "type": "boolean",
+            "description": "When true, clear the alternate-retention trigger date. (recordFolder)"
+          },
+          "isClosed": {
+            "type": "boolean",
+            "description": "Whether the record folder is closed to new filings. (recordFolder)",
+            "nullable": true
+          },
+          "isPermanent": {
+            "type": "boolean",
+            "description": "Whether the record folder is permanent (never destroyed). (recordFolder)",
+            "nullable": true
+          },
+          "dispositionAuthority": {
+            "type": "string",
+            "description": "The disposition authority name; empty string to clear. (recordFolder)",
+            "nullable": true
+          },
+          "reviewCycleId": {
+            "type": "integer",
+            "description": "The vital-record review cycle (calendar cycle) id to assign, or 0 to clear. (recordFolder)",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewInterval": {
+            "type": "integer",
+            "description": "The vital-record review interval to set. (recordFolder)",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewIntervalUnit": {
+            "description": "The review interval unit. (recordFolder)",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReviewIntervalUnit"
+              }
+            ]
+          }
+        }
+      },
+      "SetRecordEventRequest": {
+        "type": "object",
+        "description": "Request body for setting a records management event date on a record or record folder.",
+        "additionalProperties": false,
+        "properties": {
+          "eventId": {
+            "type": "integer",
+            "description": "The records management event definition id whose date is being set.",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date to record for the event.",
+            "format": "date-time"
+          }
+        }
+      },
+      "RemoveRecordEventRequest": {
+        "type": "object",
+        "description": "Request body for removing a records management event date from a record or record folder.",
+        "additionalProperties": false,
+        "properties": {
+          "eventId": {
+            "type": "integer",
+            "description": "The records management event definition id whose date is being removed.",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdateRecordSeriesPropertiesRequest": {
+        "type": "object",
+        "description": "Request body for partial-update of a record series' retention defaults. Every member is\noptional: null = leave unchanged. Id members accept 0 to clear the assignment.",
+        "additionalProperties": false,
+        "properties": {
+          "cutoffCriterionId": {
+            "type": "integer",
+            "description": "The default cutoff criterion id to assign, or 0 to clear.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionScheduleId": {
+            "type": "integer",
+            "description": "The default disposition schedule id to assign, or 0 to clear.",
+            "format": "int32",
+            "nullable": true
+          },
+          "dispositionAuthority": {
+            "type": "string",
+            "description": "The disposition authority name; empty string to clear.",
+            "nullable": true
+          },
+          "isPermanent": {
+            "type": "boolean",
+            "description": "Whether records under the series are permanent (never destroyed).",
+            "nullable": true
+          },
+          "reviewCycleId": {
+            "type": "integer",
+            "description": "The default vital-record review cycle (calendar cycle) id to assign, or 0 to clear.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewInterval": {
+            "type": "integer",
+            "description": "The default vital-record review interval to set.",
+            "format": "int32",
+            "nullable": true
+          },
+          "reviewIntervalUnit": {
+            "description": "The default review interval unit.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ReviewIntervalUnit"
+              }
+            ]
+          },
+          "cascade": {
+            "type": "boolean",
+            "description": "When true, cascade the changed defaults to the record folders and records beneath the\nseries. When false (default), only the series' own defaults change."
+          }
+        }
+      },
+      "CreateRecordSeriesRequest": {
+        "type": "object",
+        "description": "Request body for creating a record series under a parent folder.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the new record series.",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "description": "The record series code.",
+            "nullable": true
+          },
+          "autoRename": {
+            "type": "boolean",
+            "description": "When true, the server appends a suffix to the name on a naming conflict instead of failing."
+          }
+        }
+      },
       "RepositoryCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of Repository.",
@@ -14637,6 +16427,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -14746,6 +16537,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -14982,6 +16774,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -15036,6 +16829,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -15219,6 +17013,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -15268,6 +17063,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -15293,6 +17089,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -15569,11 +17366,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."

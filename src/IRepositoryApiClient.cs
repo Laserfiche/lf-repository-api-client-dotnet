@@ -41,6 +41,10 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         ILinkDefinitionsClient LinkDefinitionsClient { get; }
         /// <summary>
+        /// The Laserfiche Repository Records Management API client.
+        /// </summary>
+        IRecordsManagementClient RecordsManagementClient { get; }
+        /// <summary>
         /// The Laserfiche Repository Repositories API client.
         /// </summary>
         IRepositoriesClient RepositoriesClient { get; }
