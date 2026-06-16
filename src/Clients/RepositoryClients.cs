@@ -19651,10 +19651,11 @@ namespace Laserfiche.Repository.Api.Client
         Task DeleteStampAsync(DeleteStampParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Gets a stamp's image as a PNG.
+        /// Gets a public stamp's image as a PNG.
         /// </summary>
         /// <remarks>
-        /// - Use `scope` to indicate whether the stamp is public or personal. An optional `color` (#RRGGBB) recolors the image.<br/>
+        /// - Only public (common) stamps are returned. Personal stamps are not served by this endpoint and return 404.<br/>
+        /// - An optional `color` (#RRGGBB) recolors the image: black pixels become the color, white becomes transparent.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -20497,10 +20498,11 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Gets a stamp's image as a PNG.
+        /// Gets a public stamp's image as a PNG.
         /// </summary>
         /// <remarks>
-        /// - Use `scope` to indicate whether the stamp is public or personal. An optional `color` (#RRGGBB) recolors the image.<br/>
+        /// - Only public (common) stamps are returned. Personal stamps are not served by this endpoint and return 404.<br/>
+        /// - An optional `color` (#RRGGBB) recolors the image: black pixels become the color, white becomes transparent.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -20514,7 +20516,6 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var stampId = parameters.StampId;
-            var scope = parameters.Scope;
             var color = parameters.Color;
             var select = parameters.Select;
 
@@ -20532,10 +20533,6 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(stampId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Image");
                     urlBuilder_.Append('?');
-                    if (scope != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("scope")).Append('=').Append(Uri.EscapeDataString(ConvertToString(scope, CultureInfo.InvariantCulture))).Append('&');
-                    }
                     if (color != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("color")).Append('=').Append(Uri.EscapeDataString(ConvertToString(color, CultureInfo.InvariantCulture))).Append('&');
@@ -20877,8 +20874,6 @@ namespace Laserfiche.Repository.Api.Client
         public string RepositoryId { get; set; }
 
         public int StampId { get; set; }
-
-        public StampScope? Scope { get; set; } = null;
 
         public string Color { get; set; } = null;
 
