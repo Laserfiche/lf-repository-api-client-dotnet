@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Laserfiche Repository API",
-    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>1780117020_c895177fae051f04a31fdc4435df804fd4b8cde9</p>",
+    "description": "Welcome to the Laserfiche API Swagger Playground. You can try out any of our API calls against your live Laserfiche Cloud account. Visit the developer center for more details: <a href=\"https://developer.laserfiche.com\">https://developer.laserfiche.com</a><p>Visit the changelog for the list of changes: <a href=\"/repository/v2/changelog\">/repository/v2/changelog</a></p><p><strong>Build# : </strong>0.0.0.1</p>",
     "version": "2"
   },
   "servers": [
@@ -1950,6 +1950,541 @@
           },
           "404": {
             "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/AccessControl": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the access control list (ACL) of a field definition.",
+        "description": "- Returns the field's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Field ACEs have no scope and are never inherited.\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ReadPermissions right.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The requested field definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the field definition's access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Replaces the access control list (ACL) of a field definition.",
+        "description": "- Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.\n- Required OAuth scope: repository.Write",
+        "operationId": "SetFieldAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The field definition ID whose ACL to replace.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The access control entries to set.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFieldAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the field definition's access control list. Returned the updated access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/{fieldId}/Rights": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the rights to a field definition for the current session or a specified trustee.",
+        "description": "- Returns the rights a trustee has on the field definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the field's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetFieldRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "fieldId",
+            "in": "path",
+            "required": true,
+            "description": "The requested field definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "trusteeId",
+            "in": "query",
+            "description": "An optional trustee SID. When supplied, returns that trustee's rights; otherwise the current session's.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "trusteeName",
+            "in": "query",
+            "description": "An optional trustee account name, as an alternative to trusteeId. The SID wins when both are supplied.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "aclOnly",
+            "in": "query",
+            "description": "Optional. Selects which rights are returned. Default (false): the trustee's effective rights \u2014 the net result after allow/deny resolution, group membership, and the repository's privilege overlay (for example, the metadata-management privilege that grants full control over every field regardless of its ACL). When true: only the rights granted by this field definition's own access control list, without that privilege overlay. Group membership is always resolved. Field definitions are not hierarchical, so there is no parent inheritance involved either way.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the rights for the field definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldRights"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field definition with specified id was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/FieldDefinitions/DefaultAccessControl": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the default access control list assigned to newly created field definitions.",
+        "description": "- Returns the repository's default field ACL \u2014 the access control entries a new field definition inherits at creation time.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetDefaultFieldAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the default field access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Replaces the default access control list assigned to newly created field definitions.",
+        "description": "- Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- Required OAuth scope: repository.Write",
+        "operationId": "SetDefaultFieldAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The access control entries to set as the default field ACL.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFieldAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the default field access control list. Returned the updated default access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -8441,6 +8976,392 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/AccessControl": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the access control list (ACL) for an entry.",
+        "description": "- Returns the access control entries (ACEs) configured on the entry \u2014 by default both explicitly-set and inherited (inherited ACEs carry isInherited = true), or only the explicit ones when includeInherited=false \u2014 plus whether the entry inherits rights from its parent(s).\n- Each ACE names a trustee, whether its rights are allowed or denied, the rights themselves, and the propagation scope.\n- The repository session enforces the underlying permission: reading an ACL requires the ReadPermissions right on the entry, and a 403 is returned when it is lacking. The repository.Read OAuth scope is necessary but not sufficient.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose access control list is returned.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "includeInherited",
+            "in": "query",
+            "description": "Optional. When true (the default), the response includes both the entry's explicit access control entries and the inherited ones (inherited ACEs carry isInherited = true). When false, only the explicit ACEs are returned \u2014 the exact set that the access-control PUT accepts \u2014 making it convenient to read, edit, and write back the ACL without filtering inherited entries client-side. The inheritParents flag is unaffected by this option.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the entry's access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Replaces the explicit access control list (ACL) for an entry.",
+        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- Required OAuth scope: repository.Write",
+        "operationId": "SetEntryAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose access control list is replaced.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The explicit access control entries to apply and, optionally, the parent-inheritance setting.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the entry's access control list. Returned the updated access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Rights": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the rights to an entry for the current session or a specified trustee.",
+        "description": "- Returns the rights a trustee has on the entry. By default these are the effective rights \u2014 the same calculation the Laserfiche applications use, after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. Set aclOnly=true to return only the rights granted by the entry's access control list (including its stored inherited ACEs) without the privilege/records-management overlays.\n- Identify the trustee by trusteeId (a SID) or trusteeName (an account name); omit both for the calling session.\n- isReadOnly reports whether the session is read-only, in which case no write operations are possible regardless of the granted rights.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetEntryRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The entry whose rights are computed.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "trusteeId",
+            "in": "query",
+            "description": "Optional. The SID of the trustee to compute rights for. When omitted (along with trusteeName), the rights of the current session are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "trusteeName",
+            "in": "query",
+            "description": "Optional. The account name of the trustee to compute rights for, as an alternative to trusteeId. When both are supplied, trusteeId takes precedence.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "aclOnly",
+            "in": "query",
+            "description": "Optional. Selects which rights are returned. Default (false): the trustee's effective rights \u2014 the net result after allow/deny resolution, group membership, and the repository's privilege and records-management overlays. When true: only the rights granted by this item's access control list \u2014 including inherited access control entries, which are stored on the item itself \u2014 without the privilege and records-management overlays (for example, a privilege that grants full control regardless of the ACL is reflected only when aclOnly=false). Group membership is always resolved. The aclOnly=true value is what the ACL editor displays as the net effect of the list.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the rights for the entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntryRights"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories": {
       "get": {
         "tags": [
@@ -8456,6 +9377,90 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RepositoryCollectionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/SessionRights": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the current session's rights in the repository.",
+        "description": "- Returns the privileges and feature rights held by the current session, plus whether the session is read-only. Each is reported as named booleans (a map of right name to whether it is granted), for UI enablement and pre-flight checks.\n- Reflects the current session only. Per-trustee privilege administration is not part of this surface.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetSessionRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the current session's rights.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionRights"
                 }
               }
             }
@@ -11652,6 +12657,773 @@
           }
         }
       }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/AccessControl": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the access control list (ACL) of a template definition.",
+        "description": "- Returns the template's access control entries (ACEs): the trustee, whether rights are allowed or denied, and the rights themselves. Template ACEs have no scope and are never inherited.\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ReadPermissions right.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTemplateAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The requested template definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the template definition's access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Replaces the access control list (ACL) of a template definition.",
+        "description": "- Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.\n- Required OAuth scope: repository.Write",
+        "operationId": "SetTemplateAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The template definition ID whose ACL to replace.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The access control entries to set.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetTemplateAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the template definition's access control list. Returned the updated access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/{templateId}/Rights": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the rights to a template definition for the current session or a specified trustee.",
+        "description": "- Returns the rights a trustee has on the template definition, plus whether the session is read-only. By default these are the effective rights (after group membership, allow/deny resolution, and the privilege overlay); set aclOnly=true for the rights granted by the template's own ACL without that overlay. Omit both trusteeId and trusteeName for the current session.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTemplateRights",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "description": "The requested template definition ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "trusteeId",
+            "in": "query",
+            "description": "An optional trustee SID. When supplied, returns that trustee's rights; otherwise the current session's.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "trusteeName",
+            "in": "query",
+            "description": "An optional trustee account name, as an alternative to trusteeId. The SID wins when both are supplied.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "aclOnly",
+            "in": "query",
+            "description": "Optional. Selects which rights are returned. Default (false): the trustee's effective rights \u2014 the net result after allow/deny resolution, group membership, and the repository's privilege overlay (for example, the metadata-management privilege that grants full control over every template regardless of its ACL). When true: only the rights granted by this template definition's own access control list, without that privilege overlay. Group membership is always resolved. Template definitions are not hierarchical, so there is no parent inheritance involved either way.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the rights for the template definition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateRights"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/TemplateDefinitions/DefaultAccessControl": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the default access control list assigned to newly created template definitions.",
+        "description": "- Returns the repository's default template ACL \u2014 the access control entries a new template definition inherits at creation time.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetDefaultTemplateAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the default template access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Replaces the default access control list assigned to newly created template definitions.",
+        "description": "- Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- Required OAuth scope: repository.Write",
+        "operationId": "SetDefaultTemplateAccessControl",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The access control entries to set as the default template ACL.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetTemplateAccessControlRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully replaced the default template access control list. Returned the updated default access control list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateAccessControlList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Trustees": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Searches the repository's trustees (users and groups) by name.",
+        "description": "- Resolves trustee names to the SIDs used when building access control entries or reading effective rights for a trustee.\n- Each result includes the trustee's SID, account name, display name, type, whether it is a user or group, and whether the account is disabled.\n- Required OAuth scope: repository.Read",
+        "operationId": "LookupTrustees",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "The name (or name prefix) to search for.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Optional. Restrict the search to user or group trustees. When omitted, both users and groups are returned.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Optional. The maximum number of trustees to return. Defaults to 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the matching trustees.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrusteeIdentity"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Trustees/{trusteeId}/Security": {
+      "get": {
+        "tags": [
+          "AccessControl"
+        ],
+        "summary": "Returns the account security configured for the specified trustee in the repository.",
+        "description": "- Returns the trustee's privileges and feature rights (as named booleans), the security tags assigned to it, the audit classes configured for it (split into success and failure masks), and whether the trustee is read-only.\n- The effective view (includeInherited=true) is a best-effort computation that can, in rare cases, differ from the trustee's real rights. The authoritative way to determine a trustee's security is to sign in as that trustee and read the resulting session's rights.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetTrusteeSecurity",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "trusteeId",
+            "in": "path",
+            "required": true,
+            "description": "The SID of the trustee whose security is read. Use the trustee lookup to resolve a name to a SID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "includeInherited",
+            "in": "query",
+            "description": "When true (default), returns the trustee's effective security \u2014 what applies once group memberships are resolved. When false, returns the direct security assigned on the trustee record itself, without group-membership inheritance.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the trustee's account security (effective by default, or direct when includeInherited=false).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrusteeSecurity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11674,6 +13446,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Attribute"
@@ -11779,6 +13552,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AuditReason"
@@ -12124,6 +13898,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldDefinition"
@@ -12595,6 +14370,224 @@
           }
         }
       },
+      "FieldAccessControlList": {
+        "type": "object",
+        "description": "The access control list (ACL) of a template field definition: its access control entries.\nField ACLs have no parent inheritance, so there is no inherit-parents flag.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries that make up the ACL.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldAccessControlEntry"
+            }
+          }
+        }
+      },
+      "FieldAccessControlEntry": {
+        "type": "object",
+        "description": "A single access control entry (ACE) on a template field definition: one trustee, whether\nits rights are allowed or denied, and the rights themselves. A trustee that has both allowed\nand denied rights is represented as two ACEs. Unlike entry ACEs, field ACEs have no scope and\nare never inherited.",
+        "additionalProperties": false,
+        "properties": {
+          "trustee": {
+            "description": "The trustee this ACE applies to. On input, identify the trustee by either\ntrustee.sid or trustee.accountName (the SID takes precedence when both are given).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrusteeIdentity"
+              }
+            ]
+          },
+          "accessControlType": {
+            "description": "Whether the ACE grants (Allow) or denies (Deny) the listed rights. Required on\ninput \u2014 a missing value is rejected (it must not silently default to Allow).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccessControlType"
+              }
+            ]
+          },
+          "rights": {
+            "type": "array",
+            "description": "The rights granted or denied by this ACE.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldRight"
+            }
+          },
+          "isInherited": {
+            "type": "boolean",
+            "description": "True when this ACE is inherited. Always false for field ACEs (field definitions have no\nACL inheritance); returned for contract symmetry and ignored on input."
+          },
+          "inheritedFrom": {
+            "type": "string",
+            "description": "When inherited, a description of where the ACE was inherited from. Output only; null for\nfield ACEs.",
+            "nullable": true
+          }
+        }
+      },
+      "TrusteeIdentity": {
+        "type": "object",
+        "description": "Identifies a security trustee (a user or a group) referenced by an access control\nentry, an effective-rights query, or a trustee-lookup result.",
+        "additionalProperties": false,
+        "properties": {
+          "sid": {
+            "type": "string",
+            "description": "The trustee's security identifier (an SDDL string such as S-1-5-21-...). This is\nthe canonical, stable id for a trustee. On input it is preferred and takes precedence over\nAccountName; always populated on output.",
+            "nullable": true
+          },
+          "accountName": {
+            "type": "string",
+            "description": "The trustee's account name. On input it may be supplied instead of Sid to\naddress the trustee by name (resolved to a SID server-side); the SID wins when both are\ngiven. Always populated on output.",
+            "nullable": true
+          },
+          "trusteeType": {
+            "type": "string",
+            "description": "The trustee type: one of LaserficheUser, LaserficheGroup,\nWindowsAccount, LdapAccount, LfdsAccount.",
+            "nullable": true
+          },
+          "isUser": {
+            "type": "boolean",
+            "description": "True when the trustee is an individual user; false when it is a group."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "A human-readable display name. Populated by trustee-lookup results; omitted in\naccess-control-entry contexts.",
+            "nullable": true
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "description": "True when the trustee account is disabled. Populated by trustee-lookup results."
+          }
+        }
+      },
+      "AccessControlType": {
+        "type": "string",
+        "description": "Whether an access control entry (ACE) grants or denies its rights. Serialized by name.",
+        "x-enum-names": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-varnames": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enumNames": [
+          "Allow",
+          "Deny"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "Allow",
+          "Deny"
+        ]
+      },
+      "FieldRight": {
+        "type": "string",
+        "description": "An individual access right that can be granted to or denied a trustee on a template field\ndefinition. Serialized by name; emitted as a string enum in the OpenAPI schema so clients\ncan reference it directly.",
+        "x-enum-names": [
+          "ReadValue",
+          "SetValue",
+          "SetValueOnce",
+          "ModifyDefinition",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-varnames": [
+          "ReadValue",
+          "SetValue",
+          "SetValueOnce",
+          "ModifyDefinition",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enumNames": [
+          "ReadValue",
+          "SetValue",
+          "SetValueOnce",
+          "ModifyDefinition",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "ReadValue",
+          "SetValue",
+          "SetValueOnce",
+          "ModifyDefinition",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ]
+      },
+      "SetFieldAccessControlRequest": {
+        "type": "object",
+        "description": "Request body for replacing a template field definition's access control list. The supplied\nentries fully replace the field's existing explicit ACL. Inherited entries are not accepted.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries to set. Replaces the field's entire explicit ACL.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldAccessControlEntry"
+            }
+          }
+        }
+      },
+      "FieldRights": {
+        "type": "object",
+        "description": "A trustee's rights to a template field definition. Depending on the aclOnly option on the\nrequest, these are either the effective rights (the net result after group membership, allow/deny\nresolution, and the repository's privilege overlay) or the rights granted by the field's access\ncontrol list alone.",
+        "additionalProperties": false,
+        "properties": {
+          "rights": {
+            "type": "array",
+            "description": "The rights granted to the trustee on the field.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FieldRight"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the session is read-only, so no write operations are possible regardless of\nthe granted rights."
+          }
+        }
+      },
       "LinkDefinitionCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of LinkDefinition.",
@@ -12613,6 +14606,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkDefinition"
@@ -13729,6 +15723,7 @@
         "properties": {
           "value": {
             "type": "string",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true
           }
         }
@@ -13846,6 +15841,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Entry"
@@ -13871,6 +15867,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Field"
@@ -13911,6 +15908,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Tag"
@@ -14030,6 +16028,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Link"
@@ -14410,6 +16409,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/PageInfoResponse"
@@ -14630,6 +16630,319 @@
           }
         }
       },
+      "AccessControlList": {
+        "type": "object",
+        "description": "An entry's access control list: the explicit and inherited access control entries plus\nwhether the entry inherits rights from its parent(s).",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries. Includes both explicitly-set and inherited ACEs;\ninherited ACEs carry isInherited = true.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessControlEntry"
+            }
+          },
+          "inheritParents": {
+            "type": "boolean",
+            "description": "Whether the entry inherits access rights from its parent(s). When false, the entry's\nACL is protected from parent inheritance."
+          }
+        }
+      },
+      "AccessControlEntry": {
+        "type": "object",
+        "description": "A single access control entry (ACE): one trustee, whether its rights are allowed or\ndenied, and the rights themselves. A trustee that has both allowed and denied rights is\nrepresented as two ACEs.",
+        "additionalProperties": false,
+        "properties": {
+          "trustee": {
+            "description": "The trustee this ACE applies to. On input, identify the trustee by either\ntrustee.sid or trustee.accountName (the SID takes precedence when both are given).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrusteeIdentity"
+              }
+            ]
+          },
+          "accessControlType": {
+            "description": "Whether the ACE grants (Allow) or denies (Deny) the listed rights.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccessControlType"
+              }
+            ]
+          },
+          "rights": {
+            "type": "array",
+            "description": "The rights granted or denied by this ACE.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/EntryRight"
+            }
+          },
+          "scope": {
+            "description": "How the ACE propagates to descendant entries. Defaults to All when omitted on input.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EntryAccessScope"
+              }
+            ]
+          },
+          "isInherited": {
+            "type": "boolean",
+            "description": "True when this ACE is inherited from an ancestor. Read-only \u2014 inherited ACEs are\nreturned by GET but are ignored on input (the set operation manages explicit ACEs only)."
+          },
+          "inheritedFrom": {
+            "type": "string",
+            "description": "When inherited, a description of where the ACE was inherited from. Output only.",
+            "nullable": true
+          }
+        }
+      },
+      "EntryRight": {
+        "type": "string",
+        "description": "An individual access right that can be granted to or denied a trustee on an entry.\nSerialized by name; emitted as a string enum in the OpenAPI schema so clients can\nreference it directly.",
+        "x-enum-names": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-varnames": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enumNames": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "Browse",
+          "Read",
+          "WriteContent",
+          "AddPage",
+          "Rename",
+          "RemovePage",
+          "Freeze",
+          "Annotate",
+          "SeeThroughRedactions",
+          "SeeAnnotations",
+          "SetReviewDate",
+          "WriteMetadata",
+          "CreateFolder",
+          "CreateDocument",
+          "SetEventDate",
+          "Close",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ]
+      },
+      "EntryAccessScope": {
+        "type": "string",
+        "description": "Controls how an entry access control entry (ACE) propagates to descendant entries.\nApplies to entry ACEs only (field/template ACEs have no scope). Serialized by name.",
+        "x-enum-names": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enum-varnames": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enumNames": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "ThisEntry",
+          "Folders",
+          "All",
+          "NotThisEntry",
+          "FoldersOnly",
+          "DocumentsOnly",
+          "Immediate",
+          "ImmediateChildren",
+          "ImmediateDocuments"
+        ]
+      },
+      "SetAccessControlRequest": {
+        "type": "object",
+        "description": "Request body to replace an entry's explicit access control list. This is a full replace:\nthe supplied entries become the entry's complete set of explicit ACEs (any explicit ACE\nnot included is removed). Inherited ACEs cannot be supplied and are managed via\ninheritParents.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The explicit access control entries to apply. An empty array clears all explicit ACEs.\nEntries flagged isInherited = true are rejected.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessControlEntry"
+            }
+          },
+          "inheritParents": {
+            "type": "boolean",
+            "description": "Whether the entry should inherit access rights from its parent(s). When omitted, the\nentry's current inheritance setting is preserved. When false, the ACL is protected\nfrom parent inheritance; when true, parent rights are inherited.",
+            "nullable": true
+          }
+        }
+      },
+      "EntryRights": {
+        "type": "object",
+        "description": "A trustee's rights to an entry. Depending on the aclOnly option on the request, these\nare either the effective rights (the net result after allow/deny resolution, group membership,\nand the repository's privilege and records-management overlays) or the rights granted by the\nentry's access control list alone.",
+        "additionalProperties": false,
+        "properties": {
+          "rights": {
+            "type": "array",
+            "description": "The rights granted to the trustee on the entry.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/EntryRight"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the session is read-only, so no write operations are possible regardless of\nthe granted rights."
+          }
+        }
+      },
       "RepositoryCollectionResponse": {
         "type": "object",
         "description": "Response containing a collection of Repository.",
@@ -14637,6 +16950,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Repository"
@@ -14663,6 +16977,33 @@
             "type": "string",
             "description": "The corresponding repository Web Client url.",
             "nullable": true
+          }
+        }
+      },
+      "SessionRights": {
+        "type": "object",
+        "description": "The current session's rights in a repository: the privileges and feature rights held by the\nsession, plus whether the session is read-only. Reported as named booleans (each map is keyed\nby the right's name with a granted true/false) rather than a raw bitmask, for UI enablement\nand pre-flight checks. Reflects the current session only \u2014 per-trustee privilege administration\nis not part of this surface.",
+        "additionalProperties": false,
+        "properties": {
+          "privileges": {
+            "type": "object",
+            "description": "The session's privileges, keyed by privilege name (e.g. EntryAccess,\nRecordManager), with the value indicating whether the session holds that privilege.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "featureRights": {
+            "type": "object",
+            "description": "The session's feature rights, keyed by feature-right name (e.g. Search,\nImport), with the value indicating whether the session holds that feature right.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the current session is read-only, so no write operations are possible regardless\nof the granted privileges or feature rights."
           }
         }
       },
@@ -14746,6 +17087,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/SearchContextHit"
@@ -14982,6 +17324,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TagDefinition"
@@ -15036,6 +17379,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TaskProgress"
@@ -15219,6 +17563,7 @@
         "properties": {
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CancelTaskResult"
@@ -15268,6 +17613,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateDefinition"
@@ -15293,6 +17639,7 @@
           },
           "value": {
             "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateFieldDefinition"
@@ -15559,6 +17906,237 @@
             "format": "int32"
           }
         }
+      },
+      "TemplateAccessControlList": {
+        "type": "object",
+        "description": "The access control list (ACL) of a template definition: its access control entries.\nTemplate ACLs have no parent inheritance, so there is no inherit-parents flag.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries that make up the ACL.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TemplateAccessControlEntry"
+            }
+          }
+        }
+      },
+      "TemplateAccessControlEntry": {
+        "type": "object",
+        "description": "A single access control entry (ACE) on a template definition: one trustee, whether its\nrights are allowed or denied, and the rights themselves. A trustee that has both allowed\nand denied rights is represented as two ACEs. Unlike entry ACEs, template ACEs have no scope\nand are never inherited.",
+        "additionalProperties": false,
+        "properties": {
+          "trustee": {
+            "description": "The trustee this ACE applies to. On input, identify the trustee by either\ntrustee.sid or trustee.accountName (the SID takes precedence when both are given).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrusteeIdentity"
+              }
+            ]
+          },
+          "accessControlType": {
+            "description": "Whether the ACE grants (Allow) or denies (Deny) the listed rights. Required on\ninput \u2014 a missing value is rejected (it must not silently default to Allow).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AccessControlType"
+              }
+            ]
+          },
+          "rights": {
+            "type": "array",
+            "description": "The rights granted or denied by this ACE.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TemplateRight"
+            }
+          },
+          "isInherited": {
+            "type": "boolean",
+            "description": "True when this ACE is inherited. Always false for template ACEs (template definitions have\nno ACL inheritance); returned for contract symmetry and ignored on input."
+          },
+          "inheritedFrom": {
+            "type": "string",
+            "description": "When inherited, a description of where the ACE was inherited from. Output only; null for\ntemplate ACEs.",
+            "nullable": true
+          }
+        }
+      },
+      "TemplateRight": {
+        "type": "string",
+        "description": "An individual access right that can be granted to or denied a trustee on a template\ndefinition. Serialized by name; emitted as a string enum in the OpenAPI schema so clients\ncan reference it directly.",
+        "x-enum-names": [
+          "ReadDefinition",
+          "Modify",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-varnames": [
+          "ReadDefinition",
+          "Modify",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enumNames": [
+          "ReadDefinition",
+          "Modify",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "ReadDefinition",
+          "Modify",
+          "Delete",
+          "ReadPermissions",
+          "ChangePermissions",
+          "TakeOwnership"
+        ]
+      },
+      "SetTemplateAccessControlRequest": {
+        "type": "object",
+        "description": "Request body for replacing a template definition's access control list. The supplied\nentries fully replace the template's existing explicit ACL. Inherited entries are not accepted.",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "description": "The access control entries to set. Replaces the template's entire explicit ACL.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TemplateAccessControlEntry"
+            }
+          }
+        }
+      },
+      "TemplateRights": {
+        "type": "object",
+        "description": "A trustee's rights to a template definition. Depending on the aclOnly option on the\nrequest, these are either the effective rights (the net result after group membership, allow/deny\nresolution, and the repository's privilege overlay) or the rights granted by the template's access\ncontrol list alone.",
+        "additionalProperties": false,
+        "properties": {
+          "rights": {
+            "type": "array",
+            "description": "The rights granted to the trustee on the template.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TemplateRight"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the session is read-only, so no write operations are possible regardless of\nthe granted rights."
+          }
+        }
+      },
+      "TrusteeSecurity": {
+        "type": "object",
+        "description": "A trustee's account security: the privileges and feature rights the trustee holds, the security\ntags assigned to it, the audit classes configured for it, and whether the trustee is read-only.\nPrivileges, feature rights, and audit masks are reported as named booleans (each map keyed by\nthe right's name with a granted true/false) rather than raw bitmasks.\nThe values are either effective (the default \u2014 what applies once the trustee's group\nmemberships are resolved) or direct (only what is assigned on the trustee record\nitself), selected by the request's includeInherited flag. The effective view is a\ndocumented best-effort computation: in rare cases it can differ from the trustee's real rights.\nThe authoritative way to determine a trustee's security is to sign in as that trustee and read\nthe resulting session's rights.",
+        "additionalProperties": false,
+        "properties": {
+          "privileges": {
+            "type": "object",
+            "description": "The trustee's privileges, keyed by privilege name (e.g. EntryAccess,\nRecordManager), with the value indicating whether the trustee holds that privilege.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "featureRights": {
+            "type": "object",
+            "description": "The trustee's feature rights, keyed by feature-right name (e.g. Search,\nImport), with the value indicating whether the trustee holds that feature right.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "description": "True when the trustee is read-only, so no write operations are possible regardless of the\ngranted privileges or feature rights."
+          },
+          "tags": {
+            "type": "array",
+            "description": "The security tags assigned to the trustee.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TrusteeTag"
+            }
+          },
+          "auditMasks": {
+            "description": "The audit classes configured for the trustee, split into successful- and failed-operation\nmasks. Each map is keyed by audit-class name with the value indicating whether that class is\naudited.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrusteeAuditMasks"
+              }
+            ]
+          }
+        }
+      },
+      "TrusteeTag": {
+        "type": "object",
+        "description": "A security tag assigned to a trustee.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The tag's ID.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "The tag's name.",
+            "nullable": true
+          },
+          "isSecure": {
+            "type": "boolean",
+            "description": "True when the tag is a security tag."
+          }
+        }
+      },
+      "TrusteeAuditMasks": {
+        "type": "object",
+        "description": "The audit classes configured for a trustee, split by operation outcome.",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "object",
+            "description": "Audit classes audited on successful operations, keyed by audit-class name.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "failure": {
+            "type": "object",
+            "description": "Audit classes audited on failed operations, keyed by audit-class name.",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -15569,11 +18147,11 @@
       },
       "OAuth2 Authorization Code Flow": {
         "type": "oauth2",
-        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>https://api.laserfiche.com/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
+        "description": "<p>Note: Please enter below the clientId/clientSecret of a registered web application, or the clientId of a SPA. For SPA, the clientSecret field must be left empty. The app, either a web application or SPA, must have the following uri defined as its redirect uri.</p><p>http://localhost:11211/repository/swagger/oauth2-redirect.html</p><p>For more information, see <a href=\"https://developer.laserfiche.com/guides/guide_authenticating-to-the-swagger-playground.html\" target=\"_blank\">this page</a></p>",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://signin.laserfiche.com/oauth/Authorize",
-            "tokenUrl": "https://signin.laserfiche.com/oauth/Token",
+            "authorizationUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Authorize",
+            "tokenUrl": "https://signin.a.clouddev.laserfiche.ca/oauth/Token",
             "scopes": {
               "repository.Read": "Allows the app to read the content of Laserfiche repositories on behalf of the signed-in user.",
               "repository.Write": "Allows the app to modify the content of Laserfiche repositories on behalf of the signed-in user."

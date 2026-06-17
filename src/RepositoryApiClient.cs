@@ -32,6 +32,8 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <inheritdoc/>
+        public IAccessControlClient AccessControlClient { get; }
+        /// <inheritdoc/>
         public IAttributesClient AttributesClient { get; }
         /// <inheritdoc/>
         public IAuditReasonsClient AuditReasonsClient { get; }
@@ -58,6 +60,7 @@ namespace Laserfiche.Repository.Api.Client
         {
             _httpClient = httpClient;
             _httpClient?.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            AccessControlClient = new AccessControlClient(_httpClient);
             AttributesClient = new AttributesClient(_httpClient);
             AuditReasonsClient = new AuditReasonsClient(_httpClient);
             EntriesClient = new EntriesClient(_httpClient);

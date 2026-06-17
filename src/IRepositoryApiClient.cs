@@ -21,6 +21,10 @@ namespace Laserfiche.Repository.Api.Client
         TimeSpan HttpClientTimeout { get; set; }
 
         /// <summary>
+        /// The Laserfiche Repository Access Control API client.
+        /// </summary>
+        IAccessControlClient AccessControlClient { get; }
+        /// <summary>
         /// The Laserfiche Repository Attributes API client.
         /// </summary>
         IAttributesClient AttributesClient { get; }
