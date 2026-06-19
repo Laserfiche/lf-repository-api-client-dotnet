@@ -8690,12 +8690,19 @@
             "x-position": 2
           },
           {
-            "name": "for",
-            "x-originalName": "forSelector",
+            "name": "eligibleFor",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "oneOf": [
+                {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EligibleRecordsAction"
+                    }
+                  ]
+                }
+              ]
             },
             "x-position": 3
           },
@@ -15783,11 +15790,12 @@
       },
       "RecordsManagementProperties": {
         "type": "object",
-        "description": "The records management properties of an entry. The same shape describes both a document\nrecord (RecordType = Record) and a record folder\n(RecordType = RecordFolder); members that do not apply to the entry's\ntype are omitted. Many members are computed by the repository and are read-only \u2014 they are\nnoted as such and are ignored on update.",
+        "description": "The records management properties of a record or record folder. This is the abstract base; the concrete shape is\nRecordProperties for a document record (RecordType = Record)\nor RecordFolderProperties for a record folder (RecordFolder). Members\ncommon to both record and record folder live here; type-specific members live on the subtypes.\nMany members are computed by the repository and are read-only \u2014 they are noted as such and are\nignored on update.",
+        "x-abstract": true,
         "additionalProperties": false,
         "properties": {
           "recordType": {
-            "description": "Whether these properties describe a document record or a record folder. Determines which\nof the type-specific members are present.",
+            "description": "Whether these properties describe a document record or a record folder. Determines the\nconcrete subtype (RecordProperties or RecordFolderProperties)\nand which type-specific members are present.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/RecordEntryType"
@@ -15882,85 +15890,6 @@
             "description": "The alternate-retention trigger date, or null when unset.",
             "format": "date-time",
             "nullable": true
-          },
-          "recordFolderId": {
-            "type": "integer",
-            "description": "The record folder this record is filed under, or null when independent. Computed (read-only).",
-            "format": "int32",
-            "nullable": true
-          },
-          "underRecordFolder": {
-            "type": "boolean",
-            "description": "True when the record is filed under a record folder. Computed (read-only).",
-            "nullable": true
-          },
-          "isIndividuallyCutoff": {
-            "type": "boolean",
-            "description": "True when the record was cut off individually rather than with its folder. Computed (read-only).",
-            "nullable": true
-          },
-          "isCutoffCriterionInherited": {
-            "type": "boolean",
-            "description": "True when the cutoff criterion is inherited from the record folder.",
-            "nullable": true
-          },
-          "isDispositionScheduleInherited": {
-            "type": "boolean",
-            "description": "True when the disposition schedule is inherited from the record folder.",
-            "nullable": true
-          },
-          "reviewer": {
-            "type": "string",
-            "description": "The reviewer recorded for the last vital-record review, or null. Computed (read-only).",
-            "nullable": true
-          },
-          "lastReviewDate": {
-            "type": "string",
-            "description": "The last vital-record review date, or null when unset.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "nextReviewDate": {
-            "type": "string",
-            "description": "The next scheduled vital-record review date, or null. Computed (read-only).",
-            "format": "date-time",
-            "nullable": true
-          },
-          "isClosed": {
-            "type": "boolean",
-            "description": "True when the record folder is closed to new filings.",
-            "nullable": true
-          },
-          "isPermanent": {
-            "type": "boolean",
-            "description": "True when the record folder is permanent (never destroyed).",
-            "nullable": true
-          },
-          "dispositionAuthority": {
-            "type": "string",
-            "description": "The disposition authority name, or null.",
-            "nullable": true
-          },
-          "reviewCycleId": {
-            "type": "integer",
-            "description": "The vital-record review cycle (calendar cycle) id, or null.",
-            "format": "int32",
-            "nullable": true
-          },
-          "reviewInterval": {
-            "type": "integer",
-            "description": "The vital-record review interval, or null.",
-            "format": "int32",
-            "nullable": true
-          },
-          "reviewIntervalUnit": {
-            "description": "The review interval unit.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ReviewIntervalUnit"
-              }
-            ]
           }
         }
       },
@@ -16083,6 +16012,113 @@
           }
         }
       },
+      "RecordProperties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RecordsManagementProperties"
+          },
+          {
+            "type": "object",
+            "description": "The records management properties of a document record\n(RecordType = Record). Adds the\ndocument-record-only members to the common RecordsManagementProperties shape.",
+            "additionalProperties": false,
+            "properties": {
+              "recordFolderId": {
+                "type": "integer",
+                "description": "The record folder this record is filed under, or null when independent. Computed (read-only).",
+                "format": "int32",
+                "nullable": true
+              },
+              "underRecordFolder": {
+                "type": "boolean",
+                "description": "True when the record is filed under a record folder. Computed (read-only).",
+                "nullable": true
+              },
+              "isIndividuallyCutoff": {
+                "type": "boolean",
+                "description": "True when the record was cut off individually rather than with its folder. Computed (read-only).",
+                "nullable": true
+              },
+              "isCutoffCriterionInherited": {
+                "type": "boolean",
+                "description": "True when the cutoff criterion is inherited from the record folder.",
+                "nullable": true
+              },
+              "isDispositionScheduleInherited": {
+                "type": "boolean",
+                "description": "True when the disposition schedule is inherited from the record folder.",
+                "nullable": true
+              },
+              "reviewer": {
+                "type": "string",
+                "description": "The reviewer recorded for the last vital-record review, or null. Computed (read-only).",
+                "nullable": true
+              },
+              "lastReviewDate": {
+                "type": "string",
+                "description": "The last vital-record review date, or null when unset.",
+                "format": "date-time",
+                "nullable": true
+              },
+              "nextReviewDate": {
+                "type": "string",
+                "description": "The next scheduled vital-record review date, or null. Computed (read-only).",
+                "format": "date-time",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "RecordFolderProperties": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RecordsManagementProperties"
+          },
+          {
+            "type": "object",
+            "description": "The records management properties of a record folder\n(RecordType = RecordFolder). Adds the\nrecord-folder-only members to the common RecordsManagementProperties shape.",
+            "additionalProperties": false,
+            "properties": {
+              "isClosed": {
+                "type": "boolean",
+                "description": "True when the record folder is closed to new filings.",
+                "nullable": true
+              },
+              "isPermanent": {
+                "type": "boolean",
+                "description": "True when the record folder is permanent (never destroyed).",
+                "nullable": true
+              },
+              "dispositionAuthority": {
+                "type": "string",
+                "description": "The disposition authority name, or null.",
+                "nullable": true
+              },
+              "reviewCycleId": {
+                "type": "integer",
+                "description": "The vital-record review cycle (calendar cycle) id, or null.",
+                "format": "int32",
+                "nullable": true
+              },
+              "reviewInterval": {
+                "type": "integer",
+                "description": "The vital-record review interval, or null.",
+                "format": "int32",
+                "nullable": true
+              },
+              "reviewIntervalUnit": {
+                "description": "The review interval unit.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ReviewIntervalUnit"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
       "ReviewIntervalUnit": {
         "type": "string",
         "description": "The unit of a vital-record review interval. Serialized by name.",
@@ -16132,6 +16168,34 @@
             }
           }
         }
+      },
+      "EligibleRecordsAction": {
+        "type": "string",
+        "description": "The records management action to query a record folder's eligible records for. Used as the\nfor selector on GetEligibleRecords. Serialized by name.",
+        "x-enum-names": [
+          "Disposition",
+          "Transfer"
+        ],
+        "x-enum-varnames": [
+          "Disposition",
+          "Transfer"
+        ],
+        "x-enumNames": [
+          "Disposition",
+          "Transfer"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
+        ],
+        "enum": [
+          "Disposition",
+          "Transfer"
+        ]
       },
       "AltRetentionEventCollection": {
         "type": "object",

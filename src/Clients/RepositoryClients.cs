@@ -15549,7 +15549,7 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
-            var forSelector = parameters.ForSelector;
+            var eligibleFor = parameters.EligibleFor;
             var select = parameters.Select;
 
             if (repositoryId == null)
@@ -15566,9 +15566,9 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/RecordsManagement/EligibleRecords");
                     urlBuilder_.Append('?');
-                    if (forSelector != null)
+                    if (eligibleFor != null)
                     {
-                        urlBuilder_.Append(Uri.EscapeDataString("for")).Append('=').Append(Uri.EscapeDataString(ConvertToString(forSelector, CultureInfo.InvariantCulture))).Append('&');
+                        urlBuilder_.Append(Uri.EscapeDataString("eligibleFor")).Append('=').Append(Uri.EscapeDataString(ConvertToString(eligibleFor, CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (select != null)
                     {
@@ -16967,7 +16967,7 @@ namespace Laserfiche.Repository.Api.Client
 
         public int EntryId { get; set; }
 
-        public string ForSelector { get; set; } = null;
+        public EligibleRecordsAction? EligibleFor { get; set; } = null;
 
         /// <summary>
         /// Limits the properties returned in the result.
@@ -26060,18 +26060,20 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
-    /// The records management properties of an entry. The same shape describes both a document<br/>
-    /// record (RecordType = Record) and a record folder<br/>
-    /// (RecordType = RecordFolder); members that do not apply to the entry's<br/>
-    /// type are omitted. Many members are computed by the repository and are read-only — they are<br/>
-    /// noted as such and are ignored on update.
+    /// The records management properties of a record or record folder. This is the abstract base; the concrete shape is<br/>
+    /// RecordProperties for a document record (RecordType = Record)<br/>
+    /// or RecordFolderProperties for a record folder (RecordFolder). Members<br/>
+    /// common to both record and record folder live here; type-specific members live on the subtypes.<br/>
+    /// Many members are computed by the repository and are read-only — they are noted as such and are<br/>
+    /// ignored on update.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class RecordsManagementProperties
+    public abstract partial class RecordsManagementProperties
     {
         /// <summary>
-        /// Whether these properties describe a document record or a record folder. Determines which<br/>
-        /// of the type-specific members are present.
+        /// Whether these properties describe a document record or a record folder. Determines the<br/>
+        /// concrete subtype (RecordProperties or RecordFolderProperties)<br/>
+        /// and which type-specific members are present.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("recordType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
@@ -26168,91 +26170,6 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("triggerDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public DateTimeOffset? TriggerDate { get; set; }
 
-        /// <summary>
-        /// The record folder this record is filed under, or null when independent. Computed (read-only).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("recordFolderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? RecordFolderId { get; set; }
-
-        /// <summary>
-        /// True when the record is filed under a record folder. Computed (read-only).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("underRecordFolder", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? UnderRecordFolder { get; set; }
-
-        /// <summary>
-        /// True when the record was cut off individually rather than with its folder. Computed (read-only).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isIndividuallyCutoff", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsIndividuallyCutoff { get; set; }
-
-        /// <summary>
-        /// True when the cutoff criterion is inherited from the record folder.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isCutoffCriterionInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsCutoffCriterionInherited { get; set; }
-
-        /// <summary>
-        /// True when the disposition schedule is inherited from the record folder.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isDispositionScheduleInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsDispositionScheduleInherited { get; set; }
-
-        /// <summary>
-        /// The reviewer recorded for the last vital-record review, or null. Computed (read-only).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("reviewer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Reviewer { get; set; }
-
-        /// <summary>
-        /// The last vital-record review date, or null when unset.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("lastReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DateTimeOffset? LastReviewDate { get; set; }
-
-        /// <summary>
-        /// The next scheduled vital-record review date, or null. Computed (read-only).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("nextReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DateTimeOffset? NextReviewDate { get; set; }
-
-        /// <summary>
-        /// True when the record folder is closed to new filings.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isClosed", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsClosed { get; set; }
-
-        /// <summary>
-        /// True when the record folder is permanent (never destroyed).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsPermanent { get; set; }
-
-        /// <summary>
-        /// The disposition authority name, or null.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DispositionAuthority { get; set; }
-
-        /// <summary>
-        /// The vital-record review cycle (calendar cycle) id, or null.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? ReviewCycleId { get; set; }
-
-        /// <summary>
-        /// The vital-record review interval, or null.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? ReviewInterval { get; set; }
-
-        /// <summary>
-        /// The review interval unit.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
-
     }
 
     /// <summary>
@@ -26341,6 +26258,111 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// The records management properties of a document record<br/>
+    /// (RecordType = Record). Adds the<br/>
+    /// document-record-only members to the common RecordsManagementProperties shape.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordProperties : RecordsManagementProperties
+    {
+        /// <summary>
+        /// The record folder this record is filed under, or null when independent. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("recordFolderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? RecordFolderId { get; set; }
+
+        /// <summary>
+        /// True when the record is filed under a record folder. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("underRecordFolder", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? UnderRecordFolder { get; set; }
+
+        /// <summary>
+        /// True when the record was cut off individually rather than with its folder. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isIndividuallyCutoff", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsIndividuallyCutoff { get; set; }
+
+        /// <summary>
+        /// True when the cutoff criterion is inherited from the record folder.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isCutoffCriterionInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsCutoffCriterionInherited { get; set; }
+
+        /// <summary>
+        /// True when the disposition schedule is inherited from the record folder.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isDispositionScheduleInherited", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsDispositionScheduleInherited { get; set; }
+
+        /// <summary>
+        /// The reviewer recorded for the last vital-record review, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Reviewer { get; set; }
+
+        /// <summary>
+        /// The last vital-record review date, or null when unset.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lastReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? LastReviewDate { get; set; }
+
+        /// <summary>
+        /// The next scheduled vital-record review date, or null. Computed (read-only).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("nextReviewDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DateTimeOffset? NextReviewDate { get; set; }
+
+    }
+
+    /// <summary>
+    /// The records management properties of a record folder<br/>
+    /// (RecordType = RecordFolder). Adds the<br/>
+    /// record-folder-only members to the common RecordsManagementProperties shape.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RecordFolderProperties : RecordsManagementProperties
+    {
+        /// <summary>
+        /// True when the record folder is closed to new filings.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isClosed", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsClosed { get; set; }
+
+        /// <summary>
+        /// True when the record folder is permanent (never destroyed).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("isPermanent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPermanent { get; set; }
+
+        /// <summary>
+        /// The disposition authority name, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("dispositionAuthority", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DispositionAuthority { get; set; }
+
+        /// <summary>
+        /// The vital-record review cycle (calendar cycle) id, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewCycleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewCycleId { get; set; }
+
+        /// <summary>
+        /// The vital-record review interval, or null.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewInterval", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ReviewInterval { get; set; }
+
+        /// <summary>
+        /// The review interval unit.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("reviewIntervalUnit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ReviewIntervalUnit? ReviewIntervalUnit { get; set; }
+
+    }
+
+    /// <summary>
     /// The unit of a vital-record review interval. Serialized by name.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -26371,6 +26393,22 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("entryIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<int> EntryIds { get; set; }
+
+    }
+
+    /// <summary>
+    /// The records management action to query a record folder's eligible records for. Used as the<br/>
+    /// for selector on GetEligibleRecords. Serialized by name.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum EligibleRecordsAction
+    {
+
+        [EnumMember(Value = @"Disposition")]
+        Disposition = 0,
+
+        [EnumMember(Value = @"Transfer")]
+        Transfer = 1,
 
     }
 
