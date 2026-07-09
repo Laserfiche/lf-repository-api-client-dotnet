@@ -76,6 +76,25 @@ namespace Laserfiche.Repository.Api.Client
     {
     }
 
+    [JsonConverter(typeof(JsonInheritanceConverter), "annotationType")]
+    [JsonInheritance("Highlight", typeof(HighlightAnnotation))]
+    [JsonInheritance("Redaction", typeof(RedactionAnnotation))]
+    [JsonInheritance("Strikeout", typeof(StrikeoutAnnotation))]
+    [JsonInheritance("Underline", typeof(UnderlineAnnotation))]
+    [JsonInheritance("Note", typeof(NoteAnnotation))]
+    [JsonInheritance("Attachment", typeof(AttachmentAnnotation))]
+    [JsonInheritance("TextBox", typeof(TextBoxAnnotation))]
+    [JsonInheritance("Bitmap", typeof(BitmapAnnotation))]
+    [JsonInheritance("Line", typeof(LineAnnotation))]
+    [JsonInheritance("Rectangle", typeof(RectangleAnnotation))]
+    [JsonInheritance("Polyline", typeof(PolylineAnnotation))]
+    [JsonInheritance("Callout", typeof(CalloutAnnotation))]
+    [JsonInheritance("Stamp", typeof(StampAnnotation))]
+    [JsonInheritance("FreeHand", typeof(FreeHandAnnotation))]
+    partial class Annotation
+    {
+    }
+
     // JsonInheritanceAttribute and JsonInheritanceConverter are NSwag auto generated code using the example swagger schema here https://github.com/RicoSuter/NJsonSchema/wiki/Inheritance
     // so client lib don't need to add dependency to NJsonSchema
     // we don't add "discriminator" at server side because it will add another property in json schema and we already have @odata.type and entryType could be used for discrimination

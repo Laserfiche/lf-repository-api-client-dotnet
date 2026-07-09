@@ -42,8 +42,6 @@ namespace Laserfiche.Repository.Api.Client
         /// <inheritdoc/>
         public ILinkDefinitionsClient LinkDefinitionsClient { get; }
         /// <inheritdoc/>
-        public IRecordsManagementClient RecordsManagementClient { get; }
-        /// <inheritdoc/>
         public IRepositoriesClient RepositoriesClient { get; }
         /// <inheritdoc/>
         public ISearchesClient SearchesClient { get; }
@@ -56,6 +54,21 @@ namespace Laserfiche.Repository.Api.Client
         /// <inheritdoc/>
         public ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
 
+        /// <inheritdoc/>
+        public IAccessControlClient AccessControlClient { get; }
+
+        /// <inheritdoc/>
+        public IRecordsManagementClient RecordsManagementClient { get; }
+
+        /// <inheritdoc/>
+        public IAnnotationsClient AnnotationsClient { get; }
+
+        /// <inheritdoc/>
+        public IStampsClient StampsClient { get; }
+
+        /// <inheritdoc/>
+        public IUserAreasClient UserAreasClient { get; }
+
         internal RepositoryApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -65,13 +78,17 @@ namespace Laserfiche.Repository.Api.Client
             EntriesClient = new EntriesClient(_httpClient);
             FieldDefinitionsClient = new FieldDefinitionsClient(_httpClient);
             LinkDefinitionsClient = new LinkDefinitionsClient(_httpClient);
-            RecordsManagementClient = new RecordsManagementClient(_httpClient);
             RepositoriesClient = new RepositoriesClient(_httpClient);
             SearchesClient = new SearchesClient(_httpClient);
             SimpleSearchesClient = new SimpleSearchesClient(_httpClient);
             TagDefinitionsClient = new TagDefinitionsClient(_httpClient);
             TasksClient = new TasksClient(_httpClient);
             TemplateDefinitionsClient = new TemplateDefinitionsClient(_httpClient);
+            AccessControlClient = new AccessControlClient(_httpClient);
+            RecordsManagementClient = new RecordsManagementClient(_httpClient);
+            AnnotationsClient = new AnnotationsClient(_httpClient);
+            StampsClient = new StampsClient(_httpClient);
+            UserAreasClient = new UserAreasClient(_httpClient);
         }
 
         /// <summary>
