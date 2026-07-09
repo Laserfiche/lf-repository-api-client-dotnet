@@ -41,10 +41,6 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         ILinkDefinitionsClient LinkDefinitionsClient { get; }
         /// <summary>
-        /// The Laserfiche Repository Records Management API client.
-        /// </summary>
-        IRecordsManagementClient RecordsManagementClient { get; }
-        /// <summary>
         /// The Laserfiche Repository Repositories API client.
         /// </summary>
         IRepositoriesClient RepositoriesClient { get; }
@@ -68,5 +64,30 @@ namespace Laserfiche.Repository.Api.Client
         /// The Laserfiche Repository Template Definitions API client.
         /// </summary>
         ITemplateDefinitionsClient TemplateDefinitionsClient { get; }
+
+        /// <summary>
+        /// The Laserfiche Repository Access Control API client.
+        /// </summary>
+        IAccessControlClient AccessControlClient { get; }
+
+        /// <summary>
+        /// The Laserfiche Repository Records Management API client.
+        /// </summary>
+        IRecordsManagementClient RecordsManagementClient { get; }
+
+        /// <summary>
+        /// The Laserfiche Repository Annotations API client.
+        /// </summary>
+        IAnnotationsClient AnnotationsClient { get; }
+
+        /// <summary>
+        /// The Laserfiche Repository Stamps API client.
+        /// </summary>
+        IStampsClient StampsClient { get; }
+
+        /// <summary>
+        /// The Laserfiche Repository User Areas API client.
+        /// </summary>
+        IUserAreasClient UserAreasClient { get; }
     }
 }
