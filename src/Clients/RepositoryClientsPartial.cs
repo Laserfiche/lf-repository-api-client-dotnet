@@ -66,7 +66,14 @@ namespace Laserfiche.Repository.Api.Client
     [JsonInheritance("Shortcut", typeof(Shortcut))]
     [JsonInheritance("RecordSeries", typeof(RecordSeries))]
     partial class Entry
-    { 
+    {
+    }
+
+    [JsonConverter(typeof(JsonInheritanceConverter), "recordType")]
+    [JsonInheritance("Record", typeof(RecordProperties))]
+    [JsonInheritance("RecordFolder", typeof(RecordFolderProperties))]
+    partial class RecordsManagementProperties
+    {
     }
 
     // JsonInheritanceAttribute and JsonInheritanceConverter are NSwag auto generated code using the example swagger schema here https://github.com/RicoSuter/NJsonSchema/wiki/Inheritance

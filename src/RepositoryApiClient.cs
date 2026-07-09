@@ -42,6 +42,8 @@ namespace Laserfiche.Repository.Api.Client
         /// <inheritdoc/>
         public ILinkDefinitionsClient LinkDefinitionsClient { get; }
         /// <inheritdoc/>
+        public IRecordsManagementClient RecordsManagementClient { get; }
+        /// <inheritdoc/>
         public IRepositoriesClient RepositoriesClient { get; }
         /// <inheritdoc/>
         public ISearchesClient SearchesClient { get; }
@@ -63,6 +65,7 @@ namespace Laserfiche.Repository.Api.Client
             EntriesClient = new EntriesClient(_httpClient);
             FieldDefinitionsClient = new FieldDefinitionsClient(_httpClient);
             LinkDefinitionsClient = new LinkDefinitionsClient(_httpClient);
+            RecordsManagementClient = new RecordsManagementClient(_httpClient);
             RepositoriesClient = new RepositoriesClient(_httpClient);
             SearchesClient = new SearchesClient(_httpClient);
             SimpleSearchesClient = new SimpleSearchesClient(_httpClient);
