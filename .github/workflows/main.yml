@@ -17,7 +17,7 @@ on:
 
 env:
   API_VERSION: 'v2'
-  VERSION_PREFIX: '2.2.0'
+  VERSION_PREFIX: '2.3.0'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
