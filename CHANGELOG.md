@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.0
+
+### Features
+
+- Add Records Management methods, exposed on the new `RecordsManagementClient`: `GetEntryRecordsManagementPropertiesAsync`, `UpdateEntryRecordsManagementPropertiesAsync`, `GetEligibleRecordsAsync`, `GetIndependentRecordsAsync`, `GetAltRetentionEventsAsync`, `GetRecordSeriesPropertiesAsync`, `UpdateRecordSeriesPropertiesAsync`, `SetRecordEventAsync`, `RemoveRecordEventAsync`, `CreateRecordSeriesAsync`.
+- Add unified access-rights/access-control methods for fields, templates, and entries, exposed on the new `AccessControlClient`: `GetFieldAccessControlAsync`/`SetFieldAccessControlAsync`, `GetFieldRightsAsync`, `GetDefaultFieldAccessControlAsync`/`SetDefaultFieldAccessControlAsync`, `GetEntryAccessControlAsync`/`SetEntryAccessControlAsync`, `GetEntryRightsAsync`, `GetSessionRightsAsync`, `GetTemplateAccessControlAsync`/`SetTemplateAccessControlAsync`, `GetTemplateRightsAsync`, `GetDefaultTemplateAccessControlAsync`/`SetDefaultTemplateAccessControlAsync`, `LookupTrusteesAsync`, `GetTrusteeSecurityAsync`.
+- Add User Areas methods, exposed on the new `UserAreasClient`: recent documents/folders (`GetRecentDocumentsAsync`, `GetRecentFoldersAsync`), starred entries (`GetStarredEntriesAsync`, `StarEntriesAsync`, `UnstarEntriesAsync`), personal collections (`GetPersonalCollectionsAsync`, `CreatePersonalCollectionAsync`, `GetPersonalCollectionAsync`, `RenamePersonalCollectionAsync`, `DeletePersonalCollectionAsync`, `AddCollectionEntriesAsync`, `RemoveCollectionEntriesAsync`), and generic user areas (`GetUserAreasAsync`, `CreateUserAreaAsync`, `GetUserAreaAsync`, `UpdateUserAreaAsync`, `DeleteUserAreaAsync`, `GetUserAreaEntriesAsync`, `AddUserAreaEntriesAsync`, `RemoveUserAreaEntriesAsync`).
+- Add Annotations & Stamps methods, exposed on the new `AnnotationsClient` and `StampsClient`: `ListDocumentAnnotationsAsync`, `ListPageAnnotationsAsync`, `CreateAnnotationAsync`, `GetAnnotationAsync`, `UpdateAnnotationAsync`, `DeleteAnnotationAsync`, `GetAnnotationAttachmentAsync`, `UploadAnnotationAttachmentAsync`, `UploadAnnotationImageAsync`, annotation reasons (`ListAnnotationReasonsAsync`, `CreateAnnotationReasonAsync`, `UpdateAnnotationReasonAsync`, `DeleteAnnotationReasonAsync`), and stamps (`ListStampsAsync`, `CreateStampAsync`, `GetStampAsync`, `UpdateStampAsync`, `DeleteStampAsync`, `GetStampImageAsync`).
+- New types: request/response DTOs for all of the above, plus discriminated-union types `Annotation` (14 subtypes: Highlight, Redaction, Strikeout, Underline, Note, Attachment, TextBox, Bitmap, Line, Rectangle, Polyline, Callout, Stamp, FreeHand) and `RecordsManagementProperties` (`RecordProperties`/`RecordFolderProperties`).
+
 ## 2.2.0
 
 ### Features
