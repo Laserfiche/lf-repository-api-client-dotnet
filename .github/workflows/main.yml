@@ -271,6 +271,8 @@ jobs:
     timeout-minutes: 10
     environment: github-pages
     needs: [ publish-production-package ]
+    permissions:
+      contents: write   # peter-evans/create-pull-request needs to push the docs branch
     steps:
     - name: Set DOCUMENTATION_VERSION environment variable
       run: |
