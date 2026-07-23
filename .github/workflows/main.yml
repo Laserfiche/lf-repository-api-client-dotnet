@@ -114,6 +114,9 @@ jobs:
     environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
+    permissions:
+      id-token: write   # request the OIDC token for NuGet Trusted Publishing
+      contents: write   # the "Tag commit" step pushes a tag on the v1 branch
     steps:
     - uses: actions/checkout@v4
 
@@ -134,8 +137,18 @@ jobs:
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
+    # Trusted Publishing: exchange the GitHub OIDC token for a short-lived (1 hour)
+    # nuget.org API key. Requested immediately before the push so it doesn't expire.
+    # No long-lived NUGET_KEY secret required. See:
+    #   https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+    - name: NuGet login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Publish to nuget.org
-      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
@@ -151,6 +164,9 @@ jobs:
     environment: production
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
+    permissions:
+      id-token: write   # request the OIDC token for NuGet Trusted Publishing
+      contents: write   # the "Tag commit" step pushes a tag on the v1 branch
     steps:
     - uses: actions/checkout@v4
 
@@ -171,8 +187,18 @@ jobs:
     - name: Packaging
       run: dotnet pack --no-build --configuration release /p:version=${{ env.PACKAGE_VERSION }}
 
-    - name: Publish to Nuget.org
-      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+    # Trusted Publishing: exchange the GitHub OIDC token for a short-lived (1 hour)
+    # nuget.org API key. Requested immediately before the push so it doesn't expire.
+    # No long-lived NUGET_KEY secret required. See:
+    #   https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+    - name: NuGet login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
+    - name: Publish to nuget.org
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
