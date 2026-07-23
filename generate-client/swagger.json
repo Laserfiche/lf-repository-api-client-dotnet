@@ -4588,6 +4588,15 @@
             "x-position": 2
           },
           {
+            "name": "autoCreateFolderPath",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 4
+          },
+          {
             "name": "culture",
             "in": "query",
             "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.",
@@ -4596,7 +4605,7 @@
               "default": "",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           }
         ],
         "requestBody": {
@@ -5502,6 +5511,15 @@
             "x-position": 2
           },
           {
+            "name": "autoCreateFolderPath",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 3
+          },
+          {
             "name": "culture",
             "in": "query",
             "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.",
@@ -5510,7 +5528,7 @@
               "default": "",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 4
           }
         ],
         "requestBody": {
@@ -6176,6 +6194,15 @@
             "x-position": 2
           },
           {
+            "name": "autoCreateFolderPath",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 4
+          },
+          {
             "name": "culture",
             "in": "query",
             "description": "An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.",
@@ -6184,7 +6211,7 @@
               "default": "",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           }
         ],
         "requestBody": {
@@ -21645,6 +21672,11 @@
             "type": "string",
             "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
             "nullable": true
+          },
+          "folderPath": {
+            "type": "string",
+            "description": "An optional folder path, relative to the entry given in the route, that the document is imported into.\nBoth `/` and `\\` are accepted as separators. When any folder in this path does not exist, set the\n`autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request\nfails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).",
+            "nullable": true
           }
         }
       },
@@ -22587,6 +22619,11 @@
             "type": "boolean",
             "description": "Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
             "default": true
+          },
+          "folderPath": {
+            "type": "string",
+            "description": "An optional folder path, relative to the entry given in the route, that the document is imported into.\nBoth `/` and `\\` are accepted as separators. When any folder in this path does not exist, set the\n`autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request\nfails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).",
+            "nullable": true
           }
         }
       },
@@ -23066,6 +23103,11 @@
           "volumeName": {
             "type": "string",
             "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
+            "nullable": true
+          },
+          "folderPath": {
+            "type": "string",
+            "description": "An optional folder path, relative to the entry given in the route, that the new entry is created under.\nBoth `/` and `\\` are accepted as separators. When any folder in this path does not exist, set the\n`autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request\nfails with 404. When omitted, the entry is created directly under the route entry (unchanged behavior).",
             "nullable": true
           }
         }
