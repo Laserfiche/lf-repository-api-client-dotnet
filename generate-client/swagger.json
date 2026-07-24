@@ -4590,6 +4590,7 @@
           {
             "name": "autoCreateFolderPath",
             "in": "query",
+            "description": "When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -5513,6 +5514,7 @@
           {
             "name": "autoCreateFolderPath",
             "in": "query",
+            "description": "When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -6196,6 +6198,7 @@
           {
             "name": "autoCreateFolderPath",
             "in": "query",
+            "description": "When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.",
             "schema": {
               "type": "boolean",
               "default": false

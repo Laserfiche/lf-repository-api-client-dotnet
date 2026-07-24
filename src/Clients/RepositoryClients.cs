@@ -20037,6 +20037,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public StartImportUploadedPartsRequest Request { get; set; } = null;
 
+        /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
         public bool? AutoCreateFolderPath { get; set; } = null;
 
         /// <summary>
@@ -20202,6 +20205,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public int EntryId { get; set; }
 
+        /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
         public bool? AutoCreateFolderPath { get; set; } = null;
 
         /// <summary>
@@ -20363,6 +20369,9 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         public CreateEntryRequest Request { get; set; }
 
+        /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
         public bool? AutoCreateFolderPath { get; set; } = null;
 
         /// <summary>
