@@ -11412,6 +11412,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var request = parameters.Request;
+            var autoCreateFolderPath = parameters.AutoCreateFolderPath;
             var culture = parameters.Culture;
 
             if (repositoryId == null)
@@ -11428,6 +11429,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Folder/ImportUploadedParts");
                     urlBuilder_.Append('?');
+                    if (autoCreateFolderPath != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("autoCreateFolderPath")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoCreateFolderPath, CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (culture != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
@@ -12553,6 +12558,7 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
+            var autoCreateFolderPath = parameters.AutoCreateFolderPath;
             var culture = parameters.Culture;
             var file = parameters.File;
             var request = parameters.Request;
@@ -12572,6 +12578,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Folder/Import");
                     urlBuilder_.Append('?');
+                    if (autoCreateFolderPath != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("autoCreateFolderPath")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoCreateFolderPath, CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (culture != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
@@ -13434,6 +13444,7 @@ namespace Laserfiche.Repository.Api.Client
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
             var request = parameters.Request;
+            var autoCreateFolderPath = parameters.AutoCreateFolderPath;
             var culture = parameters.Culture;
 
             if (repositoryId == null)
@@ -13453,6 +13464,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Folder/Children");
                     urlBuilder_.Append('?');
+                    if (autoCreateFolderPath != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("autoCreateFolderPath")).Append('=').Append(Uri.EscapeDataString(ConvertToString(autoCreateFolderPath, CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (culture != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("culture")).Append('=').Append(Uri.EscapeDataString(ConvertToString(culture, CultureInfo.InvariantCulture))).Append('&');
@@ -20023,6 +20038,11 @@ namespace Laserfiche.Repository.Api.Client
         public StartImportUploadedPartsRequest Request { get; set; } = null;
 
         /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
+        public bool? AutoCreateFolderPath { get; set; } = null;
+
+        /// <summary>
         /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
         /// </summary>
         public string Culture { get; set; } = null;
@@ -20186,6 +20206,11 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
+        public bool? AutoCreateFolderPath { get; set; } = null;
+
+        /// <summary>
         /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens.
         /// </summary>
         public string Culture { get; set; } = null;
@@ -20343,6 +20368,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The request body.
         /// </summary>
         public CreateEntryRequest Request { get; set; }
+
+        /// <summary>
+        /// When true, any missing folders in the request's `folderPath` are created; when false (default), a missing folder returns 404.
+        /// </summary>
+        public bool? AutoCreateFolderPath { get; set; } = null;
 
         /// <summary>
         /// An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag.
@@ -36839,6 +36869,15 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string VolumeName { get; set; }
 
+        /// <summary>
+        /// An optional folder path, relative to the entry given in the route, that the document is imported into.<br/>
+        /// Both `/` and `\` are accepted as separators. When any folder in this path does not exist, set the<br/>
+        /// `autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request<br/>
+        /// fails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FolderPath { get; set; }
+
     }
 
     /// <summary>
@@ -37712,6 +37751,15 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool GenerateImagePagesText { get; set; } = true;
 
+        /// <summary>
+        /// An optional folder path, relative to the entry given in the route, that the document is imported into.<br/>
+        /// Both `/` and `\` are accepted as separators. When any folder in this path does not exist, set the<br/>
+        /// `autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request<br/>
+        /// fails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FolderPath { get; set; }
+
     }
 
     /// <summary>
@@ -38202,6 +38250,15 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string VolumeName { get; set; }
+
+        /// <summary>
+        /// An optional folder path, relative to the entry given in the route, that the new entry is created under.<br/>
+        /// Both `/` and `\` are accepted as separators. When any folder in this path does not exist, set the<br/>
+        /// `autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request<br/>
+        /// fails with 404. When omitted, the entry is created directly under the route entry (unchanged behavior).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FolderPath { get; set; }
 
     }
 

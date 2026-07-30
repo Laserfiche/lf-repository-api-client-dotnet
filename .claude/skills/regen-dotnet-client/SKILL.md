@@ -115,6 +115,18 @@ dotnet test tests/unit/
 
 Then start a local `site-api-repository` server and run integration tests with the new method against it (see "Consuming the new client" below).
 
+> **`tests/integration/` is NOT where per-endpoint functional coverage belongs.** This suite and the
+> server-side `SiteApiRepositoryREST` suite drive the **identical generated client over HTTP**, so
+> duplicating an endpoint's happy/error/edge tests in both catches nothing extra — it's pure overlap.
+> The **server REST suite is the single canonical dotnet functional gate**. Keep `tests/integration/`
+> to **client-only** concerns: client construction/auth (`CreateFromAccessKey`,
+> `CreateFromHttpRequestHandler`, baseUrl override/trailing-slash tolerance), pagination helpers,
+> retry-when-locked, and `HttpClient.Timeout` override. Do **not** grow it per new endpoint. Running
+> a new method here once as a smoke check during regen is fine; committing a full per-endpoint suite
+> is the duplication to avoid. Full rationale: `site-api-repository/docs/analysis-dotnet-integration-test-overlap.md`.
+> (JS is different — its independent codebase makes `lf-api-js` functional tests genuinely
+> complementary, not overlap.)
+
 ## Consuming the new client
 
 ### Fast path — no publish needed
