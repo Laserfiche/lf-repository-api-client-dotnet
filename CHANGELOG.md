@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0
+
+### Features
+
+- Add optional `FolderPath` request property and `AutoCreateFolderPath` query parameter to `ImportEntryAsync`, `StartImportUploadedPartsAsync`, and `CreateEntryAsync`. When `AutoCreateFolderPath` is `true`, any missing folders in `FolderPath` are created; when `false` (default), a missing folder returns 404.
+
 ## 2.3.0
 
 ### Features
