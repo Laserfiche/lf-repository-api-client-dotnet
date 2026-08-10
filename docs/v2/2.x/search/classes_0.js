@@ -1,9 +1,27 @@
 var searchData=
 [
-  ['attribute_0',['Attribute',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attribute.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['attributecollectionresponse_1',['AttributeCollectionResponse',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attribute_collection_response.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['attributesclient_2',['AttributesClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attributes_client.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['auditreason_3',['AuditReason',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reason.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['auditreasoncollectionresponse_4',['AuditReasonCollectionResponse',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reason_collection_response.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['auditreasonsclient_5',['AuditReasonsClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reasons_client.html',1,'Laserfiche::Repository::Api::Client']]]
+  ['accesscontrolclient_0',['AccessControlClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_access_control_client.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['accesscontrolentry_1',['AccessControlEntry',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_access_control_entry.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['accesscontrollist_2',['AccessControlList',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_access_control_list.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['addcollectionentriesparameters_3',['AddCollectionEntriesParameters',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_add_collection_entries_parameters.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['addtemplatefieldparameters_4',['AddTemplateFieldParameters',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_add_template_field_parameters.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['addtemplatefieldrequest_5',['AddTemplateFieldRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_add_template_field_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['adduserareaentriesparameters_6',['AddUserAreaEntriesParameters',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_add_user_area_entries_parameters.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['altretentionevent_7',['AltRetentionEvent',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_alt_retention_event.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['altretentioneventcollection_8',['AltRetentionEventCollection',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_alt_retention_event_collection.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotation_9',['Annotation',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationpoint_10',['AnnotationPoint',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation_point.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationreason_11',['AnnotationReason',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation_reason.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationreasonrequest_12',['AnnotationReasonRequest',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation_reason_request.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationrectangle_13',['AnnotationRectangle',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation_rectangle.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationsclient_14',['AnnotationsClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotations_client.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['annotationsize_15',['AnnotationSize',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_annotation_size.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['assignedentrycountresponse_16',['AssignedEntryCountResponse',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_assigned_entry_count_response.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['attachmentannotation_17',['AttachmentAnnotation',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attachment_annotation.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['attribute_18',['Attribute',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attribute.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['attributecollectionresponse_19',['AttributeCollectionResponse',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attribute_collection_response.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['attributesclient_20',['AttributesClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_attributes_client.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['auditreason_21',['AuditReason',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reason.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['auditreasoncollectionresponse_22',['AuditReasonCollectionResponse',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reason_collection_response.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['auditreasonsclient_23',['AuditReasonsClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_audit_reasons_client.html',1,'Laserfiche::Repository::Api::Client']]]
 ];

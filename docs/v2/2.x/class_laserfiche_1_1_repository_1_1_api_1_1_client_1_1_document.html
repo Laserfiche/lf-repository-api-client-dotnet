@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -115,6 +115,16 @@ Inheritance diagram for Document:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:a6aed17d02874f526bb804686905b23e0" id="r_a6aed17d02874f526bb804686905b23e0"><td class="memItemLeft" align="right" valign="top"><a id="a6aed17d02874f526bb804686905b23e0" name="a6aed17d02874f526bb804686905b23e0"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>CheckedOutBy</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6aed17d02874f526bb804686905b23e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display name (account name, e.g. "DOMAIN\user") of the user who checked out the document. Null if the document is not checked out.<br  />
+ Account renames change this value over time — do not use for stable identity comparisons.<br  />
+ To test whether the current authenticated user holds the checkout, use IsCheckedOutByAnotherUser; it compares stable principal identifiers internally. <br /></td></tr>
+<tr class="separator:a6aed17d02874f526bb804686905b23e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad86cf0157879d3ed6d50470acb158a" id="r_a1ad86cf0157879d3ed6d50470acb158a"><td class="memItemLeft" align="right" valign="top"><a id="a1ad86cf0157879d3ed6d50470acb158a" name="a1ad86cf0157879d3ed6d50470acb158a"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>CurrentVersion</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a1ad86cf0157879d3ed6d50470acb158a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The version number of the document. 0 if the document is not under version control. <br /></td></tr>
+<tr class="separator:a1ad86cf0157879d3ed6d50470acb158a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f20f7c17707ca1f3a7ded3c5d43b126" id="r_a6f20f7c17707ca1f3a7ded3c5d43b126"><td class="memItemLeft" align="right" valign="top"><a id="a6f20f7c17707ca1f3a7ded3c5d43b126" name="a6f20f7c17707ca1f3a7ded3c5d43b126"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><b>ElectronicDocumentSize</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a6f20f7c17707ca1f3a7ded3c5d43b126"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the electronic document attached to the represented document, if there is one, in bytes. <br /></td></tr>
@@ -127,10 +137,28 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>Extension</b><code>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsCheckedOut</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a3f5eab30c5acae4c7336e71a43401950"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the represented document is checked out. <br /></td></tr>
 <tr class="separator:a3f5eab30c5acae4c7336e71a43401950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af857b6154d1e94a8dc1b3bcc1bc33e3a" id="r_af857b6154d1e94a8dc1b3bcc1bc33e3a"><td class="memItemLeft" align="right" valign="top"><a id="af857b6154d1e94a8dc1b3bcc1bc33e3a" name="af857b6154d1e94a8dc1b3bcc1bc33e3a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsCheckedOutByAnotherUser</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:af857b6154d1e94a8dc1b3bcc1bc33e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the document is checked out by a user other than the authenticated user.<br  />
+ False if the document is not checked out or is checked out by the authenticated user.<br  />
+ Computed from a stable principal identifier comparison, not from CheckedOutBy.<br  />
+ Only populated on single-entry GET, not in listing results. <br /></td></tr>
+<tr class="separator:af857b6154d1e94a8dc1b3bcc1bc33e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f46c2c08fece6a413d0655a1fe3e16d" id="r_a2f46c2c08fece6a413d0655a1fe3e16d"><td class="memItemLeft" align="right" valign="top"><a id="a2f46c2c08fece6a413d0655a1fe3e16d" name="a2f46c2c08fece6a413d0655a1fe3e16d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsElectronicDocument</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a2f46c2c08fece6a413d0655a1fe3e16d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if there is an electronic document attached to the represented document. <br /></td></tr>
 <tr class="separator:a2f46c2c08fece6a413d0655a1fe3e16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ac26699bcbb00ea98e99c37fd175c89" id="r_a1ac26699bcbb00ea98e99c37fd175c89"><td class="memItemLeft" align="right" valign="top"><a id="a1ac26699bcbb00ea98e99c37fd175c89" name="a1ac26699bcbb00ea98e99c37fd175c89"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLocked</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a1ac26699bcbb00ea98e99c37fd175c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the represented document has a persistent lock. <br /></td></tr>
+<tr class="separator:a1ac26699bcbb00ea98e99c37fd175c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea518ffc093b484d5e60d04dd8cbcfe8" id="r_aea518ffc093b484d5e60d04dd8cbcfe8"><td class="memItemLeft" align="right" valign="top"><a id="aea518ffc093b484d5e60d04dd8cbcfe8" name="aea518ffc093b484d5e60d04dd8cbcfe8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLockedByAnotherUser</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:aea518ffc093b484d5e60d04dd8cbcfe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the document is locked by a user other than the authenticated user.<br  />
+ False if the document is not locked or is locked by the authenticated user.<br  />
+ Computed from a stable principal identifier comparison, not from LockedBy.<br  />
+ Only populated on single-entry GET, not in listing results. <br /></td></tr>
+<tr class="separator:aea518ffc093b484d5e60d04dd8cbcfe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af62a5f01df85d57f6da6f95aaab1f87f" id="r_af62a5f01df85d57f6da6f95aaab1f87f"><td class="memItemLeft" align="right" valign="top"><a id="af62a5f01df85d57f6da6f95aaab1f87f" name="af62a5f01df85d57f6da6f95aaab1f87f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsRecord</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:af62a5f01df85d57f6da6f95aaab1f87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the represented document is a record. <br /></td></tr>
@@ -139,6 +167,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsRecord</b><code> [g
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsUnderVersionControl</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a632061635436b9158cdbac818c955b60"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the represented document is under version control. <br /></td></tr>
 <tr class="separator:a632061635436b9158cdbac818c955b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d150088c3e1cab72b06f06da8755e32" id="r_a0d150088c3e1cab72b06f06da8755e32"><td class="memItemLeft" align="right" valign="top"><a id="a0d150088c3e1cab72b06f06da8755e32" name="a0d150088c3e1cab72b06f06da8755e32"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>LockedBy</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a0d150088c3e1cab72b06f06da8755e32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display name (account name, e.g. "DOMAIN\user") of the persistent lock holder. Null if the document is not locked.<br  />
+ Account renames change this value over time — do not use for stable identity comparisons.<br  />
+ To test whether the current authenticated user holds the lock, use IsLockedByAnotherUser; it compares stable principal identifiers internally. <br /></td></tr>
+<tr class="separator:a0d150088c3e1cab72b06f06da8755e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60fd10355a0ba590ab36a2aaae02455c" id="r_a60fd10355a0ba590ab36a2aaae02455c"><td class="memItemLeft" align="right" valign="top"><a id="a60fd10355a0ba590ab36a2aaae02455c" name="a60fd10355a0ba590ab36a2aaae02455c"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>MimeType</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a60fd10355a0ba590ab36a2aaae02455c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The MIME type of the electronic document. <br /></td></tr>
@@ -147,6 +181,14 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>MimeType</b><code> 
 int&#160;</td><td class="memItemRight" valign="bottom"><b>PageCount</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:af6a59f4853453fc96bec2a97f225fb3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The page count of the represented document. <br /></td></tr>
 <tr class="separator:af6a59f4853453fc96bec2a97f225fb3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c0c5dca1ace59c455f377180c4bb870" id="r_a3c0c5dca1ace59c455f377180c4bb870"><td class="memItemLeft" align="right" valign="top"><a id="a3c0c5dca1ace59c455f377180c4bb870" name="a3c0c5dca1ace59c455f377180c4bb870"></a>
+long?&#160;</td><td class="memItemRight" valign="bottom"><b>TotalDocumentSize</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a3c0c5dca1ace59c455f377180c4bb870"><td class="mdescLeft">&#160;</td><td class="mdescRight">The total size in bytes of the document's stored components — electronic document plus<br  />
+ image/text/locations/thumbnail page data and attachments — as opposed to<br  />
+ ElectronicDocumentSize, which is just the source file. Present only when<br  />
+ requested via the includeTotalSize query parameter; otherwise null. Opt-in because<br  />
+ it aggregates across all of the document's pages. <br /></td></tr>
+<tr class="separator:a3c0c5dca1ace59c455f377180c4bb870"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry"><td colspan="2" onclick="javascript:toggleInherit('properties_class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html">Entry</a></td></tr>
 <tr class="memitem:acb15eddc019e657919b91c5561f414ab inherit properties_class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry" id="r_acb15eddc019e657919b91c5561f414ab"><td class="memItemLeft" align="right" valign="top">
 DateTimeOffset&#160;</td><td class="memItemRight" valign="bottom"><b>CreationTime</b><code> [get, set]</code></td></tr>

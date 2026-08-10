@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -115,6 +115,10 @@ Inheritance diagram for FieldDefinition:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:a48a88e22b9df6cef6d3b053dba49449b" id="r_a48a88e22b9df6cef6d3b053dba49449b"><td class="memItemLeft" align="right" valign="top"><a id="a48a88e22b9df6cef6d3b053dba49449b" name="a48a88e22b9df6cef6d3b053dba49449b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>AutoExtract</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a48a88e22b9df6cef6d3b053dba49449b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating whether values for this field can be automatically extracted by AI/OCR services. <br /></td></tr>
+<tr class="separator:a48a88e22b9df6cef6d3b053dba49449b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66c4124ff8c9f76bc12b9acd207162e7" id="r_a66c4124ff8c9f76bc12b9acd207162e7"><td class="memItemLeft" align="right" valign="top"><a id="a66c4124ff8c9f76bc12b9acd207162e7" name="a66c4124ff8c9f76bc12b9acd207162e7"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>Constraint</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a66c4124ff8c9f76bc12b9acd207162e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constraint for values stored in the represented field. <br /></td></tr>
@@ -151,10 +155,23 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>DisplayName</b><cod
 string&#160;</td><td class="memItemRight" valign="bottom"><b>FormatPattern</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:ab2e9bea76830a583c1ab54144f027204"><td class="mdescLeft">&#160;</td><td class="mdescRight">The custom format pattern for fields that are configured to use a custom format. <br /></td></tr>
 <tr class="separator:ab2e9bea76830a583c1ab54144f027204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87c02a120b03463ec003ad5f17df6529" id="r_a87c02a120b03463ec003ad5f17df6529"><td class="memItemLeft" align="right" valign="top"><a id="a87c02a120b03463ec003ad5f17df6529" name="a87c02a120b03463ec003ad5f17df6529"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>HideListValues</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a87c02a120b03463ec003ad5f17df6529"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating whether the field's list values should be hidden in the UI.<br  />
+ Applies only to list-backed fields. <br /></td></tr>
+<tr class="separator:a87c02a120b03463ec003ad5f17df6529"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe0b47b3c92f2f69ea3da50cb72553eb" id="r_afe0b47b3c92f2f69ea3da50cb72553eb"><td class="memItemLeft" align="right" valign="top"><a id="afe0b47b3c92f2f69ea3da50cb72553eb" name="afe0b47b3c92f2f69ea3da50cb72553eb"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>Id</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:afe0b47b3c92f2f69ea3da50cb72553eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ID of the field. <br /></td></tr>
 <tr class="separator:afe0b47b3c92f2f69ea3da50cb72553eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61d52f1199dc95c1898782c2c00a38fd" id="r_a61d52f1199dc95c1898782c2c00a38fd"><td class="memItemLeft" align="right" valign="top"><a id="a61d52f1199dc95c1898782c2c00a38fd" name="a61d52f1199dc95c1898782c2c00a38fd"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsIndexed</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a61d52f1199dc95c1898782c2c00a38fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating whether the field is indexed for searching. <br /></td></tr>
+<tr class="separator:a61d52f1199dc95c1898782c2c00a38fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad818dd3c419d970673ece5b351a88cf1" id="r_ad818dd3c419d970673ece5b351a88cf1"><td class="memItemLeft" align="right" valign="top"><a id="ad818dd3c419d970673ece5b351a88cf1" name="ad818dd3c419d970673ece5b351a88cf1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsIndexedForReporting</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:ad818dd3c419d970673ece5b351a88cf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating whether the field is indexed for reporting. <br /></td></tr>
+<tr class="separator:ad818dd3c419d970673ece5b351a88cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a545c3c7dbbb3b3414e25b596ac9959dd" id="r_a545c3c7dbbb3b3414e25b596ac9959dd"><td class="memItemLeft" align="right" valign="top"><a id="a545c3c7dbbb3b3414e25b596ac9959dd" name="a545c3c7dbbb3b3414e25b596ac9959dd"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsMultiValue</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a545c3c7dbbb3b3414e25b596ac9959dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating if the represented template field supports multiple values. <br /></td></tr>
@@ -175,6 +192,10 @@ IList&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>List
 string&#160;</td><td class="memItemRight" valign="bottom"><b>Name</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a7ee9065718e6628dc7791b756fa6c0f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the field. <br /></td></tr>
 <tr class="separator:a7ee9065718e6628dc7791b756fa6c0f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dffb4097184f0c1e0f41c5eb48ed91a" id="r_a5dffb4097184f0c1e0f41c5eb48ed91a"><td class="memItemLeft" align="right" valign="top"><a id="a5dffb4097184f0c1e0f41c5eb48ed91a" name="a5dffb4097184f0c1e0f41c5eb48ed91a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>WarnIfBlank</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:a5dffb4097184f0c1e0f41c5eb48ed91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boolean indicating whether the user should be warned when leaving the field blank. <br /></td></tr>
+<tr class="separator:a5dffb4097184f0c1e0f41c5eb48ed91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a field definition. </p>

@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -106,6 +106,10 @@ $(document).ready(function(){initNavTree('class_laserfiche_1_1_repository_1_1_ap
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:adff6d4a1e4c457aa9f39f8bcbf8b3818" id="r_adff6d4a1e4c457aa9f39f8bcbf8b3818"><td class="memItemLeft" align="right" valign="top"><a id="adff6d4a1e4c457aa9f39f8bcbf8b3818" name="adff6d4a1e4c457aa9f39f8bcbf8b3818"></a>
+bool?&#160;</td><td class="memItemRight" valign="bottom"><b>AutoCreateFolderPath</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:adff6d4a1e4c457aa9f39f8bcbf8b3818"><td class="mdescLeft">&#160;</td><td class="mdescRight">When true, any missing folders in the request's <code>folderPath</code> are created; when false (default), a missing folder returns 404. <br /></td></tr>
+<tr class="separator:adff6d4a1e4c457aa9f39f8bcbf8b3818"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0391b18642c9e16b7c2a285fc7db3786" id="r_a0391b18642c9e16b7c2a285fc7db3786"><td class="memItemLeft" align="right" valign="top"><a id="a0391b18642c9e16b7c2a285fc7db3786" name="a0391b18642c9e16b7c2a285fc7db3786"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>Culture</b> = null<code> [get, set]</code></td></tr>
 <tr class="memdesc:a0391b18642c9e16b7c2a285fc7db3786"><td class="mdescLeft">&#160;</td><td class="mdescRight">An optional query parameter used to indicate the locale that should be used. The value should be a standard language tag. This may be used when setting field values with tokens. <br /></td></tr>
@@ -116,7 +120,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>EntryId</b><code> [get
 <tr class="separator:a0c365e009af63c221efbd8c8575c6415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f31842d3e686440b406ecb37afa8938" id="r_a8f31842d3e686440b406ecb37afa8938"><td class="memItemLeft" align="right" valign="top"><a id="a8f31842d3e686440b406ecb37afa8938" name="a8f31842d3e686440b406ecb37afa8938"></a>
 <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_file_parameter.html">FileParameter</a>&#160;</td><td class="memItemRight" valign="bottom"><b>File</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:a8f31842d3e686440b406ecb37afa8938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional. The file to import. If the file extension is not in {txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png}, or if importAsElectronicDocument=true, it is stored as the electronic document. Otherwise (image extension with importAsElectronicDocument=false), it is imported as image pages. A zero-byte file creates an empty document with no electronic document and no pages. <br /></td></tr>
 <tr class="separator:a8f31842d3e686440b406ecb37afa8938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b4e7f2f4662039206f935c2527ca01" id="r_ab8b4e7f2f4662039206f935c2527ca01"><td class="memItemLeft" align="right" valign="top"><a id="ab8b4e7f2f4662039206f935c2527ca01" name="ab8b4e7f2f4662039206f935c2527ca01"></a>
+IEnumerable&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_file_parameter.html">FileParameter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ImageFiles</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:ab8b4e7f2f4662039206f935c2527ca01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true). <br /></td></tr>
+<tr class="separator:ab8b4e7f2f4662039206f935c2527ca01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d81153a40382184f092bf01912c72" id="r_a972d81153a40382184f092bf01912c72"><td class="memItemLeft" align="right" valign="top"><a id="a972d81153a40382184f092bf01912c72" name="a972d81153a40382184f092bf01912c72"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>RepositoryId</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a972d81153a40382184f092bf01912c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested repository ID. <br /></td></tr>

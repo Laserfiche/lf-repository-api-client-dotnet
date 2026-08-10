@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -101,14 +101,16 @@ $(document).ready(function(){initNavTree('class_laserfiche_1_1_repository_1_1_ap
 </div><!--header-->
 <div class="contents">
 
-<p>PDF-related options for importing an entry.  
+<p>Server-side processing options for the imported file. Despite the type name, these fields apply to any<br  />
+ supported electronic document as well as to files imported as image pages.  
  <a href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_import_entry_request_pdf_options.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a1142a782ef4f6bbaccce278a8c1a1399" id="r_a1142a782ef4f6bbaccce278a8c1a1399"><td class="memItemLeft" align="right" valign="top"><a id="a1142a782ef4f6bbaccce278a8c1a1399" name="a1142a782ef4f6bbaccce278a8c1a1399"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>GeneratePages</b> = false<code> [get, set]</code></td></tr>
-<tr class="memdesc:a1142a782ef4f6bbaccce278a8c1a1399"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the import operation should generate image pages. The default value is false. <br /></td></tr>
+<tr class="memdesc:a1142a782ef4f6bbaccce278a8c1a1399"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render server-side image pages from the electronic document. Applicable when the file is imported<br  />
+ as an electronic document. Default: false. <br /></td></tr>
 <tr class="separator:a1142a782ef4f6bbaccce278a8c1a1399"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a02d52c280344f73e12e6127565bc3f" id="r_a4a02d52c280344f73e12e6127565bc3f"><td class="memItemLeft" align="right" valign="top"><a id="a4a02d52c280344f73e12e6127565bc3f" name="a4a02d52c280344f73e12e6127565bc3f"></a>
 <a class="el" href="namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#adcc0ac0e6ed60f4d4e7789c960f2cd63">GeneratePagesImageType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GeneratePagesImageType</b> = Laserfiche.Repository.Api.Client.GeneratePagesImageType.StandardColor<code> [get, set]</code></td></tr>
@@ -116,15 +118,20 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>GeneratePages</b> = f
 <tr class="separator:a4a02d52c280344f73e12e6127565bc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcea84df8f2977ec61d307ffb2ac6c6a" id="r_abcea84df8f2977ec61d307ffb2ac6c6a"><td class="memItemLeft" align="right" valign="top"><a id="abcea84df8f2977ec61d307ffb2ac6c6a" name="abcea84df8f2977ec61d307ffb2ac6c6a"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateText</b> = false<code> [get, set]</code></td></tr>
-<tr class="memdesc:abcea84df8f2977ec61d307ffb2ac6c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the import operation should generate text. The default value is false. <br /></td></tr>
+<tr class="memdesc:abcea84df8f2977ec61d307ffb2ac6c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate searchable text for the imported file. For electronic documents, text is extracted from<br  />
+ the document (or OCR'd when the source is image-based). For files imported as image pages<br  />
+ (image file type with importAsElectronicDocument=false), the pages are OCR'd. Default: false.<br  />
+ Does not affect pages added via <code>imageFiles</code> — use <code>generateImagePagesText</code> for those. <br /></td></tr>
 <tr class="separator:abcea84df8f2977ec61d307ffb2ac6c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2cc51ec9cc2b68c15426cf4625606c4" id="r_af2cc51ec9cc2b68c15426cf4625606c4"><td class="memItemLeft" align="right" valign="top"><a id="af2cc51ec9cc2b68c15426cf4625606c4" name="af2cc51ec9cc2b68c15426cf4625606c4"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>KeepPdfAfterImport</b> = true<code> [get, set]</code></td></tr>
-<tr class="memdesc:af2cc51ec9cc2b68c15426cf4625606c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the PDF file should be retained as an electronic document after generating image pages. The default value is true. This option is only applicable when GeneratePages is true. <br /></td></tr>
+<tr class="memdesc:af2cc51ec9cc2b68c15426cf4625606c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">When GeneratePages is true, retain the original file as the electronic document.<br  />
+ When false, only the generated image pages remain. Default: true. Ignored when GeneratePages=false. <br /></td></tr>
 <tr class="separator:af2cc51ec9cc2b68c15426cf4625606c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>PDF-related options for importing an entry. </p>
+<div class="textblock"><p>Server-side processing options for the imported file. Despite the type name, these fields apply to any<br  />
+ supported electronic document as well as to files imported as image pages. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/Clients/<b>RepositoryClients.cs</b></li>
 </ul>

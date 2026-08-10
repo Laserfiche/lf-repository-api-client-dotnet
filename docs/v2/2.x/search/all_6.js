@@ -1,8 +1,18 @@
 var searchData=
 [
   ['b_0',['B',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_l_f_color.html#af20775d9682d3bc9365ca7b2a6792298',1,'Laserfiche::Repository::Api::Client::LFColor']]],
-  ['ban_1',['ban',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md28',1,'3. Temporary Ban'],['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md29',1,'4. Permanent Ban']]],
+  ['ban_1',['ban',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md38',1,'3. Temporary Ban'],['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md39',1,'4. Permanent Ban']]],
   ['baseclient_2',['BaseClient',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_base_client.html',1,'Laserfiche::Repository::Api::Client']]],
-  ['branches_3',['Branches',['../index.html#autotoc_md50',1,'']]],
-  ['build_20test_20and_20package_4',['Build, test, and package',['../index.html#autotoc_md49',1,'']]]
+  ['beginposition_3',['BeginPosition',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_line_annotation.html#a8b3831f42a05e8c9844a95fb8983aacc',1,'Laserfiche::Repository::Api::Client::LineAnnotation']]],
+  ['beginstyle_4',['BeginStyle',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_line_annotation.html#a1609c3e53707c04dbf449e85f9209dfb',1,'Laserfiche::Repository::Api::Client::LineAnnotation']]],
+  ['bitmapannotation_5',['BitmapAnnotation',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_bitmap_annotation.html',1,'Laserfiche::Repository::Api::Client']]],
+  ['bordercolor_6',['bordercolor',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_text_box_annotation.html#a4e50dcafd1384559ac7f384ba14e6836',1,'Laserfiche.Repository.Api.Client.TextBoxAnnotation.BorderColor'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_rectangle_annotation.html#a4e50dcafd1384559ac7f384ba14e6836',1,'Laserfiche.Repository.Api.Client.RectangleAnnotation.BorderColor'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_callout_annotation.html#a4e50dcafd1384559ac7f384ba14e6836',1,'Laserfiche.Repository.Api.Client.CalloutAnnotation.BorderColor']]],
+  ['borderstyle_7',['borderstyle',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_text_box_annotation.html#ada434b7342653162244f76408377e402',1,'Laserfiche.Repository.Api.Client.TextBoxAnnotation.BorderStyle'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_rectangle_annotation.html#ada434b7342653162244f76408377e402',1,'Laserfiche.Repository.Api.Client.RectangleAnnotation.BorderStyle'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_callout_annotation.html#ada434b7342653162244f76408377e402',1,'Laserfiche.Repository.Api.Client.CalloutAnnotation.BorderStyle']]],
+  ['borderthickness_8',['borderthickness',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_text_box_annotation.html#ab9a5c46fe95fd1fa4ae06596e506c8ac',1,'Laserfiche.Repository.Api.Client.TextBoxAnnotation.BorderThickness'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_callout_annotation.html#ab9a5c46fe95fd1fa4ae06596e506c8ac',1,'Laserfiche.Repository.Api.Client.CalloutAnnotation.BorderThickness'],['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_rectangle_annotation.html#ab9a5c46fe95fd1fa4ae06596e506c8ac',1,'Laserfiche.Repository.Api.Client.RectangleAnnotation.BorderThickness']]],
+  ['boxcoordinates_9',['BoxCoordinates',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_callout_annotation.html#a681647f9c55bfdaf517447e93e934f8e',1,'Laserfiche::Repository::Api::Client::CalloutAnnotation']]],
+  ['boxstyle_10',['boxstyle',['../class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_rectangle_annotation.html#a1787f018ee833562eb73f0ed46f5948b',1,'Laserfiche.Repository.Api.Client.RectangleAnnotation.BoxStyle'],['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#ac4643077b799e5427f20c053f8937208',1,'Laserfiche.Repository.Api.Client.BoxStyle']]],
+  ['branch_20preview_20nuget_11',['Per-branch preview NuGet',['../index.html#autotoc_md63',1,'']]],
+  ['branches_12',['Branches',['../index.html#autotoc_md60',1,'']]],
+  ['breaking_20changes_13',['Breaking changes',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md10',1,'']]],
+  ['build_20test_20and_20package_14',['Build, test, and package',['../index.html#autotoc_md59',1,'']]]
 ];

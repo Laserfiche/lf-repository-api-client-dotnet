@@ -5,5 +5,6 @@ var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition =
     [ "DisplayName", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition.html#aba0e038e9b973f3ba4ca520a2fb057dc", null ],
     [ "FieldCount", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition.html#a2804112059ff19629952f4573ac4212d", null ],
     [ "Id", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition.html#afe0b47b3c92f2f69ea3da50cb72553eb", null ],
+    [ "IsAutoAssignable", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition.html#aa925496a88b2baa5b5cae7b7c907492b", null ],
     [ "Name", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_template_definition.html#a7ee9065718e6628dc7791b756fa6c0f9", null ]
 ];

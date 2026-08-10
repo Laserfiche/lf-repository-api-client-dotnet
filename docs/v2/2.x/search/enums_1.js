@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['createentryrequestentrytype_0',['CreateEntryRequestEntryType',['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#aaf82e69fd04d9aa114e095daf6d1ad84',1,'Laserfiche::Repository::Api::Client']]]
+  ['boxstyle_0',['BoxStyle',['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#ac4643077b799e5427f20c053f8937208',1,'Laserfiche::Repository::Api::Client']]]
 ];

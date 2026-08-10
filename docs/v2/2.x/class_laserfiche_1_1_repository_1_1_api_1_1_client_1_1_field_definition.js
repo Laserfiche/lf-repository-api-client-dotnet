@@ -1,5 +1,6 @@
 var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition =
 [
+    [ "AutoExtract", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a48a88e22b9df6cef6d3b053dba49449b", null ],
     [ "Constraint", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a66c4124ff8c9f76bc12b9acd207162e7", null ],
     [ "ConstraintError", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#abc6ed9b848e2c9009fbd237a2dfc6b62", null ],
     [ "Currency", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a467a3f862c9a75cc0ad246ba386411a3", null ],
@@ -9,10 +10,14 @@ var class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition =
     [ "FieldType", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#aeff7e994acbf3d4a16213ba86cddd866", null ],
     [ "Format", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#aade3c8010c9afb0afd747e12a1a8f7be", null ],
     [ "FormatPattern", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#ab2e9bea76830a583c1ab54144f027204", null ],
+    [ "HideListValues", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a87c02a120b03463ec003ad5f17df6529", null ],
     [ "Id", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#afe0b47b3c92f2f69ea3da50cb72553eb", null ],
+    [ "IsIndexed", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a61d52f1199dc95c1898782c2c00a38fd", null ],
+    [ "IsIndexedForReporting", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#ad818dd3c419d970673ece5b351a88cf1", null ],
     [ "IsMultiValue", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a545c3c7dbbb3b3414e25b596ac9959dd", null ],
     [ "IsRequired", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a86d6ba205d747a0d70ad7854c6b1df54", null ],
     [ "Length", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a9fde862c8bc443d7a6872a487ec265a3", null ],
     [ "ListValues", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a26dd033e503d4a61cf25e7ae6484d714", null ],
-    [ "Name", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a7ee9065718e6628dc7791b756fa6c0f9", null ]
+    [ "Name", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a7ee9065718e6628dc7791b756fa6c0f9", null ],
+    [ "WarnIfBlank", "class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_field_definition.html#a5dffb4097184f0c1e0f41c5eb48ed91a", null ]
 ];

@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -110,6 +110,14 @@ Properties</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>EntryId</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a0c365e009af63c221efbd8c8575c6415"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested entry ID. <br /></td></tr>
 <tr class="separator:a0c365e009af63c221efbd8c8575c6415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9654dc385c252387bc1d14a2f14e3ed0" id="r_a9654dc385c252387bc1d14a2f14e3ed0"><td class="memItemLeft" align="right" valign="top"><a id="a9654dc385c252387bc1d14a2f14e3ed0" name="a9654dc385c252387bc1d14a2f14e3ed0"></a>
+bool?&#160;</td><td class="memItemRight" valign="bottom"><b>IncludeChildInfo</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:a9654dc385c252387bc1d14a2f14e3ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional. When true and the entry is a folder, includes a childInfo object reporting whether the folder has immediate children, the total count, and a per-type breakdown (folderCount, documentCount, shortcutCount). Counts are for immediate children only — never recursive/whole-subtree (a recursive count is intentionally not offered here; it would be an unbounded, DoS-prone operation on a public API). Omitted by default because the calculation is comparatively expensive — for tree UIs prefer lazy expansion (load children on demand) over requesting this per node. Ignored for non-folder entries. <br /></td></tr>
+<tr class="separator:a9654dc385c252387bc1d14a2f14e3ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d4cda7ee281d5ac74bcd2525faf935" id="r_a72d4cda7ee281d5ac74bcd2525faf935"><td class="memItemLeft" align="right" valign="top"><a id="a72d4cda7ee281d5ac74bcd2525faf935" name="a72d4cda7ee281d5ac74bcd2525faf935"></a>
+bool?&#160;</td><td class="memItemRight" valign="bottom"><b>IncludeTotalSize</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:a72d4cda7ee281d5ac74bcd2525faf935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional. When true and the entry is a document, includes totalDocumentSize — the document's full stored size (electronic document plus page image/text/locations/thumbnail data and attachments), as opposed to electronicDocumentSize which is just the source file. Omitted by default because it aggregates across all of the document's pages. Ignored for non-document entries. <br /></td></tr>
+<tr class="separator:a72d4cda7ee281d5ac74bcd2525faf935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d81153a40382184f092bf01912c72" id="r_a972d81153a40382184f092bf01912c72"><td class="memItemLeft" align="right" valign="top"><a id="a972d81153a40382184f092bf01912c72" name="a972d81153a40382184f092bf01912c72"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>RepositoryId</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a972d81153a40382184f092bf01912c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested repository ID. <br /></td></tr>

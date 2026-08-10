@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -99,28 +99,62 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a><a href="https://www.nuget.org/packages/Laserfiche.Repository.Api.Client.V2"><img src="https://img.shields.io/nuget/v/Laserfiche.Repository.Api.Client.V2.svg?style=flat-square" alt="NuGet version (Laserfiche.Repository.Api.Client.V2)" style="pointer-events: none;" class="inline"/></a></p>
 <p>Use the Laserfiche Repository API to access data in a Laserfiche repository. Import or export documents, modify the repository folder structure, read and modify templates and field values, and more.</p>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Documentation</h1>
 <ul>
 <li><a href="https://developer.laserfiche.com/">Laserfiche Developer Center</a></li>
 <li><a href="https://laserfiche.github.io/lf-repository-api-client-dotnet/docs/v2/index.html">Documentation</a> for the <code>Laserfiche.Repository.Api.Client.V2</code> NuGet package used to access the v2 Laserfiche Repository APIs.</li>
 <li><a href="https://laserfiche.github.io/lf-repository-api-client-dotnet/docs/v1/index.html">Documentation</a> for the <code>Laserfiche.Repository.Api.Client</code> NuGet package used to access the v1 Laserfiche Repository APIs.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Changelog</h1>
 <p>See CHANGELOG <a href="https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/v2/CHANGELOG.md">here</a>.</p>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md57"></a>
 How to contribute</h1>
 <p>Useful commands for building and testing the app.</p>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md58"></a>
 Generate the repository client</h2>
 <p>See the <a href="https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/v2/.github/workflows/generate-client.yml">.github/workflows/generate-client.yml</a>.</p>
-<h2><a class="anchor" id="autotoc_md49"></a>
+<h2><a class="anchor" id="autotoc_md59"></a>
 Build, test, and package</h2>
 <p>See the <a href="https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/v2/.github/workflows/main.yml">.github/workflows/main.yml</a>.</p>
-<h3><a class="anchor" id="autotoc_md50"></a>
+<h3><a class="anchor" id="autotoc_md60"></a>
 Branches</h3>
-<p>The v1 branch stores client code for the Laserfiche Repository API v1; the v2 branch stores client code for the Laserfiche Repository API v2. </p>
+<p>The v1 branch stores client code for the Laserfiche Repository API v1; the v2 branch stores client code for the Laserfiche Repository API v2.</p>
+<h2><a class="anchor" id="autotoc_md61"></a>
+Working on a new server feature</h2>
+<p>When a new server endpoint requires a corresponding client method, the workflow below avoids the chicken-and-egg cycle between server deploy and preview NuGet publish. Background: <a href="https://github.com/Laserfiche/site-api-repository/blob/main/docs/design-server-client-preview-nuget-workflow.md"><code>site-api-repository/docs/design-server-client-preview-nuget-workflow.md</code></a>.</p>
+<h3><a class="anchor" id="autotoc_md62"></a>
+Inner loop — regenerate against a local server</h3>
+<p><a href="generate-client/regen-from-local.ps1"><code>generate-client/regen-from-local.ps1</code></a> (Windows / <code>pwsh</code>) and <a href="generate-client/regen-from-local.sh"><code>generate-client/regen-from-local.sh</code></a> (POSIX <code>bash</code>) refresh <code>generate-client/swagger.json</code> and <code>src/Clients/RepositoryClients.cs</code> from a running API server, with no NuGet round-trip:</p>
+<div class="fragment"><div class="line"># Default: pulls from a locally-running site-api-repository on http://localhost:11211/</div>
+<div class="line">./generate-client/regen-from-local.ps1</div>
+<div class="line"> </div>
+<div class="line"># Or point at a deployed dev environment</div>
+<div class="line">./generate-client/regen-from-local.ps1 -SwaggerUrl &#39;https://api.a.clouddev.laserfiche.ca/repository/swagger/v2/swagger.json&#39;</div>
+</div><!-- fragment --><p>Commit both <code>swagger.json</code> and <code>RepositoryClients.cs</code> to the feature branch when ready.</p>
+<p>Requires <code>nswag</code> (<code>npm install -g nswag@14.4.0</code>), <code>python</code> (3.x), and <code>pwsh</code> (PowerShell Core, on POSIX).</p>
+<h3><a class="anchor" id="autotoc_md63"></a>
+Per-branch preview NuGet</h3>
+<p><code>main.yml</code> publishes a preview NuGet on every feature-branch push, not just <code>v2</code>. Versions:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Branch   </th><th class="markdownTableHeadNone">Preview version shape    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>v2</code>   </td><td class="markdownTableBodyNone"><code>${VERSION_PREFIX}-beta-${run_id}</code> (unchanged)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">anything else   </td><td class="markdownTableBodyNone"><code>${VERSION_PREFIX}-feature-${branch_slug}-${run_id}</code>   </td></tr>
+</table>
+<p>The publish job consumes the <b>committed</b> <code>generate-client/swagger.json</code> — no live server is required at publish time. The production-publish job is gated on <code>v2</code> + manual environment approval (unchanged).</p>
+<p>The publish jobs use the <code>run_attempt != 1</code> convention: an initial CI run validates; re-running the workflow then triggers the publish.</p>
+<h3><a class="anchor" id="autotoc_md64"></a>
+Cloud-not-yet-deployed integration tests</h3>
+<p>When a feature branch's tests exercise a new endpoint that the upstream cloud test environment hasn't deployed yet, mark the test class (or method) with <code>[SkipIfEndpointMissing("OperationId")]</code> from <a href="tests/integration/Util/SkipIfEndpointMissingAttribute.cs"><code>tests/integration/Util/</code></a>:</p>
+<div class="fragment"><div class="line">[TestClass]</div>
+<div class="line">[SkipIfEndpointMissing(<span class="stringliteral">&quot;WritePage&quot;</span>)]</div>
+<div class="line"><span class="keyword">public</span> <span class="keyword">class </span>WritePageTest : BaseTest { … }</div>
+</div><!-- fragment --><p>The base-test <code>[TestInitialize]</code> probes <code>{BaseUrl}/swagger/v2/swagger.json</code> once per process, caches the operationId set, and reports the test <code>Inconclusive</code> when any named operation is missing. The skip self-clears as soon as the deployed swagger contains the operation — no follow-up un-Ignore PR is needed.</p>
+<p>Replaces the historical <code>[Ignore("Temporarily ignored: cloud test server not yet updated…")]</code> pattern. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

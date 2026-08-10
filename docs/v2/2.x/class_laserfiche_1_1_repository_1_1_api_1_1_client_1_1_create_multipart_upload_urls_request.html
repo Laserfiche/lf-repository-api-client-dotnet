@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -108,11 +108,14 @@ $(document).ready(function(){initNavTree('class_laserfiche_1_1_repository_1_1_ap
 Properties</h2></td></tr>
 <tr class="memitem:ac56689c3ac56ce5bcecabd9b090880f8" id="r_ac56689c3ac56ce5bcecabd9b090880f8"><td class="memItemLeft" align="right" valign="top"><a id="ac56689c3ac56ce5bcecabd9b090880f8" name="ac56689c3ac56ce5bcecabd9b090880f8"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>FileName</b><code> [get, set]</code></td></tr>
-<tr class="memdesc:ac56689c3ac56ce5bcecabd9b090880f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the file to be uploaded. The file extension in the name will be used as the extension of the imported entry. <br /></td></tr>
+<tr class="memdesc:ac56689c3ac56ce5bcecabd9b090880f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the file to be uploaded. The file extension in the name will be used as the<br  />
+ extension of the imported entry. Required when startingPartNumber is 1 (first batch);<br  />
+ ignored on subsequent batches. <br /></td></tr>
 <tr class="separator:ac56689c3ac56ce5bcecabd9b090880f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60fd10355a0ba590ab36a2aaae02455c" id="r_a60fd10355a0ba590ab36a2aaae02455c"><td class="memItemLeft" align="right" valign="top"><a id="a60fd10355a0ba590ab36a2aaae02455c" name="a60fd10355a0ba590ab36a2aaae02455c"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>MimeType</b><code> [get, set]</code></td></tr>
-<tr class="memdesc:a60fd10355a0ba590ab36a2aaae02455c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mime-type of the file to be uploaded. <br /></td></tr>
+<tr class="memdesc:a60fd10355a0ba590ab36a2aaae02455c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mime-type of the file to be uploaded. Required when startingPartNumber is 1<br  />
+ (first batch); ignored on subsequent batches. <br /></td></tr>
 <tr class="separator:a60fd10355a0ba590ab36a2aaae02455c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71784130a76efc900a71c3bce689c3e1" id="r_a71784130a76efc900a71c3bce689c3e1"><td class="memItemLeft" align="right" valign="top"><a id="a71784130a76efc900a71c3bce689c3e1" name="a71784130a76efc900a71c3bce689c3e1"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>NumberOfParts</b><code> [get, set]</code></td></tr>

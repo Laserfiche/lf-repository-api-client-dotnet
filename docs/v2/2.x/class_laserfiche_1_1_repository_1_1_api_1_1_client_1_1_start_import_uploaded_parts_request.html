@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.4.0</span>
                             </div>
                         </td>
                     </tr>
@@ -110,9 +110,18 @@ Properties</h2></td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>AutoRename</b> = false<code> [get, set]</code></td></tr>
 <tr class="memdesc:ad194d0d9d971d8f71235f18681a7027d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false. <br /></td></tr>
 <tr class="separator:ad194d0d9d971d8f71235f18681a7027d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef45b2e7bf223a52d408e6c1b5b4f6ed" id="r_aef45b2e7bf223a52d408e6c1b5b4f6ed"><td class="memItemLeft" align="right" valign="top"><a id="aef45b2e7bf223a52d408e6c1b5b4f6ed" name="aef45b2e7bf223a52d408e6c1b5b4f6ed"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>FolderPath</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:aef45b2e7bf223a52d408e6c1b5b4f6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">An optional folder path, relative to the entry given in the route, that the document is imported into.<br  />
+ Both <code>/</code> and <code>\</code> are accepted as separators. When any folder in this path does not exist, set the<br  />
+ <code>autoCreateFolderPath</code> query parameter to true to create the missing folders; otherwise the request<br  />
+ fails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior). <br /></td></tr>
+<tr class="separator:aef45b2e7bf223a52d408e6c1b5b4f6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac01d313ff5117d82ffc6c97652eeea5d" id="r_ac01d313ff5117d82ffc6c97652eeea5d"><td class="memItemLeft" align="right" valign="top"><a id="ac01d313ff5117d82ffc6c97652eeea5d" name="ac01d313ff5117d82ffc6c97652eeea5d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>ImportAsElectronicDocument</b> = false<code> [get, set]</code></td></tr>
-<tr class="memdesc:ac01d313ff5117d82ffc6c97652eeea5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if the document should be imported as an electronic document (true) or as image pages (false). The default value is false. This option is only applicable when importing the following document types: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png. <br /></td></tr>
+<tr class="memdesc:ac01d313ff5117d82ffc6c97652eeea5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.<br  />
+ This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br  />
+ For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag. <br /></td></tr>
 <tr class="separator:ac01d313ff5117d82ffc6c97652eeea5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7bafc94dd9494f04d06b55ce1014fc5" id="r_ab7bafc94dd9494f04d06b55ce1014fc5"><td class="memItemLeft" align="right" valign="top"><a id="ab7bafc94dd9494f04d06b55ce1014fc5" name="ab7bafc94dd9494f04d06b55ce1014fc5"></a>
 <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_import_entry_request_metadata.html">ImportEntryRequestMetadata</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Metadata</b><code> [get, set]</code></td></tr>
@@ -128,7 +137,7 @@ IList&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Part
 <tr class="separator:adbcb5346ff77838a3ced1e1875d8dd85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa448f1d58b63260da1a1636323cff7de" id="r_aa448f1d58b63260da1a1636323cff7de"><td class="memItemLeft" align="right" valign="top"><a id="aa448f1d58b63260da1a1636323cff7de" name="aa448f1d58b63260da1a1636323cff7de"></a>
 <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_import_entry_request_pdf_options.html">ImportEntryRequestPdfOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PdfOptions</b><code> [get, set]</code></td></tr>
-<tr class="memdesc:aa448f1d58b63260da1a1636323cff7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The options applied when importing a PDF. <br /></td></tr>
+<tr class="memdesc:aa448f1d58b63260da1a1636323cff7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Server-side processing options applied to the imported file. See ImportEntryRequestPdfOptions for the full contract. <br /></td></tr>
 <tr class="separator:aa448f1d58b63260da1a1636323cff7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a920c56b07f30d318e3737aa1ee1e2074" id="r_a920c56b07f30d318e3737aa1ee1e2074"><td class="memItemLeft" align="right" valign="top"><a id="a920c56b07f30d318e3737aa1ee1e2074" name="a920c56b07f30d318e3737aa1ee1e2074"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>UploadId</b><code> [get, set]</code></td></tr>
