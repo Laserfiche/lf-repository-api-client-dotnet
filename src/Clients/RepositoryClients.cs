@@ -21196,7 +21196,7 @@ namespace Laserfiche.Repository.Api.Client
         public StartExportEntryRequest Request { get; set; }
 
         /// <summary>
-        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc or part=AlternateEdoc.
         /// </summary>
         public string PageRange { get; set; } = null;
 
@@ -21376,7 +21376,7 @@ namespace Laserfiche.Repository.Api.Client
         public ExportEntryRequest Request { get; set; }
 
         /// <summary>
-        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc or AlternateEdoc.
         /// </summary>
         public string PageRange { get; set; } = null;
 
@@ -38320,11 +38320,21 @@ namespace Laserfiche.Repository.Api.Client
         public string AuditReasonComment { get; set; } = "";
 
         /// <summary>
-        /// Specifies the part of the document to export.
+        /// Specifies the part of the document to export. Options include: Image, Text, Edoc,<br/>
+        /// AlternateEdoc. AlternateEdoc also requires alternateEdocName.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document to export. Required when part=AlternateEdoc,<br/>
+        /// and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII<br/>
+        /// digit, or one of `!@#$%^&amp;()-+={}[]_~`. Matched exactly, so a name differing only in<br/>
+        /// letter case is not found. Names reserved for internal use are also reported as not found.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("alternateEdocName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AlternateEdocName { get; set; }
 
         /// <summary>
         /// The options applied when exporting as Image.
@@ -38355,6 +38365,9 @@ namespace Laserfiche.Repository.Api.Client
 
         [EnumMember(Value = @"Edoc")]
         Edoc = 2,
+
+        [EnumMember(Value = @"AlternateEdoc")]
+        AlternateEdoc = 3,
 
     }
 
@@ -39083,11 +39096,21 @@ namespace Laserfiche.Repository.Api.Client
         public string AuditReasonComment { get; set; } = "";
 
         /// <summary>
-        /// The part of the document to export. Options include: Image, Text, Edoc.
+        /// The part of the document to export. Options include: Image, Text, Edoc,<br/>
+        /// AlternateEdoc. AlternateEdoc also requires alternateEdocName.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document to export. Required when part=AlternateEdoc,<br/>
+        /// and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII<br/>
+        /// digit, or one of `!@#$%^&amp;()-+={}[]_~`. Matched exactly, so a name differing only in<br/>
+        /// letter case is not found. Names reserved for internal use are also reported as not found.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("alternateEdocName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AlternateEdocName { get; set; }
 
         /// <summary>
         /// The options applied when exporting as Image.
