@@ -4738,7 +4738,7 @@
           {
             "name": "pageRange",
             "in": "query",
-            "description": "A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.",
+            "description": "A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc or part=AlternateEdoc.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -4757,7 +4757,7 @@
               "examples": {
                 "1": {
                   "summary": "Export the image part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li><li><strong>imageOptions</strong>: The options applied when exporting as Image.<ul><li><strong>format:</strong> the image format to export as. Options include: <strong>MultiPageTIFF, SinglePageTIFF, PNG, PDF, JPEG</strong>. The default value is MultiPageTIFF. MultiPageTIFF format is a single multi-page TIFF file. SinglePageTIFF format is multiple single-page TIFF files (in a single zip file).</li><li><strong>jpegCompressionLevel:</strong> the quality level for JPEG compression when exporting images. The value must be between 0 and 100 (inclusive). The default value is 70.</li><li><strong>includeAnnotations:</strong> indicates if the annotations need to be included. The default value is true.</li><li><strong>convertPdfAnnotations</strong>: indicates if the annotations on the image need to be converted to PDF annotations when exporting to PDF format. The default value is true. This option is only applicable when exporting to PDF format and includeAnnotations is true.</li><li><strong>pagePrefix</strong>: the page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of at most 10 characters and only valid characters that can be included in file names are allowed. The default value is \", Page \".</li><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>watermark</strong>: the watermark element added to the image. This includes the following properties: <ul><li><strong>text</strong>: the text of the watermark. The value must be a string with a length of at most 100 characters and must not be all whitespace characters. Using emojis in the text is not supported.</li><li><strong>position</strong>: the position of the watermark. The default value is DeadCenter. Assuming that the page is divided into a 3x3 grid, then position can be specified using the following values: <ul><li>TopLeft, TopCenter, TopRight, MiddleLeft, DeadCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight</li></ul></li><li><strong>rotationAngle</strong>: the rotation angle of the watermark. The value must be between 0 and 360 (inclusive). The default value is 0.</li><li><strong>pageSpanPercentage</strong>: the percentage of the page that the watermark spans on. The value must be between 1 and 100 (inclusive). The default value is 50.</li></ul></li></ul></li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>imageOptions</strong>: The options applied when exporting as Image.<ul><li><strong>format:</strong> the image format to export as. Options include: <strong>MultiPageTIFF, SinglePageTIFF, PNG, PDF, JPEG</strong>. The default value is MultiPageTIFF. MultiPageTIFF format is a single multi-page TIFF file. SinglePageTIFF format is multiple single-page TIFF files (in a single zip file).</li><li><strong>jpegCompressionLevel:</strong> the quality level for JPEG compression when exporting images. The value must be between 0 and 100 (inclusive). The default value is 70.</li><li><strong>includeAnnotations:</strong> indicates if the annotations need to be included. The default value is true.</li><li><strong>convertPdfAnnotations</strong>: indicates if the annotations on the image need to be converted to PDF annotations when exporting to PDF format. The default value is true. This option is only applicable when exporting to PDF format and includeAnnotations is true.</li><li><strong>pagePrefix</strong>: the page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of at most 10 characters and only valid characters that can be included in file names are allowed. The default value is \", Page \".</li><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>watermark</strong>: the watermark element added to the image. This includes the following properties: <ul><li><strong>text</strong>: the text of the watermark. The value must be a string with a length of at most 100 characters and must not be all whitespace characters. Using emojis in the text is not supported.</li><li><strong>position</strong>: the position of the watermark. The default value is DeadCenter. Assuming that the page is divided into a 3x3 grid, then position can be specified using the following values: <ul><li>TopLeft, TopCenter, TopRight, MiddleLeft, DeadCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight</li></ul></li><li><strong>rotationAngle</strong>: the rotation angle of the watermark. The value must be between 0 and 360 (inclusive). The default value is 0.</li><li><strong>pageSpanPercentage</strong>: the percentage of the page that the watermark spans on. The value must be between 1 and 100 (inclusive). The default value is 50.</li></ul></li></ul></li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
@@ -4780,7 +4780,7 @@
                 },
                 "2": {
                   "summary": "Export the text part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li><li><strong>textOptions</strong>: The options applied when exporting as Text.<ul><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>redactionCharacter</strong>: the character that replaces the original character in a redacted text. The value must be a string of length 1 and must not be a whitespace character. The default value is \"X\".</li></ul></li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>textOptions</strong>: The options applied when exporting as Text.<ul><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>redactionCharacter</strong>: the character that replaces the original character in a redacted text. The value must be a string of length 1 and must not be a whitespace character. The default value is \"X\".</li></ul></li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
@@ -4793,11 +4793,21 @@
                 },
                 "3": {
                   "summary": "Export the edoc part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
                     "part": "Edoc"
+                  }
+                },
+                "4": {
+                  "summary": "Export an alternate electronic document of a Laserfiche Document",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>alternateEdocName</strong>: the name of the alternate electronic document to export. Required when part=AlternateEdoc, and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of <strong>!@#$%^&amp;()-+={}[]_~</strong>. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are also reported as not found.</li></ol><br />pageRange is ignored for this part, as it is for Edoc: an alternate electronic document is a whole stored stream rather than a rendering of the document's pages.",
+                  "value": {
+                    "auditReasonId": 0,
+                    "auditReasonComment": "",
+                    "part": "AlternateEdoc",
+                    "alternateEdocName": "audio1"
                   }
                 }
               }
@@ -5680,7 +5690,7 @@
           {
             "name": "pageRange",
             "in": "query",
-            "description": "A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.",
+            "description": "A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc or AlternateEdoc.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5699,7 +5709,7 @@
               "examples": {
                 "1": {
                   "summary": "Export the image part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li><li><strong>imageOptions</strong>: The options applied when exporting as Image.<ul><li><strong>format:</strong> the image format to export as. Options include: <strong>MultiPageTIFF, SinglePageTIFF, PNG, PDF, JPEG</strong>. The default value is MultiPageTIFF. MultiPageTIFF format is a single multi-page TIFF file. SinglePageTIFF format is multiple single-page TIFF files (in a single zip file).</li><li><strong>jpegCompressionLevel:</strong> the quality level for JPEG compression when exporting images. The value must be between 0 and 100 (inclusive). The default value is 70.</li><li><strong>includeAnnotations:</strong> indicates if the annotations need to be included. The default value is true.</li><li><strong>convertPdfAnnotations</strong>: indicates if the annotations on the image need to be converted to PDF annotations when exporting to PDF format. The default value is true. This option is only applicable when exporting to PDF format and includeAnnotations is true.</li><li><strong>pagePrefix</strong>: the page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of at most 10 characters and only valid characters that can be included in file names are allowed. The default value is \", Page \".</li><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>watermark</strong>: the watermark element added to the image. This includes the following properties: <ul><li><strong>text</strong>: the text of the watermark. The value must be a string with a length of at most 100 characters and must not be all whitespace characters. Using emojis in the text is not supported.</li><li><strong>position</strong>: the position of the watermark. The default value is DeadCenter. Assuming that the page is divided into a 3x3 grid, then position can be specified using the following values: <ul><li>TopLeft, TopCenter, TopRight, MiddleLeft, DeadCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight</li></ul></li><li><strong>rotationAngle</strong>: the rotation angle of the watermark. The value must be between 0 and 360 (inclusive). The default value is 0.</li><li><strong>pageSpanPercentage</strong>: the percentage of the page that the watermark spans on. The value must be between 1 and 100 (inclusive). The default value is 50.</li></ul></li></ul></li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>imageOptions</strong>: The options applied when exporting as Image.<ul><li><strong>format:</strong> the image format to export as. Options include: <strong>MultiPageTIFF, SinglePageTIFF, PNG, PDF, JPEG</strong>. The default value is MultiPageTIFF. MultiPageTIFF format is a single multi-page TIFF file. SinglePageTIFF format is multiple single-page TIFF files (in a single zip file).</li><li><strong>jpegCompressionLevel:</strong> the quality level for JPEG compression when exporting images. The value must be between 0 and 100 (inclusive). The default value is 70.</li><li><strong>includeAnnotations:</strong> indicates if the annotations need to be included. The default value is true.</li><li><strong>convertPdfAnnotations</strong>: indicates if the annotations on the image need to be converted to PDF annotations when exporting to PDF format. The default value is true. This option is only applicable when exporting to PDF format and includeAnnotations is true.</li><li><strong>pagePrefix</strong>: the page prefix of the individual files, when exporting to multi-file format (e.g.zip). The value must have a length of at most 10 characters and only valid characters that can be included in file names are allowed. The default value is \", Page \".</li><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>watermark</strong>: the watermark element added to the image. This includes the following properties: <ul><li><strong>text</strong>: the text of the watermark. The value must be a string with a length of at most 100 characters and must not be all whitespace characters. Using emojis in the text is not supported.</li><li><strong>position</strong>: the position of the watermark. The default value is DeadCenter. Assuming that the page is divided into a 3x3 grid, then position can be specified using the following values: <ul><li>TopLeft, TopCenter, TopRight, MiddleLeft, DeadCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight</li></ul></li><li><strong>rotationAngle</strong>: the rotation angle of the watermark. The value must be between 0 and 360 (inclusive). The default value is 0.</li><li><strong>pageSpanPercentage</strong>: the percentage of the page that the watermark spans on. The value must be between 1 and 100 (inclusive). The default value is 50.</li></ul></li></ul></li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
@@ -5722,7 +5732,7 @@
                 },
                 "2": {
                   "summary": "Export the text part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li><li><strong>textOptions</strong>: The options applied when exporting as Text.<ul><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>redactionCharacter</strong>: the character that replaces the original character in a redacted text. The value must be a string of length 1 and must not be a whitespace character. The default value is \"X\".</li></ul></li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>textOptions</strong>: The options applied when exporting as Text.<ul><li><strong>includeRedactions</strong>: indicates if redactions are included. The default value is true.</li><li><strong>redactionCharacter</strong>: the character that replaces the original character in a redacted text. The value must be a string of length 1 and must not be a whitespace character. The default value is \"X\".</li></ul></li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
@@ -5735,11 +5745,21 @@
                 },
                 "3": {
                   "summary": "Export the edoc part of a Laserfiche Document",
-                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc</strong>.</li></ol>",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li></ol>",
                   "value": {
                     "auditReasonId": 0,
                     "auditReasonComment": "",
                     "part": "Edoc"
+                  }
+                },
+                "4": {
+                  "summary": "Export an alternate electronic document of a Laserfiche Document",
+                  "description": "The body of the export request includes:<br /><ol><li>The audit event information to associate with the export operation.</li><li><strong>part</strong>: the part of the document to export. Options include: <strong>Image, Text, Edoc, AlternateEdoc</strong>.</li><li><strong>alternateEdocName</strong>: the name of the alternate electronic document to export. Required when part=AlternateEdoc, and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of <strong>!@#$%^&amp;()-+={}[]_~</strong>. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are also reported as not found.</li></ol><br />pageRange is ignored for this part, as it is for Edoc: an alternate electronic document is a whole stored stream rather than a rendering of the document's pages.",
+                  "value": {
+                    "auditReasonId": 0,
+                    "auditReasonComment": "",
+                    "part": "AlternateEdoc",
+                    "alternateEdocName": "audio1"
                   }
                 }
               }
@@ -6847,7 +6867,7 @@
           "Entries"
         ],
         "summary": "Assigns tags to an entry.",
-        "description": "- Assign tags to an entry.\n- Provide an entry ID and a list of tags to assign to that entry.\n- This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.\n- Required OAuth scope: repository.Write",
+        "description": "- Assign tags to an entry.\n- Provide an entry ID and a list of tags to assign to that entry.\n- This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.\n- The tags property is required. A request body that does not include it is rejected with a 400; send an empty list to unassign every tag.\n- Required OAuth scope: repository.Write",
         "operationId": "SetTags",
         "parameters": [
           {
@@ -6985,7 +7005,7 @@
           "Entries"
         ],
         "summary": "Assigns links to an entry.",
-        "description": "- Assign links to an entry.\n- Provide an entry ID and a list of links to assign to that entry.\n- This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.\n- Required OAuth scope: repository.Write",
+        "description": "- Assign links to an entry.\n- Provide an entry ID and a list of links to assign to that entry.\n- This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.\n- The links property is required. A request body that does not include it is rejected with a 400; send an empty list to remove every link.\n- Required OAuth scope: repository.Write",
         "operationId": "SetLinks",
         "parameters": [
           {
@@ -8944,6 +8964,720 @@
           },
           "404": {
             "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdocs": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns a paged listing of the alternate electronic documents attached to a document.",
+        "description": "- An alternate electronic document is a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. It travels with the document through copy, move, versioning, and briefcase operations.\n- Returns the name, MIME type, and size of each stream. This endpoint does not return the stream content.\n- Stream names are at most 15 characters long.\n- Streams are returned in ascending name order; that order is fixed and not configurable.\n- Streams reserved for internal use are not listed.\n- Default page size: 150. Allowed OData query options: Select | Count | Skip | SkipToken | Top | Prefer.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListAlternateEdocs",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Prefer",
+            "x-originalName": "prefer",
+            "in": "header",
+            "description": "An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "Limits the number of items returned from a collection. The maximum value is 150.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "Excludes the specified number of items of the queried collection from the result.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 6
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Indicates whether the total count of items within a collection are returned in the result.",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 7
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a paged listing of the document's alternate electronic documents.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlternateEdocInfoCollectionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the metadata of a single alternate electronic document.",
+        "description": "- Returns the name, MIME type, and size of the stream. This endpoint does not return the stream content.\n- The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.\n- Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.\n- Streams reserved for internal use are reported as not found.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetAlternateEdocInfo",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The name of the alternate electronic document. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are also reported as not found.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the metadata of the specified alternate electronic document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlternateEdocInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Creates or replaces an alternate electronic document.",
+        "description": "- Writes a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.\n- Send the content as multipart/form-data under the form field `file`. A zero-byte file is rejected; use the delete operation to remove an alternate electronic document.\n- The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.\n- Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&()-+={}[]_~`.\n- Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations; reads and deletes stay exact-match.\n- Names reserved for internal use are rejected.\n- The optional `mimeType` form field sets the content's MIME type, at most 127 characters. When omitted it is derived from the uploaded file's content type and file name, falling back to `application/octet-stream`. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`; the response reports the stored value.\n- Repeating an identical request is safe: the same content replaces itself.\n- Required OAuth scope: repository.Write",
+        "operationId": "WriteAlternateEdoc",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The name of the alternate electronic document. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of `!@#$%^&()-+={}[]_~`. An existing name has its content and MIME type replaced in full; a name differing from an existing one only in letter case is rejected with 409 and leaves that stream unchanged. Names reserved for internal use are rejected.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "The content to store. Any file type is accepted. A zero-byte file is rejected with 400; use the delete operation to remove an alternate electronic document.",
+                    "format": "binary"
+                  },
+                  "mimeType": {
+                    "type": "string",
+                    "description": "Optional. The MIME type to set for the content, at most 127 characters. When omitted it is derived from the uploaded file's content type and file name, falling back to application/octet-stream. Stored lower-cased and without parameters, so Text/Plain; charset=utf-8 is stored as text/plain. Worth setting explicitly for audio and video, where the multipart content type is frequently generic or wrong."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully wrote the alternate electronic document. Returned its metadata as stored.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlternateEdocInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The document already has an alternate electronic document whose name differs only in letter case.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request is too large.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Deletes an alternate electronic document.",
+        "description": "- Deletes a named binary stream stored alongside the document's primary electronic document. The primary electronic document, the pages, and the metadata are unaffected.\n- The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.\n- Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.\n- A name the document has no stream for is reported as not found.\n- Names reserved for internal use are rejected.\n- Required OAuth scope: repository.Write",
+        "operationId": "DeleteAlternateEdoc",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The name of the alternate electronic document. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are rejected.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the alternate electronic document."
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc/WriteUploadedParts": {
+      "post": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Writes an alternate electronic document from previously uploaded parts.",
+        "description": "- Writes a named binary stream stored alongside the document's primary electronic document from a file uploaded in chunks, for content too large to send in a single request. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.\n- Upload the content first: call CreateMultipartUploadUrls, write each chunk to the URLs it returns, then pass the same `uploadId` and the ETags here. There is no size limit at this tier beyond the one the upload itself enforces.\n- This operation runs in the background. It returns **202 Accepted** with a task ID; poll `/Tasks?taskIds={taskId}` for progress and the result. Use the PUT operation instead for content small enough to send at once, which completes synchronously.\n- The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.\n- Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&()-+={}[]_~`.\n- Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations.\n- Names reserved for internal use are rejected.\n- The name, the MIME type and the case rule are all checked before the operation is accepted, so those errors come back on this request rather than on the task.\n- The optional `mimeType` sets the content's MIME type, at most 127 characters. When omitted it is taken from the MIME type supplied to CreateMultipartUploadUrls. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`.\n- Required OAuth scope: repository.Write",
+        "operationId": "WriteAltEdocUploadedParts",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The name of the alternate electronic document. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of `!@#$%^&()-+={}[]_~`. An existing name has its content and MIME type replaced in full; a name differing from an existing one only in letter case is rejected with 409 and leaves that stream unchanged. Names reserved for internal use are rejected. The name is validated before the operation is accepted, so a name error is returned on this request rather than on the task.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The upload to assemble, and the MIME type to record.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WriteAltEdocUploadedPartsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 4
+        },
+        "responses": {
+          "202": {
+            "description": "Successfully started the write alternate electronic document from uploaded parts operation. Returns a task ID for polling progress.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The document already has an alternate electronic document whose name differs only in letter case.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -21861,12 +22595,17 @@
             "nullable": true
           },
           "part": {
-            "description": "Specifies the part of the document to export.",
+            "description": "Specifies the part of the document to export. Options include: Image, Text, Edoc,\nAlternateEdoc. AlternateEdoc also requires alternateEdocName.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/ExportEntryRequestPart"
               }
             ]
+          },
+          "alternateEdocName": {
+            "type": "string",
+            "description": "The name of the alternate electronic document to export. Required when part=AlternateEdoc,\nand rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII\ndigit, or one of `!@#$%^&()-+={}[]_~`. Matched exactly, so a name differing only in\nletter case is not found. Names reserved for internal use are also reported as not found.",
+            "nullable": true
           },
           "imageOptions": {
             "description": "The options applied when exporting as Image.",
@@ -21894,19 +22633,23 @@
         "x-enum-names": [
           "Image",
           "Text",
-          "Edoc"
+          "Edoc",
+          "AlternateEdoc"
         ],
         "x-enum-varnames": [
           "Image",
           "Text",
-          "Edoc"
+          "Edoc",
+          "AlternateEdoc"
         ],
         "x-enumNames": [
           "Image",
           "Text",
-          "Edoc"
+          "Edoc",
+          "AlternateEdoc"
         ],
         "x-enum-descriptions": [
+          null,
           null,
           null,
           null
@@ -21914,12 +22657,14 @@
         "x-enumDescriptions": [
           null,
           null,
+          null,
           null
         ],
         "enum": [
           "Image",
           "Text",
-          "Edoc"
+          "Edoc",
+          "AlternateEdoc"
         ]
       },
       "ExportEntryRequestImageOptions": {
@@ -22426,6 +23171,11 @@
                 "type": "boolean",
                 "description": "A boolean indicating if there is an electronic document attached to the represented document."
               },
+              "hasAlternateEdocs": {
+                "type": "boolean",
+                "description": "Whether the document has any alternate electronic documents \u2014 named binary streams\nstored alongside the primary electronic document, such as an audio recording, a source\nscan, or sidecar data. Use GET .../Document/AlternateEdocs to enumerate them.",
+                "nullable": true
+              },
               "isRecord": {
                 "type": "boolean",
                 "description": "A boolean indicating if the represented document is a record."
@@ -22662,12 +23412,17 @@
             "nullable": true
           },
           "part": {
-            "description": "The part of the document to export. Options include: Image, Text, Edoc.",
+            "description": "The part of the document to export. Options include: Image, Text, Edoc,\nAlternateEdoc. AlternateEdoc also requires alternateEdocName.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/ExportEntryRequestPart"
               }
             ]
+          },
+          "alternateEdocName": {
+            "type": "string",
+            "description": "The name of the alternate electronic document to export. Required when part=AlternateEdoc,\nand rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII\ndigit, or one of `!@#$%^&()-+={}[]_~`. Matched exactly, so a name differing only in\nletter case is not found. Names reserved for internal use are also reported as not found.",
+            "nullable": true
           },
           "imageOptions": {
             "description": "The options applied when exporting as Image.",
@@ -22916,7 +23671,7 @@
         "properties": {
           "tags": {
             "type": "array",
-            "description": "The tag names to assign to the entry.",
+            "description": "The tag names to assign to the entry. Required.\nDeliberately left without a default: this is an overwrite action, so an omitted\nor null member has to stay distinguishable from an explicitly sent empty list,\nwhich unassigns every tag.",
             "nullable": true,
             "items": {
               "type": "string"
@@ -23032,7 +23787,7 @@
         "properties": {
           "links": {
             "type": "array",
-            "description": "The links that will be assigned to the entry.",
+            "description": "The links that will be assigned to the entry. Required.\nDeliberately left without a default: this is an overwrite action, so an omitted\nor null member has to stay distinguishable from an explicitly sent empty list,\nwhich removes every link.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/LinkToUpdate"
@@ -23403,6 +24158,82 @@
           "imageYResolution": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "AlternateEdocInfoCollectionResponse": {
+        "type": "object",
+        "description": "Response containing a collection of AlternateEdocInfoResponse.",
+        "additionalProperties": false,
+        "properties": {
+          "@odata.nextLink": {
+            "type": "string",
+            "description": "A URL to retrieve the next page of the requested collection.",
+            "nullable": true
+          },
+          "@odata.count": {
+            "type": "integer",
+            "description": "The total count of items within a collection.",
+            "format": "int32",
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "description": "Gets or sets the OData response content in the \"value\".",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AlternateEdocInfoResponse"
+            }
+          }
+        }
+      },
+      "AlternateEdocInfoResponse": {
+        "type": "object",
+        "description": "Describes one alternate electronic document stream attached to a document.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the alternate electronic document stream, unique within the document.",
+            "nullable": true
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "The MIME type recorded for the stream's content, or an empty string when the\nrepository holds none.",
+            "nullable": true
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size of the stream's content in bytes.",
+            "format": "int64"
+          }
+        }
+      },
+      "WriteAltEdocUploadedPartsRequest": {
+        "type": "object",
+        "description": "Request body for writing an alternate electronic document from previously uploaded parts.",
+        "additionalProperties": false,
+        "required": [
+          "uploadId",
+          "partETags"
+        ],
+        "properties": {
+          "uploadId": {
+            "type": "string",
+            "description": "The UploadId received when calling the CreateMultipartUploadUrls API to request upload URLs.",
+            "minLength": 1
+          },
+          "partETags": {
+            "type": "array",
+            "description": "The array of the ETag values received when writing the file chunks into the upload URLs. The ETag values should be in the order of their associated upload URLs.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "The MIME type to record for the content, at most 127 characters. When omitted, the MIME type supplied to CreateMultipartUploadUrls is recorded instead. The repository stores the value lower-cased and without any parameters, so \"Text/Plain; charset=utf-8\" is stored as \"text/plain\".",
+            "nullable": true
           }
         }
       },
@@ -25162,23 +25993,27 @@
           "DeleteEntry",
           "ExportEntry",
           "ImportUploadedParts",
-          "SearchEntry"
+          "SearchEntry",
+          "WriteAltEdocUploadedParts"
         ],
         "x-enum-varnames": [
           "CopyEntry",
           "DeleteEntry",
           "ExportEntry",
           "ImportUploadedParts",
-          "SearchEntry"
+          "SearchEntry",
+          "WriteAltEdocUploadedParts"
         ],
         "x-enumNames": [
           "CopyEntry",
           "DeleteEntry",
           "ExportEntry",
           "ImportUploadedParts",
-          "SearchEntry"
+          "SearchEntry",
+          "WriteAltEdocUploadedParts"
         ],
         "x-enum-descriptions": [
+          null,
           null,
           null,
           null,
@@ -25190,6 +26025,7 @@
           null,
           null,
           null,
+          null,
           null
         ],
         "enum": [
@@ -25197,7 +26033,8 @@
           "DeleteEntry",
           "ExportEntry",
           "ImportUploadedParts",
-          "SearchEntry"
+          "SearchEntry",
+          "WriteAltEdocUploadedParts"
         ]
       },
       "TaskStatus": {

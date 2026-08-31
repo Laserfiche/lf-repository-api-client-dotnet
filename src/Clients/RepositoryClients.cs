@@ -10756,6 +10756,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Assign tags to an entry.<br/>
         /// - Provide an entry ID and a list of tags to assign to that entry.<br/>
         /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
+        /// - The tags property is required. A request body that does not include it is rejected with a 400; send an empty list to unassign every tag.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -10771,6 +10772,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Assign links to an entry.<br/>
         /// - Provide an entry ID and a list of links to assign to that entry.<br/>
         /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
+        /// - The links property is required. A request body that does not include it is rejected with a 400; send an empty list to remove every link.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -10991,6 +10993,98 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Successfully rotated the image page. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> RotateImagePageAsync(RotateImagePageParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns a paged listing of the alternate electronic documents attached to a document.
+        /// </summary>
+        /// <remarks>
+        /// - An alternate electronic document is a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. It travels with the document through copy, move, versioning, and briefcase operations.<br/>
+        /// - Returns the name, MIME type, and size of each stream. This endpoint does not return the stream content.<br/>
+        /// - Stream names are at most 15 characters long.<br/>
+        /// - Streams are returned in ascending name order; that order is fixed and not configurable.<br/>
+        /// - Streams reserved for internal use are not listed.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | Skip | SkipToken | Top | Prefer.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved a paged listing of the document's alternate electronic documents.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<AlternateEdocInfoCollectionResponse> ListAlternateEdocsAsync(ListAlternateEdocsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the metadata of a single alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the name, MIME type, and size of the stream. This endpoint does not return the stream content.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.<br/>
+        /// - Streams reserved for internal use are reported as not found.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the metadata of the specified alternate electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<AlternateEdocInfoResponse> GetAlternateEdocInfoAsync(GetAlternateEdocInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Creates or replaces an alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Writes a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - Send the content as multipart/form-data under the form field `file`. A zero-byte file is rejected; use the delete operation to remove an alternate electronic document.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`.<br/>
+        /// - Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations; reads and deletes stay exact-match.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - The optional `mimeType` form field sets the content's MIME type, at most 127 characters. When omitted it is derived from the uploaded file's content type and file name, falling back to `application/octet-stream`. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`; the response reports the stored value.<br/>
+        /// - Repeating an identical request is safe: the same content replaces itself.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully wrote the alternate electronic document. Returned its metadata as stored.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<AlternateEdocInfoResponse> WriteAlternateEdocAsync(WriteAlternateEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Deletes an alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes a named binary stream stored alongside the document's primary electronic document. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.<br/>
+        /// - A name the document has no stream for is reported as not found.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully deleted the alternate electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task DeleteAlternateEdocAsync(DeleteAlternateEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Writes an alternate electronic document from previously uploaded parts.
+        /// </summary>
+        /// <remarks>
+        /// - Writes a named binary stream stored alongside the document's primary electronic document from a file uploaded in chunks, for content too large to send in a single request. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - Upload the content first: call CreateMultipartUploadUrls, write each chunk to the URLs it returns, then pass the same `uploadId` and the ETags here. There is no size limit at this tier beyond the one the upload itself enforces.<br/>
+        /// - This operation runs in the background. It returns **202 Accepted** with a task ID; poll `/Tasks?taskIds={taskId}` for progress and the result. Use the PUT operation instead for content small enough to send at once, which completes synchronously.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`.<br/>
+        /// - Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - The name, the MIME type and the case rule are all checked before the operation is accepted, so those errors come back on this request rather than on the task.<br/>
+        /// - The optional `mimeType` sets the content's MIME type, at most 127 characters. When omitted it is taken from the MIME type supplied to CreateMultipartUploadUrls. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully started the write alternate electronic document from uploaded parts operation. Returns a task ID for polling progress.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<StartTaskResponse> WriteAltEdocUploadedPartsAsync(WriteAltEdocUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Returns the image content of a specific page in a document.
@@ -14285,6 +14379,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Assign tags to an entry.<br/>
         /// - Provide an entry ID and a list of tags to assign to that entry.<br/>
         /// - This is an overwrite action. The request must include all tags to assign to the entry, including existing tags that should remain assigned to the entry.<br/>
+        /// - The tags property is required. A request body that does not include it is rejected with a 400; send an empty list to unassign every tag.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -14509,6 +14604,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Assign links to an entry.<br/>
         /// - Provide an entry ID and a list of links to assign to that entry.<br/>
         /// - This is an overwrite action. The request must include all links to assign to the entry, including existing links that should remain assigned to the entry.<br/>
+        /// - The links property is required. A request body that does not include it is rejected with a 400; send an empty list to remove every link.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -17531,6 +17627,1035 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Returns a paged listing of the alternate electronic documents attached to a document.
+        /// </summary>
+        /// <remarks>
+        /// - An alternate electronic document is a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. It travels with the document through copy, move, versioning, and briefcase operations.<br/>
+        /// - Returns the name, MIME type, and size of each stream. This endpoint does not return the stream content.<br/>
+        /// - Stream names are at most 15 characters long.<br/>
+        /// - Streams are returned in ascending name order; that order is fixed and not configurable.<br/>
+        /// - Streams reserved for internal use are not listed.<br/>
+        /// - Default page size: 150. Allowed OData query options: Select | Count | Skip | SkipToken | Top | Prefer.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved a paged listing of the document's alternate electronic documents.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<AlternateEdocInfoCollectionResponse> ListAlternateEdocsAsync(ListAlternateEdocsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var prefer = parameters.Prefer;
+            var select = parameters.Select;
+            var top = parameters.Top;
+            var skip = parameters.Skip;
+            var count = parameters.Count;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdocs"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/AlternateEdocs");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (top != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$top")).Append('=').Append(Uri.EscapeDataString(ConvertToString(top, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (skip != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$skip")).Append('=').Append(Uri.EscapeDataString(ConvertToString(skip, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (count != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$count")).Append('=').Append(Uri.EscapeDataString(ConvertToString(count, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+
+                    if (prefer != null)
+                        request_.Headers.TryAddWithoutValidation("Prefer", ConvertToString(prefer, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await ListAlternateEdocsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AlternateEdocInfoCollectionResponse> ListAlternateEdocsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AlternateEdocInfoCollectionResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the metadata of a single alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the name, MIME type, and size of the stream. This endpoint does not return the stream content.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.<br/>
+        /// - Streams reserved for internal use are reported as not found.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the metadata of the specified alternate electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<AlternateEdocInfoResponse> GetAlternateEdocInfoAsync(GetAlternateEdocInfoParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var name = parameters.Name;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/AlternateEdoc");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("name")).Append('=').Append(Uri.EscapeDataString(name != null ? ConvertToString(name, CultureInfo.InvariantCulture) : "")).Append('&');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetAlternateEdocInfoSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AlternateEdocInfoResponse> GetAlternateEdocInfoSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AlternateEdocInfoResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Creates or replaces an alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Writes a named binary stream stored alongside the document's primary electronic document, such as an audio recording, a source scan, or sidecar data. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - Send the content as multipart/form-data under the form field `file`. A zero-byte file is rejected; use the delete operation to remove an alternate electronic document.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`.<br/>
+        /// - Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations; reads and deletes stay exact-match.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - The optional `mimeType` form field sets the content's MIME type, at most 127 characters. When omitted it is derived from the uploaded file's content type and file name, falling back to `application/octet-stream`. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`; the response reports the stored value.<br/>
+        /// - Repeating an identical request is safe: the same content replaces itself.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully wrote the alternate electronic document. Returned its metadata as stored.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<AlternateEdocInfoResponse> WriteAlternateEdocAsync(WriteAlternateEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var name = parameters.Name;
+            var file = parameters.File;
+            var mimeType = parameters.MimeType;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/AlternateEdoc");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("name")).Append('=').Append(Uri.EscapeDataString(name != null ? ConvertToString(name, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        var boundary_ = Guid.NewGuid().ToString();
+                        var content_ = new MultipartFormDataContent(boundary_);
+                        content_.Headers.Remove("Content-Type");
+                        content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                        if (file == null)
+                            throw new ArgumentNullException("parameters.File");
+                        else
+                        {
+                                var content_file_ = new StreamContent(file.Data);
+                                if (!string.IsNullOrEmpty(file.ContentType))
+                                    content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                content_.Add(content_file_, "file", file.FileName ?? "file");
+                            }
+
+                        if (mimeType != null)
+                        {
+                                content_.Add(new StringContent(ConvertToString(mimeType, CultureInfo.InvariantCulture)), "mimeType");
+                            }
+                        request_.Content = content_;
+                        request_.Method = new HttpMethod("PUT");
+                        request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+                        return await WriteAlternateEdocSendAsync(request_, client_, disposeClient_, cancellationToken);
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                var boundary_ = Guid.NewGuid().ToString();
+                                var content_ = new MultipartFormDataContent(boundary_);
+                                content_.Headers.Remove("Content-Type");
+                                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+
+                                if (file == null)
+                                    throw new ArgumentNullException("parameters.File");
+                                else
+                                {
+                                        var content_file_ = new StreamContent(file.Data);
+                                        if (!string.IsNullOrEmpty(file.ContentType))
+                                            content_file_.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                                        content_.Add(content_file_, "file", file.FileName ?? "file");
+                                    }
+
+                                if (mimeType != null)
+                                {
+                                        content_.Add(new StringContent(ConvertToString(mimeType, CultureInfo.InvariantCulture)), "mimeType");
+                                    }
+                                request_.Content = content_;
+                                request_.Method = new HttpMethod("PUT");
+                                request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+                                return await WriteAlternateEdocSendAsync(request_, client_, disposeClient_, cancellationToken);
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<AlternateEdocInfoResponse> WriteAlternateEdocSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<AlternateEdocInfoResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 413)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Deletes an alternate electronic document.
+        /// </summary>
+        /// <remarks>
+        /// - Deletes a named binary stream stored alongside the document's primary electronic document. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names match exactly. A name that differs only in letter case identifies a different stream on some repository configurations, so no case folding is applied.<br/>
+        /// - A name the document has no stream for is reported as not found.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully deleted the alternate electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task DeleteAlternateEdocAsync(DeleteAlternateEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var name = parameters.Name;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/AlternateEdoc");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("name")).Append('=').Append(Uri.EscapeDataString(name != null ? ConvertToString(name, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                if (RetryIfLockedForTimeout == null) {
+                    using (var request_ = new HttpRequestMessage())
+                    {
+                        request_.Method = new HttpMethod("DELETE");
+
+                        PrepareRequest(client_, request_, urlBuilder_);
+
+                        var url_ = urlBuilder_.ToString();
+                        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                        PrepareRequest(client_, request_, url_);
+
+                        await DeleteAlternateEdocSendAsync(request_, client_, disposeClient_, cancellationToken);
+                        return;
+                    }
+                }
+                else {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    TimeSpan timeLimit = (TimeSpan)RetryIfLockedForTimeout;
+                    while (true) {
+                        try {
+                            using (var request_ = new HttpRequestMessage())
+                            {
+                                request_.Method = new HttpMethod("DELETE");
+
+                                PrepareRequest(client_, request_, urlBuilder_);
+
+                                var url_ = urlBuilder_.ToString();
+                                request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                                PrepareRequest(client_, request_, url_);
+
+                                await DeleteAlternateEdocSendAsync(request_, client_, disposeClient_, cancellationToken);
+                                return;
+                            }
+                        }
+                        catch (ApiException ex) {
+                            string LockErrorCode = "[9014]";
+                            string EntrySharingErrorCode = "[9059]";
+                            if (ex.StatusCode != 423 && !ex.ProblemDetails.Title.Contains(EntrySharingErrorCode) && !ex.ProblemDetails.Title.Contains(LockErrorCode))
+                            {
+                                throw;
+                            }
+                            if (sw.Elapsed > timeLimit) {
+                                throw new TimeoutException($"Operation was not successful after {sw.Elapsed}", ex);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task DeleteAlternateEdocSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 204)
+                {
+                    return;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Writes an alternate electronic document from previously uploaded parts.
+        /// </summary>
+        /// <remarks>
+        /// - Writes a named binary stream stored alongside the document's primary electronic document from a file uploaded in chunks, for content too large to send in a single request. The stream is created when the document does not have one under that name, and its content fully replaced when it does. The primary electronic document, the pages, and the metadata are unaffected.<br/>
+        /// - Upload the content first: call CreateMultipartUploadUrls, write each chunk to the URLs it returns, then pass the same `uploadId` and the ETags here. There is no size limit at this tier beyond the one the upload itself enforces.<br/>
+        /// - This operation runs in the background. It returns **202 Accepted** with a task ID; poll `/Tasks?taskIds={taskId}` for progress and the result. Use the PUT operation instead for content small enough to send at once, which completes synchronously.<br/>
+        /// - The name is supplied as a query parameter rather than a path segment, because the legal character set includes characters that are significant to OData URI parsing.<br/>
+        /// - Names are at most 15 characters long, and each character must be an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`.<br/>
+        /// - Names match exactly. A name that differs only in letter case from one the document already has is rejected with 409 rather than written, because such a pair means different things on different repository configurations.<br/>
+        /// - Names reserved for internal use are rejected.<br/>
+        /// - The name, the MIME type and the case rule are all checked before the operation is accepted, so those errors come back on this request rather than on the task.<br/>
+        /// - The optional `mimeType` sets the content's MIME type, at most 127 characters. When omitted it is taken from the MIME type supplied to CreateMultipartUploadUrls. The repository stores it lower-cased and without any parameters, so `Text/Plain; charset=utf-8` is stored as `text/plain`.<br/>
+        /// - Required OAuth scope: repository.Write
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully started the write alternate electronic document from uploaded parts operation. Returns a task ID for polling progress.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<StartTaskResponse> WriteAltEdocUploadedPartsAsync(WriteAltEdocUploadedPartsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var name = parameters.Name;
+            var request = parameters.Request;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (request == null)
+                throw new ArgumentNullException("parameters.Request");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/AlternateEdoc/WriteUploadedParts"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/AlternateEdoc/WriteUploadedParts");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("name")).Append('=').Append(Uri.EscapeDataString(name != null ? ConvertToString(name, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new StringContent(json_);
+                    content_.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new HttpMethod("POST");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await WriteAltEdocUploadedPartsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<StartTaskResponse> WriteAltEdocUploadedPartsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 202)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<StartTaskResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 409)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Returns the image content of a specific page in a document.
         /// </summary>
         /// <remarks>
@@ -20071,7 +21196,7 @@ namespace Laserfiche.Repository.Api.Client
         public StartExportEntryRequest Request { get; set; }
 
         /// <summary>
-        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc.
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when part=Edoc or part=AlternateEdoc.
         /// </summary>
         public string PageRange { get; set; } = null;
 
@@ -20251,7 +21376,7 @@ namespace Laserfiche.Repository.Api.Client
         public ExportEntryRequest Request { get; set; }
 
         /// <summary>
-        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc.
+        /// A comma-separated range of pages to include. Ex: 1,3,4 or 1-3,5-7,9. This value is ignored when exporting as Edoc or AlternateEdoc.
         /// </summary>
         public string PageRange { get; set; } = null;
 
@@ -20950,6 +22075,161 @@ namespace Laserfiche.Repository.Api.Client
         /// The request body containing the rotation angle.
         /// </summary>
         public RotateImagePageRequest Request { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListAlternateEdocsAsync(ListAlternateEdocsParameters, CancellationToken)">ListAlternateEdocs</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListAlternateEdocsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// An optional OData header. Can be used to set the maximum page size using odata.maxpagesize.
+        /// </summary>
+        public string Prefer { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+        /// <summary>
+        /// Limits the number of items returned from a collection. The maximum value is 150.
+        /// </summary>
+        public int? Top { get; set; } = null;
+
+        /// <summary>
+        /// Excludes the specified number of items of the queried collection from the result.
+        /// </summary>
+        public int? Skip { get; set; } = null;
+
+        /// <summary>
+        /// Indicates whether the total count of items within a collection are returned in the result.
+        /// </summary>
+        public bool? Count { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetAlternateEdocInfoAsync(GetAlternateEdocInfoParameters, CancellationToken)">GetAlternateEdocInfo</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetAlternateEdocInfoParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are also reported as not found.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.WriteAlternateEdocAsync(WriteAlternateEdocParameters, CancellationToken)">WriteAlternateEdoc</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WriteAlternateEdocParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`. An existing name has its content and MIME type replaced in full; a name differing from an existing one only in letter case is rejected with 409 and leaves that stream unchanged. Names reserved for internal use are rejected.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The content to store. Any file type is accepted. A zero-byte file is rejected with 400; use the delete operation to remove an alternate electronic document.
+        /// </summary>
+        public FileParameter File { get; set; } = null;
+
+        /// <summary>
+        /// Optional. The MIME type to set for the content, at most 127 characters. When omitted it is derived from the uploaded file's content type and file name, falling back to application/octet-stream. Stored lower-cased and without parameters, so Text/Plain; charset=utf-8 is stored as text/plain. Worth setting explicitly for audio and video, where the multipart content type is frequently generic or wrong.
+        /// </summary>
+        public string MimeType { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.DeleteAlternateEdocAsync(DeleteAlternateEdocParameters, CancellationToken)">DeleteAlternateEdoc</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DeleteAlternateEdocParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document. Matched exactly, so a name differing only in letter case is not found. Names reserved for internal use are rejected.
+        /// </summary>
+        public string Name { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.WriteAltEdocUploadedPartsAsync(WriteAltEdocUploadedPartsParameters, CancellationToken)">WriteAltEdocUploadedParts</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WriteAltEdocUploadedPartsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document. 1 to 15 characters, each an ASCII letter, an ASCII digit, or one of `!@#$%^&amp;()-+={}[]_~`. An existing name has its content and MIME type replaced in full; a name differing from an existing one only in letter case is rejected with 409 and leaves that stream unchanged. Names reserved for internal use are rejected. The name is validated before the operation is accepted, so a name error is returned on this request rather than on the task.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The upload to assemble, and the MIME type to record.
+        /// </summary>
+        public WriteAltEdocUploadedPartsRequest Request { get; set; }
 
     }
 
@@ -37040,11 +38320,21 @@ namespace Laserfiche.Repository.Api.Client
         public string AuditReasonComment { get; set; } = "";
 
         /// <summary>
-        /// Specifies the part of the document to export.
+        /// Specifies the part of the document to export. Options include: Image, Text, Edoc,<br/>
+        /// AlternateEdoc. AlternateEdoc also requires alternateEdocName.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document to export. Required when part=AlternateEdoc,<br/>
+        /// and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII<br/>
+        /// digit, or one of `!@#$%^&amp;()-+={}[]_~`. Matched exactly, so a name differing only in<br/>
+        /// letter case is not found. Names reserved for internal use are also reported as not found.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("alternateEdocName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AlternateEdocName { get; set; }
 
         /// <summary>
         /// The options applied when exporting as Image.
@@ -37075,6 +38365,9 @@ namespace Laserfiche.Repository.Api.Client
 
         [EnumMember(Value = @"Edoc")]
         Edoc = 2,
+
+        [EnumMember(Value = @"AlternateEdoc")]
+        AlternateEdoc = 3,
 
     }
 
@@ -37527,6 +38820,14 @@ namespace Laserfiche.Repository.Api.Client
         public bool IsElectronicDocument { get; set; }
 
         /// <summary>
+        /// Whether the document has any alternate electronic documents — named binary streams<br/>
+        /// stored alongside the primary electronic document, such as an audio recording, a source<br/>
+        /// scan, or sidecar data. Use GET .../Document/AlternateEdocs to enumerate them.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("hasAlternateEdocs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? HasAlternateEdocs { get; set; }
+
+        /// <summary>
         /// A boolean indicating if the represented document is a record.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("isRecord", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -37795,11 +39096,21 @@ namespace Laserfiche.Repository.Api.Client
         public string AuditReasonComment { get; set; } = "";
 
         /// <summary>
-        /// The part of the document to export. Options include: Image, Text, Edoc.
+        /// The part of the document to export. Options include: Image, Text, Edoc,<br/>
+        /// AlternateEdoc. AlternateEdoc also requires alternateEdocName.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("part", Required = Newtonsoft.Json.Required.Always)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExportEntryRequestPart Part { get; set; }
+
+        /// <summary>
+        /// The name of the alternate electronic document to export. Required when part=AlternateEdoc,<br/>
+        /// and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII<br/>
+        /// digit, or one of `!@#$%^&amp;()-+={}[]_~`. Matched exactly, so a name differing only in<br/>
+        /// letter case is not found. Names reserved for internal use are also reported as not found.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("alternateEdocName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AlternateEdocName { get; set; }
 
         /// <summary>
         /// The options applied when exporting as Image.
@@ -38049,7 +39360,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetTagsRequest
     {
         /// <summary>
-        /// The tag names to assign to the entry.
+        /// The tag names to assign to the entry. Required.<br/>
+        /// Deliberately left without a default: this is an overwrite action, so an omitted<br/>
+        /// or null member has to stay distinguishable from an explicitly sent empty list,<br/>
+        /// which unassigns every tag.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<string> Tags { get; set; }
@@ -38175,7 +39489,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetLinksRequest
     {
         /// <summary>
-        /// The links that will be assigned to the entry.
+        /// The links that will be assigned to the entry. Required.<br/>
+        /// Deliberately left without a default: this is an overwrite action, so an omitted<br/>
+        /// or null member has to stay distinguishable from an explicitly sent empty list,<br/>
+        /// which removes every link.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("links", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<LinkToUpdate> Links { get; set; }
@@ -38511,6 +39828,85 @@ namespace Laserfiche.Repository.Api.Client
 
         [Newtonsoft.Json.JsonProperty("imageYResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int ImageYResolution { get; set; }
+
+    }
+
+    /// <summary>
+    /// Response containing a collection of AlternateEdocInfoResponse.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AlternateEdocInfoCollectionResponse
+    {
+        /// <summary>
+        /// A URL to retrieve the next page of the requested collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.nextLink", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OdataNextLink { get; set; }
+
+        /// <summary>
+        /// The total count of items within a collection.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("@odata.count", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? OdataCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the OData response content in the "value".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<AlternateEdocInfoResponse> Value { get; set; }
+
+    }
+
+    /// <summary>
+    /// Describes one alternate electronic document stream attached to a document.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AlternateEdocInfoResponse
+    {
+        /// <summary>
+        /// The name of the alternate electronic document stream, unique within the document.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The MIME type recorded for the stream's content, or an empty string when the<br/>
+        /// repository holds none.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("mimeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// The size of the stream's content in bytes.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("size", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Size { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for writing an alternate electronic document from previously uploaded parts.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WriteAltEdocUploadedPartsRequest
+    {
+        /// <summary>
+        /// The UploadId received when calling the CreateMultipartUploadUrls API to request upload URLs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("uploadId", Required = Newtonsoft.Json.Required.Always)]
+        public string UploadId { get; set; }
+
+        /// <summary>
+        /// The array of the ETag values received when writing the file chunks into the upload URLs. The ETag values should be in the order of their associated upload URLs.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("partETags", Required = Newtonsoft.Json.Required.Always)]
+        public IList<string> PartETags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// The MIME type to record for the content, at most 127 characters. When omitted, the MIME type supplied to CreateMultipartUploadUrls is recorded instead. The repository stores the value lower-cased and without any parameters, so "Text/Plain; charset=utf-8" is stored as "text/plain".
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("mimeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MimeType { get; set; }
 
     }
 
@@ -40133,6 +41529,9 @@ namespace Laserfiche.Repository.Api.Client
 
         [EnumMember(Value = @"SearchEntry")]
         SearchEntry = 4,
+
+        [EnumMember(Value = @"WriteAltEdocUploadedParts")]
+        WriteAltEdocUploadedParts = 5,
 
     }
 
