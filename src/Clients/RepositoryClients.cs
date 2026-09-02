@@ -19097,22 +19097,10 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Text/Offsets");
                     urlBuilder_.Append('?');
-                    if (x != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("x")).Append('=').Append(Uri.EscapeDataString(ConvertToString(x, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (y != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("y")).Append('=').Append(Uri.EscapeDataString(ConvertToString(y, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (width != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("width")).Append('=').Append(Uri.EscapeDataString(ConvertToString(width, CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (height != null)
-                    {
-                        urlBuilder_.Append(Uri.EscapeDataString("height")).Append('=').Append(Uri.EscapeDataString(ConvertToString(height, CultureInfo.InvariantCulture))).Append('&');
-                    }
+                    urlBuilder_.Append(Uri.EscapeDataString("x")).Append('=').Append(Uri.EscapeDataString(x != null ? ConvertToString(x, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("y")).Append('=').Append(Uri.EscapeDataString(y != null ? ConvertToString(y, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("width")).Append('=').Append(Uri.EscapeDataString(width != null ? ConvertToString(width, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("height")).Append('=').Append(Uri.EscapeDataString(height != null ? ConvertToString(height, CultureInfo.InvariantCulture) : "")).Append('&');
                     if (select != null)
                     {
                         urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
@@ -22737,22 +22725,22 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// The X coordinate of the left edge of the rectangle, in page image pixels. Required, and may not be negative.
         /// </summary>
-        public int? X { get; set; } = null;
+        public int? X { get; set; }
 
         /// <summary>
         /// The Y coordinate of the top edge of the rectangle, in page image pixels. Required, and may not be negative.
         /// </summary>
-        public int? Y { get; set; } = null;
+        public int? Y { get; set; }
 
         /// <summary>
         /// The width of the rectangle, in page image pixels. Required, and must be at least 1.
         /// </summary>
-        public int? Width { get; set; } = null;
+        public int? Width { get; set; }
 
         /// <summary>
         /// The height of the rectangle, in page image pixels. Required, and must be at least 1.
         /// </summary>
-        public int? Height { get; set; } = null;
+        public int? Height { get; set; }
 
         /// <summary>
         /// Limits the properties returned in the result.

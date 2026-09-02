@@ -10016,6 +10016,7 @@
           {
             "name": "x",
             "in": "query",
+            "required": true,
             "description": "The X coordinate of the left edge of the rectangle, in page image pixels. Required, and may not be negative.",
             "schema": {
               "type": "integer",
@@ -10027,6 +10028,7 @@
           {
             "name": "y",
             "in": "query",
+            "required": true,
             "description": "The Y coordinate of the top edge of the rectangle, in page image pixels. Required, and may not be negative.",
             "schema": {
               "type": "integer",
@@ -10038,6 +10040,7 @@
           {
             "name": "width",
             "in": "query",
+            "required": true,
             "description": "The width of the rectangle, in page image pixels. Required, and must be at least 1.",
             "schema": {
               "type": "integer",
@@ -10049,6 +10052,7 @@
           {
             "name": "height",
             "in": "query",
+            "required": true,
             "description": "The height of the rectangle, in page image pixels. Required, and must be at least 1.",
             "schema": {
               "type": "integer",
