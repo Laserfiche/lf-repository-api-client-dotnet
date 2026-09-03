@@ -6661,6 +6661,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
         /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -6700,6 +6701,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -6732,6 +6734,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
         /// - The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.<br/>
         /// - Returns the entry's full ACL after the change.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -6789,6 +6792,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
         /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -6828,6 +6832,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -7054,6 +7059,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
         /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -7531,6 +7537,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -7853,6 +7860,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.<br/>
         /// - The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.<br/>
         /// - Returns the entry's full ACL after the change.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -8496,6 +8504,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).<br/>
         /// - The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -8973,6 +8982,7 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         /// <remarks>
         /// - Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).<br/>
+        /// - The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -10726,6 +10736,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Update the field values assigned to an entry.<br/>
         /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
+        /// - The fields property is required. A request body that does not include it is rejected with a 400; send an empty list to clear every field value.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -11113,6 +11124,46 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Successfully retrieved the text content for the specified page.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<PageTextResponse> GetPageTextAsync(GetPageTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the page text covered by a rectangle drawn on a page image.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the offsets, in the text of the page, of the words the rectangle covers, together with that text.<br/>
+        /// - All four rectangle parameters are required. Omitting one is a 400 rather than a coordinate of 0, because a rectangle silently moved to the edge of the page answers with a span the caller never asked about.<br/>
+        /// - Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another, and the image is the one described by imageWidth, imageHeight, imageXResolution, imageYResolution and imageRotationAngle on ListPageInfos. The page's own rotation is not applied, so a viewer that displays the page rotated or scaled must convert its own coordinates back to this space before calling.<br/>
+        /// - A word counts as covered when the rectangle contains it, is contained by it, or overlaps it by at least 2 pixels and half of both its width and its height. A rectangle that lies entirely within the word on one axis - a thin stripe drawn through it - only has to clear the half threshold on the other axis. This is the same rule the Laserfiche viewers apply to a hand-drawn selection.<br/>
+        /// - textStart is the offset of the first character of the span and textEnd is the offset one past its last character, so textEnd - textStart is the length of the span. This is the convention Web Access stores in text-linked highlight and redaction annotations, so the values can be written straight back to CreateAnnotation. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks.<br/>
+        /// - The span runs from the first covered word to the last, so text can include characters that lie between covered words. text always equals the page text from textStart to textEnd.<br/>
+        /// - When the rectangle covers no words, hasTextSpan is false, textStart and textEnd are both -1, text is empty and wordCount is 0. -1 is also the value the annotation surface uses for a span that is not linked to text.<br/>
+        /// - Returns 404 when the page has no text or no word locations. A page has word locations when hasWordLocations is true on ListPageInfos; text is generated by GenerateText.<br/>
+        /// - Returns 400 when the page carries more word locations than the server supports, which is 20,000 by default.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the page text span covered by the specified rectangle.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageTextOffsetsResponse> GetPageTextOffsetsAsync(GetPageTextOffsetsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns the words of a page, each with its position in the page text and its location on the page image.
+        /// </summary>
+        /// <remarks>
+        /// - Returns every word of the page, in reading order, with its text offsets and its rectangle on the page image. This is the data the hasWordLocations and locationsDataSize properties on ListPageInfos advertise.<br/>
+        /// - The whole page is returned in one response; there is no paging, because the order of the words is itself part of the data. A page carrying more word locations than the server supports, which is 20,000 by default, is refused with a 400 rather than truncated.<br/>
+        /// - Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another. The envelope repeats the page image geometry so the coordinates can be interpreted without a second call, and imageRotationAngle is reported but not applied - overlay code must apply its own rotation and scaling.<br/>
+        /// - textStart is the offset of the first character of the word and textEnd is the offset one past its last character, so textEnd - textStart is the length of the word. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks, and use the same convention as the text-linked highlight and redaction annotations.<br/>
+        /// - To find the rectangles that render a text span [spanStart, spanEnd), such as the span stored on an existing highlight or redaction annotation, take every entry where word.textStart &lt; spanEnd and word.textEnd &gt; spanStart, and use those entries' rectangles. Entries that overlap vertically are on the same line of text, so horizontally adjacent boxes within such a group can be merged into one box per line.<br/>
+        /// - width and height can both be 0 for a location OCR produced for a word it could not place. Such entries are still returned, because the order of the words is what pairs them with the page text.<br/>
+        /// - Returns 404 when the page has no text or no word locations. Word locations are produced by GenerateText along with the page text.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the word locations for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<PageWordLocationsResponse> ListPageWordLocationsAsync(ListPageWordLocationsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Triggers server-side text generation for a document.
@@ -13959,6 +14010,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - Update the field values assigned to an entry.<br/>
         /// - Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.<br/>
         /// - This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.<br/>
+        /// - The fields property is required. A request body that does not include it is rejected with a 400; send an empty list to clear every field value.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -18994,6 +19046,366 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
+        /// Returns the page text covered by a rectangle drawn on a page image.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the offsets, in the text of the page, of the words the rectangle covers, together with that text.<br/>
+        /// - All four rectangle parameters are required. Omitting one is a 400 rather than a coordinate of 0, because a rectangle silently moved to the edge of the page answers with a span the caller never asked about.<br/>
+        /// - Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another, and the image is the one described by imageWidth, imageHeight, imageXResolution, imageYResolution and imageRotationAngle on ListPageInfos. The page's own rotation is not applied, so a viewer that displays the page rotated or scaled must convert its own coordinates back to this space before calling.<br/>
+        /// - A word counts as covered when the rectangle contains it, is contained by it, or overlaps it by at least 2 pixels and half of both its width and its height. A rectangle that lies entirely within the word on one axis - a thin stripe drawn through it - only has to clear the half threshold on the other axis. This is the same rule the Laserfiche viewers apply to a hand-drawn selection.<br/>
+        /// - textStart is the offset of the first character of the span and textEnd is the offset one past its last character, so textEnd - textStart is the length of the span. This is the convention Web Access stores in text-linked highlight and redaction annotations, so the values can be written straight back to CreateAnnotation. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks.<br/>
+        /// - The span runs from the first covered word to the last, so text can include characters that lie between covered words. text always equals the page text from textStart to textEnd.<br/>
+        /// - When the rectangle covers no words, hasTextSpan is false, textStart and textEnd are both -1, text is empty and wordCount is 0. -1 is also the value the annotation surface uses for a span that is not linked to text.<br/>
+        /// - Returns 404 when the page has no text or no word locations. A page has word locations when hasWordLocations is true on ListPageInfos; text is generated by GenerateText.<br/>
+        /// - Returns 400 when the page carries more word locations than the server supports, which is 20,000 by default.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the page text span covered by the specified rectangle.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<PageTextOffsetsResponse> GetPageTextOffsetsAsync(GetPageTextOffsetsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var x = parameters.X;
+            var y = parameters.Y;
+            var width = parameters.Width;
+            var height = parameters.Height;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Text/Offsets"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Text/Offsets");
+                    urlBuilder_.Append('?');
+                    urlBuilder_.Append(Uri.EscapeDataString("x")).Append('=').Append(Uri.EscapeDataString(x != null ? ConvertToString(x, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("y")).Append('=').Append(Uri.EscapeDataString(y != null ? ConvertToString(y, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("width")).Append('=').Append(Uri.EscapeDataString(width != null ? ConvertToString(width, CultureInfo.InvariantCulture) : "")).Append('&');
+                    urlBuilder_.Append(Uri.EscapeDataString("height")).Append('=').Append(Uri.EscapeDataString(height != null ? ConvertToString(height, CultureInfo.InvariantCulture) : "")).Append('&');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetPageTextOffsetsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<PageTextOffsetsResponse> GetPageTextOffsetsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<PageTextOffsetsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the words of a page, each with its position in the page text and its location on the page image.
+        /// </summary>
+        /// <remarks>
+        /// - Returns every word of the page, in reading order, with its text offsets and its rectangle on the page image. This is the data the hasWordLocations and locationsDataSize properties on ListPageInfos advertise.<br/>
+        /// - The whole page is returned in one response; there is no paging, because the order of the words is itself part of the data. A page carrying more word locations than the server supports, which is 20,000 by default, is refused with a 400 rather than truncated.<br/>
+        /// - Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another. The envelope repeats the page image geometry so the coordinates can be interpreted without a second call, and imageRotationAngle is reported but not applied - overlay code must apply its own rotation and scaling.<br/>
+        /// - textStart is the offset of the first character of the word and textEnd is the offset one past its last character, so textEnd - textStart is the length of the word. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks, and use the same convention as the text-linked highlight and redaction annotations.<br/>
+        /// - To find the rectangles that render a text span [spanStart, spanEnd), such as the span stored on an existing highlight or redaction annotation, take every entry where word.textStart &lt; spanEnd and word.textEnd &gt; spanStart, and use those entries' rectangles. Entries that overlap vertically are on the same line of text, so horizontally adjacent boxes within such a group can be merged into one box per line.<br/>
+        /// - width and height can both be 0 for a location OCR produced for a word it could not place. Such entries are still returned, because the order of the words is what pairs them with the page text.<br/>
+        /// - Returns 404 when the page has no text or no word locations. Word locations are produced by GenerateText along with the page text.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully retrieved the word locations for the specified page.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<PageWordLocationsResponse> ListPageWordLocationsAsync(ListPageWordLocationsParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var pageNumber = parameters.PageNumber;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            if (pageNumber == null)
+                throw new ArgumentNullException("parameters.PageNumber");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/WordLocations"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Pages/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(pageNumber, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/WordLocations");
+                    urlBuilder_.Append('?');
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await ListPageWordLocationsSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<PageWordLocationsResponse> ListPageWordLocationsSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<PageWordLocationsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    return objectResponse_.Object;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Triggers server-side text generation for a document.
         /// </summary>
         /// <remarks>
@@ -22279,6 +22691,82 @@ namespace Laserfiche.Repository.Api.Client
 
         /// <summary>
         /// The 1-based page number of the page to retrieve the text for.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetPageTextOffsetsAsync(GetPageTextOffsetsParameters, CancellationToken)">GetPageTextOffsets</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetPageTextOffsetsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to search.
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The X coordinate of the left edge of the rectangle, in page image pixels. Required, and may not be negative.
+        /// </summary>
+        public int? X { get; set; }
+
+        /// <summary>
+        /// The Y coordinate of the top edge of the rectangle, in page image pixels. Required, and may not be negative.
+        /// </summary>
+        public int? Y { get; set; }
+
+        /// <summary>
+        /// The width of the rectangle, in page image pixels. Required, and must be at least 1.
+        /// </summary>
+        public int? Width { get; set; }
+
+        /// <summary>
+        /// The height of the rectangle, in page image pixels. Required, and must be at least 1.
+        /// </summary>
+        public int? Height { get; set; }
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.ListPageWordLocationsAsync(ListPageWordLocationsParameters, CancellationToken)">ListPageWordLocations</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ListPageWordLocationsParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// The 1-based page number of the page to retrieve the word locations for.
         /// </summary>
         public int PageNumber { get; set; }
 
@@ -37929,7 +38417,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetFieldAccessControlRequest
     {
         /// <summary>
-        /// The access control entries to set. Replaces the field's entire explicit ACL.
+        /// The access control entries to set. Required. Replaces the field's entire explicit<br/>
+        /// ACL; an empty array clears it.<br/>
+        /// Deliberately left without a default: this is a full replace, so an omitted or null<br/>
+        /// member has to stay distinguishable from an explicitly sent empty array.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<FieldAccessControlEntry> Entries { get; set; }
@@ -39231,7 +39722,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetFieldsRequest
     {
         /// <summary>
-        /// The fields that will be assigned to the entry.
+        /// The fields that will be assigned to the entry. Required.<br/>
+        /// Deliberately left without a default: this is an overwrite action, so an omitted<br/>
+        /// or null member has to stay distinguishable from an explicitly sent empty list,<br/>
+        /// which clears every field value.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<FieldToUpdate> Fields { get; set; }
@@ -39919,6 +40413,153 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// The page text span covered by a rectangle drawn on a page image.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageTextOffsetsResponse
+    {
+        /// <summary>
+        /// True when at least one word on the page intersects the requested rectangle.<br/>
+        /// False when the rectangle covers no words, in which case textStart and textEnd are both -1.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("hasTextSpan", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool HasTextSpan { get; set; }
+
+        /// <summary>
+        /// The offset of the first character of the covered span, or -1 when no word is covered.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TextStart { get; set; }
+
+        /// <summary>
+        /// The offset one past the last character of the covered span (textEnd - textStart is the<br/>
+        /// span length), or -1 when no word is covered.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TextEnd { get; set; }
+
+        /// <summary>
+        /// The page text between textStart and textEnd, or an empty string when no word is covered.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Text { get; set; }
+
+        /// <summary>
+        /// The number of words the rectangle covers.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("wordCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WordCount { get; set; }
+
+    }
+
+    /// <summary>
+    /// The word locations of a page, together with the page image geometry the coordinates<br/>
+    /// are expressed in.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageWordLocationsResponse
+    {
+        /// <summary>
+        /// The 1-based page number.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pageNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// The width of the page image, in pixels.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("imageWidth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageWidth { get; set; }
+
+        /// <summary>
+        /// The height of the page image, in pixels.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("imageHeight", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageHeight { get; set; }
+
+        /// <summary>
+        /// The horizontal resolution of the page image, in pixels per inch.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("imageXResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageXResolution { get; set; }
+
+        /// <summary>
+        /// The vertical resolution of the page image, in pixels per inch. This can differ from<br/>
+        /// imageXResolution, in which case the coordinate space is anisotropic.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("imageYResolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageYResolution { get; set; }
+
+        /// <summary>
+        /// The rotation the viewer applies to the page image, in degrees. Word location<br/>
+        /// coordinates are relative to the unrotated image and do not include this rotation.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("imageRotationAngle", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ImageRotationAngle { get; set; }
+
+        /// <summary>
+        /// The words of the page, in reading order, each with its text offsets and its location<br/>
+        /// on the page image.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("wordLocations", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<PageWordLocation> WordLocations { get; set; }
+
+    }
+
+    /// <summary>
+    /// One word of a page, with its position in the page text and its rectangle on the page image.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PageWordLocation
+    {
+        /// <summary>
+        /// The text of the word.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("word", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Word { get; set; }
+
+        /// <summary>
+        /// The offset of the first character of the word in the page text.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TextStart { get; set; }
+
+        /// <summary>
+        /// The offset one past the last character of the word in the page text<br/>
+        /// (textEnd - textStart is the word length).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TextEnd { get; set; }
+
+        /// <summary>
+        /// The X coordinate of the left edge of the word, in page image pixels.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("x", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int X { get; set; }
+
+        /// <summary>
+        /// The Y coordinate of the top edge of the word, in page image pixels.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("y", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Y { get; set; }
+
+        /// <summary>
+        /// The width of the word, in page image pixels. This can be 0 for a degenerate location<br/>
+        /// produced by OCR.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("width", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Width { get; set; }
+
+        /// <summary>
+        /// The height of the word, in page image pixels. This can be 0 for a degenerate location<br/>
+        /// produced by OCR.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("height", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Height { get; set; }
+
+    }
+
+    /// <summary>
     /// Request body for listing dynamic field values for an entry.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -40252,8 +40893,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetAccessControlRequest
     {
         /// <summary>
-        /// The explicit access control entries to apply. An empty array clears all explicit ACEs.<br/>
-        /// Entries flagged isInherited = true are rejected.
+        /// The explicit access control entries to apply. Required. An empty array clears all<br/>
+        /// explicit ACEs. Entries flagged isInherited = true are rejected.<br/>
+        /// Deliberately left without a default: this is a full replace, so an omitted or null<br/>
+        /// member has to stay distinguishable from an explicitly sent empty array.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<AccessControlEntry> Entries { get; set; }
@@ -42063,7 +42706,10 @@ namespace Laserfiche.Repository.Api.Client
     public partial class SetTemplateAccessControlRequest
     {
         /// <summary>
-        /// The access control entries to set. Replaces the template's entire explicit ACL.
+        /// The access control entries to set. Required. Replaces the template's entire explicit<br/>
+        /// ACL; an empty array clears it.<br/>
+        /// Deliberately left without a default: this is a full replace, so an omitted or null<br/>
+        /// member has to stay distinguishable from an explicitly sent empty array.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("entries", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IList<TemplateAccessControlEntry> Entries { get; set; }

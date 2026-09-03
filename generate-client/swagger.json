@@ -3715,7 +3715,7 @@
           "AccessControl"
         ],
         "summary": "Replaces the access control list (ACL) of a field definition.",
-        "description": "- Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace: the supplied entries replace the field's entire explicit ACL. Inherited entries are not accepted (field ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the field's ChangePermissions right.\n- The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.\n- Required OAuth scope: repository.Write",
         "operationId": "SetFieldAccessControl",
         "parameters": [
           {
@@ -4050,7 +4050,7 @@
           "AccessControl"
         ],
         "summary": "Replaces the default access control list assigned to newly created field definitions.",
-        "description": "- Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace: the supplied entries replace the entire default field ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.\n- Required OAuth scope: repository.Write",
         "operationId": "SetDefaultFieldAccessControl",
         "parameters": [
           {
@@ -6555,7 +6555,7 @@
           "Entries"
         ],
         "summary": "Updates the field values assigned to an entry.",
-        "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.\n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.\n- Required OAuth scope: repository.Write",
+        "description": "- Update the field values assigned to an entry.\n- Provide the new field values to assign to the entry, and remove/reset all previously assigned field values.\n- This is an overwrite action. The request body must include all desired field values, including any existing field values that should remain assigned to the entry. Field values that are not included in the request will be deleted from the entry. If the field value that is not included is part of a template, it will still be assigned (as required by the template), but its value will be reset.\n- The fields property is required. A request body that does not include it is rejected with a 400; send an empty list to clear every field value.\n- Required OAuth scope: repository.Write",
         "operationId": "SetFields",
         "parameters": [
           {
@@ -9972,6 +9972,306 @@
         }
       }
     },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/Text/Offsets": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the page text covered by a rectangle drawn on a page image.",
+        "description": "- Returns the offsets, in the text of the page, of the words the rectangle covers, together with that text.\n- All four rectangle parameters are required. Omitting one is a 400 rather than a coordinate of 0, because a rectangle silently moved to the edge of the page answers with a span the caller never asked about.\n- Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another, and the image is the one described by imageWidth, imageHeight, imageXResolution, imageYResolution and imageRotationAngle on ListPageInfos. The page's own rotation is not applied, so a viewer that displays the page rotated or scaled must convert its own coordinates back to this space before calling.\n- A word counts as covered when the rectangle contains it, is contained by it, or overlaps it by at least 2 pixels and half of both its width and its height. A rectangle that lies entirely within the word on one axis - a thin stripe drawn through it - only has to clear the half threshold on the other axis. This is the same rule the Laserfiche viewers apply to a hand-drawn selection.\n- textStart is the offset of the first character of the span and textEnd is the offset one past its last character, so textEnd - textStart is the length of the span. This is the convention Web Access stores in text-linked highlight and redaction annotations, so the values can be written straight back to CreateAnnotation. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks.\n- The span runs from the first covered word to the last, so text can include characters that lie between covered words. text always equals the page text from textStart to textEnd.\n- When the rectangle covers no words, hasTextSpan is false, textStart and textEnd are both -1, text is empty and wordCount is 0. -1 is also the value the annotation surface uses for a span that is not linked to text.\n- Returns 404 when the page has no text or no word locations. A page has word locations when hasWordLocations is true on ListPageInfos; text is generated by GenerateText.\n- Returns 400 when the page carries more word locations than the server supports, which is 20,000 by default.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetPageTextOffsets",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "description": "The 1-based page number of the page to search.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "x",
+            "in": "query",
+            "required": true,
+            "description": "The X coordinate of the left edge of the rectangle, in page image pixels. Required, and may not be negative.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "required": true,
+            "description": "The Y coordinate of the top edge of the rectangle, in page image pixels. Required, and may not be negative.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "required": true,
+            "description": "The width of the rectangle, in page image pixels. Required, and must be at least 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 6
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "required": true,
+            "description": "The height of the rectangle, in page image pixels. Required, and must be at least 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the page text span covered by the specified rectangle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageTextOffsetsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages/{pageNumber}/WordLocations": {
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns the words of a page, each with its position in the page text and its location on the page image.",
+        "description": "- Returns every word of the page, in reading order, with its text offsets and its rectangle on the page image. This is the data the hasWordLocations and locationsDataSize properties on ListPageInfos advertise.\n- The whole page is returned in one response; there is no paging, because the order of the words is itself part of the data. A page carrying more word locations than the server supports, which is 20,000 by default, is refused with a 400 rather than truncated.\n- Coordinates are in raw page image pixels, with the origin at the top left of the unrotated image: X is measured in imageXResolution columns and Y in imageYResolution rows, which can differ from one another. The envelope repeats the page image geometry so the coordinates can be interpreted without a second call, and imageRotationAngle is reported but not applied - overlay code must apply its own rotation and scaling.\n- textStart is the offset of the first character of the word and textEnd is the offset one past its last character, so textEnd - textStart is the length of the word. Offsets are UTF-16 code unit indices into the text returned by GetPageText, including its line breaks, and use the same convention as the text-linked highlight and redaction annotations.\n- To find the rectangles that render a text span [spanStart, spanEnd), such as the span stored on an existing highlight or redaction annotation, take every entry where word.textStart < spanEnd and word.textEnd > spanStart, and use those entries' rectangles. Entries that overlap vertically are on the same line of text, so horizontally adjacent boxes within such a group can be merged into one box per line.\n- width and height can both be 0 for a location OCR produced for a word it could not place. Such entries are still returned, because the order of the words is what pairs them with the page text.\n- Returns 404 when the page has no text or no word locations. Word locations are produced by GenerateText along with the page text.\n- Required OAuth scope: repository.Read",
+        "operationId": "ListPageWordLocations",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "path",
+            "required": true,
+            "description": "The 1-based page number of the page to retrieve the word locations for.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the word locations for the specified page.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWordLocationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/GenerateText": {
       "post": {
         "tags": [
@@ -11494,7 +11794,7 @@
           "AccessControl"
         ],
         "summary": "Replaces the explicit access control list (ACL) for an entry.",
-        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace of the entry's explicit ACEs: the supplied entries become the entry's complete set of explicit ACEs, and any explicit ACE not included is removed. An empty entries array clears all explicit ACEs.\n- Inherited ACEs cannot be supplied (entries flagged isInherited = true are rejected with 400); inheritance is controlled via inheritParents. When inheritParents is omitted, the entry's current inheritance setting is preserved.\n- Each ACE identifies its trustee by trustee.sid or trustee.accountName (an account name is resolved to a SID server-side; the SID takes precedence when both are supplied). A trustee that needs both allowed and denied rights is expressed as two ACEs.\n- The repository session enforces the underlying permission: changing an ACL requires the ChangePermissions right on the entry, and a 403 is returned when it is lacking. The repository.Write OAuth scope is necessary but not sufficient.\n- Returns the entry's full ACL after the change.\n- The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.\n- Required OAuth scope: repository.Write",
         "operationId": "SetEntryAccessControl",
         "parameters": [
           {
@@ -16992,7 +17292,7 @@
           "AccessControl"
         ],
         "summary": "Replaces the access control list (ACL) of a template definition.",
-        "description": "- Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace: the supplied entries replace the template's entire explicit ACL. Inherited entries are not accepted (template ACEs are never inherited). Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given; an account name is resolved to a SID server-side).\n- The OAuth scope is coarse; the repository session enforces the real permission and returns 403 when the caller lacks the template's ChangePermissions right.\n- The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.\n- Required OAuth scope: repository.Write",
         "operationId": "SetTemplateAccessControl",
         "parameters": [
           {
@@ -17327,7 +17627,7 @@
           "AccessControl"
         ],
         "summary": "Replaces the default access control list assigned to newly created template definitions.",
-        "description": "- Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- Required OAuth scope: repository.Write",
+        "description": "- Full replace: the supplied entries replace the entire default template ACL. Inherited entries are not accepted. Address a trustee by trustee.sid or trustee.accountName (the SID wins when both are given).\n- The entries property is required. A request body that does not include it is rejected with a 400; send an empty array to clear the list.\n- Required OAuth scope: repository.Write",
         "operationId": "SetDefaultTemplateAccessControl",
         "parameters": [
           {
@@ -22199,7 +22499,7 @@
         "properties": {
           "entries": {
             "type": "array",
-            "description": "The access control entries to set. Replaces the field's entire explicit ACL.",
+            "description": "The access control entries to set. Required. Replaces the field's entire explicit\nACL; an empty array clears it.\nDeliberately left without a default: this is a full replace, so an omitted or null\nmember has to stay distinguishable from an explicitly sent empty array.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldAccessControlEntry"
@@ -23551,7 +23851,7 @@
         "properties": {
           "fields": {
             "type": "array",
-            "description": "The fields that will be assigned to the entry.",
+            "description": "The fields that will be assigned to the entry. Required.\nDeliberately left without a default: this is an overwrite action, so an omitted\nor null member has to stay distinguishable from an explicitly sent empty list,\nwhich clears every field value.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/FieldToUpdate"
@@ -24247,6 +24547,124 @@
           }
         }
       },
+      "PageTextOffsetsResponse": {
+        "type": "object",
+        "description": "The page text span covered by a rectangle drawn on a page image.",
+        "additionalProperties": false,
+        "properties": {
+          "hasTextSpan": {
+            "type": "boolean",
+            "description": "True when at least one word on the page intersects the requested rectangle.\nFalse when the rectangle covers no words, in which case textStart and textEnd are both -1."
+          },
+          "textStart": {
+            "type": "integer",
+            "description": "The offset of the first character of the covered span, or -1 when no word is covered.",
+            "format": "int32"
+          },
+          "textEnd": {
+            "type": "integer",
+            "description": "The offset one past the last character of the covered span (textEnd - textStart is the\nspan length), or -1 when no word is covered.",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "description": "The page text between textStart and textEnd, or an empty string when no word is covered.",
+            "nullable": true
+          },
+          "wordCount": {
+            "type": "integer",
+            "description": "The number of words the rectangle covers.",
+            "format": "int32"
+          }
+        }
+      },
+      "PageWordLocationsResponse": {
+        "type": "object",
+        "description": "The word locations of a page, together with the page image geometry the coordinates\nare expressed in.",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "description": "The 1-based page number.",
+            "format": "int32"
+          },
+          "imageWidth": {
+            "type": "integer",
+            "description": "The width of the page image, in pixels.",
+            "format": "int32"
+          },
+          "imageHeight": {
+            "type": "integer",
+            "description": "The height of the page image, in pixels.",
+            "format": "int32"
+          },
+          "imageXResolution": {
+            "type": "integer",
+            "description": "The horizontal resolution of the page image, in pixels per inch.",
+            "format": "int32"
+          },
+          "imageYResolution": {
+            "type": "integer",
+            "description": "The vertical resolution of the page image, in pixels per inch. This can differ from\nimageXResolution, in which case the coordinate space is anisotropic.",
+            "format": "int32"
+          },
+          "imageRotationAngle": {
+            "type": "integer",
+            "description": "The rotation the viewer applies to the page image, in degrees. Word location\ncoordinates are relative to the unrotated image and do not include this rotation.",
+            "format": "int32"
+          },
+          "wordLocations": {
+            "type": "array",
+            "description": "The words of the page, in reading order, each with its text offsets and its location\non the page image.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/PageWordLocation"
+            }
+          }
+        }
+      },
+      "PageWordLocation": {
+        "type": "object",
+        "description": "One word of a page, with its position in the page text and its rectangle on the page image.",
+        "additionalProperties": false,
+        "properties": {
+          "word": {
+            "type": "string",
+            "description": "The text of the word.",
+            "nullable": true
+          },
+          "textStart": {
+            "type": "integer",
+            "description": "The offset of the first character of the word in the page text.",
+            "format": "int32"
+          },
+          "textEnd": {
+            "type": "integer",
+            "description": "The offset one past the last character of the word in the page text\n(textEnd - textStart is the word length).",
+            "format": "int32"
+          },
+          "x": {
+            "type": "integer",
+            "description": "The X coordinate of the left edge of the word, in page image pixels.",
+            "format": "int32"
+          },
+          "y": {
+            "type": "integer",
+            "description": "The Y coordinate of the top edge of the word, in page image pixels.",
+            "format": "int32"
+          },
+          "width": {
+            "type": "integer",
+            "description": "The width of the word, in page image pixels. This can be 0 for a degenerate location\nproduced by OCR.",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "description": "The height of the word, in page image pixels. This can be 0 for a degenerate location\nproduced by OCR.",
+            "format": "int32"
+          }
+        }
+      },
       "ListDynamicFieldValuesRequest": {
         "type": "object",
         "description": "Request body for listing dynamic field values for an entry.",
@@ -24661,7 +25079,7 @@
         "properties": {
           "entries": {
             "type": "array",
-            "description": "The explicit access control entries to apply. An empty array clears all explicit ACEs.\nEntries flagged isInherited = true are rejected.",
+            "description": "The explicit access control entries to apply. Required. An empty array clears all\nexplicit ACEs. Entries flagged isInherited = true are rejected.\nDeliberately left without a default: this is a full replace, so an omitted or null\nmember has to stay distinguishable from an explicitly sent empty array.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AccessControlEntry"
@@ -26567,7 +26985,7 @@
         "properties": {
           "entries": {
             "type": "array",
-            "description": "The access control entries to set. Replaces the template's entire explicit ACL.",
+            "description": "The access control entries to set. Required. Replaces the template's entire explicit\nACL; an empty array clears it.\nDeliberately left without a default: this is a full replace, so an omitted or null\nmember has to stay distinguishable from an explicitly sent empty array.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TemplateAccessControlEntry"
