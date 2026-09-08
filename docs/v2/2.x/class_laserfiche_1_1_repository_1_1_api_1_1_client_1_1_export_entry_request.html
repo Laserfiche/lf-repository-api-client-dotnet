@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.0.4</span>
+                                &#160;<span id="projectnumber">2.5.0</span>
                             </div>
                         </td>
                     </tr>
@@ -106,6 +106,13 @@ $(document).ready(function(){initNavTree('class_laserfiche_1_1_repository_1_1_ap
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:aeff02e2d8275a5d780836df8a6fabd9b" id="r_aeff02e2d8275a5d780836df8a6fabd9b"><td class="memItemLeft" align="right" valign="top"><a id="aeff02e2d8275a5d780836df8a6fabd9b" name="aeff02e2d8275a5d780836df8a6fabd9b"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>AlternateEdocName</b><code> [get, set]</code></td></tr>
+<tr class="memdesc:aeff02e2d8275a5d780836df8a6fabd9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the alternate electronic document to export. Required when part=AlternateEdoc,<br  />
+ and rejected for every other part. 1 to 15 characters, each an ASCII letter, an ASCII<br  />
+ digit, or one of <code>!@#$%^&amp;amp;()-+={}[]_~</code>. Matched exactly, so a name differing only in<br  />
+ letter case is not found. Names reserved for internal use are also reported as not found. <br /></td></tr>
+<tr class="separator:aeff02e2d8275a5d780836df8a6fabd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bb18301ef63fcf2a7612ccb5839e180" id="r_a5bb18301ef63fcf2a7612ccb5839e180"><td class="memItemLeft" align="right" valign="top"><a id="a5bb18301ef63fcf2a7612ccb5839e180" name="a5bb18301ef63fcf2a7612ccb5839e180"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>AuditReasonComment</b> = &quot;&quot;<code> [get, set]</code></td></tr>
 <tr class="memdesc:a5bb18301ef63fcf2a7612ccb5839e180"><td class="mdescLeft">&#160;</td><td class="mdescRight">The comment for this audit event. <br /></td></tr>
@@ -120,7 +127,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>AuditReasonId</b><code
 <tr class="separator:af962b8c977a5ba709cb62ebc98fc3d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd46c6ba71697b9ba3f7fe52e600b612" id="r_afd46c6ba71697b9ba3f7fe52e600b612"><td class="memItemLeft" align="right" valign="top"><a id="afd46c6ba71697b9ba3f7fe52e600b612" name="afd46c6ba71697b9ba3f7fe52e600b612"></a>
 <a class="el" href="namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#a22a7c32b116dc33ba7a3e789330bb373">ExportEntryRequestPart</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Part</b><code> [get, set]</code></td></tr>
-<tr class="memdesc:afd46c6ba71697b9ba3f7fe52e600b612"><td class="mdescLeft">&#160;</td><td class="mdescRight">The part of the document to export. Options include: Image, Text, Edoc. <br /></td></tr>
+<tr class="memdesc:afd46c6ba71697b9ba3f7fe52e600b612"><td class="mdescLeft">&#160;</td><td class="mdescRight">The part of the document to export. Options include: Image, Text, Edoc,<br  />
+ AlternateEdoc. AlternateEdoc also requires alternateEdocName. <br /></td></tr>
 <tr class="separator:afd46c6ba71697b9ba3f7fe52e600b612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38a9abe77106161432b2d6254f55c152" id="r_a38a9abe77106161432b2d6254f55c152"><td class="memItemLeft" align="right" valign="top"><a id="a38a9abe77106161432b2d6254f55c152" name="a38a9abe77106161432b2d6254f55c152"></a>
 <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_export_entry_request_text_options.html">ExportEntryRequestTextOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><b>TextOptions</b><code> [get, set]</code></td></tr>

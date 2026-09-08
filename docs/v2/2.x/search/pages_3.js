@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['laserfiche_20repository_20api_20client_20net_0',['Laserfiche Repository API Client .NET',['../index.html',1,'']]]
+  ['instructions_0',['AI assistant instructions',['../md__a_g_e_n_t_s.html',1,'']]]
 ];

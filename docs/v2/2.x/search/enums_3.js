@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['fieldformat_0',['FieldFormat',['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#a5f05b2e7f2944a6b3e8fec73da1f4a55',1,'Laserfiche::Repository::Api::Client']]],
-  ['fieldtype_1',['FieldType',['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#aa01498a3ceb2fa74dc9536c16caef1da',1,'Laserfiche::Repository::Api::Client']]]
+  ['dispositionstate_0',['DispositionState',['../namespace_laserfiche_1_1_repository_1_1_api_1_1_client.html#a6576f432939f38086822686e33bbe036',1,'Laserfiche::Repository::Api::Client']]]
 ];
