@@ -272,7 +272,10 @@ jobs:
     environment: github-pages
     needs: [ publish-production-package ]
     permissions:
-      contents: write   # peter-evans/create-pull-request needs to push the docs branch
+      contents: write        # peter-evans/create-pull-request needs to push the docs branch
+      pull-requests: write   # ...and to open the PR from it. Without this the branch pushes fine
+                             # and only the PR creation fails, with "Resource not accessible by
+                             # integration" -- see run 34260376406 on the 2.5.0 release.
     steps:
     - name: Set DOCUMENTATION_VERSION environment variable
       run: |
