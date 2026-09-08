@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.5.0
+
+### Features
+
+- Add alternate electronic document methods: `ListAlternateEdocsAsync`, `GetAlternateEdocInfoAsync`, `WriteAlternateEdocAsync`, `DeleteAlternateEdocAsync`, `WriteAltEdocUploadedPartsAsync`. A document can carry named binary streams alongside its primary electronic document, and these travel with it through copy, move, versioning and briefcase operations. A write is create-or-replace and repeating an identical request is safe; the primary electronic document, the pages and the metadata are never touched. Names are at most 15 characters from a restricted ASCII set and are matched exactly, with no case folding — a write whose name differs from an existing stream's only in letter case is refused with 409 rather than performed.
+- `ExportEntryRequestPart.AlternateEdoc` and `AlternateEdocName` on both export request types, so a written stream can be read back. `ExportEntryAsync` and `StartExportEntryAsync` return the named stream through the same audited export flow used for the electronic document. Without these an alternate electronic document could be written through this client but never downloaded.
+- `Document.HasAlternateEdocs` reports whether a document carries any, so a caller can tell whether to enumerate without a second call. It is populated on a single-entry `GetEntryAsync` and is `null` in listing results, where the value is not determined — `null` means "not determined here" rather than "none".
+- Add page word location methods: `GetPageTextOffsetsAsync` returns the page text span covered by a rectangle drawn on a page image, as UTF-16 offsets plus the text; `ListPageWordLocationsAsync` returns every word of a page in reading order with its text offsets and its rectangle, plus the geometry those coordinates use. Coordinates are raw unrotated image pixels, not display pixels, and `textEnd` is exclusive — the same convention text-linked annotations use, so a span read here writes straight back.
+- New types: request/response DTOs for the above, including `AlternateEdocInfoResponse`, `AlternateEdocInfoCollectionResponse`, `PageTextOffsetsResponse`, `PageWordLocation` and `PageWordLocationsResponse`.
+
+### Breaking changes
+
+- **Overwrite requests must carry their collection member.** `SetTagsAsync`, `SetLinksAsync`, `SetFieldsAsync` and the five access-control setters (`SetEntryAccessControlAsync`, `SetFieldAccessControlAsync`, `SetDefaultFieldAccessControlAsync`, `SetTemplateAccessControlAsync`, `SetDefaultTemplateAccessControlAsync`) are overwrite operations. A request whose body does not carry the collection member at all is now rejected with a `400` naming the expected member, instead of being applied as an empty collection. Previously such a request succeeded and cleared everything the entry, field or template had — and on the access-control routes, dropping an explicit Deny could let a trustee fall back to an inherited Allow, so a malformed request could widen access. Sending the member with an explicit empty collection is unchanged and remains the documented way to clear.
+
+### Behavior changes
+
+- `ExportEntryAsync` and `StartExportEntryAsync` now answer `400` up front, instead of failing inside the export service with a `500`, when `Part` is `Image` on a document whose pages carry no image data, or `Text` on a document whose pages carry no text. Text is extracted asynchronously after an import, so a document may briefly have pages and no text — poll `hasText` on `ListPageInfosAsync` and retry once it reports true. A document with no pages at all is not rejected here.
+- The download link an export returns is single-use: the first GET returns the file and any later GET of the same link answers `404`, with no problem details, because that response comes from the download service rather than from the API. Save the content on the first download and start a new export if a download has to be retried.
+- `MoveTemplateFieldAsync` returns `400` naming the valid range, instead of `500` with a raw framework message, when `newPosition` is past the last field.
+- Operations the repository server does not support (error code `7002`) return `400` instead of `500`. The refusal is deterministic — the same request can never succeed against that server — so a `500` invited retries that could not help. The error code is unchanged, so the condition remains identifiable.
+- `CreateAnnotationAsync` and `UpdateAnnotationAsync` responses now report the stored values for `PageNumber`, `Creator`, `CreatedTime` and `LastModifiedTime`. Previously the create response reported page 1 regardless of the page annotated, a null creator and `0001-01-01T00:00:00Z` timestamps, and the update response reported the pre-update `LastModifiedTime`. Stored data was never affected.
+- `CreateTemplateAsync` is now all-or-nothing when given initial `fields`: if any initial field assignment fails the template is deleted before the error is returned, so a retry no longer fails with `409 Object already exists` for a name that was never successfully used.
+
 ## 2.4.0
 
 ### Features
