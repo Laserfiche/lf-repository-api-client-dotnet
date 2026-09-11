@@ -10560,6 +10560,15 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
+        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
+        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
+        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
+        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
+        ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
+        ///   problem details because it comes from the download service rather than from this API.<br/>
+        ///   Save the content on the first download, and start a new export if a download has to be<br/>
+        ///   retried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -10660,11 +10669,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Export an entry.<br/>
         /// - The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.<br/>
+        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
+        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
+        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
+        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
+        ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
+        ///   comes from the download service rather than from this API. Save the content on the first<br/>
+        ///   download, and start a new export if a download has to be retried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Export was successful. Returned a link to download the exported entry.</returns>
+        /// <returns>Export was successful. Returned a single-use link to download the exported entry. A second download of the same link returns 404.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -10903,7 +10920,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.<br/>
         /// - If neither imageFiles nor textPages is provided, one empty page is created.<br/>
         /// - If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.<br/>
-        /// - generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.<br/>
+        /// - generateText requests text extraction from the document's electronic document part; it does not OCR the image pages being written. When generateText is true and imageFiles are present, textPages is ignored because generated text would overwrite any provided text.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -11166,17 +11183,17 @@ namespace Laserfiche.Repository.Api.Client
         Task<PageWordLocationsResponse> ListPageWordLocationsAsync(ListPageWordLocationsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Triggers server-side text generation for a document.
+        /// Requests text extraction from a document's electronic document part.
         /// </summary>
         /// <remarks>
-        /// - Triggers server-side text generation for the specified document.<br/>
-        /// - For documents with image pages, this performs OCR to generate searchable text.<br/>
-        /// - For documents with an electronic document part (e.g., PDF), this extracts embedded text.<br/>
+        /// - Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).<br/>
+        /// - Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.<br/>
+        /// - A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully triggered text generation for the document. Returned the updated entry.</returns>
+        /// <returns>Successfully queued the text generation request for the document. Returned the entry. Text is produced asynchronously, so it may not be present in this response.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
@@ -11727,6 +11744,15 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
+        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
+        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
+        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
+        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
+        ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
+        ///   problem details because it comes from the download service rather than from this API.<br/>
+        ///   Save the content on the first download, and start a new export if a download has to be<br/>
+        ///   retried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -12970,11 +12996,19 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Export an entry.<br/>
         /// - The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.<br/>
+        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
+        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
+        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
+        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
+        ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
+        ///   comes from the download service rather than from this API. Save the content on the first<br/>
+        ///   download, and start a new export if a download has to be retried.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Export was successful. Returned a link to download the exported entry.</returns>
+        /// <returns>Export was successful. Returned a single-use link to download the exported entry. A second download of the same link returns 404.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<ExportEntryResponse> ExportEntryAsync(ExportEntryParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -16194,7 +16228,7 @@ namespace Laserfiche.Repository.Api.Client
         /// - The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.<br/>
         /// - If neither imageFiles nor textPages is provided, one empty page is created.<br/>
         /// - If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.<br/>
-        /// - generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.<br/>
+        /// - generateText requests text extraction from the document's electronic document part; it does not OCR the image pages being written. When generateText is true and imageFiles are present, textPages is ignored because generated text would overwrite any provided text.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -19406,17 +19440,17 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Triggers server-side text generation for a document.
+        /// Requests text extraction from a document's electronic document part.
         /// </summary>
         /// <remarks>
-        /// - Triggers server-side text generation for the specified document.<br/>
-        /// - For documents with image pages, this performs OCR to generate searchable text.<br/>
-        /// - For documents with an electronic document part (e.g., PDF), this extracts embedded text.<br/>
+        /// - Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).<br/>
+        /// - Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.<br/>
+        /// - A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Successfully triggered text generation for the document. Returned the updated entry.</returns>
+        /// <returns>Successfully queued the text generation request for the document. Returned the entry. Text is produced asynchronously, so it may not be present in this response.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async Task<Entry> GenerateTextAsync(GenerateTextParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -21760,7 +21794,7 @@ namespace Laserfiche.Repository.Api.Client
         public ImportEntryRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -22203,7 +22237,7 @@ namespace Laserfiche.Repository.Api.Client
         public UpdateDocumentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -22295,14 +22329,14 @@ namespace Laserfiche.Repository.Api.Client
         public int? PageNumber { get; set; } = null;
 
         /// <summary>
-        /// If true, triggers server-side text generation (OCR) for image pages. Default is false.
+        /// If true, requests text extraction from the document's electronic document part after the pages are written. This does not OCR the image pages being written. Default is false.
         /// </summary>
         public bool? GenerateText { get; set; } = null;
 
         public PagesContentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -22325,14 +22359,14 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text generation (OCR) after creating pages. Default is false.
+        /// If true, requests text extraction from the document's electronic document part after the pages are created. This does not OCR the image pages being written. Default is false.
         /// </summary>
         public bool? GenerateText { get; set; } = null;
 
         public PagesContentRequest Request { get; set; } = null;
 
         /// <summary>
-        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).
+        /// Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.
         /// </summary>
         public IEnumerable<FileParameter> ImageFiles { get; set; } = null;
 
@@ -22403,7 +22437,7 @@ namespace Laserfiche.Repository.Api.Client
         public int PageNumber { get; set; }
 
         /// <summary>
-        /// If true, triggers server-side text generation (OCR) after writing. Default is false.
+        /// If true, requests text extraction from the document's electronic document part after writing. This does not OCR the page image being written. Default is false.
         /// </summary>
         public bool? GenerateText { get; set; } = null;
 
@@ -39537,7 +39571,9 @@ namespace Laserfiche.Repository.Api.Client
         public string VolumeName { get; set; }
 
         /// <summary>
-        /// Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.<br/>
+        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
+        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
+        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
         /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -40115,7 +40151,9 @@ namespace Laserfiche.Repository.Api.Client
         public ImportEntryRequestPdfOptions PdfOptions { get; set; }
 
         /// <summary>
-        /// Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.<br/>
+        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
+        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
+        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
         /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -42215,7 +42253,10 @@ namespace Laserfiche.Repository.Api.Client
         public int EntryId { get; set; }
 
         /// <summary>
-        /// The URI which can be used (via api call) to access the result(s) of the associated task.
+        /// The URI which can be used (via api call) to access the result(s) of the associated task.<br/>
+        /// For an export task this is a download link for the exported file and it is single-use: the<br/>
+        /// first GET returns the file and any later GET of the same link answers 404. For every other<br/>
+        /// task type it is an ordinary API route and may be called as often as needed.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Uri { get; set; }

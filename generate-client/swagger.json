@@ -4711,7 +4711,7 @@
           "Entries"
         ],
         "summary": "Starts an asynchronous export task to export an entry.",
-        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- Required OAuth scope: repository.Read",
+        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The download link the completed task carries in result.uri is **single-use**. The first\n  GET returns the file; any later GET of the same link answers 404, and that 404 carries no\n  problem details because it comes from the download service rather than from this API.\n  Save the content on the first download, and start a new export if a download has to be\n  retried.\n- Required OAuth scope: repository.Read",
         "operationId": "StartExportEntry",
         "parameters": [
           {
@@ -5562,7 +5562,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -5663,7 +5663,7 @@
           "Entries"
         ],
         "summary": "Exports an entry.",
-        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- Required OAuth scope: repository.Read",
+        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The returned download link is **single-use**. The first GET returns the file; any later\n  GET of the same link answers 404, and that 404 carries no problem details because it\n  comes from the download service rather than from this API. Save the content on the first\n  download, and start a new export if a download has to be retried.\n- Required OAuth scope: repository.Read",
         "operationId": "ExportEntry",
         "parameters": [
           {
@@ -5770,7 +5770,7 @@
         },
         "responses": {
           "200": {
-            "description": "Export was successful. Returned a link to download the exported entry.",
+            "description": "Export was successful. Returned a single-use link to download the exported entry. A second download of the same link returns 404.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7518,7 +7518,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -8005,7 +8005,7 @@
           "Entries"
         ],
         "summary": "Creates new pages in a document.",
-        "description": "- Creates one or more new pages in the specified document.\n- Optional imageFiles form field: up to 10 image files, 100 MB aggregate.\n- Optional textPages array in the request JSON part. Aggregate size must be below 100 MB.\n- The two arrays are paired by index: page[i] gets imageFiles[i] and textPages[i].\n- The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.\n- If neither imageFiles nor textPages is provided, one empty page is created.\n- If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.\n- generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.\n- Required OAuth scope: repository.Write",
+        "description": "- Creates one or more new pages in the specified document.\n- Optional imageFiles form field: up to 10 image files, 100 MB aggregate.\n- Optional textPages array in the request JSON part. Aggregate size must be below 100 MB.\n- The two arrays are paired by index: page[i] gets imageFiles[i] and textPages[i].\n- The number of pages created is max(imageFiles.Count, textPages.Count). If one array is shorter, pages beyond its length are created without that part.\n- If neither imageFiles nor textPages is provided, one empty page is created.\n- If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.\n- generateText requests text extraction from the document's electronic document part; it does not OCR the image pages being written. When generateText is true and imageFiles are present, textPages is ignored because generated text would overwrite any provided text.\n- Required OAuth scope: repository.Write",
         "operationId": "CreatePages",
         "parameters": [
           {
@@ -8043,7 +8043,7 @@
           {
             "name": "generateText",
             "in": "query",
-            "description": "If true, triggers server-side text generation (OCR) for image pages. Default is false.",
+            "description": "If true, requests text extraction from the document's electronic document part after the pages are written. This does not OCR the image pages being written. Default is false.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -8062,7 +8062,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -8188,7 +8188,7 @@
           {
             "name": "generateText",
             "in": "query",
-            "description": "If true, triggers server-side text generation (OCR) after creating pages. Default is false.",
+            "description": "If true, requests text extraction from the document's electronic document part after the pages are created. This does not OCR the image pages being written. Default is false.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -8207,7 +8207,7 @@
                   },
                   "imageFiles": {
                     "type": "array",
-                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending. Set generateImagePagesText=false in the request body to skip OCR for these pages (default: true).",
+                    "description": "Optional. Up to 10 image files (100 MB aggregate) that are appended as image pages. Use PUT /Document/Pages to replace existing pages instead of appending.",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -8499,7 +8499,7 @@
           {
             "name": "generateText",
             "in": "query",
-            "description": "If true, triggers server-side text generation (OCR) after writing. Default is false.",
+            "description": "If true, requests text extraction from the document's electronic document part after writing. This does not OCR the page image being written. Default is false.",
             "schema": {
               "type": "boolean",
               "default": false
@@ -10277,8 +10277,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Triggers server-side text generation for a document.",
-        "description": "- Triggers server-side text generation for the specified document.\n- For documents with image pages, this performs OCR to generate searchable text.\n- For documents with an electronic document part (e.g., PDF), this extracts embedded text.\n- Required OAuth scope: repository.Write",
+        "summary": "Requests text extraction from a document's electronic document part.",
+        "description": "- Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).\n- Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.\n- A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.\n- Required OAuth scope: repository.Write",
         "operationId": "GenerateText",
         "parameters": [
           {
@@ -10305,7 +10305,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully triggered text generation for the document. Returned the updated entry.",
+            "description": "Successfully queued the text generation request for the document. Returned the entry. Text is produced asynchronously, so it may not be present in this response.",
             "content": {
               "application/json": {
                 "schema": {
@@ -23670,7 +23670,7 @@
           },
           "generateImagePagesText": {
             "type": "boolean",
-            "description": "Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
+            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
             "default": true
           },
           "folderPath": {
@@ -24228,7 +24228,7 @@
           },
           "generateImagePagesText": {
             "type": "boolean",
-            "description": "Whether to generate searchable text (OCR) for image pages added via `imageFiles`. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
+            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
             "default": true
           }
         }
@@ -26513,7 +26513,7 @@
           },
           "uri": {
             "type": "string",
-            "description": "The URI which can be used (via api call) to access the result(s) of the associated task.",
+            "description": "The URI which can be used (via api call) to access the result(s) of the associated task.\nFor an export task this is a download link for the exported file and it is single-use: the\nfirst GET returns the file and any later GET of the same link answers 404. For every other\ntask type it is an ordinary API route and may be called as often as needed.",
             "nullable": true
           }
         }
