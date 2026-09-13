@@ -11183,12 +11183,15 @@ namespace Laserfiche.Repository.Api.Client
         Task<PageWordLocationsResponse> ListPageWordLocationsAsync(ListPageWordLocationsParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Requests text extraction from a document's electronic document part.
+        /// Requests text generation for a document.
         /// </summary>
         /// <remarks>
         /// - Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).<br/>
-        /// - Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.<br/>
-        /// - A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.<br/>
+        /// - By default this does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by a call with ocrImagePages left at false.<br/>
+        /// - Set ocrImagePages to true to also queue an OCR job for the document's image pages. Only pages that have an image and no text are included: a page that already has text is left alone, because OCR replaces a page's text and would discard text that was written through the API or edited by a user.<br/>
+        /// - To re-OCR a page that already has text, clear the page text first with WritePage, then call this endpoint with ocrImagePages set to true.<br/>
+        /// - Returns 423 when another user holds a lock on the document, and 400 when another user has it checked out. OCR writes its results back under an exclusive lock, so a document that is held cannot be processed.<br/>
+        /// - A success response means the request was queued for processing, not that text now exists. Extraction and OCR run asynchronously, and the returned entry reflects the document as of the response. Poll hasText on ListPageInfos to observe OCR results; a large document may stay queued for some time.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -19440,12 +19443,15 @@ namespace Laserfiche.Repository.Api.Client
         }
 
         /// <summary>
-        /// Requests text extraction from a document's electronic document part.
+        /// Requests text generation for a document.
         /// </summary>
         /// <remarks>
         /// - Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).<br/>
-        /// - Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.<br/>
-        /// - A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.<br/>
+        /// - By default this does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by a call with ocrImagePages left at false.<br/>
+        /// - Set ocrImagePages to true to also queue an OCR job for the document's image pages. Only pages that have an image and no text are included: a page that already has text is left alone, because OCR replaces a page's text and would discard text that was written through the API or edited by a user.<br/>
+        /// - To re-OCR a page that already has text, clear the page text first with WritePage, then call this endpoint with ocrImagePages set to true.<br/>
+        /// - Returns 423 when another user holds a lock on the document, and 400 when another user has it checked out. OCR writes its results back under an exclusive lock, so a document that is held cannot be processed.<br/>
+        /// - A success response means the request was queued for processing, not that text now exists. Extraction and OCR run asynchronously, and the returned entry reflects the document as of the response. Poll hasText on ListPageInfos to observe OCR results; a large document may stay queued for some time.<br/>
         /// - Required OAuth scope: repository.Write
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -19459,6 +19465,7 @@ namespace Laserfiche.Repository.Api.Client
 
             var repositoryId = parameters.RepositoryId;
             var entryId = parameters.EntryId;
+            var ocrImagePages = parameters.OcrImagePages;
 
             if (repositoryId == null)
                 throw new ArgumentNullException("parameters.RepositoryId");
@@ -19473,6 +19480,12 @@ namespace Laserfiche.Repository.Api.Client
                     urlBuilder_.Append("/Entries/");
                     urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/Document/GenerateText");
+                    urlBuilder_.Append('?');
+                    if (ocrImagePages != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("ocrImagePages")).Append('=').Append(Uri.EscapeDataString(ConvertToString(ocrImagePages, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
             var client_ = _httpClient;
             bool[] disposeClient_ = new bool[]{ false };
@@ -19557,6 +19570,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -22826,6 +22849,11 @@ namespace Laserfiche.Repository.Api.Client
         /// The requested document ID.
         /// </summary>
         public int EntryId { get; set; }
+
+        /// <summary>
+        /// Set to true to also queue OCR for the document's image pages that have no text. Defaults to false.
+        /// </summary>
+        public bool? OcrImagePages { get; set; } = null;
 
     }
 

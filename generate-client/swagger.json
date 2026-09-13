@@ -10277,8 +10277,8 @@
         "tags": [
           "Entries"
         ],
-        "summary": "Requests text extraction from a document's electronic document part.",
-        "description": "- Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).\n- Does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by this call. Text for image pages is produced by the repository's automatic OCR when a page image is written, not by this endpoint.\n- A success response means the request was queued for processing, not that text now exists. Extraction runs asynchronously, and the returned entry reflects the document as of the response.\n- Required OAuth scope: repository.Write",
+        "summary": "Requests text generation for a document.",
+        "description": "- Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).\n- By default this does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by a call with ocrImagePages left at false.\n- Set ocrImagePages to true to also queue an OCR job for the document's image pages. Only pages that have an image and no text are included: a page that already has text is left alone, because OCR replaces a page's text and would discard text that was written through the API or edited by a user.\n- To re-OCR a page that already has text, clear the page text first with WritePage, then call this endpoint with ocrImagePages set to true.\n- Returns 423 when another user holds a lock on the document, and 400 when another user has it checked out. OCR writes its results back under an exclusive lock, so a document that is held cannot be processed.\n- A success response means the request was queued for processing, not that text now exists. Extraction and OCR run asynchronously, and the returned entry reflects the document as of the response. Poll hasText on ListPageInfos to observe OCR results; a large document may stay queued for some time.\n- Required OAuth scope: repository.Write",
         "operationId": "GenerateText",
         "parameters": [
           {
@@ -10301,6 +10301,16 @@
               "format": "int32"
             },
             "x-position": 2
+          },
+          {
+            "name": "ocrImagePages",
+            "in": "query",
+            "description": "Set to true to also queue OCR for the document's image pages that have no text. Defaults to false.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 3
           }
         ],
         "responses": {
@@ -10346,6 +10356,16 @@
           },
           "404": {
             "description": "Entry with requested ID was not found.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "The document is locked by another user. OCR writes its results back under an exclusive lock, so a locked document cannot be processed.",
             "content": {
               "application/problem+json": {
                 "schema": {
