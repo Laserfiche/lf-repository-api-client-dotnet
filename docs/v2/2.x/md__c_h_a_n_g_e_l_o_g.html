@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.5.0</span>
+                                &#160;<span id="projectnumber">2.6.0</span>
                             </div>
                         </td>
                     </tr>
@@ -99,8 +99,26 @@ $(document).ready(function(){initNavTree('md__c_h_a_n_g_e_l_o_g.html',''); initR
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md1"></a> </p>
 <h1><a class="anchor" id="autotoc_md2"></a>
-2.5.0</h1>
+2.6.0</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
+Features</h2>
+<ul>
+<li><code>GenerateTextAsync</code> can now OCR a document's image pages. <code>GenerateTextParameters.OcrImagePages</code> defaults to <code>false</code>, which is exactly the previous behavior: the call queues text extraction from the document's electronic document part and does nothing for a document whose pages are images. Set it to <code>true</code> and the call also queues an OCR job for the document's image pages. Only pages that have an image and <b>no</b> text are included — a page that already has text is left alone, because OCR replaces a page's text and would otherwise discard text written through <code>WritePageAsync</code> or edited by a user. To re-OCR such a page, clear its text with <code>WritePageAsync</code> first. The response is unchanged: <code>200</code> with the entry means the request was <b>queued</b>, not that text exists; poll <code>hasText</code> on <code>ListPageInfosAsync</code> to observe the result. With <code>OcrImagePages</code> true the call answers <code>423</code> when another user holds a lock on the document and <code>400</code> when another user has it checked out, because OCR writes its results back under an exclusive lock; neither occurs when it is <code>false</code>. At most <b>511</b> pages can be queued in one request, and a document with more image pages that have no text returns <code>400</code>. The repository's automatic OCR setting does not apply — a request made through this client is explicit and its OCR is queued whether that setting is on or off.</li>
+<li><code>GenerateTextParameters.OcrLanguageOverride</code> names the language the OCR engine should use for a single request, as an RFC 4646 code such as <code>en</code>. It takes precedence over the document's own language and the repository's configured default; omit it and those apply in that order, falling back to <code>en</code>. It is <b>transient</b> — the document's stored language is not written, so the repository's automatic OCR keeps using it. Only valid when <code>OcrImagePages</code> is <code>true</code>; supplying it otherwise returns <code>400</code>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Behavior changes</h2>
+<ul>
+<li>A resolved OCR language that is present but not a usable code now returns <code>400</code> before anything is queued, whether supplied in <code>OcrLanguageOverride</code> or inherited from the document or the repository. Previously such a request was accepted with <code>200</code>, the job was queued, and the OCR engine then failed per page and produced no text, with nothing reported back to the caller — so the <code>200</code> never meant anything had happened. The absence of a language is unchanged and still resolves to <code>en</code>. This condition is only reachable through <code>OcrImagePages</code>, which is new in this release, so no previously released behavior changes.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Documentation</h2>
+<ul>
+<li>The <code>GenerateTextAsync</code> description no longer claims to OCR a document's image pages. It never did: it queues text extraction from the electronic document part, so on a document whose pages are images there was nothing to extract and the call produced no text. The wording now describes what the call actually does and states that a <code>200</code> means the request was queued rather than that text exists. The <code>generateText</code> flag on the page-write and import methods carried the same claim and is corrected to match. Behavior and status codes are unchanged.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md6"></a>
+2.5.0</h1>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Features</h2>
 <ul>
 <li>Add alternate electronic document methods: <code>ListAlternateEdocsAsync</code>, <code>GetAlternateEdocInfoAsync</code>, <code>WriteAlternateEdocAsync</code>, <code>DeleteAlternateEdocAsync</code>, <code>WriteAltEdocUploadedPartsAsync</code>. A document can carry named binary streams alongside its primary electronic document, and these travel with it through copy, move, versioning and briefcase operations. A write is create-or-replace and repeating an identical request is safe; the primary electronic document, the pages and the metadata are never touched. Names are at most 15 characters from a restricted ASCII set and are matched exactly, with no case folding — a write whose name differs from an existing stream's only in letter case is refused with 409 rather than performed.</li>
@@ -109,12 +127,12 @@ Features</h2>
 <li>Add page word location methods: <code>GetPageTextOffsetsAsync</code> returns the page text span covered by a rectangle drawn on a page image, as UTF-16 offsets plus the text; <code>ListPageWordLocationsAsync</code> returns every word of a page in reading order with its text offsets and its rectangle, plus the geometry those coordinates use. Coordinates are raw unrotated image pixels, not display pixels, and <code>textEnd</code> is exclusive — the same convention text-linked annotations use, so a span read here writes straight back.</li>
 <li>New types: request/response DTOs for the above, including <code>AlternateEdocInfoResponse</code>, <code>AlternateEdocInfoCollectionResponse</code>, <code>PageTextOffsetsResponse</code>, <code>PageWordLocation</code> and <code>PageWordLocationsResponse</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Breaking changes</h2>
 <ul>
 <li><b>Overwrite requests must carry their collection member.</b> <code>SetTagsAsync</code>, <code>SetLinksAsync</code>, <code>SetFieldsAsync</code> and the five access-control setters (<code>SetEntryAccessControlAsync</code>, <code>SetFieldAccessControlAsync</code>, <code>SetDefaultFieldAccessControlAsync</code>, <code>SetTemplateAccessControlAsync</code>, <code>SetDefaultTemplateAccessControlAsync</code>) are overwrite operations. A request whose body does not carry the collection member at all is now rejected with a <code>400</code> naming the expected member, instead of being applied as an empty collection. Previously such a request succeeded and cleared everything the entry, field or template had — and on the access-control routes, dropping an explicit Deny could let a trustee fall back to an inherited Allow, so a malformed request could widen access. Sending the member with an explicit empty collection is unchanged and remains the documented way to clear.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Behavior changes</h2>
 <ul>
 <li><code>ExportEntryAsync</code> and <code>StartExportEntryAsync</code> now answer <code>400</code> up front, instead of failing inside the export service with a <code>500</code>, when <code>Part</code> is <code>Image</code> on a document whose pages carry no image data, or <code>Text</code> on a document whose pages carry no text. Text is extracted asynchronously after an import, so a document may briefly have pages and no text — poll <code>hasText</code> on <code>ListPageInfosAsync</code> and retry once it reports true. A document with no pages at all is not rejected here.</li>
@@ -124,16 +142,16 @@ Behavior changes</h2>
 <li><code>CreateAnnotationAsync</code> and <code>UpdateAnnotationAsync</code> responses now report the stored values for <code>PageNumber</code>, <code>Creator</code>, <code>CreatedTime</code> and <code>LastModifiedTime</code>. Previously the create response reported page 1 regardless of the page annotated, a null creator and <code>0001-01-01T00:00:00Z</code> timestamps, and the update response reported the pre-update <code>LastModifiedTime</code>. Stored data was never affected.</li>
 <li><code>CreateTemplateAsync</code> is now all-or-nothing when given initial <code>fields</code>: if any initial field assignment fails the template is deleted before the error is returned, so a retry no longer fails with <code>409 Object already exists</code> for a name that was never successfully used.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 2.4.0</h1>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Features</h2>
 <ul>
 <li>Add optional <code>FolderPath</code> request property and <code>AutoCreateFolderPath</code> query parameter to <code>ImportEntryAsync</code>, <code>StartImportUploadedPartsAsync</code>, and <code>CreateEntryAsync</code>. When <code>AutoCreateFolderPath</code> is <code>true</code>, any missing folders in <code>FolderPath</code> are created; when <code>false</code> (default), a missing folder returns 404.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 2.3.0</h1>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Features</h2>
 <ul>
 <li>Add Records Management methods, exposed on the new <code>RecordsManagementClient</code>: <code>GetEntryRecordsManagementPropertiesAsync</code>, <code>UpdateEntryRecordsManagementPropertiesAsync</code>, <code>GetEligibleRecordsAsync</code>, <code>GetIndependentRecordsAsync</code>, <code>GetAltRetentionEventsAsync</code>, <code>GetRecordSeriesPropertiesAsync</code>, <code>UpdateRecordSeriesPropertiesAsync</code>, <code>SetRecordEventAsync</code>, <code>RemoveRecordEventAsync</code>, <code>CreateRecordSeriesAsync</code>.</li>
@@ -142,9 +160,9 @@ Features</h2>
 <li>Add Annotations &amp; Stamps methods, exposed on the new <code>AnnotationsClient</code> and <code>StampsClient</code>: <code>ListDocumentAnnotationsAsync</code>, <code>ListPageAnnotationsAsync</code>, <code>CreateAnnotationAsync</code>, <code>GetAnnotationAsync</code>, <code>UpdateAnnotationAsync</code>, <code>DeleteAnnotationAsync</code>, <code>GetAnnotationAttachmentAsync</code>, <code>UploadAnnotationAttachmentAsync</code>, <code>UploadAnnotationImageAsync</code>, annotation reasons (<code>ListAnnotationReasonsAsync</code>, <code>CreateAnnotationReasonAsync</code>, <code>UpdateAnnotationReasonAsync</code>, <code>DeleteAnnotationReasonAsync</code>), and stamps (<code>ListStampsAsync</code>, <code>CreateStampAsync</code>, <code>GetStampAsync</code>, <code>UpdateStampAsync</code>, <code>DeleteStampAsync</code>, <code>GetStampImageAsync</code>).</li>
 <li>New types: request/response DTOs for all of the above, plus discriminated-union types <code>Annotation</code> (14 subtypes: Highlight, Redaction, Strikeout, Underline, Note, Attachment, TextBox, Bitmap, Line, Rectangle, Polyline, Callout, Stamp, FreeHand) and <code>RecordsManagementProperties</code> (<code>RecordProperties</code>/<code>RecordFolderProperties</code>).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 2.2.0</h1>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Features</h2>
 <ul>
 <li>Add field definition administration methods: <code>CreateFieldDefinitionAsync</code>, <code>UpdateFieldDefinitionAsync</code>, <code>DeleteFieldDefinitionAsync</code>, <code>GetFieldListValuesAsync</code>, <code>ReplaceFieldListValuesAsync</code>, <code>GetFieldContainingTemplatesAsync</code>, <code>GetFieldAssignedEntryCountAsync</code>, <code>GetFieldPropertiesAsync</code>, <code>UpdateFieldPropertiesAsync</code>.</li>
@@ -153,9 +171,9 @@ Features</h2>
 <li><code>GetEntryAsync</code> accepts opt-in <code>includeChildInfo</code> (folder entries — immediate-children counts: <code>hasChildren</code>, <code>childCount</code>, <code>folderCount</code>, <code>documentCount</code>, <code>shortcutCount</code>) and <code>includeTotalSize</code> (document entries — full stored size including page data, distinct from <code>electronicDocumentSize</code>). Both are omitted from the response unless requested.</li>
 <li>New types: request/response DTOs for field and template definition administration, and the <code>childInfo</code> object on the entry response.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 2.1.0</h1>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Features</h2>
 <ul>
 <li>Add electronic document methods: <code>UpdateDocumentAsync</code>, <code>UpdateDocumentUploadedPartsAsync</code>.</li>
@@ -163,54 +181,54 @@ Features</h2>
 <li><code>ListPageInfosAsync</code> returns a paginated <code>PageInfoCollectionResponse</code> (OData envelope with <code>Value</code>/<code>OdataCount</code>/<code>OdataNextLink</code>); accepts <code>Top</code>, <code>Select</code>, <code>Count</code>, <code>PageRange</code>, and the <code>Prefer: odata.maxpagesize=...</code> header. Default page size 150; clients follow <code>OdataNextLink</code> for further pages.</li>
 <li>Add check-in/check-out and lock methods: <code>LockDocumentAsync</code>, <code>UnlockDocumentAsync</code>, <code>GetDocumentLockInfoAsync</code>, <code>PutUnderVersionControlAsync</code>, <code>CheckOutDocumentAsync</code>, <code>CheckInDocumentAsync</code>, <code>UndoCheckOutAsync</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Breaking changes</h2>
 <ul>
 <li><p class="startli"><code>ListDynamicFieldValuesAsync</code> return type narrowed from <code>Task&lt;IDictionary&lt;string, ICollection&lt;string&gt;&gt;&gt;</code> to <code>Task&lt;IDictionary&lt;string, IList&lt;string&gt;&gt;&gt;</code>. Compile-time only — runtime type is unchanged (<code>List&lt;T&gt;</code> underneath). Callers explicitly declaring the dictionary value as <code>ICollection&lt;string&gt;</code> need to update the declaration; callers using <code>var</code> or iterating with <code>foreach</code> are unaffected.</p>
 <p class="startli"><b>Why kept:</b> The narrowing is a side effect of adding <code>"responseArrayType": "IList"</code> to <code>nswag.json</code>, which standardizes the entire client surface on <code>IList&lt;T&gt;</code> for collection returns (preserving the codebase convention against NSwag 14.4's new <code>ICollection&lt;T&gt;</code> default). Reverting just this method would require either (a) dropping the setting and regressing every newly added method to <code>ICollection&lt;T&gt;</code> — inconsistent with the indexable assertion style used across the integration tests — or (b) carving a per-method exception in the liquid template, which is maintenance burden for an API where the runtime type is already <code>List&lt;T&gt;</code>. The benign compile-only break for one method is the better trade-off.</p>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 2.0.4</h1>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 Fixes</h2>
 <ul>
 <li>Fix retry when locked</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 2.0.3</h1>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 Features</h2>
 <ul>
 <li>Add additional methods that retry when entry is locked.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 2.0.2</h1>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Features</h2>
 <ul>
 <li>Add retry when entry is locked. Defaults to 30 seconds. Allows setting by <code>EntriesClient.RetryIfLockedForTimeout</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 2.0.1</h1>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Features</h2>
 <ul>
 <li>Add ability to update HttpClient timeout. Increased default timeout to 180 seconds.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Remove DateTime JSON serialization. Date/DateTime strings will not be converted by client.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 2.0.0</h1>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Features</h2>
 <ul>
 <li>Add <code>StartTestTaskAsync</code> to <code>TasksClient</code> to allow starting a "mock" operation with a specified duration and outcome.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update major version of package to <code>2.0.0</code> to avoid confusion with existing package <code>Laserfiche.Repository.Api.Client</code><ul>
@@ -219,24 +237,24 @@ Chore &amp; Maintenance</h2>
 </li>
 <li>Re-generated client using updated swagger.json to include any changes from the last year</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 1.0.2</h1>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update version of <code>Laserfiche.Api.Client.Core</code> to <code>1.3.6</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 1.0.1</h1>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Chore &amp; Maintenance</h2>
 <ul>
 <li>Update the versions of <code>Moq</code>, <code>dotenv</code>, <code>MSTest.TestAdapter</code>, and <code>MSTest.TestFramework</code> due to dependency vulnerabilities</li>
 <li>Update version of <code>Laserfiche.Api.Client.Core</code> to <code>1.3.4</code></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 1.0.0</h1>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 Features</h2>
 <ul>
 <li>Initial release of the <a href="https://www.nuget.org/packages/Laserfiche.Repository.Api.Client.V2">Laserfiche.Repository.Api.Client.V2</a> NuGet package. See the <a href="https://github.com/Laserfiche/lf-repository-api-client-dotnet/blob/HEAD/MIGRATION_GUIDE.md">migration guide</a> for details on upgrading from the <a href="https://www.nuget.org/packages/Laserfiche.Repository.Api.Client">Laserfiche.Repository.Api.Client</a> NuGet package. </li>
