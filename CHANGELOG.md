@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.6.0
+
+### Features
+
+- `GenerateTextAsync` can now OCR a document's image pages. `GenerateTextParameters.OcrImagePages` defaults to `false`, which is exactly the previous behavior: the call queues text extraction from the document's electronic document part and does nothing for a document whose pages are images. Set it to `true` and the call also queues an OCR job for the document's image pages. Only pages that have an image and **no** text are included — a page that already has text is left alone, because OCR replaces a page's text and would otherwise discard text written through `WritePageAsync` or edited by a user. To re-OCR such a page, clear its text with `WritePageAsync` first. The response is unchanged: `200` with the entry means the request was **queued**, not that text exists; poll `hasText` on `ListPageInfosAsync` to observe the result. With `OcrImagePages` true the call answers `423` when another user holds a lock on the document and `400` when another user has it checked out, because OCR writes its results back under an exclusive lock; neither occurs when it is `false`. At most **511** pages can be queued in one request, and a document with more image pages that have no text returns `400`. The repository's automatic OCR setting does not apply — a request made through this client is explicit and its OCR is queued whether that setting is on or off.
+- `GenerateTextParameters.OcrLanguageOverride` names the language the OCR engine should use for a single request, as an RFC 4646 code such as `en`. It takes precedence over the document's own language and the repository's configured default; omit it and those apply in that order, falling back to `en`. It is **transient** — the document's stored language is not written, so the repository's automatic OCR keeps using it. Only valid when `OcrImagePages` is `true`; supplying it otherwise returns `400`.
+
+### Behavior changes
+
+- A resolved OCR language that is present but not a usable code now returns `400` before anything is queued, whether supplied in `OcrLanguageOverride` or inherited from the document or the repository. Previously such a request was accepted with `200`, the job was queued, and the OCR engine then failed per page and produced no text, with nothing reported back to the caller — so the `200` never meant anything had happened. The absence of a language is unchanged and still resolves to `en`. This condition is only reachable through `OcrImagePages`, which is new in this release, so no previously released behavior changes.
+
+### Documentation
+
+- The `GenerateTextAsync` description no longer claims to OCR a document's image pages. It never did: it queues text extraction from the electronic document part, so on a document whose pages are images there was nothing to extract and the call produced no text. The wording now describes what the call actually does and states that a `200` means the request was queued rather than that text exists. The `generateText` flag on the page-write and import methods carried the same claim and is corrected to match. Behavior and status codes are unchanged.
+
 ## 2.5.0
 
 ### Features
