@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.5.0</span>
+                                &#160;<span id="projectnumber">2.6.0</span>
                             </div>
                         </td>
                     </tr>
@@ -110,6 +110,14 @@ Properties</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>EntryId</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a0c365e009af63c221efbd8c8575c6415"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested document ID. <br /></td></tr>
 <tr class="separator:a0c365e009af63c221efbd8c8575c6415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7951354b29a9d7776f21e7eb2ccc057f" id="r_a7951354b29a9d7776f21e7eb2ccc057f"><td class="memItemLeft" align="right" valign="top"><a id="a7951354b29a9d7776f21e7eb2ccc057f" name="a7951354b29a9d7776f21e7eb2ccc057f"></a>
+bool?&#160;</td><td class="memItemRight" valign="bottom"><b>OcrImagePages</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:a7951354b29a9d7776f21e7eb2ccc057f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to true to also queue OCR for the document's image pages that have no text. Defaults to false. <br /></td></tr>
+<tr class="separator:a7951354b29a9d7776f21e7eb2ccc057f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786b86eab49686f884c48c68bb45738b" id="r_a786b86eab49686f884c48c68bb45738b"><td class="memItemLeft" align="right" valign="top"><a id="a786b86eab49686f884c48c68bb45738b" name="a786b86eab49686f884c48c68bb45738b"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>OcrLanguageOverride</b> = null<code> [get, set]</code></td></tr>
+<tr class="memdesc:a786b86eab49686f884c48c68bb45738b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional. The language the OCR engine should use for this request, as an RFC 4646 code such as en. If omitted, the language is the document's own, then the repository's configured default, then en. Supplying it takes precedence over all three, for this request only: the document's stored language is unchanged, so the repository's automatic OCR keeps using it. A value that is not a usable language code is rejected with 400 rather than queued, whether supplied here or inherited. Only valid when ocrImagePages is true. <br /></td></tr>
+<tr class="separator:a786b86eab49686f884c48c68bb45738b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d81153a40382184f092bf01912c72" id="r_a972d81153a40382184f092bf01912c72"><td class="memItemLeft" align="right" valign="top"><a id="a972d81153a40382184f092bf01912c72" name="a972d81153a40382184f092bf01912c72"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>RepositoryId</b><code> [get, set]</code></td></tr>
 <tr class="memdesc:a972d81153a40382184f092bf01912c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested repository ID. <br /></td></tr>

@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.5.0</span>
+                                &#160;<span id="projectnumber">2.6.0</span>
                             </div>
                         </td>
                     </tr>
@@ -112,7 +112,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>EntryId</b><code> [get
 <tr class="separator:a0c365e009af63c221efbd8c8575c6415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3fad9c5e5c69c7661a7c4e32df41c27" id="r_ab3fad9c5e5c69c7661a7c4e32df41c27"><td class="memItemLeft" align="right" valign="top"><a id="ab3fad9c5e5c69c7661a7c4e32df41c27" name="ab3fad9c5e5c69c7661a7c4e32df41c27"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>Uri</b><code> [get, set]</code></td></tr>
-<tr class="memdesc:ab3fad9c5e5c69c7661a7c4e32df41c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The URI which can be used (via api call) to access the result(s) of the associated task. <br /></td></tr>
+<tr class="memdesc:ab3fad9c5e5c69c7661a7c4e32df41c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The URI which can be used (via api call) to access the result(s) of the associated task.<br  />
+ For an export task this is a download link for the exported file and it is single-use: the<br  />
+ first GET returns the file and any later GET of the same link answers 404. For every other<br  />
+ task type it is an ordinary API route and may be called as often as needed. <br /></td></tr>
 <tr class="separator:ab3fad9c5e5c69c7661a7c4e32df41c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

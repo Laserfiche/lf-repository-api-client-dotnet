@@ -31,7 +31,7 @@
                         <td id="projectlogo"><img alt="Logo" src="logo.png" /></td>
                         <td id="projectalign" style="padding-left: 0.5em;">
                             <div id="projectname">Laserfiche.Repository.Api.Client.V2
-                                &#160;<span id="projectnumber">2.5.0</span>
+                                &#160;<span id="projectnumber">2.6.0</span>
                             </div>
                         </td>
                     </tr>
@@ -150,7 +150,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a41ed1368ddd918280fa7fa358c71c9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports an entry.  <br /></td></tr>
 <tr class="separator:a41ed1368ddd918280fa7fa358c71c9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd987fefb126a6ac976f73543444d2f8" id="r_afd987fefb126a6ac976f73543444d2f8"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_entry.html">Entry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#afd987fefb126a6ac976f73543444d2f8">GenerateTextAsync</a> (<a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_generate_text_parameters.html">GenerateTextParameters</a> parameters, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
-<tr class="memdesc:afd987fefb126a6ac976f73543444d2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers server-side text generation for a document.  <br /></td></tr>
+<tr class="memdesc:afd987fefb126a6ac976f73543444d2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests text generation for a document.  <br /></td></tr>
 <tr class="separator:afd987fefb126a6ac976f73543444d2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abad2bc380310fcced4489f6d9dc478b7" id="r_abad2bc380310fcced4489f6d9dc478b7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_alternate_edoc_info_response.html">AlternateEdocInfoResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_i_entries_client.html#abad2bc380310fcced4489f6d9dc478b7">GetAlternateEdocInfoAsync</a> (<a class="el" href="class_laserfiche_1_1_repository_1_1_api_1_1_client_1_1_get_alternate_edoc_info_parameters.html">GetAlternateEdocInfoParameters</a> parameters, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
 <tr class="memdesc:abad2bc380310fcced4489f6d9dc478b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the metadata of a single alternate electronic document.  <br /></td></tr>
@@ -687,7 +687,7 @@ Properties</h2></td></tr>
 </li>
 <li>If pageNumber is omitted, pages are appended to the end. If provided, pages are inserted at that 1-based position; existing pages shift down.<br  />
 </li>
-<li>generateText triggers OCR when imageFiles are provided. When generateText is true and imageFiles are present, textPages is ignored because OCR-generated text would overwrite any provided text.<br  />
+<li>generateText requests text extraction from the document's electronic document part; it does not OCR the image pages being written. When generateText is true and imageFiles are present, textPages is ignored because generated text would overwrite any provided text.<br  />
 </li>
 <li>Required OAuth scope: repository.Write </li>
 </ul>
@@ -905,6 +905,16 @@ Properties</h2></td></tr>
 </li>
 <li>The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.<br  />
 </li>
+<li>When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br  />
+ than started and failed later. Text is extracted asynchronously after an import, so a<br  />
+ document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br  />
+ it reports true. A document with no pages at all is not rejected here.<br  />
+</li>
+<li>The returned download link is <b>single-use</b>. The first GET returns the file; any later<br  />
+ GET of the same link answers 404, and that 404 carries no problem details because it<br  />
+ comes from the download service rather than from this API. Save the content on the first<br  />
+ download, and start a new export if a download has to be retried.<br  />
+</li>
 <li>Required OAuth scope: repository.Read </li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -914,7 +924,7 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Export was successful. Returned a link to download the exported entry.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Export was successful. Returned a single-use link to download the exported entry. A second download of the same link returns 404.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">ApiException</td><td>A server side error occurred.</td></tr>
@@ -952,13 +962,23 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Triggers server-side text generation for a document. </p>
+<p>Requests text generation for a document. </p>
 <ul>
-<li>Triggers server-side text generation for the specified document.<br  />
+<li>Queues a request for the repository's text provider to extract text from the document's electronic document part (e.g., a PDF or Office file).<br  />
 </li>
-<li>For documents with image pages, this performs OCR to generate searchable text.<br  />
+<li>By default this does not OCR image pages. A document whose pages are images and that has no electronic document part is unchanged by a call with ocrImagePages left at false; text for those pages is otherwise produced by the repository's automatic OCR when a page image is written, not by this endpoint.<br  />
 </li>
-<li>For documents with an electronic document part (e.g., PDF), this extracts embedded text.<br  />
+<li>Set ocrImagePages to true to also queue an OCR job for the document's image pages. Only pages that have an image and no text are included: a page that already has text is left alone, because OCR replaces a page's text and would discard text that was written through the API or edited by a user. To re-OCR such a page, clear its text first with WritePage, then call this endpoint with ocrImagePages set to true.<br  />
+</li>
+<li>When ocrImagePages is true, returns 423 if another user holds a lock on the document and 400 if another user has it checked out; OCR writes its results back under an exclusive lock, so a document that is held cannot be processed. Neither status occurs when ocrImagePages is false.<br  />
+</li>
+<li>When ocrImagePages is true, at most 511 pages can be queued in one request. A document with more than 511 image pages that have no text returns 400; that is the number of pages the OCR pipeline accepts in a single job.<br  />
+</li>
+<li>When ocrImagePages is true, the optional ocrLanguageOverride names the language for that OCR job, taking precedence over the document's own language and the repository's configured default; omit it and those apply in that order, falling back to en. It is not stored on the document, so it changes this request only. Supplying it with ocrImagePages false returns 400, and so does a language that is not a usable code &ndash; including one inherited from the document or the repository, because a job queued with an unusable language is accepted and then produces no text with nothing reported back.<br  />
+</li>
+<li>The repository's automatic OCR setting does not apply to this endpoint. That setting governs only the OCR the repository performs on its own when a page image is written; a request made here is explicit, and its OCR is queued whether that setting is on or off.<br  />
+</li>
+<li>A success response means the request was queued for processing, not that text now exists. Extraction and OCR run asynchronously, and the returned entry reflects the document as of the response. Poll hasText on ListPageInfos to observe OCR results; a large document may stay queued for some time.<br  />
 </li>
 <li>Required OAuth scope: repository.Write </li>
 </ul>
@@ -969,7 +989,7 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Successfully triggered text generation for the document. Returned the updated entry.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Successfully queued the text generation request for the document. Returned the entry. Text is produced asynchronously, so it may not be present in this response.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">ApiException</td><td>A server side error occurred.</td></tr>
@@ -3123,6 +3143,17 @@ Properties</h2></td></tr>
 <li>Starts an asynchronous export operation to export an entry.<br  />
 </li>
 <li>If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br  />
+</li>
+<li>When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br  />
+ than started and failed later. Text is extracted asynchronously after an import, so a<br  />
+ document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br  />
+ it reports true. A document with no pages at all is not rejected here.<br  />
+</li>
+<li>The download link the completed task carries in result.uri is <b>single-use</b>. The first<br  />
+ GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br  />
+ problem details because it comes from the download service rather than from this API.<br  />
+ Save the content on the first download, and start a new export if a download has to be<br  />
+ retried.<br  />
 </li>
 <li>Required OAuth scope: repository.Read </li>
 </ul>
