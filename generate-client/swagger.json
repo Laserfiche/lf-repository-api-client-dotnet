@@ -4711,7 +4711,7 @@
           "Entries"
         ],
         "summary": "Starts an asynchronous export task to export an entry.",
-        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The download link the completed task carries in result.uri is **single-use**. The first\n  GET returns the file; any later GET of the same link answers 404, and that 404 carries no\n  problem details because it comes from the download service rather than from this API.\n  Save the content on the first download, and start a new export if a download has to be\n  retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed\n  (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
+        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The download link the completed task carries in result.uri is **single-use**. The first\n  GET returns the file; any later GET of the same link answers 404, and that 404 carries no\n  problem details because it comes from the download service rather than from this API.\n  Save the content on the first download, and start a new export if a download has to be\n  retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  with another format and an encoding, the export task fails with 400). When it is omitted, pages are written\n  uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many\n  times the stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
         "operationId": "StartExportEntry",
         "parameters": [
           {
@@ -5663,7 +5663,7 @@
           "Entries"
         ],
         "summary": "Exports an entry.",
-        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The returned download link is **single-use**. The first GET returns the file; any later\n  GET of the same link answers 404, and that 404 carries no problem details because it\n  comes from the download service rather than from this API. Save the content on the first\n  download, and start a new export if a download has to be retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed\n  (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
+        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The returned download link is **single-use**. The first GET returns the file; any later\n  GET of the same link answers 404, and that 404 carries no problem details because it\n  comes from the download service rather than from this API. Save the content on the first\n  download, and start a new export if a download has to be retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed\n  (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the\n  stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
         "operationId": "ExportEntry",
         "parameters": [
           {
@@ -23048,7 +23048,7 @@
             ]
           },
           "encoding": {
-            "description": "The compression of the pages in the exported TIFF. Options include: AsStored, Uncompressed, G4, LZW and JPEG. Only\napplicable when format is MultiPageTIFF or SinglePageTIFF; any other format with an encoding is rejected. When\nomitted, pages are written uncompressed (black-and-white pages as G4), which can make the export many times larger\nthan the stored document. AsStored copies the stored pages without decoding them and keeps the export about the size\nof the stored pages; JPEG pages are then written as JPEG inside the TIFF (compression 7), which some older TIFF\nreaders do not support.",
+            "description": "The compression of the pages in the exported TIFF. Options include: AsStored, Uncompressed, G4, LZW and JPEG. Only\napplicable when format is MultiPageTIFF or SinglePageTIFF; any other format with an encoding is rejected. When\nomitted, pages are written uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can make the export many times larger\nthan the stored document. AsStored copies the stored pages without decoding them and keeps the export about the size\nof the stored pages; JPEG pages are then written as JPEG inside the TIFF (compression 7), which some older TIFF\nreaders do not support.",
             "nullable": true,
             "oneOf": [
               {
@@ -23708,6 +23708,63 @@
           }
         }
       },
+      "ImportEntryRequest": {
+        "type": "object",
+        "description": "Request body for importing an entry.",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name for the imported entry."
+          },
+          "autoRename": {
+            "type": "boolean",
+            "description": "Indicates if the entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.",
+            "default": false
+          },
+          "pdfOptions": {
+            "description": "The options applied when importing a PDF.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImportEntryRequestPdfOptions"
+              }
+            ]
+          },
+          "importAsElectronicDocument": {
+            "type": "boolean",
+            "description": "Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.\nThis flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.\nFor any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.",
+            "default": false
+          },
+          "metadata": {
+            "description": "The metadata that will be assigned to the entry.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImportEntryRequestMetadata"
+              }
+            ]
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
+            "nullable": true
+          },
+          "generateImagePagesText": {
+            "type": "boolean",
+            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
+            "default": true
+          },
+          "folderPath": {
+            "type": "string",
+            "description": "An optional folder path, relative to the entry given in the route, that the document is imported into.\nBoth `/` and `\\` are accepted as separators. When any folder in this path does not exist, set the\n`autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request\nfails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).",
+            "nullable": true
+          }
+        }
+      },
       "ExportEntryResponse": {
         "type": "object",
         "description": "Response containing a link to download the exported entry.",
@@ -24226,6 +24283,41 @@
           "Shortcut"
         ]
       },
+      "UpdateDocumentRequest": {
+        "type": "object",
+        "description": "Request body for updating a document's electronic document and/or metadata.",
+        "additionalProperties": false,
+        "properties": {
+          "importAsElectronicDocument": {
+            "type": "boolean",
+            "description": "Whether a provided file is imported as the electronic document (true) or as image pages (false). Default: false.\nThis flag is only effective when `file` is provided and its extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.\nFor any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.",
+            "default": false
+          },
+          "metadata": {
+            "description": "The metadata that will be assigned to the entry. Metadata updates are additive \u2014 only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImportEntryRequestMetadata"
+              }
+            ]
+          },
+          "pdfOptions": {
+            "description": "The options applied when importing a PDF.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImportEntryRequestPdfOptions"
+              }
+            ]
+          },
+          "generateImagePagesText": {
+            "type": "boolean",
+            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
+            "default": true
+          }
+        }
+      },
       "UpdateDocumentUploadedPartsRequest": {
         "type": "object",
         "description": "Request body for updating a document's electronic document and/or metadata from previously uploaded parts.",
@@ -24269,6 +24361,34 @@
                 "$ref": "#/components/schemas/ImportEntryRequestPdfOptions"
               }
             ]
+          }
+        }
+      },
+      "PagesContentRequest": {
+        "type": "object",
+        "description": "Request body for POST /Document/Pages (CreatePages) and PUT /Document/Pages (ReplacePages).\nCarries the textual page content alongside any uploaded image files.",
+        "additionalProperties": false,
+        "properties": {
+          "textPages": {
+            "type": "array",
+            "description": "Optional text content for new pages. Paired by index with imageFiles \u2014\npage[i] gets textPages[i] and imageFiles[i]. If one array is shorter,\nthe corresponding pages are created without that part.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "WritePageTextRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text content for the page."
           }
         }
       },
@@ -27232,126 +27352,6 @@
             "type": "string",
             "description": "The new data string. null leaves it unchanged.",
             "nullable": true
-          }
-        }
-      },
-      "ImportEntryRequest": {
-        "type": "object",
-        "description": "Request body for importing an entry.",
-        "additionalProperties": false,
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name for the imported entry."
-          },
-          "autoRename": {
-            "type": "boolean",
-            "description": "Indicates if the entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.",
-            "default": false
-          },
-          "pdfOptions": {
-            "description": "The options applied when importing a PDF.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ImportEntryRequestPdfOptions"
-              }
-            ]
-          },
-          "importAsElectronicDocument": {
-            "type": "boolean",
-            "description": "Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.\nThis flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.\nFor any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.",
-            "default": false
-          },
-          "metadata": {
-            "description": "The metadata that will be assigned to the entry.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ImportEntryRequestMetadata"
-              }
-            ]
-          },
-          "volumeName": {
-            "type": "string",
-            "description": "The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.",
-            "nullable": true
-          },
-          "generateImagePagesText": {
-            "type": "boolean",
-            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
-            "default": true
-          },
-          "folderPath": {
-            "type": "string",
-            "description": "An optional folder path, relative to the entry given in the route, that the document is imported into.\nBoth `/` and `\\` are accepted as separators. When any folder in this path does not exist, set the\n`autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request\nfails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateDocumentRequest": {
-        "type": "object",
-        "description": "Request body for updating a document's electronic document and/or metadata.",
-        "additionalProperties": false,
-        "properties": {
-          "importAsElectronicDocument": {
-            "type": "boolean",
-            "description": "Whether a provided file is imported as the electronic document (true) or as image pages (false). Default: false.\nThis flag is only effective when `file` is provided and its extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.\nFor any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.",
-            "default": false
-          },
-          "metadata": {
-            "description": "The metadata that will be assigned to the entry. Metadata updates are additive \u2014 only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ImportEntryRequestMetadata"
-              }
-            ]
-          },
-          "pdfOptions": {
-            "description": "The options applied when importing a PDF.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ImportEntryRequestPdfOptions"
-              }
-            ]
-          },
-          "generateImagePagesText": {
-            "type": "boolean",
-            "description": "Whether to request text extraction from the document's electronic document part after the image pages in\n`imageFiles` are added. This does not OCR those image pages \u2014 image pages are OCR'd by the repository's\nautomatic OCR when the page image is written, regardless of this setting. Default: true.\nDoes not affect pages generated from `file` \u2014 use `pdfOptions.generateText` for those.",
-            "default": true
-          }
-        }
-      },
-      "PagesContentRequest": {
-        "type": "object",
-        "description": "Request body for POST /Document/Pages (CreatePages) and PUT /Document/Pages (ReplacePages).\nCarries the textual page content alongside any uploaded image files.",
-        "additionalProperties": false,
-        "properties": {
-          "textPages": {
-            "type": "array",
-            "description": "Optional text content for new pages. Paired by index with imageFiles \u2014\npage[i] gets textPages[i] and imageFiles[i]. If one array is shorter,\nthe corresponding pages are created without that part.",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "WritePageTextRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "text"
-        ],
-        "properties": {
-          "text": {
-            "type": "string",
-            "description": "The text content for the page."
           }
         }
       }

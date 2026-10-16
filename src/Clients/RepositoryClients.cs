@@ -10570,8 +10570,9 @@ namespace Laserfiche.Repository.Api.Client
         ///   Save the content on the first download, and start a new export if a download has to be<br/>
         ///   retried.<br/>
         /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
-        ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
-        ///   (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages<br/>
+        ///   with another format and an encoding, the export task fails with 400). When it is omitted, pages are written<br/>
+        ///   uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many<br/>
+        ///   times the stored size. AsStored copies the stored pages<br/>
         ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
         ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
@@ -10684,7 +10685,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   download, and start a new export if a download has to be retried.<br/>
         /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
         ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
-        ///   (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages<br/>
+        ///   (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the<br/>
+        ///   stored size. AsStored copies the stored pages<br/>
         ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
         ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
@@ -11769,8 +11771,9 @@ namespace Laserfiche.Repository.Api.Client
         ///   Save the content on the first download, and start a new export if a download has to be<br/>
         ///   retried.<br/>
         /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
-        ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
-        ///   (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages<br/>
+        ///   with another format and an encoding, the export task fails with 400). When it is omitted, pages are written<br/>
+        ///   uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many<br/>
+        ///   times the stored size. AsStored copies the stored pages<br/>
         ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
         ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
@@ -13026,7 +13029,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   download, and start a new export if a download has to be retried.<br/>
         /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
         ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
-        ///   (black-and-white pages as G4), which can be many times the stored size. AsStored copies the stored pages<br/>
+        ///   (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the<br/>
+        ///   stored size. AsStored copies the stored pages<br/>
         ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
         ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
@@ -39010,7 +39014,7 @@ namespace Laserfiche.Repository.Api.Client
         /// <summary>
         /// The compression of the pages in the exported TIFF. Options include: AsStored, Uncompressed, G4, LZW and JPEG. Only<br/>
         /// applicable when format is MultiPageTIFF or SinglePageTIFF; any other format with an encoding is rejected. When<br/>
-        /// omitted, pages are written uncompressed (black-and-white pages as G4), which can make the export many times larger<br/>
+        /// omitted, pages are written uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can make the export many times larger<br/>
         /// than the stored document. AsStored copies the stored pages without decoding them and keeps the export about the size<br/>
         /// of the stored pages; JPEG pages are then written as JPEG inside the TIFF (compression 7), which some older TIFF<br/>
         /// readers do not support.
@@ -39625,6 +39629,70 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// Request body for importing an entry.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ImportEntryRequest
+    {
+        /// <summary>
+        /// The name for the imported entry.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Indicates if the entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("autoRename", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool AutoRename { get; set; } = false;
+
+        /// <summary>
+        /// The options applied when importing a PDF.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+        /// <summary>
+        /// Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VolumeName { get; set; }
+
+        /// <summary>
+        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
+        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
+        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
+        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = true;
+
+        /// <summary>
+        /// An optional folder path, relative to the entry given in the route, that the document is imported into.<br/>
+        /// Both `/` and `\` are accepted as separators. When any folder in this path does not exist, set the<br/>
+        /// `autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request<br/>
+        /// fails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FolderPath { get; set; }
+
+    }
+
+    /// <summary>
     /// Response containing a link to download the exported entry.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -40159,6 +40227,43 @@ namespace Laserfiche.Repository.Api.Client
     }
 
     /// <summary>
+    /// Request body for updating a document's electronic document and/or metadata.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateDocumentRequest
+    {
+        /// <summary>
+        /// Whether a provided file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
+        /// This flag is only effective when `file` is provided and its extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
+        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ImportAsElectronicDocument { get; set; } = false;
+
+        /// <summary>
+        /// The metadata that will be assigned to the entry. Metadata updates are additive — only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestMetadata Metadata { get; set; }
+
+        /// <summary>
+        /// The options applied when importing a PDF.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+        /// <summary>
+        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
+        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
+        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
+        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GenerateImagePagesText { get; set; } = true;
+
+    }
+
+    /// <summary>
     /// Request body for updating a document's electronic document and/or metadata from previously uploaded parts.
     /// </summary>
     [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -40195,6 +40300,34 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ImportEntryRequestPdfOptions PdfOptions { get; set; }
+
+    }
+
+    /// <summary>
+    /// Request body for POST /Document/Pages (CreatePages) and PUT /Document/Pages (ReplacePages).<br/>
+    /// Carries the textual page content alongside any uploaded image files.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PagesContentRequest
+    {
+        /// <summary>
+        /// Optional text content for new pages. Paired by index with imageFiles —<br/>
+        /// page[i] gets textPages[i] and imageFiles[i]. If one array is shorter,<br/>
+        /// the corresponding pages are created without that part.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("textPages", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IList<string> TextPages { get; set; }
+
+    }
+
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WritePageTextRequest
+    {
+        /// <summary>
+        /// The text content for the page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
+        public string Text { get; set; }
 
     }
 
@@ -43034,135 +43167,6 @@ namespace Laserfiche.Repository.Api.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Data { get; set; }
-
-    }
-
-    /// <summary>
-    /// Request body for importing an entry.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ImportEntryRequest
-    {
-        /// <summary>
-        /// The name for the imported entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Indicates if the entry should be automatically renamed if an entry already exists with the given name in the folder. The default value is false.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("autoRename", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool AutoRename { get; set; } = false;
-
-        /// <summary>
-        /// The options applied when importing a PDF.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
-
-        /// <summary>
-        /// Whether the file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
-        /// This flag is only effective when the file extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
-        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool ImportAsElectronicDocument { get; set; } = false;
-
-        /// <summary>
-        /// The metadata that will be assigned to the entry.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ImportEntryRequestMetadata Metadata { get; set; }
-
-        /// <summary>
-        /// The name of the volume to use. Will use the default parent entry volume if not specified. This is ignored in Laserfiche Cloud.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("volumeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string VolumeName { get; set; }
-
-        /// <summary>
-        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
-        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
-        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
-        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool GenerateImagePagesText { get; set; } = true;
-
-        /// <summary>
-        /// An optional folder path, relative to the entry given in the route, that the document is imported into.<br/>
-        /// Both `/` and `\` are accepted as separators. When any folder in this path does not exist, set the<br/>
-        /// `autoCreateFolderPath` query parameter to true to create the missing folders; otherwise the request<br/>
-        /// fails with 404. When omitted, the document is imported directly into the route entry (unchanged behavior).
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("folderPath", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FolderPath { get; set; }
-
-    }
-
-    /// <summary>
-    /// Request body for updating a document's electronic document and/or metadata.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class UpdateDocumentRequest
-    {
-        /// <summary>
-        /// Whether a provided file is imported as the electronic document (true) or as image pages (false). Default: false.<br/>
-        /// This flag is only effective when `file` is provided and its extension is one of: txt, tif, tiff, bmp, pcx, jpg, jpeg, gif, png.<br/>
-        /// For any other file type (PDF, Word, Excel, etc.), the file is always imported as the electronic document regardless of this flag.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("importAsElectronicDocument", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool ImportAsElectronicDocument { get; set; } = false;
-
-        /// <summary>
-        /// The metadata that will be assigned to the entry. Metadata updates are additive — only the specified fields, tags, and links are touched. Existing values not mentioned in the request are preserved.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ImportEntryRequestMetadata Metadata { get; set; }
-
-        /// <summary>
-        /// The options applied when importing a PDF.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("pdfOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ImportEntryRequestPdfOptions PdfOptions { get; set; }
-
-        /// <summary>
-        /// Whether to request text extraction from the document's electronic document part after the image pages in<br/>
-        /// `imageFiles` are added. This does not OCR those image pages — image pages are OCR'd by the repository's<br/>
-        /// automatic OCR when the page image is written, regardless of this setting. Default: true.<br/>
-        /// Does not affect pages generated from `file` — use `pdfOptions.generateText` for those.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("generateImagePagesText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool GenerateImagePagesText { get; set; } = true;
-
-    }
-
-    /// <summary>
-    /// Request body for POST /Document/Pages (CreatePages) and PUT /Document/Pages (ReplacePages).<br/>
-    /// Carries the textual page content alongside any uploaded image files.
-    /// </summary>
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class PagesContentRequest
-    {
-        /// <summary>
-        /// Optional text content for new pages. Paired by index with imageFiles —<br/>
-        /// page[i] gets textPages[i] and imageFiles[i]. If one array is shorter,<br/>
-        /// the corresponding pages are created without that part.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("textPages", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public IList<string> TextPages { get; set; }
-
-    }
-
-    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WritePageTextRequest
-    {
-        /// <summary>
-        /// The text content for the page.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Always)]
-        public string Text { get; set; }
 
     }
 
