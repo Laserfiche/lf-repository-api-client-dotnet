@@ -10569,6 +10569,12 @@ namespace Laserfiche.Repository.Api.Client
         ///   problem details because it comes from the download service rather than from this API.<br/>
         ///   Save the content on the first download, and start a new export if a download has to be<br/>
         ///   retried.<br/>
+        /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
+        ///   with another format and an encoding, the export task fails with 400). When it is omitted, pages are written<br/>
+        ///   uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many<br/>
+        ///   times the stored size. AsStored copies the stored pages<br/>
+        ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
+        ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -10677,6 +10683,12 @@ namespace Laserfiche.Repository.Api.Client
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
         ///   download, and start a new export if a download has to be retried.<br/>
+        /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
+        ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
+        ///   (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the<br/>
+        ///   stored size. AsStored copies the stored pages<br/>
+        ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
+        ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -11758,6 +11770,12 @@ namespace Laserfiche.Repository.Api.Client
         ///   problem details because it comes from the download service rather than from this API.<br/>
         ///   Save the content on the first download, and start a new export if a download has to be<br/>
         ///   retried.<br/>
+        /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
+        ///   with another format and an encoding, the export task fails with 400). When it is omitted, pages are written<br/>
+        ///   uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many<br/>
+        ///   times the stored size. AsStored copies the stored pages<br/>
+        ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
+        ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -13009,6 +13027,12 @@ namespace Laserfiche.Repository.Api.Client
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
         ///   download, and start a new export if a download has to be retried.<br/>
+        /// - imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;<br/>
+        ///   another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed<br/>
+        ///   (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the<br/>
+        ///   stored size. AsStored copies the stored pages<br/>
+        ///   without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then<br/>
+        ///   written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -38987,6 +39011,18 @@ namespace Laserfiche.Repository.Api.Client
         [Newtonsoft.Json.JsonProperty("watermark", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ExportEntryRequestWatermark Watermark { get; set; }
 
+        /// <summary>
+        /// The compression of the pages in the exported TIFF. Options include: AsStored, Uncompressed, G4, LZW and JPEG. Only<br/>
+        /// applicable when format is MultiPageTIFF or SinglePageTIFF; any other format with an encoding is rejected. When<br/>
+        /// omitted, pages are written uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can make the export many times larger<br/>
+        /// than the stored document. AsStored copies the stored pages without decoding them and keeps the export about the size<br/>
+        /// of the stored pages; JPEG pages are then written as JPEG inside the TIFF (compression 7), which some older TIFF<br/>
+        /// readers do not support.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("encoding", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ExportEntryRequestImageEncoding? Encoding { get; set; }
+
     }
 
     /// <summary>
@@ -39079,6 +39115,30 @@ namespace Laserfiche.Repository.Api.Client
 
         [EnumMember(Value = @"BottomRight")]
         BottomRight = 8,
+
+    }
+
+    /// <summary>
+    /// Enumeration of page compressions when exporting the image part of an entry as TIFF.
+    /// </summary>
+    [GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ExportEntryRequestImageEncoding
+    {
+
+        [EnumMember(Value = @"AsStored")]
+        AsStored = 0,
+
+        [EnumMember(Value = @"Uncompressed")]
+        Uncompressed = 1,
+
+        [EnumMember(Value = @"G4")]
+        G4 = 2,
+
+        [EnumMember(Value = @"LZW")]
+        LZW = 3,
+
+        [EnumMember(Value = @"JPEG")]
+        JPEG = 4,
 
     }
 

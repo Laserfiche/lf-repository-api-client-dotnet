@@ -4711,7 +4711,7 @@
           "Entries"
         ],
         "summary": "Starts an asynchronous export task to export an entry.",
-        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The download link the completed task carries in result.uri is **single-use**. The first\n  GET returns the file; any later GET of the same link answers 404, and that 404 carries no\n  problem details because it comes from the download service rather than from this API.\n  Save the content on the first download, and start a new export if a download has to be\n  retried.\n- Required OAuth scope: repository.Read",
+        "description": "- Starts an asynchronous export operation to export an entry.\n- If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The download link the completed task carries in result.uri is **single-use**. The first\n  GET returns the file; any later GET of the same link answers 404, and that 404 carries no\n  problem details because it comes from the download service rather than from this API.\n  Save the content on the first download, and start a new export if a download has to be\n  retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  with another format and an encoding, the export task fails with 400). When it is omitted, pages are written\n  uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can be many\n  times the stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
         "operationId": "StartExportEntry",
         "parameters": [
           {
@@ -5663,7 +5663,7 @@
           "Entries"
         ],
         "summary": "Exports an entry.",
-        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The returned download link is **single-use**. The first GET returns the file; any later\n  GET of the same link answers 404, and that 404 carries no problem details because it\n  comes from the download service rather than from this API. Save the content on the first\n  download, and start a new export if a download has to be retried.\n- Required OAuth scope: repository.Read",
+        "description": "- Export an entry.\n- The export may time out if it takes longer than 60 seconds. This value is subject to change at anytime. Use the long operation asynchronous export if you run into this restriction.\n- When part=Text, a document whose pages carry no text stream is rejected with 400 rather\n  than started and failed later. Text is extracted asynchronously after an import, so a\n  document may briefly have pages but no text; poll hasText on ListPageInfos and retry once\n  it reports true. A document with no pages at all is not rejected here.\n- The returned download link is **single-use**. The first GET returns the file; any later\n  GET of the same link answers 404, and that 404 carries no problem details because it\n  comes from the download service rather than from this API. Save the content on the first\n  download, and start a new export if a download has to be retried.\n- imageOptions.encoding sets the compression of the pages in a TIFF export (MultiPageTIFF or SinglePageTIFF only;\n  another format with an encoding is rejected with 400). When it is omitted, pages are written uncompressed\n  (black-and-white pages as G4 unless they carry an included colour annotation), which can be many times the\n  stored size. AsStored copies the stored pages\n  without decoding them and keeps the export about the size of the stored document; stored JPEG pages are then\n  written as JPEG inside the TIFF (compression 7), which some older TIFF readers cannot open.\n- Required OAuth scope: repository.Read",
         "operationId": "ExportEntry",
         "parameters": [
           {
@@ -23046,6 +23046,15 @@
                 "$ref": "#/components/schemas/ExportEntryRequestWatermark"
               }
             ]
+          },
+          "encoding": {
+            "description": "The compression of the pages in the exported TIFF. Options include: AsStored, Uncompressed, G4, LZW and JPEG. Only\napplicable when format is MultiPageTIFF or SinglePageTIFF; any other format with an encoding is rejected. When\nomitted, pages are written uncompressed (black-and-white pages as G4 unless they carry an included colour annotation), which can make the export many times larger\nthan the stored document. AsStored copies the stored pages without decoding them and keeps the export about the size\nof the stored pages; JPEG pages are then written as JPEG inside the TIFF (compression 7), which some older TIFF\nreaders do not support.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExportEntryRequestImageEncoding"
+              }
+            ]
           }
         }
       },
@@ -23197,6 +23206,52 @@
           "BottomLeft",
           "BottomCenter",
           "BottomRight"
+        ]
+      },
+      "ExportEntryRequestImageEncoding": {
+        "type": "string",
+        "description": "Enumeration of page compressions when exporting the image part of an entry as TIFF.",
+        "x-enum-names": [
+          "AsStored",
+          "Uncompressed",
+          "G4",
+          "LZW",
+          "JPEG"
+        ],
+        "x-enum-varnames": [
+          "AsStored",
+          "Uncompressed",
+          "G4",
+          "LZW",
+          "JPEG"
+        ],
+        "x-enumNames": [
+          "AsStored",
+          "Uncompressed",
+          "G4",
+          "LZW",
+          "JPEG"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "enum": [
+          "AsStored",
+          "Uncompressed",
+          "G4",
+          "LZW",
+          "JPEG"
         ]
       },
       "ExportEntryRequestTextOptions": {
