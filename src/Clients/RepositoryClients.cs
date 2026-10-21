@@ -10915,8 +10915,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   no download link. Content-Type is the stored MIME type, and Content-Disposition carries the entry name and<br/>
         ///   extension.<br/>
         /// - Optional header: Range. A single byte range (bytes=a-b, bytes=a- or bytes=-n) returns 206 with exactly those<br/>
-        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416 with<br/>
-        ///   Content-Range: bytes */size. Multiple ranges are not supported.<br/>
+        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416, and its<br/>
+        ///   Content-Range header gives the document size. Multiple ranges are not supported.<br/>
         /// - The size and MIME type are available without downloading the content from GetEntry<br/>
         ///   (electronicDocumentSize, mimeType).<br/>
         /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
@@ -16076,8 +16076,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   no download link. Content-Type is the stored MIME type, and Content-Disposition carries the entry name and<br/>
         ///   extension.<br/>
         /// - Optional header: Range. A single byte range (bytes=a-b, bytes=a- or bytes=-n) returns 206 with exactly those<br/>
-        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416 with<br/>
-        ///   Content-Range: bytes */size. Multiple ranges are not supported.<br/>
+        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416, and its<br/>
+        ///   Content-Range header gives the document size. Multiple ranges are not supported.<br/>
         /// - The size and MIME type are available without downloading the content from GetEntry<br/>
         ///   (electronicDocumentSize, mimeType).<br/>
         /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
