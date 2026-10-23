@@ -10921,13 +10921,14 @@ namespace Laserfiche.Repository.Api.Client
         ///   (electronicDocumentSize, mimeType).<br/>
         /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
         /// - Audit: when the repository requires an export audit reason, every request must carry a valid auditReasonId,<br/>
-        ///   including each range request; otherwise 400. One Export Document audit event is recorded per download, for the<br/>
-        ///   request whose range starts at byte 0, and only when an audit reason is given. The repository also records a<br/>
-        ///   View Document event for every request, so a download made of several range requests records one export event<br/>
+        ///   including each range request; otherwise 400. An Export Document audit event is recorded for every request that<br/>
+        ///   carries an audit reason, including each range request. The repository also records a View Document event for<br/>
+        ///   every request, so a download made of several range requests records one export event (when a reason is given)<br/>
         ///   and one view event per request.<br/>
         /// - The audit reason and comment are query parameters and therefore appear in request URLs and access logs.<br/>
         /// - Every request, including each range request, counts against the import/export rate limit. A single request<br/>
-        ///   returns at most about 2 GB; download a larger electronic document in ranges (a larger range returns 400).<br/>
+        ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
+        ///   (a larger range returns 400).<br/>
         /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
@@ -16082,13 +16083,14 @@ namespace Laserfiche.Repository.Api.Client
         ///   (electronicDocumentSize, mimeType).<br/>
         /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
         /// - Audit: when the repository requires an export audit reason, every request must carry a valid auditReasonId,<br/>
-        ///   including each range request; otherwise 400. One Export Document audit event is recorded per download, for the<br/>
-        ///   request whose range starts at byte 0, and only when an audit reason is given. The repository also records a<br/>
-        ///   View Document event for every request, so a download made of several range requests records one export event<br/>
+        ///   including each range request; otherwise 400. An Export Document audit event is recorded for every request that<br/>
+        ///   carries an audit reason, including each range request. The repository also records a View Document event for<br/>
+        ///   every request, so a download made of several range requests records one export event (when a reason is given)<br/>
         ///   and one view event per request.<br/>
         /// - The audit reason and comment are query parameters and therefore appear in request URLs and access logs.<br/>
         /// - Every request, including each range request, counts against the import/export rate limit. A single request<br/>
-        ///   returns at most about 2 GB; download a larger electronic document in ranges (a larger range returns 400).<br/>
+        ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
+        ///   (a larger range returns 400).<br/>
         /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
