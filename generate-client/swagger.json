@@ -7874,6 +7874,183 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Entries"
+        ],
+        "summary": "Returns a document's electronic document in the response body.",
+        "description": "- Returns the stored electronic document as the response body in a single request, with no export operation and\n  no download link. Content-Type is the stored MIME type, and Content-Disposition carries the entry name and\n  extension.\n- Optional header: Range. A single byte range (bytes=a-b, bytes=a- or bytes=-n) returns 206 with exactly those\n  bytes and a Content-Range header. A range that starts at or after the end of the document returns 416, and its\n  Content-Range header gives the document size. Multiple ranges are not supported.\n- The size and MIME type are available without downloading the content from GetEntry\n  (electronicDocumentSize, mimeType).\n- An entry that is not a document, or a document without an electronic document, returns 404.\n- Audit: when the repository requires an export audit reason, every request must carry a valid auditReasonId,\n  including each range request; otherwise 400. An Export Document audit event is recorded for every request that\n  carries an audit reason, including each range request. The repository also records a View Document event for\n  every request, so a download made of several range requests records one export event (when a reason is given)\n  and one view event per request.\n- The audit reason and comment are query parameters and therefore appear in request URLs and access logs.\n- Every request, including each range request, counts against the import/export rate limit. A single request\n  returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size\n  (a larger range returns 400).\n- When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.\n- Required OAuth scope: repository.Read",
+        "operationId": "GetDocumentEdoc",
+        "parameters": [
+          {
+            "name": "repositoryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested repository ID.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "description": "The requested document ID.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "auditReasonId",
+            "in": "query",
+            "description": "Optional. The ID of the export audit reason for this download. Required when the repository requires an audit reason for exporting documents.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "auditReasonComment",
+            "in": "query",
+            "description": "Optional. A comment recorded with the audit reason.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Range",
+            "x-originalName": "range",
+            "in": "header",
+            "description": "Optional. A single byte range, for example bytes=0-1023, to download part of the electronic document.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Limits the properties returned in the result.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the document's electronic document.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "Returned the requested byte range of the document's electronic document.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or bad request.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is invalid or expired.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied for the operation.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The entry was not found, is not a document, or has no electronic document.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "416": {
+            "description": "The requested range starts at or after the end of the electronic document.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Entry is locked",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit is reached.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected server-side error occurred.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Pages": {
