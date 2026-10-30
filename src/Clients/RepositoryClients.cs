@@ -10560,10 +10560,11 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
-        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
-        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
-        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - When part=Text, a document whose pages carry no text stream, or that has no pages at all<br/>
+        ///   (as with part=Image), is rejected before any export job starts. The request still returns<br/>
+        ///   202; the task then fails with a 400 error rather than running and failing later. Text is<br/>
+        ///   extracted asynchronously after an import, so a document may briefly have pages but no<br/>
+        ///   text; poll hasText on ListPageInfos and retry once it reports true.<br/>
         /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
         ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
         ///   problem details because it comes from the download service rather than from this API.<br/>
@@ -10678,7 +10679,8 @@ namespace Laserfiche.Repository.Api.Client
         /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
         ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
         ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        ///   it reports true. A document with no pages at all is also rejected with 400, as it is for<br/>
+        ///   part=Image.<br/>
         /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
@@ -10930,6 +10932,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
         ///   (a larger range returns 400).<br/>
         /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
+        /// - When the server is temporarily short of memory for the requested range, the request returns 503 with a<br/>
+        ///   Retry-After header; retry after that delay.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -11792,10 +11796,11 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
-        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
-        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
-        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - When part=Text, a document whose pages carry no text stream, or that has no pages at all<br/>
+        ///   (as with part=Image), is rejected before any export job starts. The request still returns<br/>
+        ///   202; the task then fails with a 400 error rather than running and failing later. Text is<br/>
+        ///   extracted asynchronously after an import, so a document may briefly have pages but no<br/>
+        ///   text; poll hasText on ListPageInfos and retry once it reports true.<br/>
         /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
         ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
         ///   problem details because it comes from the download service rather than from this API.<br/>
@@ -13053,7 +13058,8 @@ namespace Laserfiche.Repository.Api.Client
         /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
         ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
         ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        ///   it reports true. A document with no pages at all is also rejected with 400, as it is for<br/>
+        ///   part=Image.<br/>
         /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
@@ -16092,6 +16098,8 @@ namespace Laserfiche.Repository.Api.Client
         ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
         ///   (a larger range returns 400).<br/>
         /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
+        /// - When the server is temporarily short of memory for the requested range, the request returns 503 with a<br/>
+        ///   Retry-After header; retry after that delay.<br/>
         /// - Required OAuth scope: repository.Read
         /// </remarks>
         /// <param name="parameters">Parameters for the request.</param>
@@ -16269,6 +16277,16 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 503)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
