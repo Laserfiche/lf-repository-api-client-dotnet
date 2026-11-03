@@ -10560,10 +10560,11 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
-        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
-        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
-        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - When part=Text, a document whose pages carry no text stream, or that has no pages at all<br/>
+        ///   (as with part=Image), is rejected before any export job starts. The request still returns<br/>
+        ///   202; the task then fails with a 400 error rather than running and failing later. Text is<br/>
+        ///   extracted asynchronously after an import, so a document may briefly have pages but no<br/>
+        ///   text; poll hasText on ListPageInfos and retry once it reports true.<br/>
         /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
         ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
         ///   problem details because it comes from the download service rather than from this API.<br/>
@@ -10678,7 +10679,8 @@ namespace Laserfiche.Repository.Api.Client
         /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
         ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
         ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        ///   it reports true. A document with no pages at all is also rejected with 400, as it is for<br/>
+        ///   part=Image.<br/>
         /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
@@ -10906,6 +10908,39 @@ namespace Laserfiche.Repository.Api.Client
         /// <returns>Successfully deleted edoc associated with the specified entry. Returned the updated entry.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<Entry> DeleteElectronicDocumentAsync(DeleteElectronicDocumentParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Returns a document's electronic document in the response body.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the stored electronic document as the response body in a single request, with no export operation and<br/>
+        ///   no download link. Content-Type is the stored MIME type, and Content-Disposition carries the entry name and<br/>
+        ///   extension.<br/>
+        /// - Optional header: Range. A single byte range (bytes=a-b, bytes=a- or bytes=-n) returns 206 with exactly those<br/>
+        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416, and its<br/>
+        ///   Content-Range header gives the document size. Multiple ranges are not supported.<br/>
+        /// - The size and MIME type are available without downloading the content from GetEntry<br/>
+        ///   (electronicDocumentSize, mimeType).<br/>
+        /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
+        /// - Audit: when the repository requires an export audit reason, every request must carry a valid auditReasonId,<br/>
+        ///   including each range request; otherwise 400. An Export Document audit event is recorded for every request that<br/>
+        ///   carries an audit reason, including each range request. The repository also records a View Document event for<br/>
+        ///   every request, so a download made of several range requests records one export event (when a reason is given)<br/>
+        ///   and one view event per request.<br/>
+        /// - The audit reason and comment are query parameters and therefore appear in request URLs and access logs.<br/>
+        /// - Every request, including each range request, counts against the import/export rate limit. A single request<br/>
+        ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
+        ///   (a larger range returns 400).<br/>
+        /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
+        /// - When the server is temporarily short of memory for the requested range, the request returns 503 with a<br/>
+        ///   Retry-After header; retry after that delay.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the document's electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        Task<FileResponse> GetDocumentEdocAsync(GetDocumentEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Deletes the pages associated with an entry.
@@ -11761,10 +11796,11 @@ namespace Laserfiche.Repository.Api.Client
         /// <remarks>
         /// - Starts an asynchronous export operation to export an entry.<br/>
         /// - If successful, it returns a taskId which can be used to check the status of the export operation or download the export result, otherwise, it returns an error.<br/>
-        /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
-        ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
-        ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        /// - When part=Text, a document whose pages carry no text stream, or that has no pages at all<br/>
+        ///   (as with part=Image), is rejected before any export job starts. The request still returns<br/>
+        ///   202; the task then fails with a 400 error rather than running and failing later. Text is<br/>
+        ///   extracted asynchronously after an import, so a document may briefly have pages but no<br/>
+        ///   text; poll hasText on ListPageInfos and retry once it reports true.<br/>
         /// - The download link the completed task carries in result.uri is **single-use**. The first<br/>
         ///   GET returns the file; any later GET of the same link answers 404, and that 404 carries no<br/>
         ///   problem details because it comes from the download service rather than from this API.<br/>
@@ -13022,7 +13058,8 @@ namespace Laserfiche.Repository.Api.Client
         /// - When part=Text, a document whose pages carry no text stream is rejected with 400 rather<br/>
         ///   than started and failed later. Text is extracted asynchronously after an import, so a<br/>
         ///   document may briefly have pages but no text; poll hasText on ListPageInfos and retry once<br/>
-        ///   it reports true. A document with no pages at all is not rejected here.<br/>
+        ///   it reports true. A document with no pages at all is also rejected with 400, as it is for<br/>
+        ///   part=Image.<br/>
         /// - The returned download link is **single-use**. The first GET returns the file; any later<br/>
         ///   GET of the same link answers 404, and that 404 carries no problem details because it<br/>
         ///   comes from the download service rather than from this API. Save the content on the first<br/>
@@ -16017,6 +16054,239 @@ namespace Laserfiche.Repository.Api.Client
                 }
                 else
                 if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                {
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    throw ApiExceptionExtensions.Create(status_, headers_, responseData_, JsonSerializerSettings, null);
+                }
+            }
+            finally
+            {
+                if (disposeResponse_)
+                    response_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns a document's electronic document in the response body.
+        /// </summary>
+        /// <remarks>
+        /// - Returns the stored electronic document as the response body in a single request, with no export operation and<br/>
+        ///   no download link. Content-Type is the stored MIME type, and Content-Disposition carries the entry name and<br/>
+        ///   extension.<br/>
+        /// - Optional header: Range. A single byte range (bytes=a-b, bytes=a- or bytes=-n) returns 206 with exactly those<br/>
+        ///   bytes and a Content-Range header. A range that starts at or after the end of the document returns 416, and its<br/>
+        ///   Content-Range header gives the document size. Multiple ranges are not supported.<br/>
+        /// - The size and MIME type are available without downloading the content from GetEntry<br/>
+        ///   (electronicDocumentSize, mimeType).<br/>
+        /// - An entry that is not a document, or a document without an electronic document, returns 404.<br/>
+        /// - Audit: when the repository requires an export audit reason, every request must carry a valid auditReasonId,<br/>
+        ///   including each range request; otherwise 400. An Export Document audit event is recorded for every request that<br/>
+        ///   carries an audit reason, including each range request. The repository also records a View Document event for<br/>
+        ///   every request, so a download made of several range requests records one export event (when a reason is given)<br/>
+        ///   and one view event per request.<br/>
+        /// - The audit reason and comment are query parameters and therefore appear in request URLs and access logs.<br/>
+        /// - Every request, including each range request, counts against the import/export rate limit. A single request<br/>
+        ///   returns at most 128 MiB (134217728 bytes); download a larger electronic document in ranges of at most that size<br/>
+        ///   (a larger range returns 400).<br/>
+        /// - When the repository is busy, the request fails fast with 429 instead of waiting; retry after a short delay.<br/>
+        /// - When the server is temporarily short of memory for the requested range, the request returns 503 with a<br/>
+        ///   Retry-After header; retry after that delay.<br/>
+        /// - Required OAuth scope: repository.Read
+        /// </remarks>
+        /// <param name="parameters">Parameters for the request.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Successfully returned the document's electronic document.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async Task<FileResponse> GetDocumentEdocAsync(GetDocumentEdocParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            var repositoryId = parameters.RepositoryId;
+            var entryId = parameters.EntryId;
+            var auditReasonId = parameters.AuditReasonId;
+            var auditReasonComment = parameters.AuditReasonComment;
+            var range = parameters.Range;
+            var select = parameters.Select;
+
+            if (repositoryId == null)
+                throw new ArgumentNullException("parameters.RepositoryId");
+
+            if (entryId == null)
+                throw new ArgumentNullException("parameters.EntryId");
+
+            var urlBuilder_ = new StringBuilder();
+                    // Operation Path: "v2/Repositories/{repositoryId}/Entries/{entryId}/Document/Edoc"
+                    urlBuilder_.Append("v2/Repositories/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(repositoryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Entries/");
+                    urlBuilder_.Append(Uri.EscapeDataString(ConvertToString(entryId, CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/Document/Edoc");
+                    urlBuilder_.Append('?');
+                    if (auditReasonId != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("auditReasonId")).Append('=').Append(Uri.EscapeDataString(ConvertToString(auditReasonId, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (auditReasonComment != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("auditReasonComment")).Append('=').Append(Uri.EscapeDataString(ConvertToString(auditReasonComment, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (select != null)
+                    {
+                        urlBuilder_.Append(Uri.EscapeDataString("$select")).Append('=').Append(Uri.EscapeDataString(ConvertToString(select, CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            bool[] disposeClient_ = new bool[]{ false };
+            try
+            {
+                using (var request_ = new HttpRequestMessage())
+                {
+
+                    if (range != null)
+                        request_.Headers.TryAddWithoutValidation("Range", ConvertToString(range, CultureInfo.InvariantCulture));
+                    request_.Method = new HttpMethod("GET");
+                    request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+                    return await GetDocumentEdocSendAsync(request_, client_, disposeClient_, cancellationToken);
+                }
+            }
+            finally
+            {
+                if (disposeClient_[0])
+                    client_.Dispose();
+            }
+        }
+
+        protected virtual async Task<FileResponse> GetDocumentEdocSendAsync(HttpRequestMessage request_, HttpClient client_, bool[] disposeClient_, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var disposeResponse_ = true;
+            try
+            {
+                var headers_ = Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                if (response_.Content != null && response_.Content.Headers != null)
+                {
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+                }
+
+                ProcessResponse(client_, response_);
+
+                var status_ = (int)response_.StatusCode;
+                if (status_ == 200 || status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 206)
+                {
+                    var responseStream_ = response_.Content == null ? Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                    disposeClient_[0] = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                    return fileResponse_;
+                }
+                else
+                if (status_ == 400)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 401)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 403)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 404)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 416)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 423)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 429)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 500)
+                {
+                    var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse_.Object == null)
+                    {
+                        throw ApiExceptionExtensions.Create(status_, headers_, null);
+                    }
+                    throw ApiExceptionExtensions.Create(status_, headers_, objectResponse_.Object, null);
+                }
+                else
+                if (status_ == 503)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse_.Object == null)
@@ -22337,6 +22607,44 @@ namespace Laserfiche.Repository.Api.Client
         /// The requested document ID.
         /// </summary>
         public int EntryId { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the request parameters for <see cref="IEntriesClient.GetDocumentEdocAsync(GetDocumentEdocParameters, CancellationToken)">GetDocumentEdoc</see>.
+    /// </summary>
+    [GeneratedCode("NSwag", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetDocumentEdocParameters
+    {
+        /// <summary>
+        /// The requested repository ID.
+        /// </summary>
+        public string RepositoryId { get; set; }
+
+        /// <summary>
+        /// The requested document ID.
+        /// </summary>
+        public int EntryId { get; set; }
+
+        /// <summary>
+        /// Optional. The ID of the export audit reason for this download. Required when the repository requires an audit reason for exporting documents.
+        /// </summary>
+        public int? AuditReasonId { get; set; } = null;
+
+        /// <summary>
+        /// Optional. A comment recorded with the audit reason.
+        /// </summary>
+        public string AuditReasonComment { get; set; } = null;
+
+        /// <summary>
+        /// Optional. A single byte range, for example bytes=0-1023, to download part of the electronic document.
+        /// </summary>
+        public string Range { get; set; } = null;
+
+        /// <summary>
+        /// Limits the properties returned in the result.
+        /// </summary>
+        public string Select { get; set; } = null;
 
     }
 
